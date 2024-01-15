@@ -8,7 +8,7 @@
     "jsdoc": "jsdoc -c jsdoc.json",
     "time": "echo Heure de l'update : %time%",
     "upDate:version": "npm version patch",
-    "update": "npm run time && npm run upDate:version && npm publish"
+    "update:module": "npm run time && npm run upDate:version && npm publish"
   },
   "keywords": [
     "Beam3",

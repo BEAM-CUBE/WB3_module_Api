@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: plateform/main/getActiveServices.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: plateform/main/getActiveServices.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>const { widget } = require("@widget-lab/3ddashboard-utils");
+const { _getPlatformServices } = require("./3dexperience_api");
+const { _3DSpace_get_securityContexts } = require("./3dspace_api");
+const { _3DSwym_get_currentUser } = require("../Swym/user/index");
+/**
+ * @description La fonction « getActiveServices » récupère les services actifs en fonction des informations
+ * d'identification fournies et exécute des fonctions de rappel en cas de réussite et d'erreur.
+ * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier la demande.
+ *  Il inclut généralement des propriétés telles qu'ici « space » et « tenant ».(ex: credentials.space, credentials.tenant).
+ * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)
+ * @param {String} credentials.tenant - le tenant courant (ex: R1132100968447).
+ * @param {Function} [onDone] - Une fonction de rappel qui sera appelée une fois l'exécution réussie de la
+ * fonction terminée. Il recevra deux arguments : la réponse de l'appel API et l'objet activeSpace.
+ * @param {Function} [onError] - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
+ * erreur lors de l'exécution de la fonction `getActiveServices`. C'est un paramètre facultatif, donc
+ * s'il n'est pas fourni, la fonction ne fera rien en cas d'erreur.
+ */
+function getActiveServices(
+  credentials,
+  onDone = undefined,
+  onError = undefined,
+) {
+  _getPlatformServices(
+    null,
+    (plateformes) => {
+      let tenants = [];
+      let tenantOptions = [];
+      let selectedTenantValue;
+      let activeSpace = {};
+      let getObjActiveSpace = false;
+      // Load all tenants
+      for (let plateforme of plateformes) {
+        if ("3DSpace" in plateforme) {
+          tenantOptions.push({
+            label: `${plateforme.displayName} ( ${plateforme.platformId} )`,
+            value: `${tenantOptions.length}`,
+          });
+          tenantOptions.sort();
+          tenants.push(plateforme);
+        }
+      }
+
+      for (let [index, tenant] of tenants.entries()) {
+        if (tenant.platformId === credentials.tenant) {
+          activeSpace = tenant;
+          selectedTenantValue = index;
+        }
+      }
+
+      widget.addPreference({
+        name: "_CurrentTenantID_",
+        type: "list",
+        label: "Tenant",
+        defaultValue: selectedTenantValue,
+        options: tenantOptions,
+      });
+      if (Object.keys(activeSpace).length > 0) {
+        getObjActiveSpace = true;
+      }
+
+      _3DSpace_get_securityContexts(
+        credentials.space,
+        "ESPACE COMMUN", // "B3-R&amp;D" ||  "ESPACE COMMUN",
+        ["VPLMProjectLeader", "VPLMCreator"],
+        undefined,
+
+        (ctx) => (credentials["ctx"] = ctx),
+        (err) => {
+          console.log("on Error CTX =>", err);
+        },
+      );
+      _3DSwym_get_currentUser(
+        credentials,
+        (reponse) => {
+          if (onDone) onDone(reponse, activeSpace);
+        },
+        (wrong) => {
+          if (onError) onError(wrong);
+        },
+      );
+      if (getObjActiveSpace) {
+        getObjActiveSpace = false;
+      }
+    },
+
+    (error) => {
+      console.log("** _getPlatformServices Erreur **", error);
+    },
+  );
+}
+
+module.exports = { getActiveServices };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#UUID">UUID</a></li><li><a href="global.html#_3DSpace_Create_Doc">_3DSpace_Create_Doc</a></li><li><a href="global.html#_3DSpace_csrf">_3DSpace_csrf</a></li><li><a href="global.html#_3DSpace_download_doc">_3DSpace_download_doc</a></li><li><a href="global.html#_3DSpace_download_multidoc">_3DSpace_download_multidoc</a></li><li><a href="global.html#_3DSpace_file_update">_3DSpace_file_update</a></li><li><a href="global.html#_3DSpace_file_update_csr">_3DSpace_file_update_csr</a></li><li><a href="global.html#_3DSpace_file_url">_3DSpace_file_url</a></li><li><a href="global.html#_3DSpace_file_url_csr">_3DSpace_file_url_csr</a></li><li><a href="global.html#_3DSpace_get_csrf">_3DSpace_get_csrf</a></li><li><a href="global.html#_3DSpace_get_docInfo">_3DSpace_get_docInfo</a></li><li><a href="global.html#_3DSpace_get_downloadTicket_multidoc">_3DSpace_get_downloadTicket_multidoc</a></li><li><a href="global.html#_3DSpace_get_securityContexts">_3DSpace_get_securityContexts</a></li><li><a href="global.html#_3DSpace_lifecycle_changeRevision">_3DSpace_lifecycle_changeRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_changeState">_3DSpace_lifecycle_changeState</a></li><li><a href="global.html#_3DSpace_lifecycle_getGraph">_3DSpace_lifecycle_getGraph</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextRevision">_3DSpace_lifecycle_getNextRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextStates">_3DSpace_lifecycle_getNextStates</a></li><li><a href="global.html#_3DSwim_getAllCommunities">_3DSwim_getAllCommunities</a></li><li><a href="global.html#_3DSwim_getMembersCommunity">_3DSwim_getMembersCommunity</a></li><li><a href="global.html#_3DSwym_buildDirectMessage">_3DSwym_buildDirectMessage</a></li><li><a href="global.html#_3DSwym_deleteIdea">_3DSwym_deleteIdea</a></li><li><a href="global.html#_3DSwym_findCommunityToInstantMSG">_3DSwym_findCommunityToInstantMSG</a></li><li><a href="global.html#_3DSwym_getAllNews">_3DSwym_getAllNews</a></li><li><a href="global.html#_3DSwym_getFamiliarPeople">_3DSwym_getFamiliarPeople</a></li><li><a href="global.html#_3DSwym_getIdeaStatusMaturity">_3DSwym_getIdeaStatusMaturity</a></li><li><a href="global.html#_3DSwym_getSWYMIdea">_3DSwym_getSWYMIdea</a></li><li><a href="global.html#_3DSwym_get_AllSWYMIdeas">_3DSwym_get_AllSWYMIdeas</a></li><li><a href="global.html#_3DSwym_get_currentUser">_3DSwym_get_currentUser</a></li><li><a href="global.html#_3DSwym_get_findUser">_3DSwym_get_findUser</a></li><li><a href="global.html#_3DSwym_get_version">_3DSwym_get_version</a></li><li><a href="global.html#_3DSwym_postIdea">_3DSwym_postIdea</a></li><li><a href="global.html#_3DSwym_sendMessageData">_3DSwym_sendMessageData</a></li><li><a href="global.html#_getPlateformInfos">_getPlateformInfos</a></li><li><a href="global.html#_getPlatformServices">_getPlatformServices</a></li><li><a href="global.html#_httpCallAuthenticated">_httpCallAuthenticated</a></li><li><a href="global.html#_setDraggable">_setDraggable</a></li><li><a href="global.html#_setDroppable">_setDroppable</a></li><li><a href="global.html#_setupTagger">_setupTagger</a></li><li><a href="global.html#addTagToDoc">addTagToDoc</a></li><li><a href="global.html#compass_getListAdditionalApps">compass_getListAdditionalApps</a></li><li><a href="global.html#createUserGroups">createUserGroups</a></li><li><a href="global.html#dataMixing">dataMixing</a></li><li><a href="global.html#deleteUserGroups">deleteUserGroups</a></li><li><a href="global.html#findAdresse">findAdresse</a></li><li><a href="global.html#formatedMessage">formatedMessage</a></li><li><a href="global.html#getActiveServices">getActiveServices</a></li><li><a href="global.html#getActualTagsOnDoc">getActualTagsOnDoc</a></li><li><a href="global.html#getAllContextSecurity">getAllContextSecurity</a></li><li><a href="global.html#getCSRFToken">getCSRFToken</a></li><li><a href="global.html#getCommunes">getCommunes</a></li><li><a href="global.html#getComplementUG">getComplementUG</a></li><li><a href="global.html#getDataFrom3DSpace">getDataFrom3DSpace</a></li><li><a href="global.html#getDataFromGouvFr">getDataFromGouvFr</a></li><li><a href="global.html#getDatasByTenant">getDatasByTenant</a></li><li><a href="global.html#getDatasFrom3DSpace">getDatasFrom3DSpace</a></li><li><a href="global.html#getDownloadDocument">getDownloadDocument</a></li><li><a href="global.html#getInfoDocTags">getInfoDocTags</a></li><li><a href="global.html#getUserGroupsList">getUserGroupsList</a></li><li><a href="global.html#getUsersGroupRules">getUsersGroupRules</a></li><li><a href="global.html#get_3DSpace_csrf">get_3DSpace_csrf</a></li><li><a href="global.html#patchUserGroups">patchUserGroups</a></li><li><a href="global.html#patchUserGroupsControl">patchUserGroupsControl</a></li><li><a href="global.html#pushDataIn3DSpace">pushDataIn3DSpace</a></li><li><a href="global.html#readUserGroupControl">readUserGroupControl</a></li><li><a href="global.html#removeTagToDoc">removeTagToDoc</a></li><li><a href="global.html#updateEvent">updateEvent</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Mon Jan 15 2024 16:46:35 GMT+0100 (heure normale d’Europe centrale)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

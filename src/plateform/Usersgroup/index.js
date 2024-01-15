@@ -353,7 +353,7 @@ function patchUserGroups(
  * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, usersgroup, 3DCompass...)
  * @param {String} uri - Le paramètre `uri` est une chaîne qui représente l'identifiant du groupe d'utilisateurs
  * que vous souhaitez corriger. Il est utilisé pour construire l'URL de la requête PATCH.(ex: uuid:dcad14cc-5bcd-45fd-a54d-246b95047d45)
- * @param {Array[{}]} datas - Le paramètre `datas` est un tableau d'objets qui contient les informations
+ * @param {ArrayOfObject} _datas - Le paramètre `datas` est un tableau d'objets qui contient les informations
  * nécessaires pour patcher le contrôle des groupes d'utilisateurs. (ex : datas[0].op,  datas[0].value)
  * @param {String}   op - L'opération de correctif. Il peut être 'add', 'replace', 'remove'.
  * @param {Object}   value -
@@ -368,7 +368,7 @@ function patchUserGroups(
 function patchUserGroupsControl(
   credentials,
   uri,
-  datas,
+  _datas,
   onDone = undefined,
   onError = undefined,
 ) {
@@ -377,16 +377,17 @@ function patchUserGroupsControl(
 
   const url = `${space}${URI}/${uri}/sharing`;
   //liste des responsabilités : ["dsaccess:Responsibility.Group.MainOwner", "dsaccess:Responsibility.Group.Owner", "dsaccess:Responsibility.Group.Viewer", "dsaccess:Responsibility.Group.Author", "dsaccess:Responsibility.GroupService.Administrator"]
-  const datas = [
-    {
-      op: "add", // add, replace, remove
-      path: "/sharing",
-      value: {
-        agents: ["", "samuel.mureau@beam3.fr", "yan.coquoz@beam3.fr"],
-        responsibilities: ["dsaccess:Responsibility.Group.Owner"],
-      },
-    },
-  ];
+  const datas = _datas;
+  // [
+  //   {
+  //     op: "add", // add, replace, remove
+  //     path: "/sharing",
+  //     value: {
+  //       agents: ["", "samuel.mureau@beam3.fr", "yan.coquoz@beam3.fr"],
+  //       responsibilities: ["dsaccess:Responsibility.Group.Owner"],
+  //     },
+  //   },
+  // ];
 
   _httpCallAuthenticated(url, {
     method: "PATCH",
