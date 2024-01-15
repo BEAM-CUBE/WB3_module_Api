@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "clear": "rm -rf docs",
     "jsdoc": "jsdoc -c jsdoc.json",
     "time": "echo Heure de l'update : %time%",
     "upDate:version": "npm version patch",
@@ -13,16 +14,21 @@
     "Beam3",
     "Beam_Cube",
     "B3",
-    "Beam³"
+    "Beam³",
+    "WB3"
   ],
-  "devDependencies": {
-    "@widget-lab/3ddashboard-utils": "https://btcc.3ds.com/widget-lab/npm/widget-lab-3ddashboard-utils-1.4.0.tgz",
-    "jsdoc": "^4.0.2"
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BEAM-CUBE/WB3_module_Api"
   },
   "author": "Beam Cube, Yan COQUOZ",
   "license": "UNLICENSED",
   "dependencies": {
     "luxon": "^3.4.4",
     "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "@widget-lab/3ddashboard-utils": "https://btcc.3ds.com/widget-lab/npm/widget-lab-3ddashboard-utils-1.4.0.tgz",
+    "jsdoc": "^4.0.2"
   }
 }
