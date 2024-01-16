@@ -3,6 +3,14 @@
 [lien de la documentation](./docs/index.html ) à ouvrir avec l'extension de VScode : `liveserver`
 disponible [sur le marcketplace](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
 
+## Installation
+
+```bash
+npm i -D wb3_module_api
+# ou 
+yarn add -D wb3_module_api
+```
+
 ## Update 
 
 En cas de mise à jour du module
@@ -13,6 +21,6 @@ npm run jsdoc
 git add .
 git commit -m "Mise à jour de mon package"
 git push
-npm run update
+npm run update:module
 ```
 

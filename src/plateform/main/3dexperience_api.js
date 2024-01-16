@@ -8,7 +8,7 @@ const { widget, requirejs } = require("@widget-lab/3ddashboard-utils");
  * sont généralement transmises à l'API `fetch` ou `XMLHttpRequest` pour effectuer la requête HTTP
  * réelle.
  */
-function _httpCallAuthenticated(url, options) {
+export function _httpCallAuthenticated(url, options) {
   requirejs(["DS/WAFData/WAFData"], (WAFData) => {
     WAFData.authenticatedRequest(url, options);
   });
@@ -26,7 +26,7 @@ function _httpCallAuthenticated(url, options) {
  * l'opération de glissement, telles que la configuration des données à transférer ou la mise à jour de
  * l'apparence de l'élément déplaçable.
  */
-function _setDraggable(elem, strData, onDrag) {
+export function _setDraggable(elem, strData, onDrag) {
   requirejs(["DS/DataDragAndDrop/DataDragAndDrop"], (DataDragAndDrop) => {
     DataDragAndDrop.draggable(elem, { data: strData, start: onDrag });
   });
@@ -40,7 +40,7 @@ function _setDraggable(elem, strData, onDrag) {
  * @param [onTaggerFilter] - Le paramètre onTaggerFilter est une fonction de rappel qui sera exécutée
  * lorsque l'utilisateur filtrera les sujets dans le tagger. Il recevra les sujets filtrés en argument.
  */
-function _setupTagger(tags, onTaggerFilter = undefined) {
+export function _setupTagger(tags, onTaggerFilter = undefined) {
   requirejs(["DS/TagNavigatorProxy/TagNavigatorProxy"], (TagNavigatorProxy) => {
     let taggerProxy;
     if (taggerProxy === undefined) {
@@ -64,7 +64,7 @@ function _setupTagger(tags, onTaggerFilter = undefined) {
  * déposé sur l'élément déplaçable. Il prend généralement l'élément supprimé comme argument et exécute
  * une action basée sur celui-ci.
  */
-function _setDroppable(elem, drop) {
+export function _setDroppable(elem, drop) {
   requirejs(["DS/DataDragAndDrop/DataDragAndDrop"], (DataDragAndDrop) => {
     DataDragAndDrop.droppable(elem, { drop });
   });
@@ -82,7 +82,7 @@ function _setDroppable(elem, drop) {
  * d'erreur ou d'échec dans l'exécution de la fonction getPlatformServices. Il permet de gérer les
  * erreurs et de fournir un retour d'information approprié à l'utilisateur.
  */
-function _getPlatformServices(
+export function _getPlatformServices(
   platformId,
   onComplete = undefined,
   onFailure = undefined,
@@ -119,7 +119,7 @@ function _getPlatformServices(
  * - {String} appConf
  * - {String} widgetTenant, Le tenant de la plateforme sur lequel on travaille.
  */
-function _getPlateformInfos() {
+export function _getPlateformInfos() {
   const retourAPI = {};
 
   requirejs(["DS/PlatformAPI/PlatformAPI"], (plAPI) => {
@@ -142,11 +142,11 @@ function _getPlateformInfos() {
   return retourAPI;
 }
 
-module.exports = {
-  _setDraggable,
-  _setDroppable,
-  _getPlatformServices,
-  _getPlateformInfos,
-  _httpCallAuthenticated,
-  _setupTagger,
-};
+// module.exports = {
+//   _setDraggable,
+//   _setDroppable,
+//   _getPlatformServices,
+//   _getPlateformInfos,
+//   _httpCallAuthenticated,
+//   _setupTagger,
+// };
