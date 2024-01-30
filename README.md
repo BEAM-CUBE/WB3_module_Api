@@ -2,10 +2,11 @@
 
 ## Documentation
 
-[lien de la documentation](./docs/index.html ) à ouvrir avec l'extension de VScode : `liveserver`
+- Lien de la [documentation](./docs/index.html ) à ouvrir avec l'extension de VScode : `liveserver`
 disponible [sur le marcketplace](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
 
-<a href="./docs/index.html" target="_blank">Documentation</a>
+
+- Sinon sur le site : [La documentation](https://beam-cube.github.io/WB3_module_Api/)
 
 ## installation 
 

@@ -21,6 +21,10 @@
     "module:version": "npm version patch",
     "time": "echo Heure de l'update : %time%"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BEAM-CUBE/WB3_module_Api.git"
+  },
   "author": "Beam Cube, Yan COQUOZ",
   "license": "UNLICENSED",
   "keywords": [
