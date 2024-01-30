@@ -92,10 +92,6 @@ import {
 import { sayHello } from "./lib/add/index"; //Pour tester de la librairie
 
 export {
-  sayHello,
-  _3DSwym_get_version,
-  _3DSwym_getAllNews,
-  _3DSwym_getFamiliarPeople,
   _3DSpace_Create_Doc,
   _3DSpace_csrf,
   _3DSpace_download_doc,
@@ -121,6 +117,9 @@ export {
   _3DSwym_get_AllSWYMIdeas,
   _3DSwym_get_currentUser,
   _3DSwym_get_findUser,
+  _3DSwym_get_version,
+  _3DSwym_getAllNews,
+  _3DSwym_getFamiliarPeople,
   _3DSwym_getIdeaStatusMaturity,
   _3DSwym_getSWYMIdea,
   _3DSwym_postIdea,
@@ -159,6 +158,7 @@ export {
   pushDataIn3DSpace,
   readUserGroupControl,
   removeTagToDoc,
+  sayHello, // fonction de test
   updateEvent,
   UUID,
 };

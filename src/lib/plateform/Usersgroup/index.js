@@ -81,7 +81,7 @@ export function createUserGroups(
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
  * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, usersgroup, 3DCompass...)
- * @param {String} credentials.tenant - L'identifiant du tenant sur lequel l'API est déployée.(ex: 1132100968447)
+ * @param {String} credentials.tenant - L'identifiant du tenant sur lequel l'API est déployée.(ex: R1132100968447)
  * @param {String} [uri] - Le paramètre `uri` est l'identifiant de la ressource dont vous souhaitez récupérer le
  * complément. (ex: uuid:dcad14cc-5bcd-45fd-a54d-246b95047d45)
  * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque la
@@ -133,7 +133,7 @@ export function getComplementUG(
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
  * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, usersgroup, 3DCompass...)
- * @param {String} credentials.tenant - L'identifiant du tenant sur lequel l'API est déployée.(ex: 1132100968447)
+ * @param {String} credentials.tenant - L'identifiant du tenant sur lequel l'API est déployée.(ex: R1132100968447)
  * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque la
  * requête HTTP sera terminée avec succès. Il faut un argument, qui correspond aux données de réponse
  * analysées au format JSON.
@@ -179,7 +179,7 @@ export function getUsersGroupRules(
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
  * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, usersgroup, 3DCompass...)
- * @param {String} credentials.tenant - L'identifiant du tenant sur lequel l'API est déployée.(ex: 1132100968447)
+ * @param {String} credentials.tenant - L'identifiant du tenant sur lequel l'API est déployée.(ex: R1132100968447)
  * @param {Object} credentials.currentUser.email - Le paramètre `currentUser` est un qui contient les informations de l'utilisateur qui envoie le message(appeler depuis la fonction `_3DSwym_get_currentuser`)
  * @param {Function} [onDone] - Une fonction de rappel qui sera appelée lorsque l'opération sera terminée avec
  * succès. Il recevra la réponse en paramètre.
@@ -272,7 +272,7 @@ export function deleteUserGroups(credentials, uri) {
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
  * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, usersgroup, 3DCompass...)
- * @param {String} credentials.tenant - L'identifiant du tenant sur lequel l'API est déployée.(ex: 1132100968447)
+ * @param {String} credentials.tenant - L'identifiant du tenant sur lequel l'API est déployée.(ex: R1132100968447)
  * @param uri - Le paramètre `uri` est une chaîne qui représente l'identifiant du groupe d'utilisateurs
  * que vous souhaitez corriger. Il est utilisé pour construire l'URL de la requête PATCH.(ex: uuid:dcad14cc-5bcd-45fd-a54d-246b95047d45)
  * @param {ArrayOfObjects} datas - Le paramètre `datas` est un tableau d'objets qui spécifient les modifications à

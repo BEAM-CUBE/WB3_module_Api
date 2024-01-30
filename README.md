@@ -5,10 +5,9 @@
 - Lien de la [documentation](./docs/index.html ) à ouvrir avec l'extension de VScode : `liveserver`
 disponible [sur le marcketplace](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
 
-
 - Sinon sur le site : [La documentation](https://beam-cube.github.io/WB3_module_Api/)
 
-## installation 
+## installation
 
 ```bash
 npm i -D wb3_module_api

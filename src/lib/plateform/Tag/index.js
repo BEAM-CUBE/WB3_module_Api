@@ -39,8 +39,9 @@ const objToTag = {
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
  * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
- * @param {Object} credentials.currentUser.username - Le paramètre `currentUser` est un qui contient les informations de l'utilisateur qui envoie le message(appeler depuis la fonction `_3DSwym_get_currentuser`).
- * @param {String} credentials.tenant - L'identifiant du tenant sur lequel l'API est déployée.(ex: 1132100968447)
+ * @param {Object} credentials.currentUser.username - Le paramètre `currentUser` est un qui contient les informations de l'utilisateur qui envoie le message(appeler depuis la fonction `_3DSwym_get_currentuser`), une chaîne de caractère contenant le nom d'utilisateur.
+ *
+ * @param {String} credentials.tenant - L'identifiant du tenant sur lequel l'API est déployée.(ex: R1132100968447)
  * @param {Object} obj - Le paramètre `obj` est un objet qui contient les propriétés suivantes :
  * @param {String} obj.info.name - L'identifiant de l'objet que vous souhaitez marquer. (ex: B70C12CDAE0415006579A93200061A14)
  * @param {String} obj.pred - La propriété de l'objet que vous souhaitez marquer. (ex: how, what, when, where, who, why)
@@ -52,6 +53,9 @@ const objToTag = {
  * @param {Function} [onError] - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
  * erreur lors de l'exécution de la fonction `addTagToDoc`. Il vous permet de gérer et de traiter
  * l'erreur de manière personnalisée.
+ * @example credentials={space: "https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia", currentUser: { username: "Yan" }, tenant: "R1132100968447"}
+ * @example obj={objId: "B70C12CDAE0415006579A93200061A14", pred: "what", tag: "testTag"}
+ *
  */
 export function addTagToDoc(
   credentials,
@@ -59,8 +63,6 @@ export function addTagToDoc(
   onDone = undefined,
   onError = undefined,
 ) {
-  // getInfoDoc();
-
   const { space, tenant } = credentials;
   const { objId, pred, tag } = obj;
 
@@ -148,7 +150,7 @@ export function addTagToDoc(
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
  * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
- * @param {String} credentials.tenant - L'identifiant du tenant sur lequel l'API est déployée.(ex: 1132100968447)
+ * @param {String} credentials.tenant - L'identifiant du tenant sur lequel l'API est déployée.(ex: R1132100968447)
  * @param {Object} credentials.currentUser.username - Le paramètre `currentUser` est un qui contient les informations de l'utilisateur qui envoie le message(appeler depuis la fonction `_3DSwym_get_currentuser`).
  * @param {Object} credentials.ctx  - L'ID du contexte de travail.
  * @param obj - Le paramètre `obj` est un objet qui contient des informations sur le document. Il
@@ -269,7 +271,7 @@ export function getActualTagsOnDoc(
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
  * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
- * @param {String} credentials.tenant - L'identifiant du tenant sur lequel l'API est déployée.(ex: 1132100968447)
+ * @param {String} credentials.tenant - L'identifiant du tenant sur lequel l'API est déployée.(ex: R1132100968447)
  *
  * @param {Object} obj - Le paramètre `obj` est un objet qui contient les propriétés suivantes :
  * @param {String} obj.objId - L'identifiant unique de l'objet pour lequel vous souhaitez supprimer la balise.
