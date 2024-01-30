@@ -26,7 +26,7 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const { _httpCallAuthenticated } = require("../main/3dexperience_api");
+            <pre class="prettyprint source linenums"><code>import { _httpCallAuthenticated } from "../main/3dexperience_api";
 
 //LINK - https://media.3ds.com/support/documentation/developer/Cloud/en/English/CAAi3DXUGREST/UsersGroup_v1.htm#
 //!SECTION, Pour faire des modification de UG il faut être OWNER
@@ -60,7 +60,7 @@ const topHeader = {
  * erreur lors de l'exécution de la fonction `createUserGroups`. Il vous permet de gérer et de traiter
  * l'erreur de manière personnalisée.
  */
-function createUserGroups(
+export function createUserGroups(
   credentials,
   datas,
   onDone = undefined,
@@ -119,7 +119,7 @@ function createUserGroups(
  * erreur lors de l'exécution de la fonction `getComplementUG`. Il vous permet de gérer et de traiter
  * les informations d'erreur.
  */
-function getComplementUG(
+export function getComplementUG(
   credentials,
   uri,
   onDone = undefined,
@@ -169,7 +169,7 @@ function getComplementUG(
  * erreur lors de l'exécution de la fonction `getUsersGroupRules`. C'est un paramètre facultatif, donc
  * s'il n'est pas fourni, la fonction ne fera rien en cas d'erreur.
  */
-function getUsersGroupRules(
+export function getUsersGroupRules(
   credentials,
   onDone = undefined,
   onError = undefined,
@@ -215,7 +215,7 @@ function getUsersGroupRules(
  * erreur lors de l'exécution de la fonction `getUserGroupsList`. Il vous permet de gérer et de
  * répondre à toute erreur qui se produit.
  */
-function getUserGroupsList(
+export function getUserGroupsList(
   credentials,
   onDone = undefined,
   onError = undefined,
@@ -283,7 +283,7 @@ function getUserGroupsList(
  * supprimer. Il est utilisé pour construire l'URL de la requête DELETE.(ex: uuid:dcad14cc-5bcd-45fd-a54d-246b95047d45)
  */
 
-function deleteUserGroups(credentials, uri) {
+export function deleteUserGroups(credentials, uri) {
   const { space } = credentials;
   const URI = "/3drdfpersist/resources/v1/usersgroup";
   const url = `${space}${URI}/${uri}`;
@@ -315,7 +315,7 @@ function deleteUserGroups(credentials, uri) {
  * erreur lors de l'exécution de la fonction `patchUserGroups`. Il vous permet de gérer toutes les
  * erreurs qui se produisent et d’effectuer toute gestion ou journalisation des erreurs nécessaire.
  */
-function patchUserGroups(
+export function patchUserGroups(
   credentials,
   uri,
   datas,
@@ -393,7 +393,7 @@ function patchUserGroups(
  * erreur lors de l'exécution de la fonction `patchUserGroupsControl`. Il vous permet de gérer toutes
  * les erreurs qui se produisent et d’effectuer toute gestion ou journalisation des erreurs nécessaire.
  */
-function patchUserGroupsControl(
+export function patchUserGroupsControl(
   credentials,
   uri,
   _datas,
@@ -446,7 +446,7 @@ function patchUserGroupsControl(
  * erreur lors de l'exécution de la fonction `readUserGroupControl`. Il vous permet de gérer et de
  * répondre à toute erreur qui se produit.
  */
-function readUserGroupControl(
+export function readUserGroupControl(
   credentials,
   uri,
   onDone = undefined,
@@ -475,17 +475,6 @@ function readUserGroupControl(
     },
   });
 }
-
-module.exports = {
-  createUserGroups,
-  getComplementUG,
-  getUsersGroupRules,
-  getUserGroupsList,
-  deleteUserGroups,
-  patchUserGroups,
-  patchUserGroupsControl,
-  readUserGroupControl,
-};
 </code></pre>
         </article>
     </section>
@@ -496,13 +485,13 @@ module.exports = {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#UUID">UUID</a></li><li><a href="global.html#_3DSpace_Create_Doc">_3DSpace_Create_Doc</a></li><li><a href="global.html#_3DSpace_csrf">_3DSpace_csrf</a></li><li><a href="global.html#_3DSpace_download_doc">_3DSpace_download_doc</a></li><li><a href="global.html#_3DSpace_download_multidoc">_3DSpace_download_multidoc</a></li><li><a href="global.html#_3DSpace_file_update">_3DSpace_file_update</a></li><li><a href="global.html#_3DSpace_file_update_csr">_3DSpace_file_update_csr</a></li><li><a href="global.html#_3DSpace_file_url">_3DSpace_file_url</a></li><li><a href="global.html#_3DSpace_file_url_csr">_3DSpace_file_url_csr</a></li><li><a href="global.html#_3DSpace_get_csrf">_3DSpace_get_csrf</a></li><li><a href="global.html#_3DSpace_get_docInfo">_3DSpace_get_docInfo</a></li><li><a href="global.html#_3DSpace_get_downloadTicket_multidoc">_3DSpace_get_downloadTicket_multidoc</a></li><li><a href="global.html#_3DSpace_get_securityContexts">_3DSpace_get_securityContexts</a></li><li><a href="global.html#_3DSpace_lifecycle_changeRevision">_3DSpace_lifecycle_changeRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_changeState">_3DSpace_lifecycle_changeState</a></li><li><a href="global.html#_3DSpace_lifecycle_getGraph">_3DSpace_lifecycle_getGraph</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextRevision">_3DSpace_lifecycle_getNextRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextStates">_3DSpace_lifecycle_getNextStates</a></li><li><a href="global.html#_3DSwim_getAllCommunities">_3DSwim_getAllCommunities</a></li><li><a href="global.html#_3DSwim_getMembersCommunity">_3DSwim_getMembersCommunity</a></li><li><a href="global.html#_3DSwym_buildDirectMessage">_3DSwym_buildDirectMessage</a></li><li><a href="global.html#_3DSwym_deleteIdea">_3DSwym_deleteIdea</a></li><li><a href="global.html#_3DSwym_findCommunityToInstantMSG">_3DSwym_findCommunityToInstantMSG</a></li><li><a href="global.html#_3DSwym_getAllNews">_3DSwym_getAllNews</a></li><li><a href="global.html#_3DSwym_getFamiliarPeople">_3DSwym_getFamiliarPeople</a></li><li><a href="global.html#_3DSwym_getIdeaStatusMaturity">_3DSwym_getIdeaStatusMaturity</a></li><li><a href="global.html#_3DSwym_getSWYMIdea">_3DSwym_getSWYMIdea</a></li><li><a href="global.html#_3DSwym_get_AllSWYMIdeas">_3DSwym_get_AllSWYMIdeas</a></li><li><a href="global.html#_3DSwym_get_currentUser">_3DSwym_get_currentUser</a></li><li><a href="global.html#_3DSwym_get_findUser">_3DSwym_get_findUser</a></li><li><a href="global.html#_3DSwym_get_version">_3DSwym_get_version</a></li><li><a href="global.html#_3DSwym_postIdea">_3DSwym_postIdea</a></li><li><a href="global.html#_3DSwym_sendMessageData">_3DSwym_sendMessageData</a></li><li><a href="global.html#_getPlateformInfos">_getPlateformInfos</a></li><li><a href="global.html#_getPlatformServices">_getPlatformServices</a></li><li><a href="global.html#_httpCallAuthenticated">_httpCallAuthenticated</a></li><li><a href="global.html#_setDraggable">_setDraggable</a></li><li><a href="global.html#_setDroppable">_setDroppable</a></li><li><a href="global.html#_setupTagger">_setupTagger</a></li><li><a href="global.html#addTagToDoc">addTagToDoc</a></li><li><a href="global.html#compass_getListAdditionalApps">compass_getListAdditionalApps</a></li><li><a href="global.html#createUserGroups">createUserGroups</a></li><li><a href="global.html#dataMixing">dataMixing</a></li><li><a href="global.html#deleteUserGroups">deleteUserGroups</a></li><li><a href="global.html#findAdresse">findAdresse</a></li><li><a href="global.html#formatedMessage">formatedMessage</a></li><li><a href="global.html#getActiveServices">getActiveServices</a></li><li><a href="global.html#getActualTagsOnDoc">getActualTagsOnDoc</a></li><li><a href="global.html#getAllContextSecurity">getAllContextSecurity</a></li><li><a href="global.html#getCSRFToken">getCSRFToken</a></li><li><a href="global.html#getCommunes">getCommunes</a></li><li><a href="global.html#getComplementUG">getComplementUG</a></li><li><a href="global.html#getDataFrom3DSpace">getDataFrom3DSpace</a></li><li><a href="global.html#getDataFromGouvFr">getDataFromGouvFr</a></li><li><a href="global.html#getDatasByTenant">getDatasByTenant</a></li><li><a href="global.html#getDatasFrom3DSpace">getDatasFrom3DSpace</a></li><li><a href="global.html#getDownloadDocument">getDownloadDocument</a></li><li><a href="global.html#getInfoDocTags">getInfoDocTags</a></li><li><a href="global.html#getUserGroupsList">getUserGroupsList</a></li><li><a href="global.html#getUsersGroupRules">getUsersGroupRules</a></li><li><a href="global.html#get_3DSpace_csrf">get_3DSpace_csrf</a></li><li><a href="global.html#patchUserGroups">patchUserGroups</a></li><li><a href="global.html#patchUserGroupsControl">patchUserGroupsControl</a></li><li><a href="global.html#pushDataIn3DSpace">pushDataIn3DSpace</a></li><li><a href="global.html#readUserGroupControl">readUserGroupControl</a></li><li><a href="global.html#removeTagToDoc">removeTagToDoc</a></li><li><a href="global.html#updateEvent">updateEvent</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#UUID">UUID</a></li><li><a href="global.html#_3DSpace_Create_Doc">_3DSpace_Create_Doc</a></li><li><a href="global.html#_3DSpace_csrf">_3DSpace_csrf</a></li><li><a href="global.html#_3DSpace_download_doc">_3DSpace_download_doc</a></li><li><a href="global.html#_3DSpace_download_multidoc">_3DSpace_download_multidoc</a></li><li><a href="global.html#_3DSpace_file_update">_3DSpace_file_update</a></li><li><a href="global.html#_3DSpace_file_update_csr">_3DSpace_file_update_csr</a></li><li><a href="global.html#_3DSpace_file_url">_3DSpace_file_url</a></li><li><a href="global.html#_3DSpace_file_url_csr">_3DSpace_file_url_csr</a></li><li><a href="global.html#_3DSpace_get_csrf">_3DSpace_get_csrf</a></li><li><a href="global.html#_3DSpace_get_docInfo">_3DSpace_get_docInfo</a></li><li><a href="global.html#_3DSpace_get_downloadTicket_multidoc">_3DSpace_get_downloadTicket_multidoc</a></li><li><a href="global.html#_3DSpace_get_securityContexts">_3DSpace_get_securityContexts</a></li><li><a href="global.html#_3DSpace_lifecycle_changeRevision">_3DSpace_lifecycle_changeRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_changeState">_3DSpace_lifecycle_changeState</a></li><li><a href="global.html#_3DSpace_lifecycle_getGraph">_3DSpace_lifecycle_getGraph</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextRevision">_3DSpace_lifecycle_getNextRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextStates">_3DSpace_lifecycle_getNextStates</a></li><li><a href="global.html#_3DSwim_getAllCommunities">_3DSwim_getAllCommunities</a></li><li><a href="global.html#_3DSwim_getMembersCommunity">_3DSwim_getMembersCommunity</a></li><li><a href="global.html#_3DSwym_buildDirectMessage">_3DSwym_buildDirectMessage</a></li><li><a href="global.html#_3DSwym_deleteIdea">_3DSwym_deleteIdea</a></li><li><a href="global.html#_3DSwym_findCommunityToInstantMSG">_3DSwym_findCommunityToInstantMSG</a></li><li><a href="global.html#_3DSwym_getAllNews">_3DSwym_getAllNews</a></li><li><a href="global.html#_3DSwym_getFamiliarPeople">_3DSwym_getFamiliarPeople</a></li><li><a href="global.html#_3DSwym_getIdeaStatusMaturity">_3DSwym_getIdeaStatusMaturity</a></li><li><a href="global.html#_3DSwym_getSWYMIdea">_3DSwym_getSWYMIdea</a></li><li><a href="global.html#_3DSwym_get_AllSWYMIdeas">_3DSwym_get_AllSWYMIdeas</a></li><li><a href="global.html#_3DSwym_get_currentUser">_3DSwym_get_currentUser</a></li><li><a href="global.html#_3DSwym_get_findUser">_3DSwym_get_findUser</a></li><li><a href="global.html#_3DSwym_get_version">_3DSwym_get_version</a></li><li><a href="global.html#_3DSwym_postIdea">_3DSwym_postIdea</a></li><li><a href="global.html#_3DSwym_sendMessageData">_3DSwym_sendMessageData</a></li><li><a href="global.html#_AppMngt_get_info_user">_AppMngt_get_info_user</a></li><li><a href="global.html#_AppMngt_get_users">_AppMngt_get_users</a></li><li><a href="global.html#_getPlateformInfos">_getPlateformInfos</a></li><li><a href="global.html#_getPlatformServices">_getPlatformServices</a></li><li><a href="global.html#_httpCallAuthenticated">_httpCallAuthenticated</a></li><li><a href="global.html#_setDraggable">_setDraggable</a></li><li><a href="global.html#_setDroppable">_setDroppable</a></li><li><a href="global.html#_setupTagger">_setupTagger</a></li><li><a href="global.html#addTagToDoc">addTagToDoc</a></li><li><a href="global.html#compass_getListAdditionalApps">compass_getListAdditionalApps</a></li><li><a href="global.html#createUserGroups">createUserGroups</a></li><li><a href="global.html#dataMixing">dataMixing</a></li><li><a href="global.html#deleteUserGroups">deleteUserGroups</a></li><li><a href="global.html#findAdresse">findAdresse</a></li><li><a href="global.html#formatedMessage">formatedMessage</a></li><li><a href="global.html#getActiveServices">getActiveServices</a></li><li><a href="global.html#getActualTagsOnDoc">getActualTagsOnDoc</a></li><li><a href="global.html#getAllContextSecurity">getAllContextSecurity</a></li><li><a href="global.html#getCSRFToken">getCSRFToken</a></li><li><a href="global.html#getCommunes">getCommunes</a></li><li><a href="global.html#getComplementUG">getComplementUG</a></li><li><a href="global.html#getDataFrom3DSpace">getDataFrom3DSpace</a></li><li><a href="global.html#getDataFromGouvFr">getDataFromGouvFr</a></li><li><a href="global.html#getDatasByTenant">getDatasByTenant</a></li><li><a href="global.html#getDatasFrom3DSpace">getDatasFrom3DSpace</a></li><li><a href="global.html#getDownloadDocument">getDownloadDocument</a></li><li><a href="global.html#getInfoDocTags">getInfoDocTags</a></li><li><a href="global.html#getUserGroupsList">getUserGroupsList</a></li><li><a href="global.html#getUsersGroupRules">getUsersGroupRules</a></li><li><a href="global.html#get_3DSpace_csrf">get_3DSpace_csrf</a></li><li><a href="global.html#patchUserGroups">patchUserGroups</a></li><li><a href="global.html#patchUserGroupsControl">patchUserGroupsControl</a></li><li><a href="global.html#pushDataIn3DSpace">pushDataIn3DSpace</a></li><li><a href="global.html#readUserGroupControl">readUserGroupControl</a></li><li><a href="global.html#removeTagToDoc">removeTagToDoc</a></li><li><a href="global.html#sayHello">sayHello</a></li><li><a href="global.html#updateEvent">updateEvent</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Mon Jan 15 2024 16:46:35 GMT+0100 (heure normale d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Jan 30 2024 12:44:51 GMT+0100 (heure normale d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -1,15 +1,28 @@
 {
-  "name": "wb3_module_api",
-  "version": "0.0.3",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "clear": "rm -rf docs",
-    "jsdoc": "jsdoc -c jsdoc.json",
-    "time": "echo Heure de l'update : %time%",
-    "upDate:version": "npm version patch",
-    "update:module": "npm run time && npm run upDate:version && npm publish"
+  "name": "@beam3_dev/api_module",
+  "version": "0.0.32",
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/wb3Api.umd.cjs",
+  "module": "./dist/wb3Api.js",
+  "exports": {
+    ".": {
+      "import": "./dist/wb3Api.js",
+      "require": "./dist/wb3Api.umd.cjs"
+    }
   },
+  "scripts": {
+    "b3:publish": "npm run time && npm run module:version && npm publish --access public",
+    "build": "npm run clean && npm run jsdoc && vite build",
+    "clean": "rm -rf dist docs",
+    "jsdoc": "jsdoc -c jsdoc.json",
+    "module:version": "npm version patch",
+    "time": "echo Heure de l'update : %time%"
+  },
+  "author": "Beam Cube, Yan COQUOZ",
+  "license": "UNLICENSED",
   "keywords": [
     "Beam3",
     "Beam_Cube",
@@ -17,18 +30,13 @@
     "Beam³",
     "WB3"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/BEAM-CUBE/WB3_module_Api"
+  "devDependencies": {
+    "vite": "^5.0.8"
   },
-  "author": "Beam Cube, Yan COQUOZ",
-  "license": "UNLICENSED",
-  "dependencies": {
+  "peerDependencies": {
+    "@widget-lab/3ddashboard-utils": "https://btcc.3ds.com/widget-lab/npm/widget-lab-3ddashboard-utils-1.4.0.tgz",
+    "jsdoc": "^4.0.2",
     "luxon": "^3.4.4",
     "uuid": "^9.0.1"
-  },
-  "devDependencies": {
-    "@widget-lab/3ddashboard-utils": "https://btcc.3ds.com/widget-lab/npm/widget-lab-3ddashboard-utils-1.4.0.tgz",
-    "jsdoc": "^4.0.2"
   }
 }

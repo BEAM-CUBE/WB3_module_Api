@@ -1,9 +1,13 @@
-# Module Api
+# Fonction disponible pour le template BEAM Cube
+
+## Documentation
 
 [lien de la documentation](./docs/index.html ) à ouvrir avec l'extension de VScode : `liveserver`
 disponible [sur le marcketplace](https://marketplace.visualstudio.com/items?itemName=ritwickdey.LiveServer)
 
-## Installation
+<a href="./docs/index.html" target="_blank">Documentation</a>
+
+## installation 
 
 ```bash
 npm i -D wb3_module_api
@@ -11,16 +15,15 @@ npm i -D wb3_module_api
 yarn add -D wb3_module_api
 ```
 
-## Update 
+## Mise a jour
 
-En cas de mise à jour du module
-
-```bash
-npm clear
-npm run jsdoc
-git add .
-git commit -m "Mise à jour de mon package"
-git push
-npm run update:module
+```sh
+npm run build
+# faire les commits (add, commit, push)
+npm run b3:publish 
 ```
 
+## Attention
+
+- Ne pas oublier de mettre à jour le fichier README.md en cas de modification de la librairie.
+- Mettre à jour le widget dans lequel on utilise déjà la librairie.

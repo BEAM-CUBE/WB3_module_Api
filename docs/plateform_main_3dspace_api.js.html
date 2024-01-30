@@ -26,15 +26,11 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>const {
+            <pre class="prettyprint source linenums"><code>import {
   _httpCallAuthenticated,
   _getPlatformServices,
-} = require("./3dexperience_api");
-const UUID = require("../../api/index");
-
-// Pour la lecture du Blob
-const reader = new FileReader();
-reader.onload = () => console.log(reader.result);
+} from "./3dexperience_api";
+import { UUID } from "../../api/index";
 
 /**
  * @description La fonction `_3dSpace_get_docInfo` récupère des informations sur un document dans un espace 3D.
@@ -50,7 +46,7 @@ reader.onload = () => console.log(reader.result);
  * erreur lors de l'appel HTTP. Il prend un paramètre, qui est la réponse d'erreur.
  * @returns La fonction ne renvoie explicitement rien.
  */
-async function _3DSpace_get_docInfo(
+export async function _3DSpace_get_docInfo(
   credentials,
   docid = undefined,
   onDone = undefined,
@@ -87,7 +83,7 @@ async function _3DSpace_get_docInfo(
  * @param {Function} [onError] - Le paramètre `onError` est une fonction de rappel qui sera exécutée si la requête
  * HTTP échoue ou rencontre une erreur. Il prend un argument, qui est la réponse d'erreur.
  */
-function _3DSpace_get_csrf( // get INFO
+export function _3DSpace_get_csrf( // get INFO
   credentials,
   docid,
   onDone = undefined,
@@ -107,7 +103,7 @@ function _3DSpace_get_csrf( // get INFO
       },
     });
   } else {
-    _3dspace_csrf();
+    _3DSpace_csrf(credentials);
   }
 }
 
@@ -123,11 +119,13 @@ function _3DSpace_get_csrf( // get INFO
  * les messages d’erreur ou exécuter toute logique de gestion des erreurs nécessaire.
  * @returns la valeur du jeton CSRF, qui est obtenue à partir de la réponse de l'appel HTTP.
  */
-function _3DSpace_csrf(credentials, onDone = undefined, onError = undefined) {
-  const _3DSpace = credentials.space;
-
-  if (_3DSpace !== "" &amp;&amp; !_3DSpace) {
-    const url = _3DSpace + "/resources/v1/application/CSRF";
+export function _3DSpace_csrf(
+  credentials,
+  onDone = undefined,
+  onError = undefined,
+) {
+  if (credentials.space) {
+    const url = credentials.space + "/resources/v1/application/CSRF";
     _httpCallAuthenticated(url, {
       onComplete(response, headers, xhr) {
         const info = JSON.parse(response);
@@ -156,7 +154,7 @@ function _3DSpace_csrf(credentials, onDone = undefined, onError = undefined) {
  * de l'exécution de la fonction. Il s'agit d'un paramètre facultatif et peut être laissé indéfini s'il
  * n'est pas nécessaire.
  */
-function _3DSpace_file_url(
+export function _3DSpace_file_url(
   credentials,
   docid,
   onDone = undefined,
@@ -214,7 +212,7 @@ function _3DSpace_file_url(
  * erreur lors de la requête HTTP. Il est facultatif et peut être laissé indéfini s'il n'est pas
  * nécessaire.
  */
-function _3DSpace_file_url_csr(
+export function _3DSpace_file_url_csr(
   credentials,
   docid,
   csr,
@@ -264,7 +262,7 @@ function _3DSpace_file_url_csr(
  * de manière personnalisée, plutôt que de s'appuyer sur le comportement de gestion des erreurs par
  * défaut.
  */
-function _3DSpace_file_update(
+export function _3DSpace_file_update(
   credentials,
   docId,
   fileId,
@@ -312,7 +310,7 @@ function _3DSpace_file_update(
  * erreur lors de la requête HTTP. Il est facultatif et s'il n'est pas fourni, l'erreur sera traitée en
  * interne.
  */
-function _3DSpace_file_update_csr(
+export function _3DSpace_file_update_csr(
   credentials,
   docId,
   fileId,
@@ -417,7 +415,7 @@ function _3DSpace_file_update_csr(
  * @param {Function}[onError] - Le paramètre onError est une fonction de rappel qui sera appelée s'il y a une erreur lors de l'exécution de la fonction _3dSpace_Create_Doc. Il prend l'objet de réponse comme argument.
  *
  */
-async function _3DSpace_Create_Doc(
+export async function _3DSpace_Create_Doc(
   credentials,
   data, // data
   filename, //ref coclico
@@ -465,7 +463,7 @@ async function _3DSpace_Create_Doc(
             const options = {
               method: "POST",
               headers: {
-                ENO_CSRF_TOKEN: csr.value,
+                ENO_CSRF_TOKEN: csr,
                 Accept: "application/json",
                 "Content-Type": "application/json",
               },
@@ -554,7 +552,7 @@ async function _3DSpace_Create_Doc(
  * produit lors de l'exécution de la fonction. Il prend un argument, qui est le message d'erreur ou
  * l'objet.
  */
-function _3DSpace_get_securityContexts(
+export function _3DSpace_get_securityContexts(
   credentials,
   cs = undefined,
   role = undefined,
@@ -670,7 +668,7 @@ function _3DSpace_get_securityContexts(
 /**
  * @description La fonction `_3dspace_download_doc` est une fonction asynchrone qui télécharge un document à partir d'un espace 3D, avec des rappels facultatifs pour le succès et la gestion des erreurs.
  * @param {Object} credentials Un objet contenant les informations d'identification nécessaires à
- * l'authentification. Il doit avoir les propriétés suivantes : space, token
+ * l'authentification. Il doit avoir les propriétés suivantes: space, token
  * @param  {String} [credentials.space] - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...) 
  * @param  {String} [credentials.token] - Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)
  * @param {String} [objectId] - Le paramètre objectId est l'identifiant unique du document que vous souhaitez
@@ -684,7 +682,7 @@ function _3DSpace_get_securityContexts(
  
  * @returns une promesse.
  */
-async function _3DSpace_download_doc(
+export async function _3DSpace_download_doc(
   credentials,
   objectId,
   onDone = undefined,
@@ -702,7 +700,7 @@ async function _3DSpace_download_doc(
 
     if (objectId !== undefined &amp;&amp; objectId !== "" &amp;&amp; objectId !== null) {
       _3DSpace_file_url(
-        space,
+        credentials.space,
         objectId,
         (response) => {
           _httpCallAuthenticated(response, {
@@ -736,7 +734,7 @@ async function _3DSpace_download_doc(
  * @description La fonction `_3dspace_download_multidoc` télécharge plusieurs documents à partir d'un espace 3D en
  * utilisant un token et des objectID donnés.
  * @param {Object} credentials - Un objet contenant les informations d'identification nécessaires à
- * l'authentification dans une fonction interne(_3DSpace_get_downloadTicket_multidoc). Il doit avoir les propriétés suivantes : space, token, tenant
+ * l'authentification dans une fonction interne(_3DSpace_get_downloadTicket_multidoc). Il doit avoir les propriétés suivantes: space, token, tenant
  * @param {String} [credentials.space] - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)
  * @param {String} [credentials.token] - Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)
  * @param {String} [credentials.tenant] - Le tenant (ex: R1132100968447)
@@ -749,7 +747,7 @@ async function _3DSpace_download_doc(
  * lors du téléchargement.
 
  */
-async function _3DSpace_download_multidoc(
+export async function _3DSpace_download_multidoc(
   credentials,
   objectIds,
   onDone = undefined,
@@ -784,7 +782,7 @@ async function _3DSpace_download_multidoc(
  * La fonction `_3dspace_get_downloadTicket_multidoc` permet de récupérer un ticket de téléchargement
  * de plusieurs documents dans un espace 3D.
  * @param {Object} [credentials] - Un objet contenant les informations d'identification nécessaires à
- * l'authentification. Il doit avoir les propriétés suivantes : space, token, tenant
+ * l'authentification. Il doit avoir les propriétés suivantes: space, token, tenant
  * @param {String} [credentials.space] - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)
  * @param {String} [credentials.token] - Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)
  * @param {String} [credentials.tenant] - Le tenant (ex: R1132100968447)
@@ -798,7 +796,7 @@ async function _3DSpace_download_multidoc(
  * erreur lors de l'exécution de la fonction. Il est facultatif et peut être utilisé pour gérer les
  * erreurs qui surviennent.
  */
-function _3DSpace_get_downloadTicket_multidoc(
+export function _3DSpace_get_downloadTicket_multidoc(
   credentials,
   objectIds,
   onNext = undefined,
@@ -875,10 +873,10 @@ function _3DSpace_get_downloadTicket_multidoc(
  * succès. Il recevra la réponse en paramètre.
  * @param {Function} [onError] - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
  * erreur lors de l'exécution de la fonction. Il s'agit d'un paramètre facultatif, donc s'il n'est pas
- * fourni, il sera par défaut « non défini ».
+ * fourni, il sera par défaut «non défini».
  * @return {Promise}
  */
-function _3DSpace_lifecycle_getNextStates(
+export function _3DSpace_lifecycle_getNextStates(
   credentials,
   objectId,
   onDone = undefined,
@@ -886,7 +884,7 @@ function _3DSpace_lifecycle_getNextStates(
 ) {
   return new Promise((result) => {
     if (credentials.token === "") {
-      _3dspace_csrf(credentials.space);
+      _3DSpace_csrf(credentials);
     }
     if (objectId !== undefined &amp;&amp; objectId !== "" &amp;&amp; objectId !== null) {
       const url = `${credentials.space}/resources/v1/modeler/dslc/maturity/getNextStates`;
@@ -929,7 +927,7 @@ function _3DSpace_lifecycle_getNextStates(
   });
 }
 /**
- * Cette fonction permet de changer l'état d'un objet dans un espace 3D.
+ * @description Cette fonction permet de changer l'état d'un objet dans un espace 3D.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space » et « ctx ».
  * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)
@@ -946,7 +944,7 @@ function _3DSpace_lifecycle_getNextStates(
  * facultatif, donc s'il n'est pas fourni, la fonction ne fera rien en cas de problème.
  * @returns une promesse.
  */
-function _3DSpace_lifecycle_changeState(
+export function _3DSpace_lifecycle_changeState(
   credentials,
   objectId,
   nextState,
@@ -955,12 +953,12 @@ function _3DSpace_lifecycle_changeState(
 ) {
   return new Promise((result) => {
     if (credentials.token === "") {
-      _3dspace_csrf(credentials.space);
+      _3DSpace_csrf(credentials);
     }
     if (objectId !== undefined &amp;&amp; objectId !== "" &amp;&amp; objectId !== null) {
       const url = `${credentials.space}/resources/v1/modeler/dslc/maturity/changeState`;
 
-      _3dspace_get_securityContexts(
+      _3DSpace_get_securityContexts(
         credentials.space,
         "ESPACE COMMUN",
         ["VPLMProjectLeader", "VPLMCreator"],
@@ -1038,7 +1036,7 @@ function _3DSpace_lifecyle_setSharing(
 }
 // VERSIONING
 /**
- * La fonction `_3DSpace_lifecycle_getGraph` récupère un graphique du cycle de vie d'un objet spatial
+ * @description La fonction `_3DSpace_lifecycle_getGraph` récupère un graphique du cycle de vie d'un objet spatial
  * 3D à l'aide des informations d'identification et de l'ID d'objet fournis.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier la demande.
  *  Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».(ex: credentials.space, credentials.tenant, credentials.token...).
@@ -1056,7 +1054,7 @@ function _3DSpace_lifecyle_setSharing(
  * facultatif, donc s'il n'est pas fourni, la fonction ne fera rien en cas d'erreur.
  * @returns une promesse.
  */
-function _3DSpace_lifecycle_getGraph(
+export function _3DSpace_lifecycle_getGraph(
   credentials,
   objectId,
   onDone = undefined,
@@ -1065,12 +1063,12 @@ function _3DSpace_lifecycle_getGraph(
   // A VALIDER
   return new Promise((result) => {
     if (credentials.token === "") {
-      _3dspace_csrf(credentials.space);
+      _3DSpace_csrf(credentials);
     }
     if (objectId !== undefined &amp;&amp; objectId !== "" &amp;&amp; objectId !== null) {
       const url = `${credentials.space}/resources/v1/dslc/versiongraph?withThumbnail=0&amp;withIsLastVersion=0&amp;withAttributes=0&amp;withCopyFrom=0&amp;tenant=${credentials.tenant}`;
 
-      _3dspace_get_securityContexts(
+      _3DSpace_get_securityContexts(
         credentials.space,
         "ESPACE COMMUN",
         ["VPLMProjectLeader", "VPLMCreator"],
@@ -1123,10 +1121,10 @@ function _3DSpace_lifecycle_getGraph(
  * succès. Il prend la réponse comme argument.
  * @param {Function} [onError] - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
  * erreur lors de l'exécution de la fonction `_3DSpace_lifecycle_getNextRevision`. Il s'agit d'un
- * paramètre facultatif, donc s'il n'est pas fourni, il sera par défaut « non défini ».
+ * paramètre facultatif, donc s'il n'est pas fourni, il sera par défaut «non défini».
  * @returns Une promesse est renvoyée.
  */
-function _3DSpace_lifecycle_getNextRevision(
+export function _3DSpace_lifecycle_getNextRevision(
   credentials,
   objectId,
   onDone = undefined,
@@ -1134,12 +1132,12 @@ function _3DSpace_lifecycle_getNextRevision(
 ) {
   return new Promise((result) => {
     if (credentials.token === "") {
-      _3dspace_csrf(credentials.space);
+      _3DSpace_csrf(credentials);
     }
     if (objectId !== undefined &amp;&amp; objectId !== "" &amp;&amp; objectId !== null) {
       const url = `${credentials.space}/resources/lifecycle/revise/prepare_revise_maskattributes?tenant=${credentials.tenant}`;
 
-      _3dspace_get_securityContexts(
+      _3DSpace_get_securityContexts(
         credentials.space,
         "ESPACE COMMUN",
         ["VPLMProjectLeader", "VPLMCreator"],
@@ -1183,7 +1181,7 @@ function _3DSpace_lifecycle_getNextRevision(
   });
 }
 /**
- * La fonction `_3DSpace_lifecycle_changeRevision` est utilisée pour changer la révision d'un objet
+ * @description La fonction `_3DSpace_lifecycle_changeRevision` est utilisée pour changer la révision d'un objet
  * dans un espace 3D.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
@@ -1203,7 +1201,7 @@ function _3DSpace_lifecycle_getNextRevision(
  * erreurs nécessaire.
  * @returns une promesse.
  */
-function _3DSpace_lifecycle_changeRevision(
+export function _3DSpace_lifecycle_changeRevision(
   credentials,
   objectId,
   nextRevision,
@@ -1212,12 +1210,12 @@ function _3DSpace_lifecycle_changeRevision(
 ) {
   return new Promise((result) => {
     if (credentials.token === "") {
-      _3dspace_csrf(credentials.space);
+      _3DSpace_csrf(credentials);
     }
     if (objectId !== undefined &amp;&amp; objectId !== "" &amp;&amp; objectId !== null) {
       const url = `${credentials.space}/resources/lifecycle/revise/major?tenant=${credentials.tenant}`;
 
-      _3dspace_get_securityContexts(
+      _3DSpace_get_securityContexts(
         credentials.space,
         "ESPACE COMMUN",
         ["VPLMProjectLeader", "VPLMCreator"],
@@ -1263,91 +1261,75 @@ function _3DSpace_lifecycle_changeRevision(
 // SECTION: BOOKMARKS
 // ANCHOR: _3dspace_bookmark_getChildren
 // TODO : A finir , manque la FN _3dspace_get_multiDocInfo()
-function _3DSpace_bookmark_getChildren(
-  credentials,
-  objIdBookmark,
-  onDone = undefined,
-  onError = undefined,
-) {
-  return new Promise((resolve, reject) => {
-    const store = mainStore();
+// function _3DSpace_bookmark_getChildren(
+//   credentials,
+//   objIdBookmark,
+//   onDone = undefined,
+//   onError = undefined,
+// ) {
+//   return new Promise((resolve, reject) => {
+//     // const store = mainStore();
 
-    const url = `${credentials.space}/resources/v1/modeler/dsbks/dsbks:Bookmark/${objIdBookmark}?$mask=dsbks:BksMask.Items`;
-    _httpCallAuthenticated(url, {
-      headers: {
-        SecurityContext: `ctx::${credentials.ctx}`,
-      },
-      onComplete: (response) => {
-        let tryParse;
-        try {
-          tryParse = JSON.parse(response);
-        } catch (error) {
-          tryParse = response;
-        }
-        if (typeof tryParse === "object") {
-          let items = tryParse?.member[0]?.items?.member;
-          if (items) {
-            const listObjIds = items.map((e) => {
-              if (e?.referencedObject?.identifier) {
-                return e.referencedObject.identifier;
-              }
-            });
-            if (listObjIds.length) {
-              _3dspace_get_multiDocInfo(host, listObjIds, (res) => {
-                console.log("_3dspace_get_multiDocInfo Response : ", {
-                  ...res,
-                });
-                if (res?.data.length) {
-                  const listResponses = res.data;
-                  listResponses.forEach((r) => {
-                    let currentObject = items.find(
-                      (o) => o.referencedObject.identifier === r.identifier,
-                    );
-                    if (currentObject) {
-                      currentObject.referencedObject["dataelements"] =
-                        r.dataelements;
-                    }
-                  });
-                }
-              });
-            }
-          }
-        }
+//     const url = `${credentials.space}/resources/v1/modeler/dsbks/dsbks:Bookmark/${objIdBookmark}?$mask=dsbks:BksMask.Items`;
+//     _httpCallAuthenticated(url, {
+//       headers: {
+//         SecurityContext: `ctx::${credentials.ctx}`,
+//       },
+//       onComplete: (response) => {
+//         let tryParse;
+//         try {
+//           tryParse = JSON.parse(response);
+//         } catch (error) {
+//           tryParse = response;
+//         }
+//         if (typeof tryParse === "object") {
+//           let items = tryParse?.member[0]?.items?.member;
+//           if (items) {
+//             const listObjIds = items.map((e) => {
+//               if (e?.referencedObject?.identifier) {
+//                 return e.referencedObject.identifier;
+//               }
+//             });
+//             if (listObjIds.length) {
+//               _3DSpace_get_multiDocInfo(host, listObjIds, (res) => {
+//                 console.log("_3dspace_get_multiDocInfo Response : ", {
+//                   ...res,
+//                 });
+//                 if (res?.data.length) {
+//                   const listResponses = res.data;
+//                   listResponses.forEach((r) => {
+//                     let currentObject = items.find(
+//                       (o) => o.referencedObject.identifier === r.identifier,
+//                     );
+//                     if (currentObject) {
+//                       currentObject.referencedObject["dataelements"] =
+//                         r.dataelements;
+//                     }
+//                   });
+//                 }
+//               });
+//             }
+//           }
+//         }
 
-        if (onDone) onDone(tryParse);
-        resolve = tryParse;
-        return resolve;
-      },
-      onFailure(response) {
-        if (onError) onError(response);
-        reject = response;
-        return reject;
-      },
-    });
-  });
-}
+//         if (onDone) onDone(tryParse);
+//         resolve = tryParse;
+//         return resolve;
+//       },
+//       onFailure(response) {
+//         if (onError) onError(response);
+//         reject = response;
+//         return reject;
+//       },
+//     });
+//   });
+// }
 //!SECTION
 
-module.exports = {
-  _3DSpace_get_docInfo,
-  _3DSpace_get_csrf,
-  _3DSpace_csrf,
-  _3DSpace_file_url,
-  _3DSpace_file_url_csr,
-  _3DSpace_file_update,
-  _3DSpace_file_update_csr,
-  _3DSpace_Create_Doc,
-  _3DSpace_get_securityContexts,
-  _3DSpace_download_doc,
-  _3DSpace_download_multidoc,
-  _3DSpace_get_downloadTicket_multidoc,
-  _3DSpace_lifecycle_getNextStates,
-  _3DSpace_lifecycle_changeState,
-  _3DSpace_lifecycle_getGraph,
-  _3DSpace_lifecycle_getNextRevision,
-  _3DSpace_lifecycle_changeRevision,
-  _3DSpace_bookmark_getChildren,
-};
+// module.exports = {
+
+//   _3DSpace_bookmark_getChildren,
+// };
 </code></pre>
         </article>
     </section>
@@ -1358,13 +1340,13 @@ module.exports = {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#UUID">UUID</a></li><li><a href="global.html#_3DSpace_Create_Doc">_3DSpace_Create_Doc</a></li><li><a href="global.html#_3DSpace_csrf">_3DSpace_csrf</a></li><li><a href="global.html#_3DSpace_download_doc">_3DSpace_download_doc</a></li><li><a href="global.html#_3DSpace_download_multidoc">_3DSpace_download_multidoc</a></li><li><a href="global.html#_3DSpace_file_update">_3DSpace_file_update</a></li><li><a href="global.html#_3DSpace_file_update_csr">_3DSpace_file_update_csr</a></li><li><a href="global.html#_3DSpace_file_url">_3DSpace_file_url</a></li><li><a href="global.html#_3DSpace_file_url_csr">_3DSpace_file_url_csr</a></li><li><a href="global.html#_3DSpace_get_csrf">_3DSpace_get_csrf</a></li><li><a href="global.html#_3DSpace_get_docInfo">_3DSpace_get_docInfo</a></li><li><a href="global.html#_3DSpace_get_downloadTicket_multidoc">_3DSpace_get_downloadTicket_multidoc</a></li><li><a href="global.html#_3DSpace_get_securityContexts">_3DSpace_get_securityContexts</a></li><li><a href="global.html#_3DSpace_lifecycle_changeRevision">_3DSpace_lifecycle_changeRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_changeState">_3DSpace_lifecycle_changeState</a></li><li><a href="global.html#_3DSpace_lifecycle_getGraph">_3DSpace_lifecycle_getGraph</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextRevision">_3DSpace_lifecycle_getNextRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextStates">_3DSpace_lifecycle_getNextStates</a></li><li><a href="global.html#_3DSwim_getAllCommunities">_3DSwim_getAllCommunities</a></li><li><a href="global.html#_3DSwim_getMembersCommunity">_3DSwim_getMembersCommunity</a></li><li><a href="global.html#_3DSwym_buildDirectMessage">_3DSwym_buildDirectMessage</a></li><li><a href="global.html#_3DSwym_deleteIdea">_3DSwym_deleteIdea</a></li><li><a href="global.html#_3DSwym_findCommunityToInstantMSG">_3DSwym_findCommunityToInstantMSG</a></li><li><a href="global.html#_3DSwym_getAllNews">_3DSwym_getAllNews</a></li><li><a href="global.html#_3DSwym_getFamiliarPeople">_3DSwym_getFamiliarPeople</a></li><li><a href="global.html#_3DSwym_getIdeaStatusMaturity">_3DSwym_getIdeaStatusMaturity</a></li><li><a href="global.html#_3DSwym_getSWYMIdea">_3DSwym_getSWYMIdea</a></li><li><a href="global.html#_3DSwym_get_AllSWYMIdeas">_3DSwym_get_AllSWYMIdeas</a></li><li><a href="global.html#_3DSwym_get_currentUser">_3DSwym_get_currentUser</a></li><li><a href="global.html#_3DSwym_get_findUser">_3DSwym_get_findUser</a></li><li><a href="global.html#_3DSwym_get_version">_3DSwym_get_version</a></li><li><a href="global.html#_3DSwym_postIdea">_3DSwym_postIdea</a></li><li><a href="global.html#_3DSwym_sendMessageData">_3DSwym_sendMessageData</a></li><li><a href="global.html#_getPlateformInfos">_getPlateformInfos</a></li><li><a href="global.html#_getPlatformServices">_getPlatformServices</a></li><li><a href="global.html#_httpCallAuthenticated">_httpCallAuthenticated</a></li><li><a href="global.html#_setDraggable">_setDraggable</a></li><li><a href="global.html#_setDroppable">_setDroppable</a></li><li><a href="global.html#_setupTagger">_setupTagger</a></li><li><a href="global.html#addTagToDoc">addTagToDoc</a></li><li><a href="global.html#compass_getListAdditionalApps">compass_getListAdditionalApps</a></li><li><a href="global.html#createUserGroups">createUserGroups</a></li><li><a href="global.html#dataMixing">dataMixing</a></li><li><a href="global.html#deleteUserGroups">deleteUserGroups</a></li><li><a href="global.html#findAdresse">findAdresse</a></li><li><a href="global.html#formatedMessage">formatedMessage</a></li><li><a href="global.html#getActiveServices">getActiveServices</a></li><li><a href="global.html#getActualTagsOnDoc">getActualTagsOnDoc</a></li><li><a href="global.html#getAllContextSecurity">getAllContextSecurity</a></li><li><a href="global.html#getCSRFToken">getCSRFToken</a></li><li><a href="global.html#getCommunes">getCommunes</a></li><li><a href="global.html#getComplementUG">getComplementUG</a></li><li><a href="global.html#getDataFrom3DSpace">getDataFrom3DSpace</a></li><li><a href="global.html#getDataFromGouvFr">getDataFromGouvFr</a></li><li><a href="global.html#getDatasByTenant">getDatasByTenant</a></li><li><a href="global.html#getDatasFrom3DSpace">getDatasFrom3DSpace</a></li><li><a href="global.html#getDownloadDocument">getDownloadDocument</a></li><li><a href="global.html#getInfoDocTags">getInfoDocTags</a></li><li><a href="global.html#getUserGroupsList">getUserGroupsList</a></li><li><a href="global.html#getUsersGroupRules">getUsersGroupRules</a></li><li><a href="global.html#get_3DSpace_csrf">get_3DSpace_csrf</a></li><li><a href="global.html#patchUserGroups">patchUserGroups</a></li><li><a href="global.html#patchUserGroupsControl">patchUserGroupsControl</a></li><li><a href="global.html#pushDataIn3DSpace">pushDataIn3DSpace</a></li><li><a href="global.html#readUserGroupControl">readUserGroupControl</a></li><li><a href="global.html#removeTagToDoc">removeTagToDoc</a></li><li><a href="global.html#updateEvent">updateEvent</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#UUID">UUID</a></li><li><a href="global.html#_3DSpace_Create_Doc">_3DSpace_Create_Doc</a></li><li><a href="global.html#_3DSpace_csrf">_3DSpace_csrf</a></li><li><a href="global.html#_3DSpace_download_doc">_3DSpace_download_doc</a></li><li><a href="global.html#_3DSpace_download_multidoc">_3DSpace_download_multidoc</a></li><li><a href="global.html#_3DSpace_file_update">_3DSpace_file_update</a></li><li><a href="global.html#_3DSpace_file_update_csr">_3DSpace_file_update_csr</a></li><li><a href="global.html#_3DSpace_file_url">_3DSpace_file_url</a></li><li><a href="global.html#_3DSpace_file_url_csr">_3DSpace_file_url_csr</a></li><li><a href="global.html#_3DSpace_get_csrf">_3DSpace_get_csrf</a></li><li><a href="global.html#_3DSpace_get_docInfo">_3DSpace_get_docInfo</a></li><li><a href="global.html#_3DSpace_get_downloadTicket_multidoc">_3DSpace_get_downloadTicket_multidoc</a></li><li><a href="global.html#_3DSpace_get_securityContexts">_3DSpace_get_securityContexts</a></li><li><a href="global.html#_3DSpace_lifecycle_changeRevision">_3DSpace_lifecycle_changeRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_changeState">_3DSpace_lifecycle_changeState</a></li><li><a href="global.html#_3DSpace_lifecycle_getGraph">_3DSpace_lifecycle_getGraph</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextRevision">_3DSpace_lifecycle_getNextRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextStates">_3DSpace_lifecycle_getNextStates</a></li><li><a href="global.html#_3DSwim_getAllCommunities">_3DSwim_getAllCommunities</a></li><li><a href="global.html#_3DSwim_getMembersCommunity">_3DSwim_getMembersCommunity</a></li><li><a href="global.html#_3DSwym_buildDirectMessage">_3DSwym_buildDirectMessage</a></li><li><a href="global.html#_3DSwym_deleteIdea">_3DSwym_deleteIdea</a></li><li><a href="global.html#_3DSwym_findCommunityToInstantMSG">_3DSwym_findCommunityToInstantMSG</a></li><li><a href="global.html#_3DSwym_getAllNews">_3DSwym_getAllNews</a></li><li><a href="global.html#_3DSwym_getFamiliarPeople">_3DSwym_getFamiliarPeople</a></li><li><a href="global.html#_3DSwym_getIdeaStatusMaturity">_3DSwym_getIdeaStatusMaturity</a></li><li><a href="global.html#_3DSwym_getSWYMIdea">_3DSwym_getSWYMIdea</a></li><li><a href="global.html#_3DSwym_get_AllSWYMIdeas">_3DSwym_get_AllSWYMIdeas</a></li><li><a href="global.html#_3DSwym_get_currentUser">_3DSwym_get_currentUser</a></li><li><a href="global.html#_3DSwym_get_findUser">_3DSwym_get_findUser</a></li><li><a href="global.html#_3DSwym_get_version">_3DSwym_get_version</a></li><li><a href="global.html#_3DSwym_postIdea">_3DSwym_postIdea</a></li><li><a href="global.html#_3DSwym_sendMessageData">_3DSwym_sendMessageData</a></li><li><a href="global.html#_AppMngt_get_info_user">_AppMngt_get_info_user</a></li><li><a href="global.html#_AppMngt_get_users">_AppMngt_get_users</a></li><li><a href="global.html#_getPlateformInfos">_getPlateformInfos</a></li><li><a href="global.html#_getPlatformServices">_getPlatformServices</a></li><li><a href="global.html#_httpCallAuthenticated">_httpCallAuthenticated</a></li><li><a href="global.html#_setDraggable">_setDraggable</a></li><li><a href="global.html#_setDroppable">_setDroppable</a></li><li><a href="global.html#_setupTagger">_setupTagger</a></li><li><a href="global.html#addTagToDoc">addTagToDoc</a></li><li><a href="global.html#compass_getListAdditionalApps">compass_getListAdditionalApps</a></li><li><a href="global.html#createUserGroups">createUserGroups</a></li><li><a href="global.html#dataMixing">dataMixing</a></li><li><a href="global.html#deleteUserGroups">deleteUserGroups</a></li><li><a href="global.html#findAdresse">findAdresse</a></li><li><a href="global.html#formatedMessage">formatedMessage</a></li><li><a href="global.html#getActiveServices">getActiveServices</a></li><li><a href="global.html#getActualTagsOnDoc">getActualTagsOnDoc</a></li><li><a href="global.html#getAllContextSecurity">getAllContextSecurity</a></li><li><a href="global.html#getCSRFToken">getCSRFToken</a></li><li><a href="global.html#getCommunes">getCommunes</a></li><li><a href="global.html#getComplementUG">getComplementUG</a></li><li><a href="global.html#getDataFrom3DSpace">getDataFrom3DSpace</a></li><li><a href="global.html#getDataFromGouvFr">getDataFromGouvFr</a></li><li><a href="global.html#getDatasByTenant">getDatasByTenant</a></li><li><a href="global.html#getDatasFrom3DSpace">getDatasFrom3DSpace</a></li><li><a href="global.html#getDownloadDocument">getDownloadDocument</a></li><li><a href="global.html#getInfoDocTags">getInfoDocTags</a></li><li><a href="global.html#getUserGroupsList">getUserGroupsList</a></li><li><a href="global.html#getUsersGroupRules">getUsersGroupRules</a></li><li><a href="global.html#get_3DSpace_csrf">get_3DSpace_csrf</a></li><li><a href="global.html#patchUserGroups">patchUserGroups</a></li><li><a href="global.html#patchUserGroupsControl">patchUserGroupsControl</a></li><li><a href="global.html#pushDataIn3DSpace">pushDataIn3DSpace</a></li><li><a href="global.html#readUserGroupControl">readUserGroupControl</a></li><li><a href="global.html#removeTagToDoc">removeTagToDoc</a></li><li><a href="global.html#sayHello">sayHello</a></li><li><a href="global.html#updateEvent">updateEvent</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Mon Jan 15 2024 16:46:35 GMT+0100 (heure normale d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Jan 30 2024 12:44:51 GMT+0100 (heure normale d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>

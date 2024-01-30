@@ -19,5 +19,6 @@
     "encoding": "utf8",
     "destination": "./docs/"
   },
-  "recurseDepth": 10
+  "recurseDepth": 10,
+  "verbose": true
 }
