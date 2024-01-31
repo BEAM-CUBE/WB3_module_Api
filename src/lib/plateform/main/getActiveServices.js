@@ -72,7 +72,7 @@ export function getActiveServices(
       _3DSwym_get_currentUser(
         credentials,
         (reponse) => {
-          if (onDone) onDone(reponse, activeSpace);
+          if (onDone) onDone({ reponse, activeSpace, credentials });
         },
         (wrong) => {
           if (onError) onError(wrong);

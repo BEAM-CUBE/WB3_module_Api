@@ -71,11 +71,7 @@ export async function findAdresse(
 }
 
 /**
- * Cette fonction récupère les données d'une API du gouvernement français contenant des informations
- * sur les jours fériés et les formate pour les utiliser dans une application de calendrier.
- */
-/**
- * La fonction `getDataFromGouvFr` récupère les données de l'API du gouvernement français pour les
+ * @description La fonction `getDataFromGouvFr` récupère les données de l'API du gouvernement français pour les
  * jours fériés et les formate dans une structure de données spécifique.
  * @param events - Le paramètre `events` est un tableau d'objets représentant des événements. (store.loadedEvents)
  * @param colors - Le paramètre `colors` est un objets représentant des couleurs. (Piveteau)

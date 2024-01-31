@@ -83,7 +83,7 @@ export function _setDroppable(elem, drop) {
  * erreurs et de fournir un retour d'information approprié à l'utilisateur.
  */
 export function _getPlatformServices(
-  platformId,
+  platformId = undefined,
   onComplete = undefined,
   onFailure = undefined,
 ) {
