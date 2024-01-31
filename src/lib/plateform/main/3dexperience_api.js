@@ -96,16 +96,17 @@ export function _getPlatformServices(
       if (!platformId || platformId === "") {
         platformId = undefined;
       }
-
-      i3DXCompassServices.getPlatformServices({
-        platformId,
-        onComplete,
-        onFailure,
-      });
+      if (onComplete) {
+        onComplete(
+          i3DXCompassServices.getPlatformServices({
+            platformId,
+            onComplete,
+            onFailure,
+          }),
+        );
+      }
     },
   );
-
-  if (onComplete) onComplete(_getPlateformInfos());
 }
 
 /**
@@ -117,7 +118,7 @@ export function _getPlatformServices(
  * - {Object} user, L'utilisateur connecté à la plateforme...
  * - {ArrayOfObject} appsConfiguration, liste d'app auquel on accès.
  * - {String} appConf
- * - {String} widgetTenant, Le tenant de la plateforme sur lequel on travaille.
+ *
  */
 export function _getPlateformInfos() {
   let retourAPI = {};
@@ -126,7 +127,6 @@ export function _getPlateformInfos() {
     const tenant = plAPI.getTenant();
     const user = plAPI.getUser();
     const appsConfiguration = plAPI.getAllApplicationConfigurations();
-    const widgetTenant = plAPI.getWidgetTenant();
     const appConf = plAPI.getApplicationConfiguration(
       "com.3ds.wp.passport.cors",
     );
@@ -134,7 +134,6 @@ export function _getPlateformInfos() {
       tenant,
       user,
       appsConfiguration,
-      widgetTenant,
       appConf,
     };
   });

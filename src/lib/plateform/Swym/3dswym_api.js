@@ -1,7 +1,7 @@
 import { _httpCallAuthenticated } from "../main/3dexperience_api";
 
 /**
- * @description La fonction `_3DSwym_get_version` récupère les informations de version de la plateforme 3DSwym et effectue des actions supplémentaires si nécessaire. Obligatoire pour chaque appel d'API du Swym.
+ * @description La fonction `_3DSwym_get_version` récupère le token du 3DSwym et effectue des actions supplémentaires si nécessaire. Obligatoire pour chaque appel d'API du Swym.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
  * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
@@ -11,20 +11,20 @@ import { _httpCallAuthenticated } from "../main/3dexperience_api";
  * @param {Function} [onError] - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
  * erreur lors de la requête HTTP. Il est facultatif et peut être indéfini.
  */
-export function _3DSwym_get_version(
+export async function _3DSwym_get_version(
   credentials,
   onDone = undefined,
   onError = undefined,
 ) {
   const url = credentials.space + "/api/index/tk";
-
-  _httpCallAuthenticated(url, {
+  console.log("_3DSwym_get_version", url, credentials);
+  return _httpCallAuthenticated(url, {
     onComplete(response, headers, xhr) {
       const tokenInfo = JSON.parse(response);
 
       if (onDone) {
-        credentials["token"] = tokenInfo?.result?.ServerToken;
         onDone(tokenInfo);
+        return (credentials["token"] = tokenInfo?.result?.ServerToken);
       }
     },
 
