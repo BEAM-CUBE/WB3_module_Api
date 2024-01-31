@@ -536,8 +536,7 @@ export function _3DSpace_get_securityContexts(
     `${credentials.space}/resources/modeler/pno/person?` +
     "current=true" +
     "&select=preferredcredentials" +
-    "&select=collabspaces" +
-    "&xrequestedwith=xmlhttprequest";
+    "&select=collabspaces";
 
   _httpCallAuthenticated(url, {
     method: "GET",

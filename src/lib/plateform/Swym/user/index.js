@@ -30,8 +30,9 @@ export function _3DSwym_get_currentUser(
           if (onDone) onDone(info.result);
         },
 
-        onFailure(response) {
-          if (onError) onError(response);
+        onFailure(response, headers, xhr) {
+          const infos = { response, headers, xhr };
+          if (onError) onError(infos);
         },
       });
     },

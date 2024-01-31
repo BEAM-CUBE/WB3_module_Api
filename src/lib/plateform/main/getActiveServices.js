@@ -59,7 +59,7 @@ export function getActiveServices(
       }
 
       _3DSpace_get_securityContexts(
-        credentials.space,
+        credentials,
         "ESPACE COMMUN", // "B3-R&D" ||  "ESPACE COMMUN",
         ["VPLMProjectLeader", "VPLMCreator"],
         undefined,

@@ -71,8 +71,8 @@ export function _setDroppable(elem, drop) {
 }
 
 /**
- * @description Cette fonction obtient les services de la plateforme à l'aide de la bibliothèque i3DXCompassServices
- * et appelle les fonctions onComplete ou onFailure en fonction du résultat.
+ * @description Cette fonction obtient les services de la plateforme à l'aide de la bibliothèque i3DXCompassServices et appelle les fonctions onComplete ou onFailure en fonction du résultat.
+ *
  * @param platformId - ID de la plate-forme pour laquelle les services sont demandés. Si aucun ID de
  * plate-forme n'est fourni, la fonction tentera de récupérer l'ID à partir d'une valeur de widget. Si
  * aucun ID n'est trouvé, il sera défini sur non défini.
@@ -83,7 +83,7 @@ export function _setDroppable(elem, drop) {
  * erreurs et de fournir un retour d'information approprié à l'utilisateur.
  */
 export function _getPlatformServices(
-  platformId = undefined,
+  platformId,
   onComplete = undefined,
   onFailure = undefined,
 ) {
@@ -104,7 +104,7 @@ export function _getPlatformServices(
       });
     },
   );
-  _getPlateformInfos();
+
   if (onComplete) onComplete(_getPlateformInfos());
 }
 
