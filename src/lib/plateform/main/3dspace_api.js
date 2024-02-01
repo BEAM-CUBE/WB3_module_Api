@@ -71,6 +71,7 @@ export function _3DSpace_get_csrf( // get INFO
         const info = JSON.parse(response);
         console.log("info => ", info);
         credentials["token"] = info?.csrf?.value;
+        credentials["datas"] = info?.data[0];
         if (onDone) onDone(credentials);
       },
 
