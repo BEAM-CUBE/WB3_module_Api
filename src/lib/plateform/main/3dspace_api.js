@@ -214,6 +214,7 @@ export function _3DSpace_file_url_csr(
 
     onComplete(response) {
       let info = JSON.parse(response);
+      console.log("☠️ info => ", info);
       if (info.success === true) {
         try {
           const file_url = info.data[0].dataelements.ticketURL;
