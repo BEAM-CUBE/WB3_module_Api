@@ -72,7 +72,6 @@ export function _3DSpace_get_csrf(
         credentials["token"] = info?.csrf?.value;
         credentials["datas"] = info?.data[0];
         if (onDone) {
-          console.log("info => ", info);
           onDone(credentials);
         }
       },
@@ -688,6 +687,7 @@ export async function _3DSpace_download_doc(
     );
   }
   try {
+    console.log("credentials", credentials);
     _3DSpace_file_url(
       credentials,
       objectId,
