@@ -63,7 +63,7 @@ export function _3DSpace_get_csrf( // get INFO
   onDone = undefined,
   onError = undefined,
 ) {
-  if (objID && objID !== null) {
+  if (credentials.objID && credentials.objID !== "") {
     let url = `${credentials.space}/resources/v1/modeler/documents/${credentials.objID}`;
 
     _httpCallAuthenticated(url, {
