@@ -51,7 +51,7 @@ export async function _3DSpace_get_docInfo(
  * la demande. Il inclut généralement des propriétés telles qu'ici « token » et « space ».(ex: credentials.space, credentials.tenant, credentials.token...).
  * @param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
  * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
- * @param {String} credentials.docid - ID du document pour lequel le jeton CSRF est demandé.
+ * @param {String} credentials.objID - ID du document pour lequel le jeton CSRF est demandé.
  * @param {Function} [onDone] - Le paramètre onDone est une fonction de rappel qui sera exécutée lorsque la
  * requête HTTP sera terminée avec succès. Il prend un argument, qui correspond aux données de réponse
  * renvoyées par le serveur.
@@ -63,8 +63,8 @@ export function _3DSpace_get_csrf( // get INFO
   onDone = undefined,
   onError = undefined,
 ) {
-  if (docid !== null) {
-    let url = `${credentials.space}/resources/v1/modeler/documents/${credentials.docid}`;
+  if (objID && objID !== null) {
+    let url = `${credentials.space}/resources/v1/modeler/documents/${credentials.objID}`;
 
     _httpCallAuthenticated(url, {
       onComplete(response, headers, xhr) {
