@@ -144,11 +144,12 @@ export function _3DSpace_file_url(
 ) {
   let url =
     credentials.space +
-    `/resources/v1/modeler/documents/${docid}/files/DownloadTicket`;
+    `/resources/v1/modeler/documents/${credentials.objID}/files/DownloadTicket`;
   _3DSpace_get_csrf(
     credentials,
 
     (info) => {
+      console.log("onComplete / ☠️ info => ", info);
       _httpCallAuthenticated(url, {
         method: "PUT",
         headers: {
@@ -157,15 +158,9 @@ export function _3DSpace_file_url(
 
         onComplete(response) {
           let info = JSON.parse(response);
-
-          if (info.success === true) {
-            try {
-              const file_url = info.data[0].dataelements.ticketURL;
-              if (onDone) onDone(file_url);
-            } catch (err) {
-              if (onError) onError(err);
-            }
-          }
+          console.log("_3DSpace_file_url() / ☠️ info => ", info);
+          const file_url = info.data[0].dataelements.ticketURL;
+          if (onDone) onDone(file_url);
         },
 
         onFailure(response, head) {
