@@ -58,7 +58,7 @@ export async function _3DSpace_get_docInfo(
  * @param {Function} [onError] - Le paramètre `onError` est une fonction de rappel qui sera exécutée si la requête
  * HTTP échoue ou rencontre une erreur. Il prend un argument, qui est la réponse d'erreur.
  */
-export function _3DSpace_get_csrf( // get INFO
+export function _3DSpace_get_csrf(
   credentials,
   onDone = undefined,
   onError = undefined,
@@ -148,12 +148,12 @@ export function _3DSpace_file_url(
     `/resources/v1/modeler/documents/${docid}/files/DownloadTicket`;
   _3DSpace_get_csrf(
     credentials,
-    docid,
+
     (info) => {
       _httpCallAuthenticated(url, {
         method: "PUT",
         headers: {
-          ENO_CSRF_TOKEN: info.csrf.value,
+          ENO_CSRF_TOKEN: credentials.token,
         },
 
         onComplete(response) {
@@ -692,6 +692,10 @@ export async function _3DSpace_download_doc(
       credentials,
       objectId,
       (response) => {
+        console.log(
+          "_3dspace_download_doc / _3DSpace_file_url / response ",
+          response,
+        );
         _httpCallAuthenticated(response, {
           headers: {
             ENO_CSRF_TOKEN: credentials.token,
