@@ -203,6 +203,9 @@ export function _3DSpace_file_url_csr(
   onError = undefined,
 ) {
   const url = `${credentials.space}/resources/v1/modeler/documents/${docid}/files/DownloadTicket`;
+  if (!csr) {
+    csr = credentials.token;
+  }
   _httpCallAuthenticated(url, {
     method: "PUT",
     headers: {
@@ -687,15 +690,12 @@ export async function _3DSpace_download_doc(
     );
   }
   try {
-    console.log("credentials", credentials);
+    console.log("_3DSpace_download_doc / credentials", credentials);
+
     _3DSpace_file_url(
       credentials,
       objectId,
       (response) => {
-        console.log(
-          "_3dspace_download_doc / _3DSpace_file_url / response ",
-          response,
-        );
         _httpCallAuthenticated(response, {
           headers: {
             ENO_CSRF_TOKEN: credentials.token,
