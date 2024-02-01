@@ -33,7 +33,7 @@ export async function get_3DSpace_csrf(
       credentials,
 
       (response) => {
-        if (onDone) onDone(response.csrf.value);
+        if (onDone) onDone(response);
       },
       (err) => {
         if (onError) onError(err);

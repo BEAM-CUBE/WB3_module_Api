@@ -69,7 +69,7 @@ export function _3DSpace_get_csrf( // get INFO
     _httpCallAuthenticated(url, {
       onComplete(response, headers, xhr) {
         const info = JSON.parse(response);
-        credentials["token"] = info;
+        credentials["token"] = info.csrf.value;
         if (onDone) onDone(credentials);
       },
 
