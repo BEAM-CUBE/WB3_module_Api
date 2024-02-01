@@ -6,7 +6,7 @@ import { resolve } from "path";
 export default {
   build: {
     target: "esnext",
-
+    sourcemap: true,
     rollupOptions: {
       external: ["luxon", "uuid", "@widget-lab/3ddashboard-utils", "jsdoc"],
       output: {
