@@ -5,7 +5,7 @@ import { _3DSwym_get_version } from "../3dswym_api.js";
  *
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
  *
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...), Attention ici le space prend bien le 3DSwym
  *
  * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque l'appel
  * API réussit et que les informations utilisateur sont récupérées. Il prend un argument, qui est
@@ -45,7 +45,7 @@ export function _3DSwym_get_currentUser(
  * dans un espace 3DSwym en utilisant les informations d'identification fournies.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
  *
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
  * @param {String} userLogin - Le paramètre userLogin est le nom de login de l'utilisateur que vous souhaitez
  * retrouver dans la plateforme 3DSwym.
  * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque l'appel

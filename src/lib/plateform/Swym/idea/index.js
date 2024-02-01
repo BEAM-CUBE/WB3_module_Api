@@ -15,7 +15,9 @@ const dataTest = {
  *
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
+
  * @param {Array} credentials.swymCommunities tableau des communautés issue de la fonction `_3DSwim_getAllCommunities`
  * @param {Object} data - Le paramètre `data` est un objet qui contient les propriétés suivantes: `title`, `community_id` et `community_title` Ce dernier est optionnel.
  * @param {String} data.title - Le titre de l'idée.
@@ -83,7 +85,9 @@ export function _3DSwym_postIdea(
  *
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
+ 
  * @param data - Le paramètre `data` est un objet qui contient les propriétés suivantes:
  * `community_id` et 'idee_id'
  * @param {String} data.community_id - L'ID de la communauté sur laquelle l'idée doit être supprimée.(ex: "YXdA5x4DSUKtlAi2wmnyTA")
@@ -137,8 +141,10 @@ export function _3DSwym_deleteIdea(
  *
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
- * @param {String} credentials.tenant - le tenant courant (ex: R1132100968447).
+ * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
+ * @param {String} credentials.tenant - le tenant courant
+ * @example {tenant:"R1132100968447"}
  * @param {String} [idPost] - L'identifiant de la publication ou de l'idée que vous souhaitez récupérer. Si aucun identifiant n'est fourni, il s'agira par défaut de l'identifiant de l'idée de modèle. (actuellement => Piveteau prod :"tFtz0G4MR6qNtKgJjNfTog", Piveteau test :"Qpv3HN-tTDOsU-7_c5DnDg").
  *
  * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque la requête API sera terminée avec succès. Il prend un argument, « info », qui contient les données de réponse de l'appel API. (info.msg : template récupérer lors de la création d'une Affaire et utiliser dans la fonction `_3DSwym_postIdea()`).
@@ -200,8 +206,10 @@ export function _3DSwym_getSWYMIdea(
  *
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)(l'URL de base de l'API).
- * @param {String} credentials.tenant - le tenant courant (ex: R1132100968447).
+ * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
+ * @param {String} credentials.tenant - le tenant courant
+ * @example {tenant:"R1132100968447"}
  * @param {Object} [data] - Le paramètre `data` est un objet qui contient des données supplémentaires pour la requête API. Il possède les propriétés suivantes :
  * @param {String} data.community_id - L'ID de la communauté sur laquelle l'idée doit être recherchée.(ex: "YXdA5x4DSUKtlAi2wmnyTA")
  * @param {Number} data.limit - Le nombre d'idées à renvoyer (optionnel, par défaut 10 (10 premières idées))

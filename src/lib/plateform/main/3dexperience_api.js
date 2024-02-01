@@ -71,18 +71,18 @@ export function _setDroppable(elem, drop) {
 }
 
 /**
- * @description Cette fonction obtient les services de la plateforme à l'aide de la bibliothèque i3DXCompassServices et appelle les fonctions onComplete ou onFailure en fonction du résultat.
+ * @description Cette fonction asynchrone obtient les services de la plateforme à l'aide de la bibliothèque i3DXCompassServices et appelle les fonctions onComplete ou onFailure en fonction du résultat.
  *
  * @param platformId - ID de la plate-forme pour laquelle les services sont demandés. Si aucun ID de
  * plate-forme n'est fourni, la fonction tentera de récupérer l'ID à partir d'une valeur de widget. Si
- * aucun ID n'est trouvé, il sera défini sur non défini.
+ * aucun ID n'est trouvé, il sera défini sur `undefined`.
  * @param onComplete - Une fonction de rappel qui sera exécutée lorsque les services de la plateforme
  * seront récupérés avec succès. Il prend les services de plateforme récupérés comme argument.
  * @param onFailure - Le paramètre onFailure est une fonction de rappel qui sera exécutée en cas
  * d'erreur ou d'échec dans l'exécution de la fonction getPlatformServices. Il permet de gérer les
  * erreurs et de fournir un retour d'information approprié à l'utilisateur.
  */
-export function _getPlatformServices(
+export async function _getPlatformServices(
   platformId,
   onComplete = undefined,
   onFailure = undefined,

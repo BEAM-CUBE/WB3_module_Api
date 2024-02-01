@@ -8,7 +8,9 @@ import { UUID } from "../../api/index";
  * @description La fonction `_3dSpace_get_docInfo` récupère des informations sur un document dans un espace 3D.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles qu'ici « token » et « space ».(ex: credentials.space, credentials.tenant, credentials.token...).
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSapce) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
+
  * @param {String} [docid] - Le paramètre `docid` est l'ID du document pour lequel vous souhaitez récupérer des
  * informations. C'est un paramètre obligatoire et doit être fourni.
  * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque les
@@ -47,8 +49,9 @@ export async function _3DSpace_get_docInfo(
  * modélisation 3D.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles qu'ici « token » et « space ».(ex: credentials.space, credentials.tenant, credentials.token...).
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)
- * @param {String} [docid] - ID du document pour lequel le jeton CSRF est demandé.
+ * @param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
+ * @param {String} credentials.docid - ID du document pour lequel le jeton CSRF est demandé.
  * @param {Function} [onDone] - Le paramètre onDone est une fonction de rappel qui sera exécutée lorsque la
  * requête HTTP sera terminée avec succès. Il prend un argument, qui correspond aux données de réponse
  * renvoyées par le serveur.
@@ -57,17 +60,17 @@ export async function _3DSpace_get_docInfo(
  */
 export function _3DSpace_get_csrf( // get INFO
   credentials,
-  docid,
   onDone = undefined,
   onError = undefined,
 ) {
   if (docid !== null) {
-    let url = `${credentials.space}/resources/v1/modeler/documents/${docid}`;
+    let url = `${credentials.space}/resources/v1/modeler/documents/${credentials.docid}`;
 
     _httpCallAuthenticated(url, {
       onComplete(response, headers, xhr) {
         const info = JSON.parse(response);
-        if (onDone) onDone(info);
+        credentials["token"] = info;
+        if (onDone) onDone(credentials);
       },
 
       onFailure(response) {
@@ -83,7 +86,8 @@ export function _3DSpace_get_csrf( // get INFO
  * @description Cette fonction JavaScript récupère le TOKEN CSRF d'une application 3DSpace.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles qu'ici « token » et « space ».(ex: credentials.space, credentials.tenant, credentials.token...).
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSapce) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
  * @param {Callback} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque le jeton
  * CSRF sera récupéré avec succès. Il faut un argument, qui est la valeur du jeton CSRF.
  * @param {Callback} [onError] - Le paramètre `onError` est une fonction de rappel qui sera appelée si une erreur
@@ -104,8 +108,9 @@ export function _3DSpace_csrf(
 
         if (onDone) onDone(info.csrf.value);
       },
-      onFailure(response) {
-        if (onError) onError(response);
+      onFailure(response, headers, xhr) {
+        const infos = { response, headers, xhr };
+        if (onError) onError(infos);
       },
     });
   } else {
@@ -118,7 +123,9 @@ export function _3DSpace_csrf(
  * 3D, en utilisant l'authentification et la gestion des erreurs.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles qu'ici « token » et « space ».(ex: credentials.space, credentials.tenant, credentials.token...).
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
+
  * @param {String} docid - ID du document pour lequel l'URL du fichier est demandée.
  * @param {Function} [onDone] - Une fonction de rappel qui sera appelée lorsque l'URL du fichier sera récupérée
  * avec succès. Il prend un paramètre, qui est l'URL du fichier.
@@ -173,7 +180,8 @@ export function _3DSpace_file_url(
  * renvoie une URL de fichier en cas de succès.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles qu'ici « token » et « space ».(ex: credentials.space, credentials.tenant, credentials.token...).
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
  * @param {String} [docid] - L'ID du document pour lequel le ticket de téléchargement de fichier est demandé.
  * @param {String} [csr] - Le paramètre "csr" est un jeton CSRF utilisé à des fins d'authentification et de
  * sécurité. Il est transmis en tant qu'en-tête dans la requête HTTP à l'URL spécifiée.
@@ -221,7 +229,8 @@ export function _3DSpace_file_url_csr(
  * en utilisant la protection CSRF.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles qu'ici « token » et « space ».(ex: credentials.space, credentials.tenant, credentials.token...).
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
  * @param {String} [docId] - ID de document du fichier d'espace 3D en cours de mise à jour.
  * @param {String} [fileId] - Le paramètre fileid est l'identifiant unique du fichier qui doit être mis à jour.
  * @param {String} [data] - Ce paramètre représente les données du fichier qui doivent être mises à jour. Il peut
@@ -263,11 +272,12 @@ export function _3DSpace_file_update(
 }
 
 /**
- * @description Cette fonction met à jour un fichier dans le document du 3DSpace à l'aide d'un
- * jeton CheckinTicket et CSRF.
+ * @description Cette fonction met à jour un fichier dans le document du 3DSpace à l'aide d'un jeton CheckinTicket et CSRF.
+ *
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles qu'ici « token » et « space ».(ex: credentials.space, credentials.tenant, credentials.token...).
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
  * @param {String} docId - ID du document en cours de mise à jour.
  * @param {String} fileId - ID du fichier mis à jour dans le document.
  * @param {String} data - Les données binaires du fichier en cours de mise à jour.
@@ -374,7 +384,8 @@ export function _3DSpace_file_update_csr(
  * @description Cette fonction crée un document dans le 3Dspace à partir des données fournies au format JSON.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles qu'ici « token », « space » et « ctx ».(ex: credentials.space, credentials.tenant, credentials.token)
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
  * @param {String} credentials.token - Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)
  * @param {String} credentials.ctx - L'ID du contexte de travail.
  * @param {String}[data] - Le paramètre data correspond aux données JSON qui doivent être chargées dans le 3Dspace.
@@ -486,7 +497,7 @@ export async function _3DSpace_Create_Doc(
 
       function handleSuccess(response) {
         console.log("Success -- response ", response.data[0]);
-        // Si la fonction callback est définie, on appelle cette fonction qui nous retourne le résultat.
+
         if (onDone) {
           onDone(response);
         }
@@ -499,19 +510,18 @@ export async function _3DSpace_Create_Doc(
         }
       }
 
-      // 2
-      // console.log("info.ticketURL", info.ticketURL, "\n", "opts", opts);
       _httpCallAuthenticated(info.ticketURL, opts);
     },
   });
 }
 
 /**
- * Cette fonction récupère les contextes de sécurité basés sur des paramètres spécifiés à partir d'un
+ * @description Cette fonction récupère les contextes de sécurité basés sur des paramètres spécifiés à partir d'un
  * hôte donné.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles qu'ici « space ».(ex: credentials.space, credentials.tenant, credentials.token...).
- * @param {String} [credentials.space] - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)
+ *@param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
  * @param {String} [cs] - Le titre d'un espace de collaboration.
  * @param {String} [role] - Le paramètre de rôle est un paramètre facultatif qui spécifie le rôle de
  * l'utilisateur dans l'espace de collaboration. Si fourni, la fonction filtrera les espaces de
@@ -640,7 +650,9 @@ export function _3DSpace_get_securityContexts(
  * @description La fonction `_3dspace_download_doc` est une fonction asynchrone qui télécharge un document à partir d'un espace 3D, avec des rappels facultatifs pour le succès et la gestion des erreurs.
  * @param {Object} credentials Un objet contenant les informations d'identification nécessaires à
  * l'authentification. Il doit avoir les propriétés suivantes: space, token
- * @param  {String} [credentials.space] - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...) 
+ * @param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
+
  * @param  {String} [credentials.token] - Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)
  * @param {String} [objectId] - Le paramètre objectId est l'identifiant unique du document que vous souhaitez
  * télécharger depuis le 3DSpace.
@@ -706,9 +718,12 @@ export async function _3DSpace_download_doc(
  * utilisant un token et des objectID donnés.
  * @param {Object} credentials - Un objet contenant les informations d'identification nécessaires à
  * l'authentification dans une fonction interne(_3DSpace_get_downloadTicket_multidoc). Il doit avoir les propriétés suivantes: space, token, tenant
- * @param {String} [credentials.space] - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
+ * @param {String} credentials.tenant - le tenant courant 
+ * @example {tenant:"R1132100968447"}
  * @param {String} [credentials.token] - Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)
- * @param {String} [credentials.tenant] - Le tenant (ex: R1132100968447)
+
  * @param {String} [objectIds] - Un tableau d'ID d'objet qui doivent être téléchargés à partir du 3DSpace.
  * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque le
  * processus de téléchargement sera terminé avec succès. Il faut un argument, qui est le résultat du
@@ -750,13 +765,15 @@ export async function _3DSpace_download_multidoc(
 }
 
 /**
- * La fonction `_3dspace_get_downloadTicket_multidoc` permet de récupérer un ticket de téléchargement
+ * @description La fonction `_3dspace_get_downloadTicket_multidoc` permet de récupérer un ticket de téléchargement
  * de plusieurs documents dans un espace 3D.
  * @param {Object} [credentials] - Un objet contenant les informations d'identification nécessaires à
  * l'authentification. Il doit avoir les propriétés suivantes: space, token, tenant
- * @param {String} [credentials.space] - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
+ * @param {String} credentials.tenant - le tenant courant
+ * @example {tenant:"R1132100968447"}
  * @param {String} [credentials.token] - Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)
- * @param {String} [credentials.tenant] - Le tenant (ex: R1132100968447)
  * @param {String} [objectIds] - Tableau d'ID d'objet pour lesquels le ticket de téléchargement doit être généré.
  * @param {Function} [onNext] - Une fonction de rappel qui sera appelée après chaque demande de ticket de
  * téléchargement réussie pour chaque objectId.
@@ -830,11 +847,12 @@ export function _3DSpace_get_downloadTicket_multidoc(
 
 // MATURITY
 /**
- * Cette fonction JavaScript récupère les prochains états possibles pour un objet donné dans un espace
+ * @description Cette fonction JavaScript récupère les prochains états possibles pour un objet donné dans un espace
  * 3D.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space » et « ctx ».
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
  * @param {String} credentials.token - Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)
  * @param {String} credentials.ctx - L'ID du contexte de travail.
  * @param {String} objectId - Le paramètre `objectId` est l'identifiant de l'objet dont vous souhaitez récupérer
@@ -901,7 +919,8 @@ export function _3DSpace_lifecycle_getNextStates(
  * @description Cette fonction permet de changer l'état d'un objet dans un espace 3D.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space » et « ctx ».
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
  * @param {String} credentials.token - Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)
  * @param {String} credentials.ctx - L'ID du contexte de travail.
  * @param {String} objectId - Le paramètre objectId est l'identifiant de l'objet dont l'état doit être modifié.
@@ -1011,10 +1030,12 @@ function _3DSpace_lifecyle_setSharing(
  * 3D à l'aide des informations d'identification et de l'ID d'objet fournis.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier la demande.
  *  Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».(ex: credentials.space, credentials.tenant, credentials.token...).
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
+ * @param {String} credentials.tenant - le tenant courant
+ * @example {tenant:"R1132100968447"}
  * @param {String} credentials.token - Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)
  * @param {String} credentials.ctx - L'ID du contexte de travail.
- * @param {String} credentials.tenant - le tenant courant (ex: R1132100968447).
  * @param {String} objectId - Le paramètre objectId est l'identifiant de l'objet pour lequel vous souhaitez
  * récupérer le graphique. Il est utilisé pour spécifier l'objet pour lequel vous souhaitez obtenir le
  * graphique de version.
@@ -1082,10 +1103,12 @@ export function _3DSpace_lifecycle_getGraph(
  * document dans un espace 3D.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
+ * @param {String} credentials.tenant - le tenant courant
+ * @example {tenant:"R1132100968447"}
  * @param {String} credentials.token - Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)
  * @param {String} credentials.ctx - L'ID du contexte de travail.
- * @param {String} credentials.tenant - le tenant courant (ex: R1132100968447).
  * @param {String} objectId - Le paramètre `objectId` est l'identifiant unique de l'objet pour lequel vous
  * souhaitez obtenir la prochaine révision. Il est utilisé pour spécifier l'objet qui doit être révisé.
  * @param {Function} [onDone] - Une fonction de rappel qui sera appelée lorsque l'opération sera terminée avec
@@ -1156,10 +1179,12 @@ export function _3DSpace_lifecycle_getNextRevision(
  * dans un espace 3D.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
+ * @param {String} credentials.tenant - le tenant courant
+ * @example {tenant:"R1132100968447"}
  * @param {String} credentials.token - Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)
  * @param {String} credentials.ctx - L'ID du contexte de travail.
- * @param {String} credentials.tenant - le tenant courant (ex: R1132100968447).
  * @param {String} objectId - Le paramètre objectId représente l'identifiant unique de l'objet dans l'espace 3D.
  * Il est utilisé pour spécifier quelle révision de l'objet doit être modifiée.
  * @param {Function} nextRevision - Le paramètre `nextRevision` est le numéro de révision qui sera attribué à

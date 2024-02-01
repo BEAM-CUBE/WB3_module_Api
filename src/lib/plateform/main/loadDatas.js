@@ -10,13 +10,13 @@ let listObjectId, datas;
 const mixedDatas = [];
 
 /**
- * @description La fonction `get_3DSpace_csrf` récupère un jeton CSRF d'un espace 3D en utilisant les  informations d'identification fournies.(Anciennement loadDatas())
- * 
+ * @description La fonction `get_3DSpace_csrf` récupère un jeton CSRF du 3DSpace en utilisant les  informations d'identification fournies.(Anciennement loadDatas())
+ *
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles qu'ici' « objID », « space ».
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
  * @param {String} credentials.objID - Le paramètre objID correspond à un object ID contant les objets Id des bases de données)(se base sur un tenant).
-   
  * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque le jeton
  * CSRF sera récupéré avec succès. Il faut un argument, qui est la valeur du jeton CSRF.
  * @param {Function} [onError] - Le paramètre `onError` est une fonction de rappel qui sera appelée si une erreur
@@ -28,14 +28,10 @@ export async function get_3DSpace_csrf(
   onDone = undefined,
   onError = undefined,
 ) {
-  console.log(
-    `%c 3ds & objID ok ${credentials.space} et ${credentials.objID} *`,
-    "color: green",
-  );
   if (credentials.objID && credentials.objID !== "") {
     _3DSpace_get_csrf(
-      credentials.space,
-      credentials.objID,
+      credentials,
+
       (response) => {
         if (onDone) onDone(response.csrf.value);
       },
@@ -44,20 +40,33 @@ export async function get_3DSpace_csrf(
       },
     );
   } else if (credentials.objID === null) {
-    _3DSpace_csrf(credentials);
+    _3DSpace_csrf(
+      credentials,
+      (rep) => {
+        const msg = "Pas d'objID, ou invalide";
+        const info = { rep, msg };
+        if (onDone) onDone(info);
+      },
+      (err) => {
+        const msg = "Pas d'objID et erreur sur le Space";
+        const infos = { msg, err };
+        if (onError) onError(infos);
+      },
+    );
   }
 }
 
 /**
  * @description La fonction `getDatasByTenant` est une fonction asynchrone qui télécharge des documents à partir d'un espace 3D à l'aide des informations d'identification fournies et appelle le rappel `onDone`
  * avec les données téléchargées ou le rappel `onError` avec une erreur le cas échéant. (anciennement getDocuments())
- * 
- * 
+
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles qu'ici « token » et « space ».(ex: credentials.space, credentials.tenant, credentials.token...).
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
+ * @param {String} credentials.tenant - le tenant courant 
+ * @example {tenant:"R1132100968447"}
  * @param {String} credentials.token - Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)
- * @param {String} [credentials.tenant] - Le tenant (ex: R1132100968447)
  * @param {ArrayOfObject} credentials.objIds - Tableau d'objets des objets Id des bases de données et leur nom.(ex: credentials.objIds=[{objId:"xxx",name:"xxx"},{objId:"xxx",name:"xxx"}] ) (name disponible dans le module : 
  * - dbClients, 
  * - dbCatalogs, 
@@ -103,9 +112,11 @@ export async function getDatasByTenant(
  * `onError` avec une erreur le cas échéant.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles qu'ici « token » et « space ».(ex: credentials.space, credentials.tenant, credentials.token...).
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
+ * @param {String} credentials.tenant - le tenant courant
+ * @example {tenant:"R1132100968447"}
  * @param {String} credentials.token - Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)
- * @param {String} [credentials.tenant] - Le tenant (ex: R1132100968447)
  * @param {ArrayOfObject} credentials.objIds - Tableau d'objets des objets Id des bases de données et leur nom.(ex: credentials.objIds=[{objId:"xxx",name:"xxx"},{objId:"xxx",name:"xxx"}] ) (name disponible dans le module :
  * - dbClients,
  * - dbCatalogs,
@@ -153,10 +164,11 @@ export function getDatasFrom3DSpace(
  * d'entrée et renvoie les données mélangées.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles qu'ici « token » et « space ».(ex: credentials.space, credentials.tenant, credentials.token...).
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)
+@param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
+ * @param {String} credentials.tenant - le tenant courant 
+ * @example {tenant:"R1132100968447"}
  * @param {String} credentials.token - Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)
- * @param {String} [credentials.tenant] - Le tenant (ex: R1132100968447)
- *
  * @param _datas - Le paramètre `_datas` est un tableau d'objets ID d'Affaires
  * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque le
  * processus de mélange des données sera terminé avec succès. Il prend un argument, `mixedDatas`, qui

@@ -48,7 +48,7 @@ import {
   _3DSpace_lifecycle_getNextRevision,
   _3DSpace_lifecycle_changeRevision,
 } from "./lib/plateform/main/3dspace_api";
-import { getActiveServices } from "./lib/plateform/main/getActiveServices";
+
 import { getCSRFToken } from "./lib/plateform/main/getCSRFToken";
 import { getAllContextSecurity } from "./lib/plateform/main/getCTX";
 import { getDataFrom3DSpace } from "./lib/plateform/main/getDataFrom3DSpace";
@@ -140,7 +140,6 @@ export {
   deleteUserGroups,
   findAdresse,
   get_3DSpace_csrf,
-  getActiveServices,
   getAllContextSecurity,
   getCommunes,
   getComplementUG,

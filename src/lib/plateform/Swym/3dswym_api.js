@@ -4,10 +4,10 @@ import { _httpCallAuthenticated } from "../main/3dexperience_api";
  * @description La fonction `_3DSwym_get_version` récupère le token du 3DSwym et effectue des actions supplémentaires si nécessaire. Obligatoire pour chaque appel d'API du Swym.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
  * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque les
  * informations de version seront récupérées avec succès. Il prend un argument, `tokenInfo`, qui est la
- * réponse contenant les informations de version. Le token est aussi envoyé dans une nouvelle propriété  `credentials.token`
+ * réponse contenant les informations de version. Le token est aussi envoyé dans une nouvelle propriété : `credentials.token`
  * @param {Function} [onError] - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
  * erreur lors de la requête HTTP. Il est facultatif et peut être indéfini.
  */
@@ -17,7 +17,7 @@ export async function _3DSwym_get_version(
   onError = undefined,
 ) {
   const url = credentials.space + "/api/index/tk";
-  console.log("_3DSwym_get_version", url, credentials);
+
   return _httpCallAuthenticated(url, {
     onComplete(response, headers, xhr) {
       const tokenInfo = JSON.parse(response);
@@ -39,7 +39,7 @@ export async function _3DSwym_get_version(
  * utilisant les informations d'identification fournies.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
  * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque la
  * requête sera terminée avec succès. Il prend deux arguments : « réponse » et « en-têtes ». L'argument
  * `response` contient les données de réponse du serveur et l'argument `headers` contient les en-têtes
@@ -92,7 +92,7 @@ export function _3DSwym_getAllNews(
  * profil de l'utilisateur actuel.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
  * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque l'appel
  * d'API réussit et que les données sont récupérées. Il faut deux arguments : `myContacts` et
  * `response`. `myContacts` est un tableau d'objets contenant le login et le nom complet des personnes

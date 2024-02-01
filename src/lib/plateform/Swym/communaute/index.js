@@ -6,7 +6,7 @@ import { _3DSwym_get_version } from "../3dswym_api";
  * 3D Swim en utilisant les informations d'identification fournies.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
  * @param {Number} credentials.limit - Le paramètre `limit` est un nombre entier qui indique le nombre maximum de communautés à recevoir. Par défaut, il est de 10, mais vous pouvez le changer jusqu'à 128, au delà on change de page.
  * @param {Number} credentials.page - Le paramètre `page` est un nombre entier qui indique la page courante. Par défaut, il est à 1.
  * @param {Function} [onDone] - Une fonction de rappel qui sera appelée une fois l'opération terminée. Il prend la
@@ -79,7 +79,7 @@ export function _3DSwim_getAllCommunities(
  *
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
  * @param {Number} credentials.limit - Le paramètre `limit` est un nombre entier qui indique le nombre maximum de communautés à recevoir. Par défaut, il est de 50, mais vous pouvez le changer jusqu'à 128, au delà on change de page.
  * @param {Number} credentials.page - Le paramètre `page` est un nombre entier qui indique la page courante. Par défaut, il est à 1.
  * @param {String} idCommu - L'identifiant de la communauté dont vous souhaitez récupérer les membres. (ex: "YXdA5x4DSUKtlAi2wmnyTA")
@@ -134,7 +134,7 @@ export function _3DSwim_getMembersCommunity(
  * communauté 3DExperience à l'aide des informations d'identification fournies.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
  * @param {String} credentials.commu_id - L'ID de communauté 3DExperience (ex:"YXdA5x4DSUKtlAi2wmnyTA")
  * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque la
  * requête API sera terminée avec succès. Il prend un argument, « info », qui correspond aux données de
@@ -188,7 +188,7 @@ const contentMSG = {
  *
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
  * @param {Object} [credentials.currentUser] - Le paramètre `currentUser` est un qui contient les informations de l'utilisateur qui envoie le message(appeler depuis la fonction `_3DSwym_get_currentuser`).
  * @param {string} [credentials.currentUser.login] - Le paramètre `login` est l'identifiant d'envois du message
  * @param {string} [credentials.currentUser.first_name] - Le paramètre `first_name` est l'identifiant d'envois du message
@@ -284,7 +284,7 @@ export function _3DSwym_buildDirectMessage(
  * et des données fournies.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
  * @param {Array} datas - Le paramètre `datas` est un tableau qui contient les données à utiliser pour trouver une communauté pour envoyer un message instantané.
  * @param {Function} onDone - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque
  * l'opération sera terminée avec succès. Il faut un argument, qui est le résultat de l'opération.
@@ -350,7 +350,7 @@ export function _3DSwym_findCommunityToInstantMSG(
  * succès ou de l'échec de la requête.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
+ * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
  * @param content - Le paramètre `content` est un objet qui contient les propriétés suivantes :
  * @param {String} content.id_msg - L'identifiant du message à envoyer.
  * @param {String} content.senderId - L'identifiant de l'utilisateur qui envoie le message.

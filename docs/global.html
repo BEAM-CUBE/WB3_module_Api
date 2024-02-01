@@ -315,7 +315,7 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token »,
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
         </tr>
 
     
@@ -574,7 +574,7 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token »,
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line390">line 390</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line401">line 401</a>
     </li></ul></dd>
     
 
@@ -601,6 +601,11 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token »,
 
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
 
 
 
@@ -723,7 +728,7 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token » 
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSapce) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
         </tr>
 
     
@@ -840,7 +845,7 @@ les messages d’erreur ou exécuter toute logique de gestion des erreurs néces
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line94">line 94</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line98">line 98</a>
     </li></ul></dd>
     
 
@@ -877,6 +882,11 @@ les messages d’erreur ou exécuter toute logique de gestion des erreurs néces
     
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
 
 
 
@@ -1000,8 +1010,6 @@ l'authentification. Il doit avoir les propriétés suivantes: space, token</p>
             
                 <td class="attributes">
                 
-                    &lt;optional><br>
-                
 
                 
 
@@ -1011,7 +1019,7 @@ l'authentification. Il doit avoir les propriétés suivantes: space, token</p>
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
         </tr>
 
     
@@ -1196,7 +1204,7 @@ répondre à toutes les erreurs qui se produisent.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line656">line 656</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line668">line 668</a>
     </li></ul></dd>
     
 
@@ -1233,6 +1241,11 @@ répondre à toutes les erreurs qui se produisent.</p></td>
     
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
 
 
 
@@ -1357,7 +1370,36 @@ l'authentification dans une fonction interne(_3DSpace_get_downloadTicket_multido
             
                 <td class="attributes">
                 
-                    &lt;optional><br>
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>(3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tenant</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
                 
 
                 
@@ -1368,7 +1410,7 @@ l'authentification dans une fonction interne(_3DSpace_get_downloadTicket_multido
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>le tenant courant</p></td>
         </tr>
 
     
@@ -1402,39 +1444,6 @@ l'authentification dans une fonction interne(_3DSpace_get_downloadTicket_multido
             
 
             <td class="description last"><p>Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>tenant</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>Le tenant (ex: R1132100968447)</p></td>
         </tr>
 
     
@@ -1585,7 +1594,7 @@ lors du téléchargement.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line721">line 721</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line736">line 736</a>
     </li></ul></dd>
     
 
@@ -1612,6 +1621,13 @@ lors du téléchargement.</p></td>
 
 
 
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
+
+    <pre class="prettyprint"><code>{tenant:"R1132100968447"}</code></pre>
 
 
 
@@ -1735,7 +1751,7 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token » 
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
         </tr>
 
     
@@ -1986,7 +2002,7 @@ défaut.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line237">line 237</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line246">line 246</a>
     </li></ul></dd>
     
 
@@ -2015,6 +2031,11 @@ défaut.</p></td>
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
+
+
 
         
             
@@ -2030,8 +2051,7 @@ défaut.</p></td>
 
 
 <div class="description">
-    <p>Cette fonction met à jour un fichier dans le document du 3DSpace à l'aide d'un
-jeton CheckinTicket et CSRF.</p>
+    <p>Cette fonction met à jour un fichier dans le document du 3DSpace à l'aide d'un jeton CheckinTicket et CSRF.</p>
 </div>
 
 
@@ -2136,7 +2156,7 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token » 
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
         </tr>
 
     
@@ -2411,7 +2431,7 @@ interne.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line285">line 285</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line295">line 295</a>
     </li></ul></dd>
     
 
@@ -2438,6 +2458,11 @@ interne.</p></td>
 
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
 
 
 
@@ -2561,7 +2586,7 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token » 
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
         </tr>
 
     
@@ -2709,7 +2734,7 @@ n'est pas nécessaire.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line129">line 129</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line136">line 136</a>
     </li></ul></dd>
     
 
@@ -2736,6 +2761,11 @@ n'est pas nécessaire.</p></td>
 
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
 
 
 
@@ -2859,7 +2889,7 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token » 
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
         </tr>
 
     
@@ -3044,7 +3074,7 @@ nécessaire.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line187">line 187</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line195">line 195</a>
     </li></ul></dd>
     
 
@@ -3073,6 +3103,11 @@ nécessaire.</p></td>
 
 
 
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
+
+
 
         
             
@@ -3080,7 +3115,7 @@ nécessaire.</p></td>
     
 
     
-    <h4 class="name" id="_3DSpace_get_csrf"><span class="type-signature"></span>_3DSpace_get_csrf<span class="signature">(credentials, docid<span class="signature-attributes">opt</span>, onDone<span class="signature-attributes">opt</span>, onError<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="_3DSpace_get_csrf"><span class="type-signature"></span>_3DSpace_get_csrf<span class="signature">(credentials, onDone<span class="signature-attributes">opt</span>, onError<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
     
@@ -3194,14 +3229,7 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token » 
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
+            <td class="description last"><p>(3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
         </tr>
 
     
@@ -3221,20 +3249,17 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token » 
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
 
             <td class="description last"><p>ID du document pour lequel le jeton CSRF est demandé.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -3344,7 +3369,7 @@ HTTP échoue ou rencontre une erreur. Il prend un argument, qui est la réponse 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line58">line 58</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line61">line 61</a>
     </li></ul></dd>
     
 
@@ -3371,6 +3396,11 @@ HTTP échoue ou rencontre une erreur. Il prend un argument, qui est la réponse 
 
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
 
 
 
@@ -3493,7 +3523,7 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token » 
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSapce) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
         </tr>
 
     
@@ -3644,7 +3674,7 @@ erreur lors de l'appel HTTP. Il prend un paramètre, qui est la réponse d'erreu
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line21">line 21</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line23">line 23</a>
     </li></ul></dd>
     
 
@@ -3681,6 +3711,11 @@ erreur lors de l'appel HTTP. Il prend un paramètre, qui est la réponse d'erreu
     
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
 
 
 
@@ -3807,7 +3842,36 @@ l'authentification. Il doit avoir les propriétés suivantes: space, token, tena
             
                 <td class="attributes">
                 
-                    &lt;optional><br>
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>(3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tenant</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
                 
 
                 
@@ -3818,7 +3882,7 @@ l'authentification. Il doit avoir les propriétés suivantes: space, token, tena
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>le tenant courant</p></td>
         </tr>
 
     
@@ -3852,39 +3916,6 @@ l'authentification. Il doit avoir les propriétés suivantes: space, token, tena
             
 
             <td class="description last"><p>Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>tenant</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>Le tenant (ex: R1132100968447)</p></td>
         </tr>
 
     
@@ -4069,7 +4100,7 @@ erreurs qui surviennent.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line770">line 770</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line787">line 787</a>
     </li></ul></dd>
     
 
@@ -4096,6 +4127,13 @@ erreurs qui surviennent.</p></td>
 
 
 
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
+
+    <pre class="prettyprint"><code>{tenant:"R1132100968447"}</code></pre>
 
 
 
@@ -4191,8 +4229,6 @@ la demande. Il inclut généralement des propriétés telles qu'ici « space ».
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -4218,20 +4254,10 @@ la demande. Il inclut généralement des propriétés telles qu'ici « space ».
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
         </tr>
 
     
@@ -4450,7 +4476,7 @@ l'objet.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line527">line 527</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line537">line 537</a>
     </li></ul></dd>
     
 
@@ -4477,6 +4503,11 @@ l'objet.</p></td>
 
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
 
 
 
@@ -4600,7 +4631,30 @@ la demande. Il inclut généralement des propriétés telles que « token », «
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tenant</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>le tenant courant</p></td>
         </tr>
 
     
@@ -4647,29 +4701,6 @@ la demande. Il inclut généralement des propriétés telles que « token », «
             
 
             <td class="description last"><p>L'ID du contexte de travail.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>tenant</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>le tenant courant (ex: R1132100968447).</p></td>
         </tr>
 
     
@@ -4851,7 +4882,7 @@ erreurs nécessaire.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line1175">line 1175</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line1200">line 1200</a>
     </li></ul></dd>
     
 
@@ -4888,6 +4919,13 @@ erreurs nécessaire.</p></td>
     
 
 
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
+
+    <pre class="prettyprint"><code>{tenant:"R1132100968447"}</code></pre>
 
 
 
@@ -5010,7 +5048,7 @@ la demande. Il inclut généralement des propriétés telles que « token », «
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
         </tr>
 
     
@@ -5239,7 +5277,7 @@ facultatif, donc s'il n'est pas fourni, la fonction ne fera rien en cas de probl
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line918">line 918</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line937">line 937</a>
     </li></ul></dd>
     
 
@@ -5276,6 +5314,11 @@ facultatif, donc s'il n'est pas fourni, la fonction ne fera rien en cas de probl
     
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
 
 
 
@@ -5399,7 +5442,30 @@ Il inclut généralement des propriétés telles que « token », « space », �
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tenant</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>le tenant courant</p></td>
         </tr>
 
     
@@ -5446,29 +5512,6 @@ Il inclut généralement des propriétés telles que « token », « space », �
             
 
             <td class="description last"><p>L'ID du contexte de travail.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>tenant</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>le tenant courant (ex: R1132100968447).</p></td>
         </tr>
 
     
@@ -5618,7 +5661,7 @@ facultatif, donc s'il n'est pas fourni, la fonction ne fera rien en cas d'erreur
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line1028">line 1028</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line1049">line 1049</a>
     </li></ul></dd>
     
 
@@ -5655,6 +5698,13 @@ facultatif, donc s'il n'est pas fourni, la fonction ne fera rien en cas d'erreur
     
 
 
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
+
+    <pre class="prettyprint"><code>{tenant:"R1132100968447"}</code></pre>
 
 
 
@@ -5778,7 +5828,30 @@ la demande. Il inclut généralement des propriétés telles que « token », «
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tenant</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>le tenant courant</p></td>
         </tr>
 
     
@@ -5825,29 +5898,6 @@ la demande. Il inclut généralement des propriétés telles que « token », «
             
 
             <td class="description last"><p>L'ID du contexte de travail.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>tenant</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>le tenant courant (ex: R1132100968447).</p></td>
         </tr>
 
     
@@ -5996,7 +6046,7 @@ paramètre facultatif, donc s'il n'est pas fourni, il sera par défaut «non dé
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line1098">line 1098</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line1121">line 1121</a>
     </li></ul></dd>
     
 
@@ -6033,6 +6083,13 @@ paramètre facultatif, donc s'il n'est pas fourni, il sera par défaut «non dé
     
 
 
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
+
+    <pre class="prettyprint"><code>{tenant:"R1132100968447"}</code></pre>
 
 
 
@@ -6156,7 +6213,7 @@ la demande. Il inclut généralement des propriétés telles que « token », «
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
         </tr>
 
     
@@ -6352,7 +6409,7 @@ fourni, il sera par défaut «non défini».</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line850">line 850</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line868">line 868</a>
     </li></ul></dd>
     
 
@@ -6397,6 +6454,11 @@ fourni, il sera par défaut «non défini».</p></td>
     
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
 
 
 
@@ -6520,7 +6582,7 @@ la demande. Il inclut généralement des propriétés telles que « token », «
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
         </tr>
 
     
@@ -6822,7 +6884,7 @@ la demande. Il inclut généralement des propriétés telles que « token », «
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
         </tr>
 
     
@@ -7148,7 +7210,7 @@ la demande. Il inclut généralement des propriétés telles que « token », «
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
         </tr>
 
     
@@ -7701,7 +7763,7 @@ la demande. Il inclut généralement des propriétés telles que « token », «
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSwym) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
         </tr>
 
     
@@ -7918,7 +7980,7 @@ traiter les informations d'erreur.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_Swym_idea_index.js.html">plateform/Swym/idea/index.js</a>, <a href="plateform_Swym_idea_index.js.html#line98">line 98</a>
+        <a href="plateform_Swym_idea_index.js.html">plateform/Swym/idea/index.js</a>, <a href="plateform_Swym_idea_index.js.html#line102">line 102</a>
     </li></ul></dd>
     
 
@@ -7945,6 +8007,11 @@ traiter les informations d'erreur.</p></td>
 
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
 
 
 
@@ -8059,7 +8126,7 @@ la demande. Il inclut généralement des propriétés telles que « token », «
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
         </tr>
 
     
@@ -8329,7 +8396,7 @@ la demande. Il inclut généralement des propriétés telles que « token », «
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
         </tr>
 
     
@@ -8598,7 +8665,7 @@ la demande. Il inclut généralement des propriétés telles que « token », «
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
         </tr>
 
     
@@ -8867,7 +8934,7 @@ la demande. Il inclut généralement des propriétés telles que « token », «
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
         </tr>
 
     
@@ -9157,7 +9224,7 @@ la demande. Il inclut généralement des propriétés telles que « token », «
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSwym) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
         </tr>
 
     
@@ -9180,7 +9247,7 @@ la demande. Il inclut généralement des propriétés telles que « token », «
 
             
 
-            <td class="description last"><p>le tenant courant (ex: R1132100968447).</p></td>
+            <td class="description last"><p>le tenant courant</p></td>
         </tr>
 
     
@@ -9329,7 +9396,7 @@ traiter l'erreur de manière personnalisée.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_Swym_idea_index.js.html">plateform/Swym/idea/index.js</a>, <a href="plateform_Swym_idea_index.js.html#line149">line 149</a>
+        <a href="plateform_Swym_idea_index.js.html">plateform/Swym/idea/index.js</a>, <a href="plateform_Swym_idea_index.js.html#line155">line 155</a>
     </li></ul></dd>
     
 
@@ -9356,6 +9423,13 @@ traiter l'erreur de manière personnalisée.</p></td>
 
 
 
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
+
+    <pre class="prettyprint"><code>{tenant:"R1132100968447"}</code></pre>
 
 
 
@@ -9478,7 +9552,7 @@ la demande. Il inclut généralement des propriétés telles que « token », «
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)(l'URL de base de l'API).</p></td>
+            <td class="description last"><p>(3DSwym) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
         </tr>
 
     
@@ -9501,7 +9575,7 @@ la demande. Il inclut généralement des propriétés telles que « token », «
 
             
 
-            <td class="description last"><p>le tenant courant (ex: R1132100968447).</p></td>
+            <td class="description last"><p>le tenant courant</p></td>
         </tr>
 
     
@@ -9724,7 +9798,7 @@ indéfini. S'il est fourni, il sera appelé avec les informations d'erreur sous 
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_Swym_idea_index.js.html">plateform/Swym/idea/index.js</a>, <a href="plateform_Swym_idea_index.js.html#line215">line 215</a>
+        <a href="plateform_Swym_idea_index.js.html">plateform/Swym/idea/index.js</a>, <a href="plateform_Swym_idea_index.js.html#line223">line 223</a>
     </li></ul></dd>
     
 
@@ -9751,6 +9825,13 @@ indéfini. S'il est fourni, il sera appelé avec les informations d'erreur sous 
 
 
 
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
+
+    <pre class="prettyprint"><code>{tenant:"R1132100968447"}</code></pre>
 
 
 
@@ -9872,7 +9953,7 @@ indéfini. S'il est fourni, il sera appelé avec les informations d'erreur sous 
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...), Attention ici le space prend bien le 3DSwym</p></td>
         </tr>
 
     
@@ -10138,7 +10219,7 @@ dans un espace 3DSwym en utilisant les informations d'identification fournies.</
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
         </tr>
 
     
@@ -10436,7 +10517,7 @@ la demande. Il inclut généralement des propriétés telles que « token », «
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
         </tr>
 
     
@@ -10478,7 +10559,7 @@ la demande. Il inclut généralement des propriétés telles que « token », «
 
             <td class="description last"><p>Le paramètre <code>onDone</code> est une fonction de rappel qui sera appelée lorsque les
 informations de version seront récupérées avec succès. Il prend un argument, <code>tokenInfo</code>, qui est la
-réponse contenant les informations de version. Le token est aussi envoyé dans une nouvelle propriété  <code>credentials.token</code></p></td>
+réponse contenant les informations de version. Le token est aussi envoyé dans une nouvelle propriété : <code>credentials.token</code></p></td>
         </tr>
 
     
@@ -10702,7 +10783,7 @@ la demande. Il inclut généralement des propriétés telles que « token », «
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSwym) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
         </tr>
 
     
@@ -10988,7 +11069,7 @@ la demande. Il inclut généralement des propriétés telles que « token », «
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_Swym_idea_index.js.html">plateform/Swym/idea/index.js</a>, <a href="plateform_Swym_idea_index.js.html#line29">line 29</a>
+        <a href="plateform_Swym_idea_index.js.html">plateform/Swym/idea/index.js</a>, <a href="plateform_Swym_idea_index.js.html#line31">line 31</a>
     </li></ul></dd>
     
 
@@ -11015,6 +11096,11 @@ la demande. Il inclut généralement des propriétés telles que « token », «
 
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
 
 
 
@@ -11139,7 +11225,7 @@ la demande. Il inclut généralement des propriétés telles que « token », «
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =&gt;(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)</p></td>
         </tr>
 
     
@@ -12129,7 +12215,7 @@ PlatformAPI et renvoie les informations dans un objet.</p>
 
 
 <div class="description">
-    <p>Cette fonction obtient les services de la plateforme à l'aide de la bibliothèque i3DXCompassServices et appelle les fonctions onComplete ou onFailure en fonction du résultat.</p>
+    <p>Cette fonction asynchrone obtient les services de la plateforme à l'aide de la bibliothèque i3DXCompassServices et appelle les fonctions onComplete ou onFailure en fonction du résultat.</p>
 </div>
 
 
@@ -12178,7 +12264,7 @@ PlatformAPI et renvoie les informations dans un objet.</p>
 
             <td class="description last"><p>ID de la plate-forme pour laquelle les services sont demandés. Si aucun ID de
 plate-forme n'est fourni, la fonction tentera de récupérer l'ID à partir d'une valeur de widget. Si
-aucun ID n'est trouvé, il sera défini sur non défini.</p></td>
+aucun ID n'est trouvé, il sera défini sur <code>undefined</code>.</p></td>
         </tr>
 
     
@@ -14249,8 +14335,6 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token » 
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -14276,49 +14360,10 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token » 
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>token</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)</p></td>
+            <td class="description last"><p>(3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
         </tr>
 
     
@@ -14338,20 +14383,33 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token » 
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
 
-                
+            
 
+            <td class="description last"><p>le tenant courant</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+
+            <td class="type">
+            
                 
-                </td>
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
             
 
             
 
-            <td class="description last"><p>Le tenant (ex: R1132100968447)</p></td>
+            <td class="description last"><p>Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)</p></td>
         </tr>
 
     
@@ -14494,7 +14552,7 @@ d'erreur lors du processus de mélange des données. Il faut un argument, qui es
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_loadDatas.js.html">plateform/main/loadDatas.js</a>, <a href="plateform_main_loadDatas.js.html#line167">line 167</a>
+        <a href="plateform_main_loadDatas.js.html">plateform/main/loadDatas.js</a>, <a href="plateform_main_loadDatas.js.html#line179">line 179</a>
     </li></ul></dd>
     
 
@@ -14521,6 +14579,13 @@ d'erreur lors du processus de mélange des données. Il faut un argument, qui es
 
 
 
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
+
+    <pre class="prettyprint"><code>{tenant:"R1132100968447"}</code></pre>
 
 
 
@@ -15097,296 +15162,6 @@ En dessous, il comprend une phrase indiquant quand le message a été envoyé, y
     
 
     
-    <h4 class="name" id="getActiveServices"><span class="type-signature"></span>getActiveServices<span class="signature">(credentials, onDone<span class="signature-attributes">opt</span>, onError<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
-    
-
-    
-
-
-
-<div class="description">
-    <p>La fonction « getActiveServices » récupère les services actifs en fonction des informations
-d'identification fournies et exécute des fonctions de rappel en cas de réussite et d'erreur.</p>
-</div>
-
-
-
-
-
-
-
-
-
-    <h5>Parameters:</h5>
-    
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-        <th>Attributes</th>
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>credentials</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">Object</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>Un objet contenant les informations d'identification requises pour authentifier la demande.
-Il inclut généralement des propriétés telles qu'ici « space » et « tenant ».(ex: credentials.space, credentials.tenant).</p>
-                <h6>Properties</h6>
-                
-
-<table class="params">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>space</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>tenant</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>le tenant courant (ex: R1132100968447).</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-            </td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>onDone</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>Une fonction de rappel qui sera appelée une fois l'exécution réussie de la
-fonction terminée. Il recevra deux arguments : la réponse de l'appel API et l'objet activeSpace.</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>onError</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">function</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>Le paramètre <code>onError</code> est une fonction de rappel qui sera appelée s'il y a une
-erreur lors de l'exécution de la fonction <code>getActiveServices</code>. C'est un paramètre facultatif, donc
-s'il n'est pas fourni, la fonction ne fera rien en cas d'erreur.</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_getActiveServices.js.html">plateform/main/getActiveServices.js</a>, <a href="plateform_main_getActiveServices.js.html#line18">line 18</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-            
-
-    
-
-    
     <h4 class="name" id="getActualTagsOnDoc"><span class="type-signature"></span>getActualTagsOnDoc<span class="signature">(credentials, obj, onDone<span class="signature-attributes">opt</span>, onError<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
     
 
@@ -15872,7 +15647,79 @@ les ressources de sécurité du contexte.</p>
             
 
             <td class="description last"><p>Un objet contenant les informations d'identification requises pour authentifier la demande.
-Il inclut généralement des propriétés telles qu'ici « space » et « tenant ».(ex: credentials.space, credentials.tenant).</p></td>
+Il inclut généralement des propriétés telles qu'ici « space » et « tenant ».(ex: credentials.space, credentials.tenant).</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>space</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>(3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tenant</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>le tenant courant</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -15942,8 +15789,7 @@ réponse).</p></td>
 
             <td class="description last"><p>Le paramètre <code>onError</code> est une fonction de rappel qui sera appelée s'il y a une
 erreur lors de la requête HTTP. Il faut trois arguments : « réponse », « en-têtes » et « xhr ».
-L'argument <code>response</code> contient le corps de la réponse d'erreur, l'argument <code>headers</code> contient les
-en-têtes de réponse,</p></td>
+L'argument <code>response</code> contient le corps de la réponse d'erreur, l'argument <code>headers</code> contient les en-têtes de réponse,</p></td>
         </tr>
 
     
@@ -15951,71 +15797,6 @@ en-têtes de réponse,</p></td>
 </table>
 
 
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>space</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>tenant</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>le tenant courant (ex: R1132100968447).</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -16049,7 +15830,7 @@ en-têtes de réponse,</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_getCTX.js.html">plateform/main/getCTX.js</a>, <a href="plateform_main_getCTX.js.html#line18">line 18</a>
+        <a href="plateform_main_getCTX.js.html">plateform/main/getCTX.js</a>, <a href="plateform_main_getCTX.js.html#line20">line 20</a>
     </li></ul></dd>
     
 
@@ -16076,6 +15857,13 @@ en-têtes de réponse,</p></td>
 
 
 
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
+
+    <pre class="prettyprint"><code>{tenant:"R1132100968447"}</code></pre>
 
 
 
@@ -16190,7 +15978,7 @@ la demande. Il inclut généralement des propriétés telles que « token », «
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
         </tr>
 
     
@@ -16244,9 +16032,7 @@ CSRF sera récupéré avec succès. Il faut un argument, qui est la valeur du je
 
             
 
-            <td class="description last"><p>Le paramètre <code>onError</code> est une fonction de rappel qui sera appelée s'il y a une
-erreur lors de la requête HTTP. Il est facultatif et peut être utilisé pour gérer les erreurs qui se
-produisent lors de la demande.</p></td>
+            <td class="description last"><p>Le paramètre <code>onError</code> est une fonction de rappel qui sera appelée s'il y a une erreur lors de la requête HTTP. Il est facultatif et peut être utilisé pour gérer les erreurs qui se produisent lors de la demande.</p></td>
         </tr>
 
     
@@ -16254,53 +16040,6 @@ produisent lors de la demande.</p></td>
 </table>
 
 
-
-
-
-
-    <h5 class="subsection-title">Properties:</h5>
-
-    
-
-<table class="props">
-    <thead>
-    <tr>
-        
-        <th>Name</th>
-        
-
-        <th>Type</th>
-
-        
-
-        
-
-        <th class="last">Description</th>
-    </tr>
-    </thead>
-
-    <tbody>
-    
-
-        <tr>
-            
-                <td class="name"><code>space</code></td>
-            
-
-            <td class="type">
-            
-            </td>
-
-            
-
-            
-
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)</p></td>
-        </tr>
-
-    
-    </tbody>
-</table>
 
 
 
@@ -16334,7 +16073,7 @@ produisent lors de la demande.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_getCSRFToken.js.html">plateform/main/getCSRFToken.js</a>, <a href="plateform_main_getCSRFToken.js.html#line19">line 19</a>
+        <a href="plateform_main_getCSRFToken.js.html">plateform/main/getCSRFToken.js</a>, <a href="plateform_main_getCSRFToken.js.html#line18">line 18</a>
     </li></ul></dd>
     
 
@@ -16361,6 +16100,11 @@ produisent lors de la demande.</p></td>
 
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
 
 
 
@@ -17398,8 +17142,6 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token » 
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -17425,49 +17167,10 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token » 
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>token</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)</p></td>
+            <td class="description last"><p>(3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
         </tr>
 
     
@@ -17487,20 +17190,33 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token » 
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
 
-                
+            
 
+            <td class="description last"><p>le tenant courant</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+
+            <td class="type">
+            
                 
-                </td>
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
             
 
             
 
-            <td class="description last"><p>Le tenant (ex: R1132100968447)</p></td>
+            <td class="description last"><p>Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)</p></td>
         </tr>
 
     
@@ -17519,14 +17235,6 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token » 
             
             </td>
 
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
             
 
             
@@ -17654,7 +17362,7 @@ répondre à toute erreur pouvant survenir.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_loadDatas.js.html">plateform/main/loadDatas.js</a>, <a href="plateform_main_loadDatas.js.html#line73">line 73</a>
+        <a href="plateform_main_loadDatas.js.html">plateform/main/loadDatas.js</a>, <a href="plateform_main_loadDatas.js.html#line82">line 82</a>
     </li></ul></dd>
     
 
@@ -17681,6 +17389,13 @@ répondre à toute erreur pouvant survenir.</p></td>
 
 
 
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
+
+    <pre class="prettyprint"><code>{tenant:"R1132100968447"}</code></pre>
 
 
 
@@ -17777,8 +17492,6 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token » 
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -17804,49 +17517,10 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token » 
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)</p></td>
-        </tr>
-
-    
-
-        <tr>
-            
-                <td class="name"><code>token</code></td>
-            
-
-            <td class="type">
-            
-                
-<span class="param-type">String</span>
-
-
-            
-            </td>
-
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
-
-            
-
-            <td class="description last"><p>Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)</p></td>
+            <td class="description last"><p>(3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
         </tr>
 
     
@@ -17866,20 +17540,33 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token » 
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
 
-                
+            
 
+            <td class="description last"><p>le tenant courant</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+
+            <td class="type">
+            
                 
-                </td>
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
             
 
             
 
-            <td class="description last"><p>Le tenant (ex: R1132100968447)</p></td>
+            <td class="description last"><p>Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)</p></td>
         </tr>
 
     
@@ -17898,14 +17585,6 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token » 
             
             </td>
 
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
             
 
             
@@ -18034,7 +17713,7 @@ répondre à toute erreur qui se produit.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_loadDatas.js.html">plateform/main/loadDatas.js</a>, <a href="plateform_main_loadDatas.js.html#line121">line 121</a>
+        <a href="plateform_main_loadDatas.js.html">plateform/main/loadDatas.js</a>, <a href="plateform_main_loadDatas.js.html#line132">line 132</a>
     </li></ul></dd>
     
 
@@ -18061,6 +17740,13 @@ répondre à toute erreur qui se produit.</p></td>
 
 
 
+
+
+    <h5>Examples</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
+
+    <pre class="prettyprint"><code>{tenant:"R1132100968447"}</code></pre>
 
 
 
@@ -19302,7 +18988,7 @@ s'il n'est pas fourni, la fonction ne fera rien en cas d'erreur.</p></td>
 
 
 <div class="description">
-    <p>La fonction <code>get_3DSpace_csrf</code> récupère un jeton CSRF d'un espace 3D en utilisant les  informations d'identification fournies.(Anciennement loadDatas())</p>
+    <p>La fonction <code>get_3DSpace_csrf</code> récupère un jeton CSRF du 3DSpace en utilisant les  informations d'identification fournies.(Anciennement loadDatas())</p>
 </div>
 
 
@@ -19407,7 +19093,7 @@ la demande. Il inclut généralement des propriétés telles qu'ici' « objID »
 
             
 
-            <td class="description last"><p>L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)</p></td>
+            <td class="description last"><p>(3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
         </tr>
 
     
@@ -19574,6 +19260,11 @@ s'il n'est pas fourni, la fonction ne fera rien en cas d'erreur.</p></td>
 
 
 
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
 
 
 
@@ -22022,13 +21713,13 @@ l'événement existant dans le tableau</p></td>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#UUID">UUID</a></li><li><a href="global.html#_3DSpace_Create_Doc">_3DSpace_Create_Doc</a></li><li><a href="global.html#_3DSpace_csrf">_3DSpace_csrf</a></li><li><a href="global.html#_3DSpace_download_doc">_3DSpace_download_doc</a></li><li><a href="global.html#_3DSpace_download_multidoc">_3DSpace_download_multidoc</a></li><li><a href="global.html#_3DSpace_file_update">_3DSpace_file_update</a></li><li><a href="global.html#_3DSpace_file_update_csr">_3DSpace_file_update_csr</a></li><li><a href="global.html#_3DSpace_file_url">_3DSpace_file_url</a></li><li><a href="global.html#_3DSpace_file_url_csr">_3DSpace_file_url_csr</a></li><li><a href="global.html#_3DSpace_get_csrf">_3DSpace_get_csrf</a></li><li><a href="global.html#_3DSpace_get_docInfo">_3DSpace_get_docInfo</a></li><li><a href="global.html#_3DSpace_get_downloadTicket_multidoc">_3DSpace_get_downloadTicket_multidoc</a></li><li><a href="global.html#_3DSpace_get_securityContexts">_3DSpace_get_securityContexts</a></li><li><a href="global.html#_3DSpace_lifecycle_changeRevision">_3DSpace_lifecycle_changeRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_changeState">_3DSpace_lifecycle_changeState</a></li><li><a href="global.html#_3DSpace_lifecycle_getGraph">_3DSpace_lifecycle_getGraph</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextRevision">_3DSpace_lifecycle_getNextRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextStates">_3DSpace_lifecycle_getNextStates</a></li><li><a href="global.html#_3DSwim_getAllCommunities">_3DSwim_getAllCommunities</a></li><li><a href="global.html#_3DSwim_getMembersCommunity">_3DSwim_getMembersCommunity</a></li><li><a href="global.html#_3DSwym_buildDirectMessage">_3DSwym_buildDirectMessage</a></li><li><a href="global.html#_3DSwym_deleteIdea">_3DSwym_deleteIdea</a></li><li><a href="global.html#_3DSwym_findCommunityToInstantMSG">_3DSwym_findCommunityToInstantMSG</a></li><li><a href="global.html#_3DSwym_getAllNews">_3DSwym_getAllNews</a></li><li><a href="global.html#_3DSwym_getFamiliarPeople">_3DSwym_getFamiliarPeople</a></li><li><a href="global.html#_3DSwym_getIdeaStatusMaturity">_3DSwym_getIdeaStatusMaturity</a></li><li><a href="global.html#_3DSwym_getSWYMIdea">_3DSwym_getSWYMIdea</a></li><li><a href="global.html#_3DSwym_get_AllSWYMIdeas">_3DSwym_get_AllSWYMIdeas</a></li><li><a href="global.html#_3DSwym_get_currentUser">_3DSwym_get_currentUser</a></li><li><a href="global.html#_3DSwym_get_findUser">_3DSwym_get_findUser</a></li><li><a href="global.html#_3DSwym_get_version">_3DSwym_get_version</a></li><li><a href="global.html#_3DSwym_postIdea">_3DSwym_postIdea</a></li><li><a href="global.html#_3DSwym_sendMessageData">_3DSwym_sendMessageData</a></li><li><a href="global.html#_AppMngt_get_info_user">_AppMngt_get_info_user</a></li><li><a href="global.html#_AppMngt_get_users">_AppMngt_get_users</a></li><li><a href="global.html#_getPlateformInfos">_getPlateformInfos</a></li><li><a href="global.html#_getPlatformServices">_getPlatformServices</a></li><li><a href="global.html#_httpCallAuthenticated">_httpCallAuthenticated</a></li><li><a href="global.html#_setDraggable">_setDraggable</a></li><li><a href="global.html#_setDroppable">_setDroppable</a></li><li><a href="global.html#_setupTagger">_setupTagger</a></li><li><a href="global.html#addTagToDoc">addTagToDoc</a></li><li><a href="global.html#compass_getListAdditionalApps">compass_getListAdditionalApps</a></li><li><a href="global.html#createUserGroups">createUserGroups</a></li><li><a href="global.html#dataMixing">dataMixing</a></li><li><a href="global.html#deleteUserGroups">deleteUserGroups</a></li><li><a href="global.html#findAdresse">findAdresse</a></li><li><a href="global.html#formatedMessage">formatedMessage</a></li><li><a href="global.html#getActiveServices">getActiveServices</a></li><li><a href="global.html#getActualTagsOnDoc">getActualTagsOnDoc</a></li><li><a href="global.html#getAllContextSecurity">getAllContextSecurity</a></li><li><a href="global.html#getCSRFToken">getCSRFToken</a></li><li><a href="global.html#getCommunes">getCommunes</a></li><li><a href="global.html#getComplementUG">getComplementUG</a></li><li><a href="global.html#getDataFrom3DSpace">getDataFrom3DSpace</a></li><li><a href="global.html#getDataFromGouvFr">getDataFromGouvFr</a></li><li><a href="global.html#getDatasByTenant">getDatasByTenant</a></li><li><a href="global.html#getDatasFrom3DSpace">getDatasFrom3DSpace</a></li><li><a href="global.html#getDownloadDocument">getDownloadDocument</a></li><li><a href="global.html#getInfoDocTags">getInfoDocTags</a></li><li><a href="global.html#getUserGroupsList">getUserGroupsList</a></li><li><a href="global.html#getUsersGroupRules">getUsersGroupRules</a></li><li><a href="global.html#get_3DSpace_csrf">get_3DSpace_csrf</a></li><li><a href="global.html#patchUserGroups">patchUserGroups</a></li><li><a href="global.html#patchUserGroupsControl">patchUserGroupsControl</a></li><li><a href="global.html#pushDataIn3DSpace">pushDataIn3DSpace</a></li><li><a href="global.html#readUserGroupControl">readUserGroupControl</a></li><li><a href="global.html#removeTagToDoc">removeTagToDoc</a></li><li><a href="global.html#sayHello">sayHello</a></li><li><a href="global.html#updateEvent">updateEvent</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#UUID">UUID</a></li><li><a href="global.html#_3DSpace_Create_Doc">_3DSpace_Create_Doc</a></li><li><a href="global.html#_3DSpace_csrf">_3DSpace_csrf</a></li><li><a href="global.html#_3DSpace_download_doc">_3DSpace_download_doc</a></li><li><a href="global.html#_3DSpace_download_multidoc">_3DSpace_download_multidoc</a></li><li><a href="global.html#_3DSpace_file_update">_3DSpace_file_update</a></li><li><a href="global.html#_3DSpace_file_update_csr">_3DSpace_file_update_csr</a></li><li><a href="global.html#_3DSpace_file_url">_3DSpace_file_url</a></li><li><a href="global.html#_3DSpace_file_url_csr">_3DSpace_file_url_csr</a></li><li><a href="global.html#_3DSpace_get_csrf">_3DSpace_get_csrf</a></li><li><a href="global.html#_3DSpace_get_docInfo">_3DSpace_get_docInfo</a></li><li><a href="global.html#_3DSpace_get_downloadTicket_multidoc">_3DSpace_get_downloadTicket_multidoc</a></li><li><a href="global.html#_3DSpace_get_securityContexts">_3DSpace_get_securityContexts</a></li><li><a href="global.html#_3DSpace_lifecycle_changeRevision">_3DSpace_lifecycle_changeRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_changeState">_3DSpace_lifecycle_changeState</a></li><li><a href="global.html#_3DSpace_lifecycle_getGraph">_3DSpace_lifecycle_getGraph</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextRevision">_3DSpace_lifecycle_getNextRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextStates">_3DSpace_lifecycle_getNextStates</a></li><li><a href="global.html#_3DSwim_getAllCommunities">_3DSwim_getAllCommunities</a></li><li><a href="global.html#_3DSwim_getMembersCommunity">_3DSwim_getMembersCommunity</a></li><li><a href="global.html#_3DSwym_buildDirectMessage">_3DSwym_buildDirectMessage</a></li><li><a href="global.html#_3DSwym_deleteIdea">_3DSwym_deleteIdea</a></li><li><a href="global.html#_3DSwym_findCommunityToInstantMSG">_3DSwym_findCommunityToInstantMSG</a></li><li><a href="global.html#_3DSwym_getAllNews">_3DSwym_getAllNews</a></li><li><a href="global.html#_3DSwym_getFamiliarPeople">_3DSwym_getFamiliarPeople</a></li><li><a href="global.html#_3DSwym_getIdeaStatusMaturity">_3DSwym_getIdeaStatusMaturity</a></li><li><a href="global.html#_3DSwym_getSWYMIdea">_3DSwym_getSWYMIdea</a></li><li><a href="global.html#_3DSwym_get_AllSWYMIdeas">_3DSwym_get_AllSWYMIdeas</a></li><li><a href="global.html#_3DSwym_get_currentUser">_3DSwym_get_currentUser</a></li><li><a href="global.html#_3DSwym_get_findUser">_3DSwym_get_findUser</a></li><li><a href="global.html#_3DSwym_get_version">_3DSwym_get_version</a></li><li><a href="global.html#_3DSwym_postIdea">_3DSwym_postIdea</a></li><li><a href="global.html#_3DSwym_sendMessageData">_3DSwym_sendMessageData</a></li><li><a href="global.html#_AppMngt_get_info_user">_AppMngt_get_info_user</a></li><li><a href="global.html#_AppMngt_get_users">_AppMngt_get_users</a></li><li><a href="global.html#_getPlateformInfos">_getPlateformInfos</a></li><li><a href="global.html#_getPlatformServices">_getPlatformServices</a></li><li><a href="global.html#_httpCallAuthenticated">_httpCallAuthenticated</a></li><li><a href="global.html#_setDraggable">_setDraggable</a></li><li><a href="global.html#_setDroppable">_setDroppable</a></li><li><a href="global.html#_setupTagger">_setupTagger</a></li><li><a href="global.html#addTagToDoc">addTagToDoc</a></li><li><a href="global.html#compass_getListAdditionalApps">compass_getListAdditionalApps</a></li><li><a href="global.html#createUserGroups">createUserGroups</a></li><li><a href="global.html#dataMixing">dataMixing</a></li><li><a href="global.html#deleteUserGroups">deleteUserGroups</a></li><li><a href="global.html#findAdresse">findAdresse</a></li><li><a href="global.html#formatedMessage">formatedMessage</a></li><li><a href="global.html#getActualTagsOnDoc">getActualTagsOnDoc</a></li><li><a href="global.html#getAllContextSecurity">getAllContextSecurity</a></li><li><a href="global.html#getCSRFToken">getCSRFToken</a></li><li><a href="global.html#getCommunes">getCommunes</a></li><li><a href="global.html#getComplementUG">getComplementUG</a></li><li><a href="global.html#getDataFrom3DSpace">getDataFrom3DSpace</a></li><li><a href="global.html#getDataFromGouvFr">getDataFromGouvFr</a></li><li><a href="global.html#getDatasByTenant">getDatasByTenant</a></li><li><a href="global.html#getDatasFrom3DSpace">getDatasFrom3DSpace</a></li><li><a href="global.html#getDownloadDocument">getDownloadDocument</a></li><li><a href="global.html#getInfoDocTags">getInfoDocTags</a></li><li><a href="global.html#getUserGroupsList">getUserGroupsList</a></li><li><a href="global.html#getUsersGroupRules">getUsersGroupRules</a></li><li><a href="global.html#get_3DSpace_csrf">get_3DSpace_csrf</a></li><li><a href="global.html#patchUserGroups">patchUserGroups</a></li><li><a href="global.html#patchUserGroupsControl">patchUserGroupsControl</a></li><li><a href="global.html#pushDataIn3DSpace">pushDataIn3DSpace</a></li><li><a href="global.html#readUserGroupControl">readUserGroupControl</a></li><li><a href="global.html#removeTagToDoc">removeTagToDoc</a></li><li><a href="global.html#sayHello">sayHello</a></li><li><a href="global.html#updateEvent">updateEvent</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Wed Jan 31 2024 16:27:29 GMT+0100 (heure normale d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Thu Feb 01 2024 12:08:48 GMT+0100 (heure normale d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>
