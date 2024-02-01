@@ -667,50 +667,51 @@ export function _3DSpace_get_securityContexts(
  */
 export async function _3DSpace_download_doc(
   credentials,
-  objectId,
   onDone = undefined,
   onError = undefined,
   message = undefined,
 ) {
+  const objectId = credentials.objID;
   if (objectId === undefined || objectId === "") {
-    return "Le paramètre objectId est obligatoire";
+    console.warn(
+      "_3DSpace_download_doc() / Le paramètre objectId est obligatoire",
+    );
   }
 
-  return new Promise((result) => {
-    if (credentials.space === "" || !credentials.space) {
-      _getPlatformServices();
-    }
-
-    if (objectId !== undefined && objectId !== "" && objectId !== null) {
-      _3DSpace_file_url(
-        credentials.space,
-        objectId,
-        (response) => {
-          _httpCallAuthenticated(response, {
-            headers: {
-              ENO_CSRF_TOKEN: credentials.token,
-            },
-            onComplete(response) {
-              if (onDone) onDone(JSON.parse(response));
-
-              result = JSON.parse(response);
-              return result;
-            },
-            onFailure(error) {
-              if (onError) {
-                console.log("error http", error);
-                onError(error);
-              }
-            },
-          });
-        },
-        (error) => {
-          if (onError) onError(error);
-          console.log("*_3dspace_download_doc / error file URL *", error);
-        },
-      );
-    }
-  });
+  if (credentials.space === "" || !credentials.space) {
+    console.warn(
+      "_3DSpace_download_doc() / Le paramètre space est obligatoire",
+    );
+  }
+  try {
+    _3DSpace_file_url(
+      credentials,
+      objectId,
+      (response) => {
+        _httpCallAuthenticated(response, {
+          headers: {
+            ENO_CSRF_TOKEN: credentials.token,
+          },
+          onComplete(response) {
+            const result = JSON.parse(response);
+            if (onDone) onDone(result);
+          },
+          onFailure(error, headers, xhr) {
+            if (onError) {
+              console.log("error http", error);
+              onError({ error, headers, xhr });
+            }
+          },
+        });
+      },
+      (error) => {
+        if (onError) onError(error);
+        console.log("*_3dspace_download_doc / error file URL *", error);
+      },
+    );
+  } catch (error) {
+    console.log("*_3dspace_download_doc / error file URL *", error);
+  }
 }
 
 /**
