@@ -706,37 +706,36 @@ export async function _3DSpace_download_doc(
       "_3DSpace_download_doc() / Le paramètre token est obligatoire",
     );
   }
-  try {
-    console.log("_3DSpace_download_doc / credentials", credentials);
 
-    _3DSpace_file_url(
-      credentials,
-      (ticketURL) => {
-        _httpCallAuthenticated(ticketURL, {
-          headers: {
-            ENO_CSRF_TOKEN: credentials.token,
-          },
-          onComplete(response) {
-            const result = JSON.parse(response);
-            console.log("_3DSpace_download_doc / reponse ", result);
-            if (onDone) onDone(result);
-          },
-          onFailure(error, headers, xhr) {
-            if (onError) {
-              console.log("error http", error);
-              onError({ error, headers, xhr });
-            }
-          },
-        });
-      },
-      (error) => {
-        if (onError) onError(error);
-        console.log("*_3dspace_download_doc / error file URL *", error);
-      },
-    );
-  } catch (error) {
-    console.log("*_3dspace_download_doc / error file URL *", error);
-  }
+  console.log("_3DSpace_download_doc / credentials", credentials);
+
+  _3DSpace_file_url(
+    credentials,
+    (ticketURL) => {
+      console.log("_3DSpace_download_doc / ticketURL ", ticketURL);
+      console.log(credentials.token);
+      _httpCallAuthenticated(ticketURL, {
+        headers: {
+          ENO_CSRF_TOKEN: credentials.token,
+        },
+        onComplete(response) {
+          const result = JSON.parse(response);
+          console.log("_3DSpace_download_doc / reponse ", result);
+          if (onDone) onDone(result);
+        },
+        onFailure(error, headers, xhr) {
+          if (onError) {
+            console.log("error http", error);
+            onError({ error, headers, xhr });
+          }
+        },
+      });
+    },
+    (error) => {
+      if (onError) onError(error);
+      console.log("*_3dspace_download_doc / error file URL *", error);
+    },
+  );
 }
 
 /**
