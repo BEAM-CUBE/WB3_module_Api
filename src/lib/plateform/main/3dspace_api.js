@@ -147,33 +147,35 @@ export function _3DSpace_file_url(
   _3DSpace_get_csrf(
     credentials,
     (token) => {
-      console.log("onComplete / ☠️ info => ", token);
-      if (token.csrf.value === credentials.token) {
-        _httpCallAuthenticated(url, {
-          method: "PUT",
-          headers: {
-            ENO_CSRF_TOKEN:
-              token.csrf.value === credentials.token
-                ? token.csrf.value
-                : credentials.token,
-          },
+      console.log("onComplete / ☠️ info => ", token, credentials.token);
 
-          onComplete(response) {
-            let info = JSON.parse(response);
-            console.log("_3DSpace_file_url() / ☠️ info => ", info);
-            const file_url = info.data[0].dataelements.ticketURL;
-            credentials["ticket"] = file_url;
-            if (onDone) onDone(file_url);
-          },
+      _httpCallAuthenticated(url, {
+        method: "PUT",
+        headers: {
+          ENO_CSRF_TOKEN:
+            token.csrf.value === credentials.token
+              ? token.csrf.value
+              : credentials.token,
+        },
 
-          onFailure(response, head) {
-            console.log("☠️ error => ", response, head);
-            if (onError) onError(response, head);
-          },
-        });
-      }
+        onComplete(response) {
+          let info = JSON.parse(response);
+          console.log("_3DSpace_file_url() / ☠️ info => ", info);
+          const file_url = info.data[0].dataelements.ticketURL;
+          credentials["ticket"] = file_url;
+          if (onDone) onDone(file_url);
+        },
+
+        onFailure(response, head) {
+          console.warn("☠️ error => ", response, head);
+          if (onError) onError(response, head);
+        },
+      });
     },
-    onError,
+    (err) => {
+      console.warn("_3DSpace_file_url / error => ", err);
+      if (onError) onError(err);
+    },
   );
 }
 

@@ -84,7 +84,7 @@ export async function getDatasByTenant(
   onDone = undefined,
   onError = undefined,
 ) {
-  console.log("getDatasByTenant", credentials);
+  console.log("getDatasByTenant (getDocuments)", credentials);
   await _3DSpace_download_doc(
     credentials,
     (data) => {
