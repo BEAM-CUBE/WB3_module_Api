@@ -87,7 +87,7 @@ export async function _getPlatformServices(
   onComplete = undefined,
   onFailure = undefined,
 ) {
-  requirejs(
+  await requirejs(
     ["DS/i3DXCompassServices/i3DXCompassServices"],
     (i3DXCompassServices) => {
       if (!platformId || platformId === "") {
