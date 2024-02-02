@@ -338,13 +338,13 @@ export function removeTagToDoc(
  * documents en fonction des informations d'identification et des identifiants de document fournis.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
- * @param {String} [str] - Le paramètre `str` est une chaîne qui représente l'ID du documents pour lesquels
+ * @param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
+ * @param {String} str - Le paramètre `str` est une chaîne qui représente l'ID du documents pour lesquels
  * vous souhaitez récupérer des informations.
- * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque la
+ * @param {Function} onDone - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque la
  * requête HTTP sera terminée avec succès. Il prend un argument, qui correspond aux données de réponse
  * de la requête.
- * @param {Function} [onError] - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
+ * @param {Function} onError - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
  * erreur lors de l'exécution de la fonction `getInfoDocTags`. Il vous permet de gérer et de traiter
  * les informations d'erreur.
  * @returns La fonction ne renvoie explicitement rien.
@@ -359,7 +359,7 @@ export function getInfoDocTags(
   if (str === "") return;
 
   const URL = {
-    uri: "/enovia/resources/v1/modeler/documents",
+    uri: "/resources/v1/modeler/documents",
   };
 
   const headers = {
