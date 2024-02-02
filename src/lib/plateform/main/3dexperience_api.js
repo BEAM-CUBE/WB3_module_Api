@@ -90,21 +90,23 @@ export async function _getPlatformServices(
   await requirejs(
     ["DS/i3DXCompassServices/i3DXCompassServices"],
     (i3DXCompassServices) => {
-      if (!platformId || platformId === "") {
-        platformId = widget.getValue("PlatFormInstanceId");
-      }
-      if (!platformId || platformId === "") {
-        platformId = undefined;
-      }
-      if (onComplete) {
-        onComplete(
-          i3DXCompassServices.getPlatformServices({
-            platformId,
-            onComplete,
-            onFailure,
-          }),
-        );
-      }
+      setTimeout(() => {
+        if (!platformId || platformId === "") {
+          platformId = widget.getValue("PlatFormInstanceId");
+        }
+        if (!platformId || platformId === "") {
+          platformId = undefined;
+        }
+        if (onComplete) {
+          onComplete(
+            i3DXCompassServices.getPlatformServices({
+              platformId,
+              onComplete,
+              onFailure,
+            }),
+          );
+        }
+      }, 500);
     },
   );
 }
