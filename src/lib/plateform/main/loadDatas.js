@@ -89,6 +89,7 @@ export async function getDatasByTenant(
       _datas["obj"] = data;
       console.log("getDatasByTenant (getDocuments) _datas", _datas);
       if (onDone) onDone(_datas);
+
       // getDatasFrom3DSpace(
       //   credentials,
       //   (reponse) => {

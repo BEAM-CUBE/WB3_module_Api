@@ -172,7 +172,7 @@ export function _3DSpace_file_url(
           let info = JSON.parse(response);
           console.log("_3DSpace_file_url() / ☠️ info => ", info);
           const file_url = info.data[0].dataelements.ticketURL;
-          credentials["ticket"] = file_url;
+          console.log("le ticket est dans la callback");
           if (onDone) onDone(file_url);
         },
 
@@ -677,7 +677,7 @@ export function _3DSpace_get_securityContexts(
  * @param {Function} onDone - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque le
  * téléchargement sera terminé avec succès. Il prend un argument, qui est les données de réponse du
  * téléchargement.
- * @param {Callback} onError - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
+ * @param {Function} onError - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
  * erreur lors de l'exécution de la fonction `_3dspace_download_doc`. Il vous permet de gérer et de
  * répondre à toutes les erreurs qui se produisent.
  
@@ -690,7 +690,7 @@ export async function _3DSpace_download_doc(
   message = undefined,
 ) {
   const objectId = credentials.objID;
-  if (objectId === undefined || objectId === "") {
+  if (!objectId || objectId === "") {
     console.warn(
       "_3DSpace_download_doc() / Le paramètre objectId est obligatoire",
     );
@@ -701,18 +701,24 @@ export async function _3DSpace_download_doc(
       "_3DSpace_download_doc() / Le paramètre space est obligatoire",
     );
   }
+  if (credentials.token === "" || !credentials.token) {
+    console.warn(
+      "_3DSpace_download_doc() / Le paramètre token est obligatoire",
+    );
+  }
   try {
     console.log("_3DSpace_download_doc / credentials", credentials);
 
     _3DSpace_file_url(
       credentials,
-      (response) => {
-        _httpCallAuthenticated(response, {
+      (ticketURL) => {
+        _httpCallAuthenticated(ticketURL, {
           headers: {
             ENO_CSRF_TOKEN: credentials.token,
           },
           onComplete(response) {
             const result = JSON.parse(response);
+            console.log("_3DSpace_download_doc / reponse ", result);
             if (onDone) onDone(result);
           },
           onFailure(error, headers, xhr) {

@@ -23,7 +23,7 @@ export async function getDownloadDocument(
 ) {
   return new Promise((result) => {
     //TODO - a test ? manque l'URL
-    _3DSpace_file_url(credentials.space, docId, (reponse) => {
+    _3DSpace_file_url(credentials, docId, (reponse) => {
       _httpCallAuthenticated(reponse, {
         onComplete: (reponse, headers, xhr) => {
           result(JSON.parse(reponse));
