@@ -574,7 +574,7 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token »,
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line409">line 409</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line419">line 419</a>
     </li></ul></dd>
     
 
@@ -615,7 +615,7 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token »,
     
 
     
-    <h4 class="name" id="_3DSpace_csrf"><span class="type-signature"></span>_3DSpace_csrf<span class="signature">(credentials, onDone<span class="signature-attributes">opt</span>, onError<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="_3DSpace_csrf"><span class="type-signature"></span>_3DSpace_csrf<span class="signature">(credentials, onDone, onError)</span><span class="type-signature"></span></h4>
     
 
     
@@ -647,8 +647,6 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token »,
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -673,14 +671,6 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token »,
             
             </td>
 
-            
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
             
 
             
@@ -748,22 +738,12 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token » 
             <td class="type">
             
                 
-<span class="param-type">Callback</span>
+<span class="param-type">function</span>
 
 
             
             </td>
 
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
             
 
             
@@ -782,22 +762,12 @@ CSRF sera récupéré avec succès. Il faut un argument, qui est la valeur du je
             <td class="type">
             
                 
-<span class="param-type">Callback</span>
+<span class="param-type">function</span>
 
 
             
             </td>
 
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
             
 
             
@@ -845,7 +815,7 @@ les messages d’erreur ou exécuter toute logique de gestion des erreurs néces
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line101">line 101</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line110">line 110</a>
     </li></ul></dd>
     
 
@@ -1144,7 +1114,7 @@ répondre à toutes les erreurs qui se produisent.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line676">line 676</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line686">line 686</a>
     </li></ul></dd>
     
 
@@ -1534,7 +1504,7 @@ lors du téléchargement.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line746">line 746</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line756">line 756</a>
     </li></ul></dd>
     
 
@@ -1942,7 +1912,7 @@ défaut.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line254">line 254</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line264">line 264</a>
     </li></ul></dd>
     
 
@@ -2371,7 +2341,7 @@ interne.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line303">line 303</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line313">line 313</a>
     </li></ul></dd>
     
 
@@ -2420,8 +2390,7 @@ interne.</p></td>
 
 
 <div class="description">
-    <p>Cette fonction génère une URL pour télécharger un fichier à partir d'une plateforme de modélisation
-3D, en utilisant l'authentification et la gestion des erreurs.</p>
+    <p>La fonction <code>_3DSpace_file_url</code> récupère un ticket d’accès pour un document</p>
 </div>
 
 
@@ -2666,7 +2635,7 @@ n'est pas nécessaire.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line139">line 139</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line148">line 148</a>
     </li></ul></dd>
     
 
@@ -3006,7 +2975,7 @@ nécessaire.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line199">line 199</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line209">line 209</a>
     </li></ul></dd>
     
 
@@ -4032,7 +4001,7 @@ erreurs qui surviennent.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line797">line 797</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line807">line 807</a>
     </li></ul></dd>
     
 
@@ -4408,7 +4377,7 @@ l'objet.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line545">line 545</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line555">line 555</a>
     </li></ul></dd>
     
 
@@ -4814,7 +4783,7 @@ erreurs nécessaire.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line1210">line 1210</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line1220">line 1220</a>
     </li></ul></dd>
     
 
@@ -5209,7 +5178,7 @@ facultatif, donc s'il n'est pas fourni, la fonction ne fera rien en cas de probl
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line947">line 947</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line957">line 957</a>
     </li></ul></dd>
     
 
@@ -5593,7 +5562,7 @@ facultatif, donc s'il n'est pas fourni, la fonction ne fera rien en cas d'erreur
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line1059">line 1059</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line1069">line 1069</a>
     </li></ul></dd>
     
 
@@ -5978,7 +5947,7 @@ paramètre facultatif, donc s'il n'est pas fourni, il sera par défaut «non dé
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line1131">line 1131</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line1141">line 1141</a>
     </li></ul></dd>
     
 
@@ -6341,7 +6310,7 @@ fourni, il sera par défaut «non défini».</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line878">line 878</a>
+        <a href="plateform_main_3dspace_api.js.html">plateform/main/3dspace_api.js</a>, <a href="plateform_main_3dspace_api.js.html#line888">line 888</a>
     </li></ul></dd>
     
 
@@ -21646,7 +21615,7 @@ l'événement existant dans le tableau</p></td>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri Feb 02 2024 10:17:14 GMT+0100 (heure normale d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri Feb 02 2024 10:30:41 GMT+0100 (heure normale d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>

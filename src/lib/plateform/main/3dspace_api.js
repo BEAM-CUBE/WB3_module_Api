@@ -81,7 +81,16 @@ export function _3DSpace_get_csrf(
       },
     });
   } else {
-    _3DSpace_csrf(credentials);
+    _3DSpace_csrf(
+      credentials,
+      (rep) => {
+        console.log("_3DSpace_get_csrf / _3DSpace_csrf", rep);
+        if (onDone) onDone(rep);
+      },
+      (err) => {
+        if (onError) onError(err);
+      },
+    );
   }
 }
 
@@ -91,9 +100,9 @@ export function _3DSpace_get_csrf(
  * la demande. Il inclut généralement des propriétés telles qu'ici « token » et « space ».(ex: credentials.space, credentials.tenant, credentials.token...).
  * @param {String} credentials.space - (3DSapce) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
  * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
- * @param {Callback} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque le jeton
+ * @param {Function} onDone - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque le jeton
  * CSRF sera récupéré avec succès. Il faut un argument, qui est la valeur du jeton CSRF.
- * @param {Callback} [onError] - Le paramètre `onError` est une fonction de rappel qui sera appelée si une erreur
+ * @param {Function} onError - Le paramètre `onError` est une fonction de rappel qui sera appelée si une erreur
  * survient lors de l'exécution de la fonction `_3DSpace_csrf`. Il est utilisé pour gérer et afficher
  * les messages d’erreur ou exécuter toute logique de gestion des erreurs nécessaire.
  * @returns la valeur du jeton CSRF, qui est obtenue à partir de la réponse de l'appel HTTP.
@@ -112,18 +121,18 @@ export function _3DSpace_csrf(
         if (onDone) onDone(info.csrf.value);
       },
       onFailure(response, headers, xhr) {
-        const infos = { response, headers, xhr };
-        if (onError) onError(infos);
+        if (onError) onError({ response, headers, xhr });
       },
     });
   } else {
-    if (onError) onError("ERROR : url du 3DSpace non défini.");
+    const msgError = "ERROR : url du 3DSpace non défini.";
+    if (onError) onError(msgError);
   }
 }
 
 /**
- * @description Cette fonction génère une URL pour télécharger un fichier à partir d'une plateforme de modélisation
- * 3D, en utilisant l'authentification et la gestion des erreurs.
+ * @description La fonction `_3DSpace_file_url` récupère un ticket d’accès pour un document
+ * 
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles qu'ici « token » et « space ».(ex: credentials.space, credentials.tenant, credentials.token...).
  * @param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
@@ -147,15 +156,16 @@ export function _3DSpace_file_url(
   _3DSpace_get_csrf(
     credentials,
     (token) => {
-      console.log("onComplete / ☠️ info => ", token, credentials.token);
+      console.log(
+        "_3DSpace_file_url / onComplete / ☠️ info => ",
+        token,
+        credentials.token,
+      );
 
       _httpCallAuthenticated(url, {
         method: "PUT",
         headers: {
-          ENO_CSRF_TOKEN:
-            token.csrf.value === credentials.token
-              ? token.csrf.value
-              : credentials.token,
+          ENO_CSRF_TOKEN: credentials.token,
         },
 
         onComplete(response) {
