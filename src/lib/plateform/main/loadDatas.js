@@ -29,9 +29,9 @@ export async function get_3DSpace_csrf(
   onError = undefined,
 ) {
   if (credentials.objID && credentials.objID !== "") {
+    console.log("obj  est présent");
     _3DSpace_get_csrf(
       credentials,
-
       (response) => {
         if (onDone) onDone(response);
       },
@@ -39,7 +39,7 @@ export async function get_3DSpace_csrf(
         if (onError) onError(err);
       },
     );
-  } else if (credentials.objID === null) {
+  } else if (credentials.objID === null || credentials.objID === "") {
     _3DSpace_csrf(
       credentials,
       (rep) => {

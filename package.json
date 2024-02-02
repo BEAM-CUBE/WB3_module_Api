@@ -39,7 +39,6 @@
   },
   "peerDependencies": {
     "@widget-lab/3ddashboard-utils": "https://btcc.3ds.com/widget-lab/npm/widget-lab-3ddashboard-utils-1.4.0.tgz",
-    "jsdoc": "^4.0.2",
     "luxon": "^3.4.4",
     "uuid": "^9.0.1"
   }

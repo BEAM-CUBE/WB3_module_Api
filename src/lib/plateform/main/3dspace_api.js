@@ -108,7 +108,7 @@ export function _3DSpace_csrf(
     _httpCallAuthenticated(url, {
       onComplete(response, headers, xhr) {
         const info = JSON.parse(response);
-
+        console.log("_3DSpace_csrf() / info => ", info);
         if (onDone) onDone(info.csrf.value);
       },
       onFailure(response, headers, xhr) {
@@ -129,7 +129,7 @@ export function _3DSpace_csrf(
  * @param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
  * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
 
- * @param {String} docid - ID du document pour lequel l'URL du fichier est demandée.
+ * @param {String} credentials.objID - ID du document pour lequel l'URL du fichier est demandée.
  * @param {Function} [onDone] - Une fonction de rappel qui sera appelée lorsque l'URL du fichier sera récupérée
  * avec succès. Il prend un paramètre, qui est l'URL du fichier.
  * @param {Function} [onError] - Le paramètre onError est une fonction qui sera appelée s'il y a une erreur lors
@@ -138,7 +138,6 @@ export function _3DSpace_csrf(
  */
 export function _3DSpace_file_url(
   credentials,
-  docid,
   onDone = undefined,
   onError = undefined,
 ) {
@@ -147,27 +146,32 @@ export function _3DSpace_file_url(
     `/resources/v1/modeler/documents/${credentials.objID}/files/DownloadTicket`;
   _3DSpace_get_csrf(
     credentials,
+    (token) => {
+      console.log("onComplete / ☠️ info => ", token);
+      if (token.csrf.value === credentials.token) {
+        _httpCallAuthenticated(url, {
+          method: "PUT",
+          headers: {
+            ENO_CSRF_TOKEN:
+              token.csrf.value === credentials.token
+                ? token.csrf.value
+                : credentials.token,
+          },
 
-    (info) => {
-      console.log("onComplete / ☠️ info => ", info);
-      _httpCallAuthenticated(url, {
-        method: "PUT",
-        headers: {
-          ENO_CSRF_TOKEN: credentials.token,
-        },
+          onComplete(response) {
+            let info = JSON.parse(response);
+            console.log("_3DSpace_file_url() / ☠️ info => ", info);
+            const file_url = info.data[0].dataelements.ticketURL;
+            credentials["ticket"] = file_url;
+            if (onDone) onDone(file_url);
+          },
 
-        onComplete(response) {
-          let info = JSON.parse(response);
-          console.log("_3DSpace_file_url() / ☠️ info => ", info);
-          const file_url = info.data[0].dataelements.ticketURL;
-          if (onDone) onDone(file_url);
-        },
-
-        onFailure(response, head) {
-          console.log("☠️ error => ", response, head);
-          if (onError) onError(response, head);
-        },
-      });
+          onFailure(response, head) {
+            console.log("☠️ error => ", response, head);
+            if (onError) onError(response, head);
+          },
+        });
+      }
     },
     onError,
   );
@@ -690,7 +694,6 @@ export async function _3DSpace_download_doc(
 
     _3DSpace_file_url(
       credentials,
-      objectId,
       (response) => {
         _httpCallAuthenticated(response, {
           headers: {
