@@ -7,10 +7,10 @@ import { _3DSwym_get_version } from "../3dswym_api.js";
  *
  * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...), Attention ici le space prend bien le 3DSwym
  *
- * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque l'appel
+ * @param {Function} onDone - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque l'appel
  * API réussit et que les informations utilisateur sont récupérées. Il prend un argument, qui est
  * l'objet d'informations utilisateur.
- * @param {Function} [onError] - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
+ * @param {Function} onError - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
  * erreur lors de l'appel de l'API. Il prend un paramètre, qui est la réponse d'erreur de l'API.
  */
 export function _3DSwym_get_currentUser(
@@ -19,25 +19,23 @@ export function _3DSwym_get_currentUser(
   onError = undefined,
 ) {
   const url = credentials.space + "/api/user/getcurrent/";
-  _3DSwym_get_version(
-    credentials,
-    (token) => {
-      _httpCallAuthenticated(url, {
-        method: "GET",
-        headers: { "X-DS-SWYM-CSRFTOKEN": token.result.ServerToken },
-        onComplete(response, headers, xhr) {
-          const info = JSON.parse(response);
-          if (onDone) onDone(info.result);
-        },
+  _3DSwym_get_version(credentials, (token) => {
+    _httpCallAuthenticated(url, {
+      method: "GET",
+      headers: {
+        "X-DS-SWYM-CSRFTOKEN": token.result.ServerToken,
+      },
+      onComplete(response, headers, xhr) {
+        const info = JSON.parse(response);
+        if (onDone) onDone(info.result);
+      },
 
-        onFailure(response, headers, xhr) {
-          const infos = { response, headers, xhr };
-          if (onError) onError(infos);
-        },
-      });
-    },
-    onError,
-  );
+      onFailure(response, headers, xhr) {
+        const infos = { erreur: JSON.parse(response), headers, xhr };
+        if (onError) onError(infos);
+      },
+    });
+  });
 }
 
 /**
