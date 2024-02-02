@@ -896,7 +896,7 @@ les messages d’erreur ou exécuter toute logique de gestion des erreurs néces
     
 
     
-    <h4 class="name" id="_3DSpace_download_doc"><span class="type-signature"></span>_3DSpace_download_doc<span class="signature">(credentials, objectId<span class="signature-attributes">opt</span>, onDone<span class="signature-attributes">opt</span>, onError<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    <h4 class="name" id="_3DSpace_download_doc"><span class="type-signature"></span>_3DSpace_download_doc<span class="signature">(credentials, onDone, onError)</span><span class="type-signature"></span></h4>
     
 
     
@@ -928,8 +928,6 @@ les messages d’erreur ou exécuter toute logique de gestion des erreurs néces
         <th>Type</th>
 
         
-        <th>Attributes</th>
-        
 
         
 
@@ -955,14 +953,6 @@ les messages d’erreur ou exécuter toute logique de gestion des erreurs néces
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
 
             
 
@@ -980,8 +970,6 @@ l'authentification. Il doit avoir les propriétés suivantes: space, token</p>
 
         <th>Type</th>
 
-        
-        <th>Attributes</th>
         
 
         
@@ -1008,14 +996,6 @@ l'authentification. Il doit avoir les propriétés suivantes: space, token</p>
             </td>
 
             
-                <td class="attributes">
-                
-
-                
-
-                
-                </td>
-            
 
             
 
@@ -1039,16 +1019,6 @@ l'authentification. Il doit avoir les propriétés suivantes: space, token</p>
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
 
@@ -1056,17 +1026,10 @@ l'authentification. Il doit avoir les propriétés suivantes: space, token</p>
         </tr>
 
     
-    </tbody>
-</table>
-
-            </td>
-        </tr>
-
-    
 
         <tr>
             
-                <td class="name"><code>objectId</code></td>
+                <td class="name"><code>objID</code></td>
             
 
             <td class="type">
@@ -1079,21 +1042,18 @@ l'authentification. Il doit avoir les propriétés suivantes: space, token</p>
             </td>
 
             
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
-            
 
             
 
             <td class="description last"><p>Le paramètre objectId est l'identifiant unique du document que vous souhaitez
 télécharger depuis le 3DSpace.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
         </tr>
 
     
@@ -1112,16 +1072,6 @@ télécharger depuis le 3DSpace.</p></td>
             
             </td>
 
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
             
 
             
@@ -1147,16 +1097,6 @@ téléchargement.</p></td>
             
             </td>
 
-            
-                <td class="attributes">
-                
-                    &lt;optional><br>
-                
-
-                
-
-                
-                </td>
             
 
             
@@ -14544,7 +14484,7 @@ d'erreur lors du processus de mélange des données. Il faut un argument, qui es
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_loadDatas.js.html">plateform/main/loadDatas.js</a>, <a href="plateform_main_loadDatas.js.html#line180">line 180</a>
+        <a href="plateform_main_loadDatas.js.html">plateform/main/loadDatas.js</a>, <a href="plateform_main_loadDatas.js.html#line181">line 181</a>
     </li></ul></dd>
     
 
@@ -17056,7 +16996,7 @@ structure spécifique et renvoyés sous forme d'objet.</p>
 
 
 <div class="description">
-    <p>La fonction <code>getDatasByTenant</code> est une fonction asynchrone qui télécharge des documents à partir d'un espace 3D à l'aide des informations d'identification fournies et appelle le rappel <code>onDone</code>
+    <p>La fonction <code>getDatasByTenant</code> est une fonction asynchrone qui télécharge une liste de documents à partir du 3DSpace à l'aide des informations d'identification fournies (un ObjectId) et appelle le rappel <code>onDone</code>
 avec les données téléchargées ou le rappel <code>onError</code> avec une erreur le cas échéant. (anciennement getDocuments())</p>
 </div>
 
@@ -17208,20 +17148,20 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token » 
 
             
 
-            <td class="description last"><p>Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)</p></td>
+            <td class="description last"><p>Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token) (get_3DSpace_csrf())</p></td>
         </tr>
 
     
 
         <tr>
             
-                <td class="name"><code>objIds</code></td>
+                <td class="name"><code>objID</code></td>
             
 
             <td class="type">
             
                 
-<span class="param-type">ArrayOfObject</span>
+<span class="param-type">String</span>
 
 
             
@@ -17231,12 +17171,7 @@ la demande. Il inclut généralement des propriétés telles qu'ici « token » 
 
             
 
-            <td class="description last"><p>Tableau d'objets des objets Id des bases de données et leur nom.(ex: credentials.objIds=[{objId:&quot;xxx&quot;,name:&quot;xxx&quot;},{objId:&quot;xxx&quot;,name:&quot;xxx&quot;}] ) (name disponible dans le module :</p>
-<ul>
-<li>dbClients,</li>
-<li>dbCatalogs,</li>
-<li>dbProjets )</li>
-</ul></td>
+            <td class="description last"><p>object Id contenant une liste d'object IDs.</p></td>
         </tr>
 
     
@@ -17354,7 +17289,7 @@ répondre à toute erreur pouvant survenir.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_loadDatas.js.html">plateform/main/loadDatas.js</a>, <a href="plateform_main_loadDatas.js.html#line82">line 82</a>
+        <a href="plateform_main_loadDatas.js.html">plateform/main/loadDatas.js</a>, <a href="plateform_main_loadDatas.js.html#line78">line 78</a>
     </li></ul></dd>
     
 
@@ -17705,7 +17640,7 @@ répondre à toute erreur qui se produit.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_loadDatas.js.html">plateform/main/loadDatas.js</a>, <a href="plateform_main_loadDatas.js.html#line133">line 133</a>
+        <a href="plateform_main_loadDatas.js.html">plateform/main/loadDatas.js</a>, <a href="plateform_main_loadDatas.js.html#line134">line 134</a>
     </li></ul></dd>
     
 
@@ -18980,7 +18915,7 @@ s'il n'est pas fourni, la fonction ne fera rien en cas d'erreur.</p></td>
 
 
 <div class="description">
-    <p>La fonction <code>get_3DSpace_csrf</code> récupère un jeton CSRF du 3DSpace en utilisant les  informations d'identification fournies.(Anciennement loadDatas())</p>
+    <p>La fonction <code>get_3DSpace_csrf</code> récupère un jeton CSRF du 3DSpace en utilisant les  informations d'identification fournies.(Anciennement loadDatas()) avec ou sans objID</p>
 </div>
 
 
@@ -21711,7 +21646,7 @@ l'événement existant dans le tableau</p></td>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri Feb 02 2024 09:53:23 GMT+0100 (heure normale d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Fri Feb 02 2024 10:17:14 GMT+0100 (heure normale d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>

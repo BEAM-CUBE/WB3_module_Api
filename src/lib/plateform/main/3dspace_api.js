@@ -661,13 +661,13 @@ export function _3DSpace_get_securityContexts(
  * @param {String} credentials.space - (3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
  * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
 
- * @param  {String} [credentials.token] - Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)
- * @param {String} [objectId] - Le paramètre objectId est l'identifiant unique du document que vous souhaitez
+ * @param  {String} credentials.token - Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)
+ * @param {String} credentials.objID - Le paramètre objectId est l'identifiant unique du document que vous souhaitez
  * télécharger depuis le 3DSpace.
- * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque le
+ * @param {Function} onDone - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque le
  * téléchargement sera terminé avec succès. Il prend un argument, qui est les données de réponse du
  * téléchargement.
- * @param {Callback} [onError] - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
+ * @param {Callback} onError - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
  * erreur lors de l'exécution de la fonction `_3dspace_download_doc`. Il vous permet de gérer et de
  * répondre à toutes les erreurs qui se produisent.
  
