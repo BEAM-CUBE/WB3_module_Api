@@ -101,7 +101,6 @@ export async function _getPlatformServices(
         onComplete(
           i3DXCompassServices.getPlatformServices({
             platformId,
-
             onComplete,
             onFailure,
           }),
