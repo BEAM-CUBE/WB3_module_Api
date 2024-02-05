@@ -94,79 +94,6 @@
     
 
     
-        <h3 class="subsection-title">Members</h3>
-
-        
-            
-<h4 class="name" id="getCSRFToken"><span class="type-signature">(constant) </span>getCSRFToken<span class="type-signature"></span></h4>
-
-
-
-
-<div class="description">
-    <p>La fonction <code>getCSRFToken</code> est une fonction asynchrone qui récupère un jeton CSRF à partir d'une URL
-spécifiée et appelle le rappel <code>onDone</code> avec le jeton en cas de succès, ou le rappel <code>onError</code> avec
-une erreur en cas d'échec.</p>
-</div>
-
-
-
-
-
-
-
-<dl class="details">
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-
-    
-    <dt class="tag-source">Source:</dt>
-    <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_getCSRFToken.js.html">plateform/main/getCSRFToken.js</a>, <a href="plateform_main_getCSRFToken.js.html#line32">line 32</a>
-    </li></ul></dd>
-    
-
-    
-
-    
-
-    
-</dl>
-
-
-
-
-
-    <h5>Example</h5>
-    
-    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
-
-
-
-        
-    
 
     
         <h3 class="subsection-title">Methods</h3>
@@ -15817,6 +15744,247 @@ L'argument <code>response</code> contient le corps de la réponse d'erreur, l'ar
     
 
     
+    <h4 class="name" id="getCSRFToken"><span class="type-signature"></span>getCSRFToken<span class="signature">(credentials, onDone, onError)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>La fonction <code>getCSRFToken</code> est une fonction asynchrone qui récupère un jeton CSRF à partir d'une URL
+spécifiée et appelle le rappel <code>onDone</code> avec le jeton en cas de succès, ou le rappel <code>onError</code> avec
+une erreur en cas d'échec.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>credentials</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Un objet contenant les informations d'identification requises pour authentifier
+la demande. Il inclut généralement des propriétés telles que « token », « space » et « ctx ».</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>space</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>(3DSpace) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onDone</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Le paramètre <code>onDone</code> est une fonction de rappel qui sera appelée lorsque le jeton
+CSRF sera récupéré avec succès. Il faut un argument, qui est la valeur du jeton CSRF.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onError</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Le paramètre <code>onError</code> est une fonction de rappel qui sera appelée s'il y a une erreur lors de la requête HTTP. Il est facultatif et peut être utilisé pour gérer les erreurs qui se produisent lors de la demande.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="plateform_main_getCSRFToken.js.html">plateform/main/getCSRFToken.js</a>, <a href="plateform_main_getCSRFToken.js.html#line16">line 16</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    <h5>Example</h5>
+    
+    <pre class="prettyprint"><code>pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}</code></pre>
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="getCommunes"><span class="type-signature"></span>getCommunes<span class="signature">(cp, onDone, onError)</span><span class="type-signature"></span></h4>
     
 
@@ -21377,7 +21545,7 @@ l'événement existant dans le tableau</p></td>
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Mon Feb 05 2024 10:56:13 GMT+0100 (heure normale d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Mon Feb 05 2024 11:03:24 GMT+0100 (heure normale d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>
