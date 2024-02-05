@@ -691,6 +691,7 @@ export async function _3DSpace_download_doc(
   message = undefined,
 ) {
   const objectId = credentials.objID;
+  delete credentials.token;
   if (!objectId || objectId === "") {
     console.warn(
       "_3DSpace_download_doc() / Le paramètre objectId est obligatoire",
@@ -702,12 +703,11 @@ export async function _3DSpace_download_doc(
       "_3DSpace_download_doc() / Le paramètre space est obligatoire",
     );
   }
-  delete credentials.token;
   if (credentials.token === "" || !credentials.token) {
     getCSRFToken(
       credentials,
       (rep) => {
-        credentials.token = rep;
+        credentials["token"] = rep;
       },
       (err) => {
         console.log("☠️ error => ", err);
