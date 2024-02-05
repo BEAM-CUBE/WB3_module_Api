@@ -34,17 +34,18 @@ export const getCSRFToken = async (credentials, onDone, onError) => {
   const url = `${credentials.space}/resources/v1/application/CSRF`;
 
   try {
-    const response = await _httpCallAuthenticated(
+    return (response = await _httpCallAuthenticated(
       url,
       (rep) => {
-        const parsedResponse = JSON.parse(response);
+        const parsedResponse = JSON.parse(rep);
         console.log("getCSRFToken() / response => ", parsedResponse);
         onDone?.(parsedResponse.csrf);
+        return parsedResponse;
       },
       (err) => {
         onError?.({ error, headers, xhr });
       },
-    );
+    ));
   } catch (erreur) {
     onError?.("erreur", erreur);
   }

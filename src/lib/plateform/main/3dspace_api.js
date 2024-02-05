@@ -704,6 +704,7 @@ export async function _3DSpace_download_doc(
     );
   }
   if (credentials.token === "" || !credentials.token) {
+    console.log("je récupère un nouveau token");
     getCSRFToken(
       credentials,
       (rep) => {
