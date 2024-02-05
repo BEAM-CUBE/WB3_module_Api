@@ -682,16 +682,15 @@ export function _3DSpace_get_securityContexts(
  * erreur lors de l'exécution de la fonction `_3dspace_download_doc`. Il vous permet de gérer et de
  * répondre à toutes les erreurs qui se produisent.
  
- * @returns une promesse.
+ * @returns {Void}
  */
 export async function _3DSpace_download_doc(
   credentials,
   onDone = undefined,
   onError = undefined,
-  message = undefined,
 ) {
   const objectId = credentials.objID;
-  delete credentials.token;
+
   if (!objectId || objectId === "") {
     console.warn(
       "_3DSpace_download_doc() / Le paramètre objectId est obligatoire",
@@ -704,7 +703,6 @@ export async function _3DSpace_download_doc(
     );
   }
   if (credentials.token === "" || !credentials.token) {
-    console.log("je récupère un nouveau token");
     getCSRFToken(
       credentials,
       (rep) => {
@@ -728,6 +726,8 @@ export async function _3DSpace_download_doc(
       // console.log(credentials.token);
       _httpCallAuthenticated(ticketURL, {
         headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
           ENO_CSRF_TOKEN: credentials.token,
         },
         onComplete(response) {
