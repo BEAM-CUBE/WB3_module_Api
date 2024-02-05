@@ -14,12 +14,13 @@
     }
   },
   "scripts": {
-    "b3:publish": "npm run time && npm run module:version && npm publish --access public",
+    "b3:publish": "npm run update:git && npm run time && npm run module:version && npm publish --access public",
     "build": "npm run clean && npm run jsdoc && vite build",
     "clean": "rm -rf dist docs",
     "jsdoc": "jsdoc -c jsdoc.json",
     "module:version": "npm version patch",
-    "time": "echo Heure de l'update : %time%"
+    "time": "echo Heure de l'update : %time%",
+    "update:git": "git add . && git commit -m 'update' && git push"
   },
   "repository": {
     "type": "git",

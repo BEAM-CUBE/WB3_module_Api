@@ -3,6 +3,7 @@ import {
   _getPlatformServices,
 } from "./3dexperience_api";
 import { UUID } from "../../api/index";
+import { getCSRFToken } from "./getCSRFToken";
 
 /**
  * @description La fonction `_3dSpace_get_docInfo` récupère des informations sur un document dans un espace 3D.
@@ -701,7 +702,17 @@ export async function _3DSpace_download_doc(
       "_3DSpace_download_doc() / Le paramètre space est obligatoire",
     );
   }
+  delete credentials.token;
   if (credentials.token === "" || !credentials.token) {
+    getCSRFToken(
+      credentials,
+      (rep) => {
+        credentials.token = rep;
+      },
+      (err) => {
+        console.log("☠️ error => ", err);
+      },
+    );
     console.warn(
       "_3DSpace_download_doc() / Le paramètre token est obligatoire",
     );
@@ -712,8 +723,8 @@ export async function _3DSpace_download_doc(
   _3DSpace_get_ticket(
     credentials,
     (ticketURL) => {
-      console.info("_3DSpace_download_doc / ticketURL ", ticketURL);
-      console.log(credentials.token);
+      // console.info("_3DSpace_download_doc / ticketURL ", ticketURL);
+      // console.log(credentials.token);
       _httpCallAuthenticated(ticketURL, {
         headers: {
           ENO_CSRF_TOKEN: credentials.token,

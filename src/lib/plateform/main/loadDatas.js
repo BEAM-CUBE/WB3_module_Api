@@ -88,7 +88,7 @@ export async function getDatasByTenant(
       const _datas = {};
       _datas["obj"] = data;
       console.log("getDatasByTenant (getDocuments) _datas", _datas);
-      if (onDone) onDone(_datas);
+      onDone && onDone?.(_datas);
 
       // getDatasFrom3DSpace(
       //   credentials,
@@ -104,7 +104,7 @@ export async function getDatasByTenant(
       // );
     },
     (err) => {
-      if (onError) onError(err);
+      onError && onError?.(err);
     },
   );
 }

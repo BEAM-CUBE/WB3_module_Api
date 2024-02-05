@@ -13,19 +13,32 @@ import { _httpCallAuthenticated } from "./3dexperience_api";
  * @param {Function} onError - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une erreur lors de la requête HTTP. Il est facultatif et peut être utilisé pour gérer les erreurs qui se produisent lors de la demande.
  *
  */
-export async function getCSRFToken(credentials, onDone, onError) {
-  if (credentials.space) {
-    const url = `${credentials.space}/resources/v1/application/CSRF`;
-    _httpCallAuthenticated(url, {
-      onComplete(response) {
-        response = JSON.parse(response);
-        console.log("getCSRFToken() / response => ", response);
-        if (onDone) onDone(response.csrf);
-      },
-      onFailure(error, headers, xhr) {
-        const infos = { error, headers, xhr };
-        if (onError) onError(infos);
-      },
-    });
+// export async function getCSRFToken(credentials, onDone, onError) {
+//   if (credentials.space) {
+//     const url = `${credentials.space}/resources/v1/application/CSRF`;
+//     _httpCallAuthenticated(url, {
+//       onComplete(response) {
+//         response = JSON.parse(response);
+//         console.log("getCSRFToken() / response => ", response);
+//         if (onDone) onDone(response.csrf);
+//       },
+//       onFailure(error, headers, xhr) {
+//         const infos = { error, headers, xhr };
+//         if (onError) onError(infos);
+//       },
+//     });
+//   }
+// }
+export const getCSRFToken = async (credentials, onDone, onError) => {
+  if (!credentials.space) return;
+  const url = `${credentials.space}/resources/v1/application/CSRF`;
+
+  try {
+    const response = await _httpCallAuthenticated(url);
+    const parsedResponse = JSON.parse(response);
+    console.log("getCSRFToken() / response => ", parsedResponse);
+    onDone?.(parsedResponse.csrf);
+  } catch ({ error, headers, xhr }) {
+    onError?.({ error, headers, xhr });
   }
-}
+};
