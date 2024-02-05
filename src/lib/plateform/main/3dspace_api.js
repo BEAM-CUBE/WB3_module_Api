@@ -718,36 +718,41 @@ export async function _3DSpace_download_doc(
   }
 
   console.log("_3DSpace_download_doc / credentials", credentials);
-
-  _3DSpace_get_ticket(
-    credentials,
-    (ticketURL) => {
-      // console.info("_3DSpace_download_doc / ticketURL ", ticketURL);
-      // console.log(credentials.token);
-      _httpCallAuthenticated(ticketURL, {
-        headers: {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-          ENO_CSRF_TOKEN: credentials.token,
-        },
-        onComplete(response) {
-          const result = JSON.parse(response);
-          console.log("_3DSpace_download_doc / reponse ", result);
-          if (onDone) onDone(result);
-        },
-        onFailure(error, headers, xhr) {
-          if (onError) {
-            console.log("error http", error);
-            onError({ error, headers, xhr });
-          }
-        },
-      });
-    },
-    (error) => {
-      if (onError) onError(error);
-      console.log("*_3dspace_download_doc / error file URL *", error);
-    },
-  );
+  const reponse = new Promise((resolve, reject) => {
+    _3DSpace_get_ticket(
+      credentials,
+      (ticketURL) => {
+        // console.info("_3DSpace_download_doc / ticketURL ", ticketURL);
+        // console.log(credentials.token);
+        _httpCallAuthenticated(ticketURL, {
+          headers: {
+            "Content-Type": "application/json",
+            Accept: "application/json",
+            ENO_CSRF_TOKEN: credentials.token,
+          },
+          onComplete(response) {
+            const result = JSON.parse(response);
+            console.log("_3DSpace_download_doc / reponse ", result);
+            if (onDone) onDone(result);
+            resolve(result);
+          },
+          onFailure(error, headers, xhr) {
+            if (onError) {
+              console.log("error http", error);
+              onError({ error, headers, xhr });
+              reject({ error, headers, xhr });
+            }
+          },
+        });
+      },
+      (error) => {
+        if (onError) onError(error);
+        console.log("*_3dspace_download_doc / error file URL *", error);
+        reject(error);
+      },
+    );
+  });
+  return reponse;
 }
 
 /**
