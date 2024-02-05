@@ -131,7 +131,7 @@ export function _3DSpace_csrf(
 }
 
 /**
- * @description La fonction `_3DSpace_file_url` récupère un ticket d’accès pour un document
+ * @description La fonction `_3DSpace_get_ticket` récupère un ticket d’accès pour un document
  * 
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles qu'ici « token » et « space ».(ex: credentials.space, credentials.tenant, credentials.token...).
@@ -145,7 +145,7 @@ export function _3DSpace_csrf(
  * de l'exécution de la fonction. Il s'agit d'un paramètre facultatif et peut être laissé indéfini s'il
  * n'est pas nécessaire.
  */
-export function _3DSpace_file_url(
+export function _3DSpace_get_ticket(
   credentials,
   onDone = undefined,
   onError = undefined,
@@ -157,7 +157,7 @@ export function _3DSpace_file_url(
     credentials,
     (token) => {
       console.log(
-        "_3DSpace_file_url / onComplete / ☠️ info => ",
+        "_3DSpace_get_ticket / onComplete / ☠️ info => ",
         token,
         credentials.token,
       );
@@ -170,7 +170,7 @@ export function _3DSpace_file_url(
 
         onComplete(response) {
           let info = JSON.parse(response);
-          console.log("_3DSpace_file_url() / ☠️ info => ", info);
+
           const file_url = info.data[0].dataelements.ticketURL;
           console.log("le ticket est dans la callback");
           if (onDone) onDone(file_url);
@@ -183,7 +183,7 @@ export function _3DSpace_file_url(
       });
     },
     (err) => {
-      console.warn("_3DSpace_file_url / error => ", err);
+      console.warn("_3DSpace_get_ticket / error => ", err);
       if (onError) onError(err);
     },
   );
@@ -709,10 +709,10 @@ export async function _3DSpace_download_doc(
 
   console.log("_3DSpace_download_doc / credentials", credentials);
 
-  _3DSpace_file_url(
+  _3DSpace_get_ticket(
     credentials,
     (ticketURL) => {
-      console.log("_3DSpace_download_doc / ticketURL ", ticketURL);
+      console.info("_3DSpace_download_doc / ticketURL ", ticketURL);
       console.log(credentials.token);
       _httpCallAuthenticated(ticketURL, {
         headers: {

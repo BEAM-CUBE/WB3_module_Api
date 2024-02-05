@@ -1,5 +1,5 @@
 import { _httpCallAuthenticated } from "./3dexperience_api";
-import { _3DSpace_file_url } from "./3dspace_api";
+import { _3DSpace_get_ticket } from "./3dspace_api";
 /**
  * @description La fonction `getDataFrom3DSpace` récupère les données d'un espace 3D en utilisant les informations
  * d'identification fournies et les préférences du widget, et appelle le rappel `onDone` avec la
@@ -24,7 +24,7 @@ export function getDataFrom3DSpace(
   onDone,
   onError,
 ) {
-  _3DSpace_file_url(
+  _3DSpace_get_ticket(
     credentials.space,
     widgetPreference,
     (response) => {

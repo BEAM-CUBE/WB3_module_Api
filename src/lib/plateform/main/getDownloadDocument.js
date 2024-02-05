@@ -1,4 +1,4 @@
-import { _3DSpace_file_url } from "./3dspace_api";
+import { _3DSpace_get_ticket } from "./3dspace_api";
 import { _httpCallAuthenticated } from "./3dexperience_api";
 /**
  * @description La fonction `getDownloadDocument` est une fonction asynchrone qui récupère un document à télécharger
@@ -23,7 +23,7 @@ export async function getDownloadDocument(
 ) {
   return new Promise((result) => {
     //TODO - a test ? manque l'URL
-    _3DSpace_file_url(credentials, docId, (reponse) => {
+    _3DSpace_get_ticket(credentials, docId, (reponse) => {
       _httpCallAuthenticated(reponse, {
         onComplete: (reponse, headers, xhr) => {
           result(JSON.parse(reponse));
