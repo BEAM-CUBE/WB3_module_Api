@@ -689,9 +689,7 @@ export async function _3DSpace_download_doc(
   onDone = undefined,
   onError = undefined,
 ) {
-  const objectId = credentials.objID;
-
-  if (!objectId || objectId === "") {
+  if (!credentials.objID || credentials.objID === "") {
     console.warn(
       "_3DSpace_download_doc() / Le paramètre objectId est obligatoire",
     );
@@ -718,34 +716,35 @@ export async function _3DSpace_download_doc(
   }
 
   console.log("_3DSpace_download_doc / credentials", credentials);
+
   const reponse = new Promise((resolve, reject) => {
     _3DSpace_get_ticket(
       credentials,
       (ticketURL) => {
-        // console.info("_3DSpace_download_doc / ticketURL ", ticketURL);
-        // console.log(credentials.token);
         setTimeout(() => {
+          const headers = {
+            ENO_CSRF_TOKEN: credentials.token,
+          };
           _httpCallAuthenticated(ticketURL, {
-            headers: {
-              "Content-Type": "application/json",
-              Accept: "application/json",
-              ENO_CSRF_TOKEN: credentials.token,
-            },
+            headers,
             onComplete(response) {
               const result = JSON.parse(response);
-              console.log("_3DSpace_download_doc / reponse ", result);
+              console.log(
+                "_3DSpace_download_doc / reponse (liste d'objetsID) ",
+                result,
+              );
               if (onDone) onDone(result);
               resolve(result);
             },
             onFailure(error, headers, xhr) {
               if (onError) {
                 console.log("error http", error);
-                onError({ error, headers, xhr });
-                reject({ error, headers, xhr });
+                onError({ msg: JSON.parse(error), headers, xhr });
+                reject({ msg: JSON.parse(error), headers, xhr });
               }
             },
           });
-        }, 500);
+        }, 1000);
       },
       (error) => {
         if (onError) onError(error);
