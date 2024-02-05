@@ -723,7 +723,9 @@ export async function _3DSpace_download_doc(
       (ticketURL) => {
         setTimeout(() => {
           const headers = {
-            ENO_CSRF_TOKEN: credentials.token,
+            // ENO_CSRF_TOKEN: credentials.token,
+            "Content-Type": "application/json",
+            Accept: "application/json",
           };
           _httpCallAuthenticated(ticketURL, {
             headers,
