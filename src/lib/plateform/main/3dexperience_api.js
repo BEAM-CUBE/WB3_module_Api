@@ -97,7 +97,6 @@ export async function _getPlatformServices(
         platformId = undefined;
       }
       if (onComplete) {
-        console.log("i3DXCompassServices", i3DXCompassServices);
         onComplete(
           i3DXCompassServices.getPlatformServices({
             platformId,
