@@ -160,6 +160,9 @@ export function getDatasFrom3DSpace(
         }
         if (i === credentials.objIds.length - 1) {
           if (onDone) onDone(bbds);
+
+          delete credentials.objIds;
+          delete credentials.datas;
         }
       },
       (err) => {
