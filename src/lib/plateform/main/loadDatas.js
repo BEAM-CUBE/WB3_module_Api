@@ -120,7 +120,7 @@ export async function getDatasByTenant(
  * @param {String} credentials.tenant - le tenant courant
  * @example {tenant:"R1132100968447"}
  * @param {String} credentials.token - Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)
- * @param {ArrayOfObject} credentials.objIds - Tableau d'objets des objets Id des bases de données et leur nom.(ex: credentials.objIds=[{objId:"xxx",name:"xxx"},{objId:"xxx",name:"xxx"}] ) (name disponible dans le module :
+ * @param {ArrayOfObject} credentials.objIds - Tableau d'objets des objets Id des bases de données et leur nom.(ex: credentials.objIds=[{objID:"xxx",name:"xxx"},{objID:"xxx",name:"xxx"}] ) (name disponible dans le module :
  * - dbClients,
  * - dbCatalogs,
  * - dbProjets )
@@ -138,10 +138,18 @@ export function getDatasFrom3DSpace(
   onError = undefined,
 ) {
   const bbds = [];
+  if (
+    !credentials.objIds &&
+    !Array.isArray(credentials.objIds) &&
+    credentials.objIds.length === 0
+  ) {
+    console.warn("la liste est vide ou n'est pas un tableau");
+    return;
+  }
   credentials.objIds.forEach((obj, i) => {
     _3DSpace_download_doc(
       credentials,
-      obj.objId,
+      obj.objID,
       (data) => {
         bbds.push({ [obj.name]: data });
         if (obj.name === "dbProjets") {

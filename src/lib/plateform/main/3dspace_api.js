@@ -118,7 +118,7 @@ export function _3DSpace_csrf(
     _httpCallAuthenticated(url, {
       onComplete(response, headers, xhr) {
         const info = JSON.parse(response);
-        console.log("_3DSpace_csrf() / info => ", info);
+
         if (onDone) onDone(info.csrf.value);
       },
       onFailure(response, headers, xhr) {
@@ -157,12 +157,6 @@ export function _3DSpace_get_ticket(
   _3DSpace_get_csrf(
     credentials,
     (token) => {
-      console.log(
-        "_3DSpace_get_ticket / onComplete / ☠️ info => ",
-        token,
-        credentials.token,
-      );
-
       _httpCallAuthenticated(url, {
         method: "PUT",
         headers: {
@@ -173,7 +167,7 @@ export function _3DSpace_get_ticket(
           let info = JSON.parse(response);
 
           const file_url = info.data[0].dataelements.ticketURL;
-          console.log("le ticket est dans la callback");
+
           if (onDone) onDone(file_url);
         },
 
@@ -682,7 +676,7 @@ export function _3DSpace_get_securityContexts(
  * erreur lors de l'exécution de la fonction `_3dspace_download_doc`. Il vous permet de gérer et de
  * répondre à toutes les erreurs qui se produisent.
  
- * @returns {Void}
+ * @returns {Promise}
  */
 export async function _3DSpace_download_doc(
   credentials,
@@ -715,38 +709,30 @@ export async function _3DSpace_download_doc(
     );
   }
 
-  console.log("_3DSpace_download_doc / credentials", credentials);
-
   const reponse = new Promise((resolve, reject) => {
     _3DSpace_get_ticket(
       credentials,
       (ticketURL) => {
-        setTimeout(() => {
-          const headers = {
-            // ENO_CSRF_TOKEN: credentials.token,
-            "Content-Type": "application/json",
-            Accept: "application/json",
-          };
-          _httpCallAuthenticated(ticketURL, {
-            headers,
-            onComplete(response) {
-              const result = JSON.parse(response);
-              console.log(
-                "_3DSpace_download_doc / reponse (liste d'objetsID) ",
-                result,
-              );
-              if (onDone) onDone(result);
-              resolve(result);
-            },
-            onFailure(error, headers, xhr) {
-              if (onError) {
-                console.log("error http", error);
-                onError({ msg: JSON.parse(error), headers, xhr });
-                reject({ msg: JSON.parse(error), headers, xhr });
-              }
-            },
-          });
-        }, 1000);
+        const headers = {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        };
+        _httpCallAuthenticated(ticketURL, {
+          headers,
+          onComplete(response) {
+            const result = JSON.parse(response);
+
+            if (onDone) onDone(result);
+            resolve(result);
+          },
+          onFailure(error, headers, xhr) {
+            if (onError) {
+              console.log("error http", error);
+              onError({ msg: JSON.parse(error), headers, xhr });
+              reject({ msg: JSON.parse(error), headers, xhr });
+            }
+          },
+        });
       },
       (error) => {
         if (onError) onError(error);
