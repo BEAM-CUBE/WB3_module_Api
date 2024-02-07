@@ -5,7 +5,7 @@ import { _httpCallAuthenticated } from "./3dexperience_api.js";
  * d'utilisateurs d'une plateforme spécifiée.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
- * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, usersgroup, 3DCompass...)
+ * @param {String} credentials.space -  L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, usersgroup, 3DCompass...)
  * @param {String} credentials.tenant - L'identifiant du tenant sur lequel l'API est déployée.(ex:1132100968447)
  * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque l'appel
  * API sera terminé avec succès. Il prend un argument, « info », qui correspond aux données de réponse
