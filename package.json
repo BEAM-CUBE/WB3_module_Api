@@ -1,6 +1,6 @@
 {
   "name": "@beam3_dev/api_module",
-  "version": "0.0.76",
+  "version": "0.0.77",
   "type": "module",
   "files": [
     "dist"
@@ -13,7 +13,6 @@
       "require": "./dist/wb3Api.umd.cjs"
     }
   },
-  
   "scripts": {
     "b3:publish": "npm run update:git && npm run time && npm run module:version && npm publish --access public",
     "build": "npm run clean && npm run jsdoc && vite build",
