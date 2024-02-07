@@ -27,3 +27,5 @@ npm run b3:publish
 
 - Ne pas oublier de mettre à jour le fichier README.md en cas de modification de la librairie.
 - Mettre à jour le widget dans lequel on utilise déjà la librairie.
+
+.
