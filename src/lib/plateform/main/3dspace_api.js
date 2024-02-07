@@ -554,6 +554,7 @@ export function _3DSpace_get_securityContexts(
   organization = undefined,
   onDone = undefined,
   onError = undefined,
+  withPreferredCredentials = false
 ) {
   const url =
     `${credentials.space}/resources/modeler/pno/person?` +
@@ -637,7 +638,7 @@ export function _3DSpace_get_securityContexts(
         onDone(context);
         // onDone(encodeURI(context));
       } else {
-        if (contexts.preferredcredentials) {
+        if (contexts.preferredcredentials && withPreferredCredentials) {
           context =
             contexts.preferredcredentials.role.name +
             "." +
