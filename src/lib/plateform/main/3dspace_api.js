@@ -396,7 +396,7 @@ export function _3DSpace_file_update_csr(
     },
   });
 }
-
+ 
 /**
  * @description Cette fonction crée un document dans le 3Dspace à partir des données fournies au format JSON.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
