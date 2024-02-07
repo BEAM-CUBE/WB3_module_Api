@@ -2,8 +2,8 @@ import { _httpCallAuthenticated } from "../../main/3dexperience_api";
 import { _3DSwym_get_version } from "../3dswym_api";
 
 /**
- * @description La fonction `_3dSwim_getAllCommunities` récupère une liste de communautés à partir d'une plateforme
- * 3D Swim en utilisant les informations d'identification fournies.
+ * @description La fonction `_3dSwym_getAllCommunities` récupère une liste de communautés à partir d'une plateforme
+ * 3D Swym en utilisant les informations d'identification fournies.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
  * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
@@ -12,10 +12,10 @@ import { _3DSwym_get_version } from "../3dswym_api";
  * @param {Function} [onDone] - Une fonction de rappel qui sera appelée une fois l'opération terminée. Il prend la
  * liste des communautés comme paramètre.
  * @param {Function} [onError] - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
- * erreur lors de l'exécution de la fonction `_3dSwim_getAllCommunities`. Il vous permet de gérer et de
+ * erreur lors de l'exécution de la fonction `_3dSwym_getAllCommunities`. Il vous permet de gérer et de
  * répondre à toute erreur qui se produit.
  */
-export function _3DSwim_getAllCommunities(
+export function _3DSwym_getAllCommunities(
   credentials,
   onDone = undefined,
   onError = undefined,
@@ -49,7 +49,7 @@ export function _3DSwim_getAllCommunities(
             role: commu.role,
             access: commu.access,
           };
-          _3DSwim_getMembersCommunity(
+          _3DSwym_getMembersCommunity(
             credentials,
             commu.id,
             (data) => {
@@ -75,7 +75,7 @@ export function _3DSwim_getAllCommunities(
 }
 
 /**
- * @description La fonction `_3DSwim_getMembersCommunity` récupère une liste des membres d'une communauté en utilisant les informations d'identification et l'ID de communauté fournis.
+ * @description La fonction `_3DSwym_getMembersCommunity` récupère une liste des membres d'une communauté en utilisant les informations d'identification et l'ID de communauté fournis.
  *
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
@@ -86,11 +86,11 @@ export function _3DSwim_getAllCommunities(
  * @param {Function} onDone - Une fonction de rappel qui sera appelée lorsque l'appel d'API réussit et renvoie les
  * données de réponse. Les données de réponse seront transmises en argument à cette fonction.
  * @param {Function} onError - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
- * erreur lors de l'exécution de la fonction `_3DSwim_getMembersCommunity`. Il est utilisé pour gérer
+ * erreur lors de l'exécution de la fonction `_3DSwym_getMembersCommunity`. Il est utilisé pour gérer
  * toutes les erreurs qui se produisent et fournir une gestion des erreurs ou des messages d'erreur
  * appropriés à l'appelant de la fonction.
  */
-export function _3DSwim_getMembersCommunity(
+export function _3DSwym_getMembersCommunity(
   credentials,
   idCommu,
   onDone,
@@ -434,8 +434,8 @@ function formatedMessage(message) {
 }
 
 export default {
-  _3DSwim_getAllCommunities,
-  _3DSwim_getMembersCommunity,
+  _3DSwym_getAllCommunities,
+  _3DSwym_getMembersCommunity,
   _3DSwym_getIdeaStatusMaturity,
   _3DSwym_buildDirectMessage,
   _3DSwym_findCommunityToInstantMSG,

@@ -66,8 +66,8 @@ import {
   addTagToDoc,
 } from "./lib/plateform/Tag";
 import {
-  _3DSwim_getAllCommunities,
-  _3DSwim_getMembersCommunity,
+  _3DSwym_getAllCommunities,
+  _3DSwym_getMembersCommunity,
   _3DSwym_getIdeaStatusMaturity,
   _3DSwym_buildDirectMessage,
   _3DSwym_findCommunityToInstantMSG,
@@ -109,8 +109,8 @@ export {
   _3DSpace_lifecycle_getGraph,
   _3DSpace_lifecycle_getNextRevision,
   _3DSpace_lifecycle_getNextStates,
-  _3DSwim_getAllCommunities,
-  _3DSwim_getMembersCommunity,
+  _3DSwym_getAllCommunities,
+  _3DSwym_getMembersCommunity,
   _3DSwym_buildDirectMessage,
   _3DSwym_deleteIdea,
   _3DSwym_findCommunityToInstantMSG,

@@ -18,7 +18,7 @@ const dataTest = {
  * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
  * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
 
- * @param {Array} credentials.swymCommunities tableau des communautés issue de la fonction `_3DSwim_getAllCommunities`
+ * @param {Array} credentials.swymCommunities tableau des communautés issue de la fonction `_3DSwym_getAllCommunities`
  * @param {Object} data - Le paramètre `data` est un objet qui contient les propriétés suivantes: `title`, `community_id` et `community_title` Ce dernier est optionnel.
  * @param {String} data.title - Le titre de l'idée.
  * @param {String} data.community_id - L'ID de la communauté sur laquelle l'idée doit être publiee.(ex: "YXdA5x4DSUKtlAi2wmnyTA")
