@@ -36,12 +36,15 @@
     "WB3"
   ],
   "devDependencies": {
-    "vite": "^5.0.8",
-    "jsdoc": "^3.6.10"
+    "jsdoc": "^3.6.10",
+    "vite": "^5.0.8"
   },
   "peerDependencies": {
-    "@widget-lab/3ddashboard-utils": "https://btcc.3ds.com/widget-lab/npm/widget-lab-3ddashboard-utils-1.4.0.tgz",
+    "@widget-lab/3ddashboard-utils": "https://btcc.3ds.com/widget-lab/npm/widget-lab-3ddashboard-utils-1.7.2.tgz",
     "luxon": "^3.4.4",
     "uuid": "^9.0.1"
+  },
+  "dependencies": {
+    "rm": "^0.1.8"
   }
 }
