@@ -14,8 +14,8 @@
     }
   },
   "scripts": {
-    "b3:publish": "npm run update:git && npm run time && npm run module:version && npm publish --access public",
     "build": "npm run clean && npm run jsdoc && vite build",
+    "b3:publish": "npm run update:git && npm run time && npm run module:version && npm publish --access public",
     "clean": "rm -rf dist docs",
     "jsdoc": "jsdoc -c jsdoc.json",
     "module:version": "npm version patch",

@@ -718,7 +718,7 @@ export async function _3DSpace_download_doc(
     );
   }
 
-  const reponse = new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     _3DSpace_get_ticket(
       credentials,
       (ticketURL) => {
@@ -735,9 +735,9 @@ export async function _3DSpace_download_doc(
             } catch (error) {
               tryParse = response;
             }
-            result = tryParse;
+
             if (onDone) onDone(tryParse);
-            return result;
+            resolve(tryParse);
           },
           onFailure(error, headers, xhr) {
             if (onError) {
@@ -763,7 +763,6 @@ export async function _3DSpace_download_doc(
       },
     );
   });
-  return reponse;
 }
 
 /**
