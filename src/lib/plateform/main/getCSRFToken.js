@@ -19,7 +19,7 @@ export async function getCSRFToken(credentials, onDone, onError) {
     _httpCallAuthenticated(url, {
       onComplete(response) {
         response = JSON.parse(response);
-        console.log("getCSRFToken() / response => ", response);
+        // console.log("getCSRFToken() / response => ", response);
         if (onDone) onDone(response.csrf);
       },
       onFailure(error, headers, xhr) {
