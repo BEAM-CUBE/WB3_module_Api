@@ -786,6 +786,7 @@ export async function _3DSpace_download_multidoc(
 ) {
   let listDiv = [];
   const chunkSize = 80;
+  if (typeof objectIds !== "undefined" && Array.isArray(objectIds) && objectIds?.length > 0){
   for (let i = 0; i < objectIds.length; i += chunkSize) {
     const chunk = objectIds.slice(i, i + chunkSize);
     listDiv.push(chunk);
@@ -806,7 +807,7 @@ export async function _3DSpace_download_multidoc(
     );
   };
 
-  loop(0);
+  loop(0);}
 }
 
 /**
