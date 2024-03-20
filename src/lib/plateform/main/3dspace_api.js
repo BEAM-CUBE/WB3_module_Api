@@ -807,7 +807,10 @@ export async function _3DSpace_download_multidoc(
     );
   };
 
-  loop(0);}
+  loop(0);}else{
+    console.warn("La liste d'objects dans la fonction _3DSpace_download_multidoc est vide ou non défini.");
+    if(onError) onError()
+  }
 }
 
 /**
