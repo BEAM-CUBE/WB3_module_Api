@@ -9,7 +9,7 @@ disponible [sur le marcketplace](https://marketplace.visualstudio.com/items?item
 
 ## installation
 
-```bash
+```sh
 npm i -D wb3_module_api
 # ou 
 yarn add -D wb3_module_api
@@ -25,7 +25,8 @@ npm run b3:publish
 
 ## Attention
 
+- Vérifer si vous êtes bien loggé à NPM : `npm whoami`, sinon `npm login`.
 - Ne pas oublier de mettre à jour le fichier README.md en cas de modification de la librairie.
 - Mettre à jour le widget dans lequel on utilise déjà la librairie.
+- En cas de de problèmes de publication, verifier le versioning du `package.json` et du module sur le site NPM, la version du package.json doit être mise à jour et égale à la version du module (NPM).
 
-.

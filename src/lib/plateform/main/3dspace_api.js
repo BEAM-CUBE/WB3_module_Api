@@ -2,12 +2,8 @@ import {
   _httpCallAuthenticated,
   _getPlatformServices,
 } from "./3dexperience_api";
-import {
-  UUID
-} from "../../api/index";
-import {
-  getCSRFToken
-} from "./getCSRFToken";
+import { UUID } from "../../api/index";
+import { getCSRFToken } from "./getCSRFToken";
 
 /**
  * @description La fonction `_3dSpace_get_docInfo` récupère des informations sur un document dans un espace 3D.
@@ -126,11 +122,12 @@ export function _3DSpace_csrf(
         if (onDone) onDone(info.csrf.value);
       },
       onFailure(response, headers, xhr) {
-        if (onError) onError({
-          response,
-          headers,
-          xhr
-        });
+        if (onError)
+          onError({
+            response,
+            headers,
+            xhr,
+          });
       },
     });
   } else {
@@ -353,20 +350,24 @@ export function _3DSpace_file_update_csr(
             ENO_CSRF_TOKEN: csr,
           },
           data: JSON.stringify({
-            data: [{
-              id: docId,
-              relateddata: {
-                files: [{
-                  id: fileId,
-                  dataelements: {
-                    title: filename,
-                    receipt: response,
-                  },
-                  updateAction: "REVISE",
-                }, ],
+            data: [
+              {
+                id: docId,
+                relateddata: {
+                  files: [
+                    {
+                      id: fileId,
+                      dataelements: {
+                        title: filename,
+                        receipt: response,
+                      },
+                      updateAction: "REVISE",
+                    },
+                  ],
+                },
+                tempId,
               },
-              tempId,
-            }, ],
+            ],
           }),
 
           type: "json",
@@ -396,7 +397,7 @@ export function _3DSpace_file_update_csr(
     },
   });
 }
- 
+
 /**
  * @description Cette fonction crée un document dans le 3Dspace à partir des données fournies au format JSON.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
@@ -468,26 +469,30 @@ export async function _3DSpace_Create_Doc(
                 "Content-Type": "application/json",
               },
               data: JSON.stringify({
-                data: [{
-                  type: "Document",
-                  dataelements: {
-                    title: `Title_${filename
+                data: [
+                  {
+                    type: "Document",
+                    dataelements: {
+                      title: `Title_${filename
                         .toLowerCase()
                         .split(" ")
                         .join("_")}`,
-                    policy: "Document Release",
-                    description: desc,
+                      policy: "Document Release",
+                      description: desc,
+                    },
+                    relateddata: {
+                      files: [
+                        {
+                          dataelements: {
+                            title: `${filename}.json`,
+                            receipt: ticket,
+                          },
+                        },
+                      ],
+                    },
+                    tempId: UUID(),
                   },
-                  relateddata: {
-                    files: [{
-                      dataelements: {
-                        title: `${filename}.json`,
-                        receipt: ticket,
-                      },
-                    }, ],
-                  },
-                  tempId: UUID(),
-                }, ],
+                ],
               }),
               type: "json",
               timeout: 0,
@@ -554,7 +559,7 @@ export function _3DSpace_get_securityContexts(
   organization = undefined,
   onDone = undefined,
   onError = undefined,
-  withPreferredCredentials = false
+  withPreferredCredentials = false,
 ) {
   const url =
     `${credentials.space}/resources/modeler/pno/person?` +
@@ -578,12 +583,12 @@ export function _3DSpace_get_securityContexts(
           let couples = oCS.couples;
           couples = couples.filter(
             (value, index, self) =>
-            index ===
-            self.findIndex(
-              (t) =>
-              t.organization.pid === value.organization.pid &&
-              t.role.pid === value.role.pid,
-            ),
+              index ===
+              self.findIndex(
+                (t) =>
+                  t.organization.pid === value.organization.pid &&
+                  t.role.pid === value.role.pid,
+              ),
           );
           if (role) {
             if (Array.isArray(role)) {
@@ -654,8 +659,11 @@ export function _3DSpace_get_securityContexts(
         }
       }
     },
-    onFailure(err) {
-      console.log("Erreur de récupération du contexte de sécurité. => ", err);
+    onFailure(err, headers) {
+      console.log("Erreur de récupération du contexte de sécurité. => ", {
+        err,
+        headers,
+      });
     },
   });
 }
@@ -710,7 +718,7 @@ export async function _3DSpace_download_doc(
     );
   }
 
-  const reponse = new Promise((resolve, reject) => {
+  return new Promise((resolve, reject) => {
     _3DSpace_get_ticket(
       credentials,
       (ticketURL) => {
@@ -727,9 +735,9 @@ export async function _3DSpace_download_doc(
             } catch (error) {
               tryParse = response;
             }
-            result = tryParse;
+
             if (onDone) onDone(tryParse);
-            return result;
+            resolve(tryParse);
           },
           onFailure(error, headers, xhr) {
             if (onError) {
@@ -737,12 +745,12 @@ export async function _3DSpace_download_doc(
               onError({
                 msg: JSON.parse(error),
                 headers,
-                xhr
+                xhr,
               });
               reject({
                 msg: JSON.parse(error),
                 headers,
-                xhr
+                xhr,
               });
             }
           },
@@ -755,7 +763,6 @@ export async function _3DSpace_download_doc(
       },
     );
   });
-  return reponse;
 }
 
 /**
@@ -946,9 +953,11 @@ export function _3DSpace_lifecycle_getNextStates(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          data: [{
-            id: objectId,
-          }, ],
+          data: [
+            {
+              id: objectId,
+            },
+          ],
         }),
         type: "json",
         onComplete(response) {
@@ -1014,10 +1023,12 @@ export function _3DSpace_lifecycle_changeState(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          data: [{
-            id: objectId,
-            nextState,
-          }, ],
+          data: [
+            {
+              id: objectId,
+              nextState,
+            },
+          ],
         }),
         type: "json",
         onComplete(response) {
@@ -1124,9 +1135,11 @@ export function _3DSpace_lifecycle_getGraph(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          graphRequests: [{
-            id: objectId,
-          }, ],
+          graphRequests: [
+            {
+              id: objectId,
+            },
+          ],
         }),
         type: "json",
         onComplete(response) {
@@ -1193,15 +1206,17 @@ export function _3DSpace_lifecycle_getNextRevision(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          data: [{
-            "attribute[PLMReference.V_versionComment]": null,
-            physicalid: objectId,
-            type: "Document",
-            tenant: credentials.tenant,
-            objectId,
-            policy: "Document Release",
-            availableSemantic: ["E", "LAST", "NEW", "DUP"],
-          }, ],
+          data: [
+            {
+              "attribute[PLMReference.V_versionComment]": null,
+              physicalid: objectId,
+              type: "Document",
+              tenant: credentials.tenant,
+              objectId,
+              policy: "Document Release",
+              availableSemantic: ["E", "LAST", "NEW", "DUP"],
+            },
+          ],
         }),
         type: "json",
         onComplete(response) {
@@ -1271,13 +1286,15 @@ export function _3DSpace_lifecycle_changeRevision(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          data: [{
-            physicalid: objectId,
-            proposedRevision: nextRevision,
-            modifiedAttributes: {
-              revision: nextRevision,
+          data: [
+            {
+              physicalid: objectId,
+              proposedRevision: nextRevision,
+              modifiedAttributes: {
+                revision: nextRevision,
+              },
             },
-          }, ],
+          ],
           folderid: null,
           notificationTimeout: 600,
         }),

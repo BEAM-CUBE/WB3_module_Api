@@ -1,6 +1,6 @@
 {
   "name": "@beam3_dev/api_module",
-  "version": "0.0.78",
+  "version": "0.0.79",
   "type": "module",
   "files": [
     "dist"
@@ -14,8 +14,8 @@
     }
   },
   "scripts": {
-    "b3:publish": "npm run update:git && npm run time && npm run module:version && npm publish --access public",
     "build": "npm run clean && npm run jsdoc && vite build",
+    "b3:publish": "npm run update:git && npm run time && npm run module:version && npm publish --access public",
     "clean": "rm -rf dist docs",
     "jsdoc": "jsdoc -c jsdoc.json",
     "module:version": "npm version patch",
@@ -40,7 +40,7 @@
     "vite": "^5.0.8"
   },
   "peerDependencies": {
-    "@widget-lab/3ddashboard-utils": "https://btcc.3ds.com/widget-lab/npm/widget-lab-3ddashboard-utils-1.4.0.tgz",
+    "@widget-lab/3ddashboard-utils": "https://btcc.3ds.com/widget-lab/npm/widget-lab-3ddashboard-utils-1.7.2.tgz",
     "luxon": "^3.4.4",
     "uuid": "^9.0.1"
   },

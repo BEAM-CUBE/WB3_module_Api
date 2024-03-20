@@ -72,7 +72,7 @@ import {
   _3DSwym_buildDirectMessage,
   _3DSwym_findCommunityToInstantMSG,
   _3DSwym_sendMessageData,
-} from "./lib/plateform/Swym/communaute";
+} from "./lib/plateform/Swym/communauty";
 import {
   _3DSwym_postIdea,
   _3DSwym_deleteIdea,
