@@ -4,7 +4,7 @@
   "type": "module",
   "files": [
     "dist"
-  ],
+  ], 
   "main": "./dist/wb3Api.umd.cjs",
   "module": "./dist/wb3Api.js",
   "exports": {
