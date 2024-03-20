@@ -1,10 +1,10 @@
 {
   "name": "@beam3_dev/api_module",
-  "version": "0.0.80",
+  "version": "0.0.81",
   "type": "module",
   "files": [
     "dist"
-  ], 
+  ],
   "main": "./dist/wb3Api.umd.cjs",
   "module": "./dist/wb3Api.js",
   "exports": {
