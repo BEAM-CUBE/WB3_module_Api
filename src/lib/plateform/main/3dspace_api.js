@@ -1377,7 +1377,7 @@ export function _3DSpace_bookmark_addSubsciptions(
     if (objectId !== undefined && objectId !== "" && objectId !== null) {
       const ts = DateTime.now().ts;
       const url = `${credentials.space}/resources/v1/modeler/subscriptions/createPushSubscription?xrequestedwith=xmlhttprequest`;
-      const urlFedSearch = `${credentials.search}/federated/search?xrequestedwith=xmlhttprequest&tenant=${credentials.tenant}&timestamp=${ts}`
+      const urlFedSearch = `${credentials._3DSearch}/federated/search?xrequestedwith=xmlhttprequest&tenant=${credentials._platformId}&timestamp=${ts}`
       
       let options_FedSearch = {
         method: "POST",
@@ -1411,7 +1411,7 @@ export function _3DSpace_bookmark_addSubsciptions(
             "3dspace",
             "usersgroup"
           ],
-          tenant: credentials.tenant
+          tenant: credentials._platformId
         }),
         type: "json",
         onComplete(response) {
@@ -1454,7 +1454,7 @@ export function _3DSpace_bookmark_addSubsciptions(
           if (onError) onError(response);
         },
       };
-      _httpCallAuthenticated(urlFedSearch, options);
+      _httpCallAuthenticated(urlFedSearch, options_FedSearch);
     }
   });
 }
