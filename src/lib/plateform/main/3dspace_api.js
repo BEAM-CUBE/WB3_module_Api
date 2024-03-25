@@ -1384,7 +1384,7 @@ export function _3DSpace_bookmark_addSubsciptions(
         onComplete(response) {
           if (Array.isArray(JSON.parse(response))) {
             const oResponse = JSON.parse(response)[0];
-            const urlFedSearch = `${oResponse.service[0].url}/search?xrequestedwith=xmlhttprequest&tenant=${credentials._platformId}&timestamp=${ts}`
+            const urlFedSearch = `${oResponse.services[0].url}/search?xrequestedwith=xmlhttprequest&tenant=${credentials._platformId}&timestamp=${ts}`
 
             _httpCallAuthenticated(urlFedSearch, {
               method: "POST",
