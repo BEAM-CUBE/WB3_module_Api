@@ -1399,8 +1399,8 @@ export function _3DSpace_bookmark_addSubsciptions(
             "ds6wg:fullname"
           ],
           select_file: [
-            icon,
-            thumbnail_2d
+            "icon",
+            "thumbnail_2d"
           ],
           query: "([ds6w:type]:(Group) AND [ds6w:status]:(Public)) OR (flattenedtaxonomies:\"types/Person\" AND current:\"active\")",
           order_by: "desc",
