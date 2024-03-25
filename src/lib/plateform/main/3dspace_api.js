@@ -8,7 +8,9 @@ import {
 import {
   getCSRFToken
 } from "./getCSRFToken";
-import { DateTime } from "luxon";
+import {
+  DateTime
+} from "luxon";
 
 /**
  * @description La fonction `_3dSpace_get_docInfo` récupère des informations sur un document dans un espace 3D.
@@ -1377,50 +1379,63 @@ export function _3DSpace_bookmark_addSubsciptions(
     if (objectId !== undefined && objectId !== "" && objectId !== null) {
       const ts = DateTime.now().ts;
       const url = `${credentials.space}/resources/v1/modeler/subscriptions/createPushSubscription?xrequestedwith=xmlhttprequest`;
-      const urlFedSearch = `${credentials._3DSearch}/federated/search?xrequestedwith=xmlhttprequest&tenant=${credentials._platformId}&timestamp=${ts}`
-      
-      let options_FedSearch = {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
-        },
-        data: JSON.stringify({
-          with_indexing_date: true,
-          with_nls: false,
-          label: `yus-${ts}`,
-          locale: "en",
-          select_predicate: [
-            "ds6w:label",
-            "ds6w:type",
-            "ds6w:description",
-            "ds6w:identifier",
-            "ds6w:responsible",
-            "ds6wg:fullname"
-          ],
-          select_file: [
-            "icon",
-            "thumbnail_2d"
-          ],
-          query: "([ds6w:type]:(Group) AND [ds6w:status]:(Public)) OR (flattenedtaxonomies:\"types/Person\" AND current:\"active\")",
-          order_by: "desc",
-          order_field: "relevance",
-          nresults: 1000,
-          start: "0",
-          source: [
-            "3dspace",
-            "usersgroup"
-          ],
-          tenant: credentials._platformId
-        }),
-        type: "json",
+
+      _httpCallAuthenticated(`https://eu1-registry.3dexperience.3ds.com/api/v1/platform/service/instance?serviceId=3dsearch&platformId=${credentials._platformId}`, {
         onComplete(response) {
-          if (onDone) onDone(response);
+          if (Array.isArray(JSON.parse(response))) {
+            oResponse = JSON.parse(response)[0];
+            const urlFedSearch = `${oResponse.service[0].url}/search?xrequestedwith=xmlhttprequest&tenant=${credentials._platformId}&timestamp=${ts}`
+
+            _httpCallAuthenticated(urlFedSearch, {
+              method: "POST",
+              headers: {
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+              data: JSON.stringify({
+                with_indexing_date: true,
+                with_nls: false,
+                label: `yus-${ts}`,
+                locale: "en",
+                select_predicate: [
+                  "ds6w:label",
+                  "ds6w:type",
+                  "ds6w:description",
+                  "ds6w:identifier",
+                  "ds6w:responsible",
+                  "ds6wg:fullname"
+                ],
+                select_file: [
+                  "icon",
+                  "thumbnail_2d"
+                ],
+                query: "([ds6w:type]:(Group) AND [ds6w:status]:(Public)) OR (flattenedtaxonomies:\"types/Person\" AND current:\"active\")",
+                order_by: "desc",
+                order_field: "relevance",
+                nresults: 1000,
+                start: "0",
+                source: [
+                  "3dspace",
+                  "usersgroup"
+                ],
+                tenant: credentials._platformId
+              }),
+              type: "json",
+              onComplete(response) {
+                if (onDone) onDone(response);
+              },
+              onFailure(response) {
+                if (onError) onError(response);
+              },
+            });
+
+          }
         },
         onFailure(response) {
           if (onError) onError(response);
         },
-      };
+      })
+
 
 
       let options = {
@@ -1454,7 +1469,7 @@ export function _3DSpace_bookmark_addSubsciptions(
           if (onError) onError(response);
         },
       };
-      _httpCallAuthenticated(urlFedSearch, options_FedSearch);
+
     }
   });
 }
