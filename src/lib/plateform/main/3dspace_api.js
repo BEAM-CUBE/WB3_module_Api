@@ -736,7 +736,7 @@ export async function _3DSpace_download_doc(
               tryParse = response;
             }
 
-            if (onDone) onDone(tryParse);
+            if (onDone && typeof onDone === "function") onDone(tryParse);
             resolve(tryParse);
           },
           onFailure(error, headers, xhr) {
@@ -1379,41 +1379,40 @@ export function _3DSpace_bookmark_addSubsciptions(
 ) {
   console.log("credentials", credentials);
   return new Promise((result) => {
-      const url = `${credentials.space}/resources/v1/modeler/subscriptions/createPushSubscription?xrequestedwith=xmlhttprequest`;
+    const url = `${credentials.space}/resources/v1/modeler/subscriptions/createPushSubscription?xrequestedwith=xmlhttprequest`;
 
-      let options = {
-        method: "POST",
-        headers: {
-          Accept: "application/json",
-          "Content-Type": "application/json",
+    let options = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      data: JSON.stringify({
+        csrf: {
+          name: "ENO_CSRF_TOKEN",
+          value: credentials.token
         },
-        data: JSON.stringify({
-          csrf: {
-            name: "ENO_CSRF_TOKEN",
-            value: credentials.token
+        data: [{
+          type: "Workspace",
+          cestamp: "businessobject",
+          relId: objectId,
+          id: objectId,
+          dataelements: {
+            personList: "<uuid:5ca25b8e-98d0-46c3-ac43-3faa83c4295a>",
+            eventsList: "NXFolderCreated,NXFolderDeleted,NXContentAdded,NXContentRemoved"
           },
-          data: [{
-            type: "Workspace",
-            cestamp: "businessobject",
-            relId: objectId,
-            id: objectId,
-            dataelements: {
-              personList: "<uuid:5ca25b8e-98d0-46c3-ac43-3faa83c4295a>",
-              eventsList: "NXFolderCreated,NXFolderDeleted,NXContentAdded,NXContentRemoved"
-            },
-            tenant: credentials.tenant
-          }]
-        }),
-        type: "json",
-        onComplete(response) {
-          if (onDone) onDone(response);
-        },
-        onFailure(response) {
-          if (onError) onError(response);
-        },
-      };
-    }
-  );
+          tenant: credentials.tenant
+        }]
+      }),
+      type: "json",
+      onComplete(response) {
+        if (onDone) onDone(response);
+      },
+      onFailure(response) {
+        if (onError) onError(response);
+      },
+    };
+  });
 }
 
 //!SECTION
