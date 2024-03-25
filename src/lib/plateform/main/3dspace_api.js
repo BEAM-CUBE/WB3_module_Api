@@ -1407,7 +1407,6 @@ export function _3DSpace_bookmark_addSubsciptions(
             _httpCallAuthenticated(urlFedSearch, {
               method: "POST",
               headers: {
-                securitycontext: "ctx::" + credentials.ctx,
                 Accept: "application/json",
                 "Content-Type": "application/json",
               },
