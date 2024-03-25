@@ -93,6 +93,8 @@ import {
 
 import { sayHello } from "./lib/add/index"; //Pour tester de la librairie
 
+import { _3DSearch_usersGroup } from "./lib/plateform/Search/index"
+
 export {
   _3DSpace_Create_Doc,
   _3DSpace_csrf,
@@ -111,8 +113,8 @@ export {
   _3DSpace_lifecycle_getGraph,
   _3DSpace_lifecycle_getNextRevision,
   _3DSpace_lifecycle_getNextStates,
-  _3DSpace_findUsersGroup,
   _3DSpace_bookmark_addSubsciptions,
+  _3DSearch_usersGroup,
   _3DSwym_getAllCommunities,
   _3DSwym_getMembersCommunity,
   _3DSwym_buildDirectMessage,
