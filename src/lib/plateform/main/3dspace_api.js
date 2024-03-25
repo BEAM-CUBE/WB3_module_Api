@@ -1373,6 +1373,7 @@ export function _3DSpace_bookmark_addSubsciptions(
   onDone = undefined,
   onError = undefined,
 ) {
+  console.log("credentials", credentials);
   return new Promise((result) => {
     if (credentials.token === "") {
       _3DSpace_csrf(credentials);
