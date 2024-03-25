@@ -1376,10 +1376,20 @@ export function _3DSpace_bookmark_addSubsciptions(
     if (credentials.token === "") {
       _3DSpace_csrf(credentials);
     }
+    _3DSpace_get_securityContexts(
+      credentials.space,
+      "ESPACE COMMUN",
+      ["VPLMProjectLeader", "VPLMCreator"],
+      undefined,
+      (ctx) => (credentials["ctx"] = ctx),
+      (err) => {
+        console.log("onError =>", err);
+      },
+    );
     if (objectId !== undefined && objectId !== "" && objectId !== null) {
       const ts = DateTime.now().ts;
       const url = `${credentials.space}/resources/v1/modeler/subscriptions/createPushSubscription?xrequestedwith=xmlhttprequest`;
-      const urlService = `https://eu1-registry.3dexperience.3ds.com/api/v1/platform/service/instance?serviceId=3dsearch&platformId=${credentials.tenant}`
+      const urlService = `https://${credentials.tenant}-eu1-registry.3dexperience.3ds.com/api/v1/platform/service/instance?serviceId=3dsearch&platformId=${credentials.tenant}`
       _httpCallAuthenticated(urlService, {
         onComplete(response) {
           if (Array.isArray(JSON.parse(response))) {
@@ -1398,7 +1408,7 @@ export function _3DSpace_bookmark_addSubsciptions(
               data: JSON.stringify({
                 with_indexing_date: true,
                 with_nls: false,
-                label: `yus-${ts}`,
+                label: `3DSearch-${ts}`,
                 locale: "en",
                 select_predicate: [
                   "ds6w:label",
@@ -1421,7 +1431,12 @@ export function _3DSpace_bookmark_addSubsciptions(
                   "3dspace",
                   "usersgroup"
                 ],
-                tenant: credentials._platformId
+                tenant: credentials.tenant,
+                login: {
+                  "3dspace": {
+                    SecurityContext: `ctx::${credentials.ctx}`
+                  }
+                }
               }),
               type: "json",
               onComplete(response) {
