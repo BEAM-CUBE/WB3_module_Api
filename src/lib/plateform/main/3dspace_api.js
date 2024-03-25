@@ -1367,9 +1367,8 @@ export function _3DSpace_lifecycle_changeRevision(
 //     });
 //   });
 // }
-export function _3DSpace_bookmark_addSubsciptions(
+export function _3DSpace_findUsersGroup(
   credentials,
-  objectId,
   onDone = undefined,
   onError = undefined,
 ) {
@@ -1393,73 +1392,84 @@ export function _3DSpace_bookmark_addSubsciptions(
       },
       true
     );
-    if (objectId !== undefined && objectId !== "" && objectId !== null) {
-      const ts = DateTime.now().ts;
-      const url = `${credentials.space}/resources/v1/modeler/subscriptions/createPushSubscription?xrequestedwith=xmlhttprequest`;
-      const urlService = `https://${credentials.tenant}-eu1-registry.3dexperience.3ds.com/api/v1/platform/service/instance?serviceId=3dsearch&platformId=${credentials.tenant}`
-      _httpCallAuthenticated(urlService, {
-        onComplete(response) {
-          if (Array.isArray(JSON.parse(response))) {
-            const oResponse = JSON.parse(response);
-            console.log("serviceId=3dsearch", oResponse);
-            const urlFedSearch = `${oResponse[0].services[0].url}/search?xrequestedwith=xmlhttprequest`
+    const ts = DateTime.now().ts;
 
-            _httpCallAuthenticated(urlFedSearch, {
-              method: "POST",
-              headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-              },
-              data: JSON.stringify({
-                with_indexing_date: true,
-                with_nls: false,
-                label: `3DSearch-${ts}`,
-                locale: "en",
-                select_predicate: [
-                  "ds6w:label",
-                  "ds6w:type",
-                  "ds6w:description",
-                  "ds6w:identifier",
-                  "ds6w:responsible",
-                  "ds6wg:fullname"
-                ],
-                select_file: [
-                  "icon",
-                  "thumbnail_2d"
-                ],
-                query: "([ds6w:type]:(Group) AND [ds6w:status]:(Public)) OR (flattenedtaxonomies:\"types/Person\" AND current:\"active\")",
-                order_by: "desc",
-                order_field: "relevance",
-                nresults: 1000,
-                start: "0",
-                source: [
-                  "3dspace",
-                  "usersgroup"
-                ],
-                tenant: credentials.tenant,
-                login: {
-                  "3dspace": {
-                    SecurityContext: `ctx::${credentials.ctx}`
-                  }
+    const urlService = `https://${credentials.tenant}-eu1-registry.3dexperience.3ds.com/api/v1/platform/service/instance?serviceId=3dsearch&platformId=${credentials.tenant}`
+    _httpCallAuthenticated(urlService, {
+      onComplete(response) {
+        if (Array.isArray(JSON.parse(response))) {
+          const oResponse = JSON.parse(response);
+          console.log("serviceId=3dsearch", oResponse);
+          const urlFedSearch = `${oResponse[0].services[0].url}/search?xrequestedwith=xmlhttprequest`
+
+          _httpCallAuthenticated(urlFedSearch, {
+            method: "POST",
+            headers: {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+            },
+            data: JSON.stringify({
+              with_indexing_date: true,
+              with_nls: false,
+              label: `3DSearch-${ts}`,
+              locale: "en",
+              select_predicate: [
+                "ds6w:label",
+                "ds6w:type",
+                "ds6w:description",
+                "ds6w:identifier",
+                "ds6w:responsible",
+                "ds6wg:fullname"
+              ],
+              select_file: [
+                "icon",
+                "thumbnail_2d"
+              ],
+              query: "([ds6w:type]:(Group) AND [ds6w:status]:(Public)) OR (flattenedtaxonomies:\"types/Person\" AND current:\"active\")",
+              order_by: "desc",
+              order_field: "relevance",
+              nresults: 1000,
+              start: "0",
+              source: [
+                "3dspace",
+                "usersgroup"
+              ],
+              tenant: credentials.tenant,
+              login: {
+                "3dspace": {
+                  SecurityContext: `ctx::${credentials.ctx}`
                 }
-              }),
-              type: "json",
-              onComplete(response) {
-                if (onDone) onDone(response);
-              },
-              onFailure(response) {
-                if (onError) onError(response);
-              },
-            });
+              }
+            }),
+            type: "json",
+            onComplete(response) {
+              if (onDone) onDone(response);
+            },
+            onFailure(response) {
+              if (onError) onError(response);
+            },
+          });
 
-          }
-        },
-        onFailure(response) {
-          if (onError) onError(response);
-        },
-      })
+        }
+      },
+      onFailure(response) {
+        if (onError) onError(response);
+      },
+    })
+  });
+}
 
-
+export function _3DSpace_bookmark_addSubsciptions(
+  credentials,
+  objectId,
+  personList,
+  eventsList,
+  onDone = undefined,
+  onError = undefined,
+) {
+  console.log("credentials", credentials);
+  return new Promise((result) => {
+      const url = `${credentials.space}/resources/v1/modeler/subscriptions/createPushSubscription?xrequestedwith=xmlhttprequest`;
 
       let options = {
         method: "POST",
@@ -1492,9 +1502,8 @@ export function _3DSpace_bookmark_addSubsciptions(
           if (onError) onError(response);
         },
       };
-
     }
-  });
+  );
 }
 
 //!SECTION
