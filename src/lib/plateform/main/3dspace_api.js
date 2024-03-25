@@ -1383,7 +1383,7 @@ export function _3DSpace_bookmark_addSubsciptions(
       _httpCallAuthenticated(`https://eu1-registry.3dexperience.3ds.com/api/v1/platform/service/instance?serviceId=3dsearch&platformId=${credentials._platformId}`, {
         onComplete(response) {
           if (Array.isArray(JSON.parse(response))) {
-            oResponse = JSON.parse(response)[0];
+            const oResponse = JSON.parse(response)[0];
             const urlFedSearch = `${oResponse.service[0].url}/search?xrequestedwith=xmlhttprequest&tenant=${credentials._platformId}&timestamp=${ts}`
 
             _httpCallAuthenticated(urlFedSearch, {
