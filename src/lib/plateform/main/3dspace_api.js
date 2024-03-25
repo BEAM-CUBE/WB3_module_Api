@@ -1379,13 +1379,13 @@ export function _3DSpace_bookmark_addSubsciptions(
     if (objectId !== undefined && objectId !== "" && objectId !== null) {
       const ts = DateTime.now().ts;
       const url = `${credentials.space}/resources/v1/modeler/subscriptions/createPushSubscription?xrequestedwith=xmlhttprequest`;
-
-      _httpCallAuthenticated(`https://eu1-registry.3dexperience.3ds.com/api/v1/platform/service/instance?serviceId=3dsearch&platformId=${credentials._platformId}`, {
+      const urlService = `https://eu1-registry.3dexperience.3ds.com/api/v1/platform/service/instance?serviceId=3dsearch&platformId=${credentials.tenant}`
+      _httpCallAuthenticated(urlService, {
         onComplete(response) {
           if (Array.isArray(JSON.parse(response))) {
             const oResponse = JSON.parse(response);
             console.log("serviceId=3dsearch",oResponse);
-            const urlFedSearch = `${oResponse[0].services[0].url}/search?xrequestedwith=xmlhttprequest&tenant=${credentials._platformId}&timestamp=${ts}`
+            const urlFedSearch = `${oResponse[0].services[0].url}/search?xrequestedwith=xmlhttprequest&tenant=${credentials.tenant}&timestamp=${ts}`
 
             _httpCallAuthenticated(urlFedSearch, {
               method: "POST",
