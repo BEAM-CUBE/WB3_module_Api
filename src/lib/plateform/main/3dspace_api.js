@@ -1415,10 +1415,10 @@ export function _3DSpace_bookmark_addSubsciptions(
         }),
         type: "json",
         onComplete(response) {
-          console.log(response);
+          if (onDone) onDone(response);
         },
         onFailure(response) {
-          console.warn(response);
+          if (onError) onError(response);
         },
       };
 
