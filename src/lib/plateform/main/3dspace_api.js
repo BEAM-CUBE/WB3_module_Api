@@ -1383,14 +1383,15 @@ export function _3DSpace_bookmark_addSubsciptions(
       console.log("platformeInfo", platformeInfo);
     }
     _3DSpace_get_securityContexts(
-      credentials.space,
-      "ESPACE COMMUN",
+      credentials,
+      "Common space",
       ["VPLMProjectLeader", "VPLMCreator"],
       undefined,
       (ctx) => (credentials["ctx"] = ctx),
       (err) => {
         console.log("onError =>", err);
       },
+      true
     );
     if (objectId !== undefined && objectId !== "" && objectId !== null) {
       const ts = DateTime.now().ts;
