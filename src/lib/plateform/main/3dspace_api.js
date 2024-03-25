@@ -1,6 +1,7 @@
 import {
   _httpCallAuthenticated,
   _getPlatformServices,
+  _getPlateformInfos
 } from "./3dexperience_api";
 import {
   UUID
@@ -1375,6 +1376,10 @@ export function _3DSpace_bookmark_addSubsciptions(
   return new Promise((result) => {
     if (credentials.token === "") {
       _3DSpace_csrf(credentials);
+    }
+    if (!credentials.space || credentials.space === "") {
+      const platformeInfo = _getPlateformInfos();
+      console.log("platformeInfo", platformeInfo);
     }
     _3DSpace_get_securityContexts(
       credentials.space,
