@@ -1402,13 +1402,12 @@ export function _3DSpace_bookmark_addSubsciptions(
           if (Array.isArray(JSON.parse(response))) {
             const oResponse = JSON.parse(response);
             console.log("serviceId=3dsearch", oResponse);
-            const urlFedSearch = `${oResponse[0].services[0].url}/search?xrequestedwith=xmlhttprequest&tenant=${credentials.tenant}&timestamp=${ts}`
+            const urlFedSearch = `${oResponse[0].services[0].url}/search?xrequestedwith=xmlhttprequest`
 
             _httpCallAuthenticated(urlFedSearch, {
               method: "POST",
               headers: {
                 securitycontext: "ctx::" + credentials.ctx,
-                ENO_CSRF_TOKEN: credentials.token,
                 Accept: "application/json",
                 "Content-Type": "application/json",
               },
