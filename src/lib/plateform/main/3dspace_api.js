@@ -8,6 +8,7 @@ import {
 import {
   getCSRFToken
 } from "./getCSRFToken";
+import { DateTime } from "luxon";
 
 /**
  * @description La fonction `_3dSpace_get_docInfo` récupère des informations sur un document dans un espace 3D.
@@ -1363,6 +1364,101 @@ export function _3DSpace_lifecycle_changeRevision(
 //     });
 //   });
 // }
+export function _3DSpace_bookmark_addSubsciptions(
+  credentials,
+  objectId,
+  onDone = undefined,
+  onError = undefined,
+) {
+  return new Promise((result) => {
+    if (credentials.token === "") {
+      _3DSpace_csrf(credentials);
+    }
+    if (objectId !== undefined && objectId !== "" && objectId !== null) {
+      const ts = DateTime.now().ts;
+      const url = `${credentials.space}/resources/v1/modeler/subscriptions/createPushSubscription?xrequestedwith=xmlhttprequest`;
+      const urlFedSearch = `${credentials.search}/federated/search?xrequestedwith=xmlhttprequest&tenant=${credentials.tenant}&timestamp=${ts}`
+      
+      let options_FedSearch = {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({
+          with_indexing_date: true,
+          with_nls: false,
+          label: `yus-${ts}`,
+          locale: "en",
+          select_predicate: [
+            "ds6w:label",
+            "ds6w:type",
+            "ds6w:description",
+            "ds6w:identifier",
+            "ds6w:responsible",
+            "ds6wg:fullname"
+          ],
+          select_file: [
+            icon,
+            thumbnail_2d
+          ],
+          query: "([ds6w:type]:(Group) AND [ds6w:status]:(Public)) OR (flattenedtaxonomies:\"types/Person\" AND current:\"active\")",
+          order_by: "desc",
+          order_field: "relevance",
+          nresults: 1000,
+          start: "0",
+          source: [
+            "3dspace",
+            "usersgroup"
+          ],
+          tenant: credentials.tenant
+        }),
+        type: "json",
+        onComplete(response) {
+          console.log(response);
+        },
+        onFailure(response) {
+          console.warn(response);
+        },
+      };
+
+
+      let options = {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        data: JSON.stringify({
+          csrf: {
+            name: "ENO_CSRF_TOKEN",
+            value: credentials.token
+          },
+          data: [{
+            type: "Workspace",
+            cestamp: "businessobject",
+            relId: objectId,
+            id: objectId,
+            dataelements: {
+              personList: "<uuid:5ca25b8e-98d0-46c3-ac43-3faa83c4295a>",
+              eventsList: "NXFolderCreated,NXFolderDeleted,NXContentAdded,NXContentRemoved"
+            },
+            tenant: credentials.tenant
+          }]
+        }),
+        type: "json",
+        onComplete(response) {
+          if (onDone) onDone(response);
+        },
+        onFailure(response) {
+          if (onError) onError(response);
+        },
+      };
+      _httpCallAuthenticated(urlFedSearch, options);
+    }
+  });
+}
+
 //!SECTION
 
 // module.exports = {
