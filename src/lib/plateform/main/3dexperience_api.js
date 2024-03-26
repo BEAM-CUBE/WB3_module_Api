@@ -1,4 +1,7 @@
-import { widget, requirejs } from "@widget-lab/3ddashboard-utils";
+import {
+  widget,
+  requirejs
+} from "@widget-lab/3ddashboard-utils";
 
 /**
  * @description Cette fonction effectue un appel HTTP authentifié à l'aide de la bibliothèque WAFData en de la plateforme.
@@ -28,7 +31,10 @@ export function _httpCallAuthenticated(url, options) {
  */
 export function _setDraggable(elem, strData, onDrag) {
   requirejs(["DS/DataDragAndDrop/DataDragAndDrop"], (DataDragAndDrop) => {
-    DataDragAndDrop.draggable(elem, { data: strData, start: onDrag });
+    DataDragAndDrop.draggable(elem, {
+      data: strData,
+      start: onDrag
+    });
   });
 }
 
@@ -66,7 +72,9 @@ export function _setupTagger(tags, onTaggerFilter = undefined) {
  */
 export function _setDroppable(elem, drop) {
   requirejs(["DS/DataDragAndDrop/DataDragAndDrop"], (DataDragAndDrop) => {
-    DataDragAndDrop.droppable(elem, { drop });
+    DataDragAndDrop.droppable(elem, {
+      drop
+    });
   });
 }
 
@@ -139,4 +147,54 @@ export function _getPlateformInfos() {
   });
   console.log("%cRETOUR API :", "color:blue", retourAPI);
   return retourAPI;
+}
+
+export function _getServiceUrl(
+  credentials,
+  onDone = undefined,
+  onError = undefined
+) {
+  if (credentials.tenant) {
+    const urlService = `https://${credentials.tenant}-eu1-apps.3dexperience.3ds.com/enovia/resources/AppsMngt/api/v1/services?tenant=${credentials.tenant}&cors=true&xrequestedwith=xmlhttprequest`
+    _httpCallAuthenticated(urlService, {
+      onComplete(response) {
+        const oResponse = JSON.parse(response);
+        console.log("_getServiceUrl", oResponse);
+        if (oResponse && "platforms" in oResponse) {
+          const listServiceUrl = oResponse.find(platform => {
+            platform.id === credentials.tenant
+          })
+          if (onDone) onDone(listServiceUrl)
+        }
+      },
+      onFailure(response) {
+        if (onError) onError(response);
+      },
+
+    });
+  }
+}
+
+export function _getServiceUrl_3DPassport(
+  credentials,
+  onDone = undefined,
+  onError = undefined
+) {
+  if (credentials.tenant) {
+    const urlService = `https://${credentials.tenant}-eu1-registry.3dexperience.3ds.com/api/v1/platform/service/instance?serviceId=3dpassport&platformId=${credentials.tenant}`
+    _httpCallAuthenticated(urlService, {
+      onComplete(response) {
+        const oResponse = JSON.parse(response);
+        console.log("serviceId=3dpassport", oResponse);
+        if (Array.isArray(oResponse) && oResponse.length > 0) {
+          const urlServicePassport = `${oResponse[0].services[0].url}`
+          if (onDone) onDone(urlServicePassport)
+        }
+      },
+      onFailure(response) {
+        if (onError) onError(response);
+      },
+
+    });
+  }
 }
