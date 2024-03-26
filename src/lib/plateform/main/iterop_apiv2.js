@@ -35,6 +35,7 @@ export function _Iterop_Auth_CAS(
 ) {
     if (credentials.tenant) {
         _getServiceUrl(credentials, serviceUrls => {
+            console.log("serviceUrls", serviceUrls);
             const urlService3DPassport = serviceUrls.find(service => service.id === "3dpassport")?.url;
             const urlAPIV2Iterop = serviceUrls.find(service => service.id === "businessprocess")?.url + "/api/v2";
 
