@@ -161,7 +161,7 @@ export function _getServiceUrl(
         const oResponse = JSON.parse(response);
         console.log("_getServiceUrl", oResponse);
         if (oResponse && "platforms" in oResponse) {
-          const listServiceUrl = oResponse.find(platform => {
+          const listServiceUrl = oResponse.platforms.find(platform => {
             platform.id === credentials.tenant
           })
           if (onDone) onDone(listServiceUrl)

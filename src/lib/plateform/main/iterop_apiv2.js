@@ -8,7 +8,7 @@ export function _getServiceUrl_Iterop(
     credentials,
     onDone = undefined,
     onError = undefined
-  ) {
+) {
     if (credentials.tenant) {
         const urlService = `https://${credentials.tenant}-eu1-registry.3dexperience.3ds.com/api/v1/platform/service/instance?serviceId=3dpassport&platformId=${credentials.tenant}`
         _httpCallAuthenticated(urlService, {
@@ -23,10 +23,10 @@ export function _getServiceUrl_Iterop(
             onFailure(response) {
                 if (onError) onError(response);
             },
-  
+
         });
     }
-  }
+}
 
 export function _Iterop_Auth_CAS(
     credentials,
@@ -43,6 +43,7 @@ export function _Iterop_Auth_CAS(
                 onComplete(response, headers) {
                     console.log("response", response);
                     console.log("headers", headers);
+                    if (onDone) onDone(headers);
                 },
                 onFailure(response) {
                     if (onError) onError(response);
