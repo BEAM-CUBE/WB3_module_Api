@@ -54,20 +54,26 @@ export async function _Iterop_ListUsers(
     credentials,
     token
 ) {
-    _getServiceUrl(credentials, async serviceUrls => {
-        console.log("serviceUrls", serviceUrls);
-        const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2/identity/users";
-        await fetch(urlAPIV2Iterop, {
-                method: "GET",
-                headers: {
+
+    if (credentials.tenant) {
+        _getServiceUrl(credentials, serviceUrls => {
+            console.log("serviceUrls", serviceUrls);
+            const urlService3DPassport = serviceUrls.services.find(service => service.id === "3dpassport")?.url;
+            const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
+            const urlService = `${urlService3DPassport}/login/?service=${urlAPIV2Iterop}/identity/users`;
+
+            _httpCallAuthenticated(urlService, {
+                headers:{
                     Authorization: `Bearer ${token}`
                 },
-            })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data);
-                if (onDone) onDone(data?.token);
-            })
-            .catch(err => console.log(err));
-    })
+                async onComplete(response) {
+                    console.log("response", response);
+                    if (onDone) onDone(data?.token);
+                },
+                onFailure(response) {
+                    if (onError) onError(response);
+                },
+            });
+        })
+    }
 }
