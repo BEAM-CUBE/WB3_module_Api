@@ -67,6 +67,7 @@ export async function _Iterop_ListUsers(
             .then(data => {
                 console.log(data);
                 if (onDone) onDone(data?.token);
-            });
+            })
+            .catch(err => console.log(err));
     })
 }
