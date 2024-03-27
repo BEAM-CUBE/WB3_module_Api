@@ -164,9 +164,9 @@ export function _getServiceUrl(
 
         if (oResponse && "platforms" in oResponse) {
 
-          const listServiceUrl = oResponse.platforms.find(platform => {
+          const listServiceUrl = oResponse.platforms.find(platform => 
             platform.id === credentials.tenant.toUpperCase()
-          })
+          )
           console.log("listServiceUrl", listServiceUrl);
 
           if (onDone && listServiceUrl) onDone(listServiceUrl)
