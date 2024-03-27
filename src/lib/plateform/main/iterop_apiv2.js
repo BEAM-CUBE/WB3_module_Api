@@ -56,12 +56,8 @@ export function _Iterop_Auth_CAS(
                                 _httpCallAuthenticated(x3ds_service_redirect_url, {
                                     method: "POST",
                                     headers: {
-                                        ENO_CSRF_TOKEN: credentials.token,
                                         "Content-Type": "application/x-www-form-urlencoded"
                                     },
-                                    data: JSON.stringify({
-                                        lt
-                                    }),
                                     onComplete(response) {
                                         if (onDone) onDone(response);
                                     },
