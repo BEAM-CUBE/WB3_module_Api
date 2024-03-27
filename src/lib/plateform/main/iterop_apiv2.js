@@ -43,6 +43,7 @@ export function _Iterop_Auth_CAS(
             const urlLoginTicket = `${urlService3DPassport}/login?action=get_auth_params`;
             const urlAuthCasByCompass = `${urlService3DPassport}/login/?service=${urlService3DCompass}/resources/AppsMngt/api/pull/self`;
             const urlService = `${urlService3DPassport}/login/?service=${urlAPIV2Iterop}/auth/cas`;
+            
             _httpCallAuthenticated(urlLoginTicket, {
                 onComplete(response) {
                     const lt = response.lt;
@@ -50,7 +51,8 @@ export function _Iterop_Auth_CAS(
                         onComplete(response) {
                             console.log("response", response);
                             const x3ds_service_redirect_url = typeof response === "string" ? JSON.parse(response)?.x3ds_service_redirect_url : response?.x3ds_service_redirect_url;
-                            if (x3ds_service_redirect_url) {
+                            
+                            if (`${urlService3DPassport}/login/?service=${x3ds_service_redirect_url}`) {
                                 _httpCallAuthenticated(x3ds_service_redirect_url, {
                                     method: "POST",
                                     headers: {
