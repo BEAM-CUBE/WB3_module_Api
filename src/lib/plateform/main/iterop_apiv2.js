@@ -38,7 +38,20 @@ export function _Iterop_Auth_CAS(
                             method: "POST"
                         })
                         .then(response => response.json())
-                        .then(data => {
+                        .then(async data => {
+
+                            await fetch(urlAPIV2Iterop, {
+                                headers: {
+                                    Authorization: `Bearer ${data?.token}`
+                                },
+                            })
+                            .then(response => response.json())
+                            .then(data => {
+                                console.log(data);
+                                
+                            })
+                            .catch(err => console.log(err));
+
                             if (onDone) onDone(data?.token);
                         });
                 },
@@ -58,7 +71,7 @@ export async function _Iterop_ListUsers(
     if (credentials.tenant) {
         _getServiceUrl(credentials, serviceUrls => {
             console.log("serviceUrls", serviceUrls);
-            const urlService3DPassport = serviceUrls.services.find(service => service.id === "3ddashboard")?.url;
+            const urlService3DPassport = serviceUrls.services.find(service => service.id === "3dpassport")?.url;
             const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
             const urlService = `${urlService3DPassport}/login/?service=${urlAPIV2Iterop}/identity/users`;
 
@@ -68,7 +81,6 @@ export async function _Iterop_ListUsers(
                 },
                 async onComplete(response) {
                     console.log("response", response);
-                    if (onDone) onDone(data?.token);
                 },
                 onFailure(response) {
                     if (onError) onError(response);
@@ -76,4 +88,16 @@ export async function _Iterop_ListUsers(
             });
         })
     }
+
+    await fetch(urlAPIV2Iterop, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+        })
+        .then(response => response.json())
+        .then(data => {
+            console.log(data);
+            
+        })
+        .catch(err => console.log(err));
 }
