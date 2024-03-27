@@ -43,39 +43,40 @@ export function _Iterop_Auth_CAS(
             const urlLoginTicket = `${urlService3DPassport}/login?action=get_auth_params`;
             const urlAuthCasByCompass = `${urlService3DPassport}/login/?service=${urlService3DCompass}/resources/AppsMngt/api/pull/self`;
             const urlService = `${urlService3DPassport}/login/?service=${urlAPIV2Iterop}/auth/cas`;
-            
-            _httpCallAuthenticated(urlLoginTicket, {
-                onComplete(response) {
-                    const lt = response.lt;
-                    _httpCallAuthenticated(urlService, {
-                        onComplete(response) {
-                            console.log("response", response);
-                            const x3ds_service_redirect_url = typeof response === "string" ? JSON.parse(response)?.x3ds_service_redirect_url : response?.x3ds_service_redirect_url;
-                            
-                            if (`${urlService3DPassport}/login/?service=${x3ds_service_redirect_url}`) {
-                                _httpCallAuthenticated(x3ds_service_redirect_url, {
-                                    method: "POST",
-                                    headers: {
-                                        "Content-Type": "application/x-www-form-urlencoded"
-                                    },
-                                    onComplete(response) {
-                                        if (onDone) onDone(response);
-                                    },
-                                    onFailure(response) {
-                                        if (onError) onError(response);
-                                    }
-                                })
-                            } else {
-                                if (onError) onError("x3ds_service_redirect_url is undefined");
-                            }
-                        },
-                        onFailure(response) {
-                            if (onError) onError(response);
-                        },
 
-                    });
-                }
-            })
+
+            _httpCallAuthenticated(urlService, {
+                async onComplete(response) {
+                    console.log("response", response);
+                    const x3ds_service_redirect_url = typeof response === "string" ? JSON.parse(response)?.x3ds_service_redirect_url : response?.x3ds_service_redirect_url;
+                    const result = await fetch(x3ds_service_redirect_url, {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+                        },
+                    })
+                    console.log("result", result);
+                    // if (`${urlService3DPassport}/login/?service=${x3ds_service_redirect_url}`) {
+                    //     _httpCallAuthenticated(x3ds_service_redirect_url, {
+                    //         method: "POST",
+                    //         headers: {
+                    //             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
+                    //         },
+                    //         onComplete(response) {
+                    //             if (onDone) onDone(response);
+                    //         },
+                    //         onFailure(response) {
+                    //             if (onError) onError(response);
+                    //         }
+                    //     })
+                    // } else {
+                    //     if (onError) onError("x3ds_service_redirect_url is undefined");
+                    // }
+                },
+                onFailure(response) {
+                    if (onError) onError(response);
+                },
+            });
         })
     }
 }
