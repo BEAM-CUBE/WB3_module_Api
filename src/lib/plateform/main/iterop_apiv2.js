@@ -46,6 +46,7 @@ export function _Iterop_Auth_CAS(
                     const x3ds_service_redirect_url = typeof response === "string" ? JSON.parse(response)?.x3ds_service_redirect_url : response?.x3ds_service_redirect_url;
                     if (x3ds_service_redirect_url) {
                         _httpCallAuthenticated(x3ds_service_redirect_url, {
+                            method:"POST",
                             onComplete(response) {
                                 if (onDone) onDone(response);
                             },
