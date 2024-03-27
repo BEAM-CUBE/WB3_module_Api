@@ -58,7 +58,7 @@ export async function _Iterop_ListUsers(
     if (credentials.tenant) {
         _getServiceUrl(credentials, serviceUrls => {
             console.log("serviceUrls", serviceUrls);
-            const urlService3DPassport = serviceUrls.services.find(service => service.id === "3dpassport")?.url;
+            const urlService3DPassport = serviceUrls.services.find(service => service.id === "3ddashboard")?.url;
             const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
             const urlService = `${urlService3DPassport}/login/?service=${urlAPIV2Iterop}/identity/users`;
 
