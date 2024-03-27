@@ -40,11 +40,12 @@ export function _Iterop_Auth_CAS(
             const urlService3DCompass = serviceUrls.services.find(service => service.id === "3dcompass")?.url;
             const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
 
-            const urlAuthCasByCompass = `${urlService3DPassport}/login/?service=${urlService3DCompass}/resources/AppsMngt/api/pull/self`
-            const urlService = `${urlService3DPassport}/login/?service=${urlAPIV2Iterop}/auth/cas`
-            _httpCallAuthenticated(urlAuthCasByCompass, {
-                method: "POST",
+            const urlLoginTicket = `${urlService3DPassport}/login?action=get_auth_params`;
+            const urlAuthCasByCompass = `${urlService3DPassport}/login/?service=${urlService3DCompass}/resources/AppsMngt/api/pull/self`;
+            const urlService = `${urlService3DPassport}/login/?service=${urlAPIV2Iterop}/auth/cas`;
+            _httpCallAuthenticated(urlLoginTicket, {
                 onComplete(response) {
+                    const lt = response.lt;
                     _httpCallAuthenticated(urlService, {
                         onComplete(response) {
                             console.log("response", response);
@@ -52,6 +53,12 @@ export function _Iterop_Auth_CAS(
                             if (x3ds_service_redirect_url) {
                                 _httpCallAuthenticated(x3ds_service_redirect_url, {
                                     method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/x-www-form-urlencoded"
+                                    },
+                                    data: JSON.stringify({
+                                        lt
+                                    }),
                                     onComplete(response) {
                                         if (onDone) onDone(response);
                                     },
@@ -66,12 +73,10 @@ export function _Iterop_Auth_CAS(
                         onFailure(response) {
                             if (onError) onError(response);
                         },
+
                     });
-                },
-                onFailure(response) {
-                    if (onError) onError(response);
                 }
-            });
+            })
         })
     }
 }
