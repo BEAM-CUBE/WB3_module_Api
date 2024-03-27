@@ -37,19 +37,14 @@ export function _Iterop_Auth_CAS(
         _getServiceUrl(credentials, serviceUrls => {
             console.log("serviceUrls", serviceUrls);
             const urlService3DPassport = serviceUrls.services.find(service => service.id === "3dpassport")?.url;
-            const urlService3DCompass = serviceUrls.services.find(service => service.id === "3dcompass")?.url;
             const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
-
-            const urlLoginTicket = `${urlService3DPassport}/login?action=get_auth_params`;
-            const urlAuthCasByCompass = `${urlService3DPassport}/login/?service=${urlService3DCompass}/resources/AppsMngt/api/pull/self`;
             const urlService = `${urlService3DPassport}/login/?service=${urlAPIV2Iterop}/auth/cas`;
-
 
             _httpCallAuthenticated(urlService, {
                 async onComplete(response) {
                     console.log("response", response);
                     const x3ds_service_redirect_url = typeof response === "string" ? JSON.parse(response)?.x3ds_service_redirect_url : response?.x3ds_service_redirect_url;
-                    const result = await fetch(x3ds_service_redirect_url, {
+                    await fetch(x3ds_service_redirect_url, {
                             method: "POST"
                         })
                         .then(response => response.json())
@@ -63,4 +58,23 @@ export function _Iterop_Auth_CAS(
             });
         })
     }
+}
+
+export function _Iterop_ListUsers(
+    urlAPIV2Iterop,
+    token
+) {
+    const myHeaders = new Headers();
+myHeaders.append("Authorization", `Bearer ${token}`);
+
+const requestOptions = {
+  method: "GET",
+  headers: myHeaders,
+  redirect: "follow"
+};
+
+fetch(`${urlAPIV2Iterop}/identity/users`, requestOptions)
+  .then((response) => response.text())
+  .then((result) => console.log(result))
+  .catch((error) => console.error(error));
 }

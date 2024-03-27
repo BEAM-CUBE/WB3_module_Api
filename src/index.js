@@ -111,7 +111,9 @@ import {
   _3DSwym_getFamiliarPeople,
 } from "./lib/plateform/Swym/3dswym_api";
 import {
-  _Iterop_Auth_CAS
+  _Iterop_Auth_CAS,
+  _getServiceUrl_Iterop,
+  _Iterop_ListUsers
 } from "./lib/plateform/main/iterop_apiv2";
 
 import {
@@ -158,6 +160,7 @@ export {
   _3DSwym_postIdea,
   _3DSwym_sendMessageData,
   _Iterop_Auth_CAS,
+  _Iterop_ListUsers,
   _AppMngt_get_info_user,
   _AppMngt_get_users,
   _getPlateformInfos,
