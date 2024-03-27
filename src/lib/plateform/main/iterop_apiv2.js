@@ -50,7 +50,7 @@ export function _Iterop_Auth_CAS(
     }
 }
 
-export function _Iterop_ListUsers(
+export async function _Iterop_ListUsers(
     urlAPIV2Iterop,
     token
 ) {
@@ -59,7 +59,7 @@ export function _Iterop_ListUsers(
         headers: {Authorization : `Bearer ${token}`}
     };
 
-    fetch(`${urlAPIV2Iterop}/identity/users`, requestOptions)
+    _httpCallAuthenticated(`${urlAPIV2Iterop}/identity/users`, requestOptions)
         .then((response) => response.json())
         .then((result) => console.log(result))
         .catch((error) => console.error(error));
