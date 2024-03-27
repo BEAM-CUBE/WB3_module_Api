@@ -56,7 +56,7 @@ export function _Iterop_ListUsers(
 ) {
     const requestOptions = {
         method: "GET",
-        headers: JSON.stringify({Authorization : `Bearer ${token}`})
+        headers: {Authorization : `Bearer ${token}`}
     };
 
     fetch(`${urlAPIV2Iterop}/identity/users`, requestOptions)
