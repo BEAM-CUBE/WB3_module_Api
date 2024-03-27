@@ -54,7 +54,8 @@ export function _Iterop_Auth_CAS(
                         })
                         .then(response => response.json())
                         .then(data => {
-                            console.log("data", data.data.token);
+                            console.log("data", data);
+                            if (onDone) onDone(data);
                         });
                     // if (`${urlService3DPassport}/login/?service=${x3ds_service_redirect_url}`) {
                     //     _httpCallAuthenticated(x3ds_service_redirect_url, {
