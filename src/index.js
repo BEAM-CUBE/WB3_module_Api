@@ -159,6 +159,7 @@ export {
   _3DSwym_getSWYMIdea,
   _3DSwym_postIdea,
   _3DSwym_sendMessageData,
+  _getServiceUrl_Iterop,
   _Iterop_Auth_CAS,
   _Iterop_ListUsers,
   _AppMngt_get_info_user,
