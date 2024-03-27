@@ -54,17 +54,13 @@ export function _Iterop_ListUsers(
     urlAPIV2Iterop,
     token
 ) {
-    const myHeaders = new Headers();
-    myHeaders.append("Authorization", `Bearer ${token}`);
-
     const requestOptions = {
         method: "GET",
-        headers: myHeaders,
-        redirect: "follow"
+        headers: JSON.stringify({Authorization : `Bearer ${token}`})
     };
 
     fetch(`${urlAPIV2Iterop}/identity/users`, requestOptions)
-        .then((response) => response.text())
+        .then((response) => response.json())
         .then((result) => console.log(result))
         .catch((error) => console.error(error));
 }
