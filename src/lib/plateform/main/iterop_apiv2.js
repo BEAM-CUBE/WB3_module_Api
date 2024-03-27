@@ -51,8 +51,10 @@ export function _Iterop_Auth_CAS(
                     const x3ds_service_redirect_url = typeof response === "string" ? JSON.parse(response)?.x3ds_service_redirect_url : response?.x3ds_service_redirect_url;
                     const result = await fetch(x3ds_service_redirect_url, {
                         method: "POST"
-                    })
-                    console.log("result", result);
+                    }).then(function (res) {
+                        // Do stuff with result
+                        console.log("result", res);
+                    });
                     // if (`${urlService3DPassport}/login/?service=${x3ds_service_redirect_url}`) {
                     //     _httpCallAuthenticated(x3ds_service_redirect_url, {
                     //         method: "POST",
