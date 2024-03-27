@@ -41,10 +41,21 @@ export function _Iterop_Auth_CAS(
 
             const urlService = `${urlService3DPassport}/login/?service=${urlAPIV2Iterop}/auth/cas`
             _httpCallAuthenticated(urlService, {
-                onComplete(response, headers) {
+                onComplete(response) {
                     console.log("response", response);
-                    console.log("headers", headers);
-                    if (onDone) onDone(headers);
+                    const x3ds_service_redirect_url = typeof response === "string" ? JSON.parse(response)?.x3ds_service_redirect_url : response?.x3ds_service_redirect_url;
+                    if (x3ds_service_redirect_url) {
+                        _httpCallAuthenticated(x3ds_service_redirect_url, {
+                            onComplete(response) {
+                                if (onDone) onDone(response);
+                            },
+                            onFailure(response) {
+                                if (onError) onError(response);
+                            }
+                        })
+                    }else{
+                        if (onError) onError("x3ds_service_redirect_url is undefined");
+                    }
                 },
                 onFailure(response) {
                     if (onError) onError(response);
