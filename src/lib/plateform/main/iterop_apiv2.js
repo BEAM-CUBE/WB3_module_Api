@@ -51,22 +51,22 @@ export function _Iterop_Auth_CAS(
 }
 
 export async function _Iterop_ListUsers(
-    urlAPIV2Iterop,
+    credentials,
     token
 ) {
-    const requestOptions = {
-        method: "GET",
-        headers: {Authorization : `Bearer ${token}`}
-    };
-
-    _httpCallAuthenticated(`${urlAPIV2Iterop}/identity/users`,{
-        method: "GET",
-        headers: {Authorization : `Bearer ${token}`},
-        onComplete(response) {
-            console.log(response);
-        },
-        onFailure(response) {
-            console.log(response);
-        }
-    });
+    _getServiceUrl(credentials, async serviceUrls => {
+        console.log("serviceUrls", serviceUrls);
+        const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2/identity/users";
+        await fetch(urlAPIV2Iterop, {
+                method: "GET",
+                headers: {
+                    Authorization: `Bearer ${token}`
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+                if (onDone) onDone(data?.token);
+            });
+    })
 }
