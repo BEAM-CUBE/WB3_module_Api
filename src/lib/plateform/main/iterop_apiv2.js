@@ -10,20 +10,10 @@ export function _getServiceUrl_Iterop(
     onError = undefined
 ) {
     if (credentials.tenant) {
-        const urlService = `https://${credentials.tenant}-eu1-registry.3dexperience.3ds.com/api/v1/platform/service/instance?serviceId=3dpassport&platformId=${credentials.tenant}`
-        _httpCallAuthenticated(urlService, {
-            onComplete(response) {
-                const oResponse = JSON.parse(response);
-                console.log("serviceId=3dpassport", oResponse);
-                if (Array.isArray(oResponse) && oResponse.length > 0) {
-                    const urlServicePassport = `${oResponse[0].services[0].url}`
-                    if (onDone) onDone(urlServicePassport)
-                }
-            },
-            onFailure(response) {
-                if (onError) onError(response);
-            },
-
+        _getServiceUrl(credentials, serviceUrls => {
+            console.log("serviceUrls", serviceUrls);
+            const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
+            if (onDone) onDone(urlAPIV2Iterop)
         });
     }
 }
@@ -65,16 +55,16 @@ export function _Iterop_ListUsers(
     token
 ) {
     const myHeaders = new Headers();
-myHeaders.append("Authorization", `Bearer ${token}`);
+    myHeaders.append("Authorization", `Bearer ${token}`);
 
-const requestOptions = {
-  method: "GET",
-  headers: myHeaders,
-  redirect: "follow"
-};
+    const requestOptions = {
+        method: "GET",
+        headers: myHeaders,
+        redirect: "follow"
+    };
 
-fetch(`${urlAPIV2Iterop}/identity/users`, requestOptions)
-  .then((response) => response.text())
-  .then((result) => console.log(result))
-  .catch((error) => console.error(error));
+    fetch(`${urlAPIV2Iterop}/identity/users`, requestOptions)
+        .then((response) => response.text())
+        .then((result) => console.log(result))
+        .catch((error) => console.error(error));
 }
