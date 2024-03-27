@@ -159,7 +159,8 @@ export function _getServiceUrl(
     _httpCallAuthenticated(urlService, {
       onComplete(response) {
         console.log("_getServiceUrl", response);
-        const oResponse = JSON.parse(response);
+
+        const oResponse = typeof response === "string" ? JSON.parse(response) : response;
         if (oResponse && "platforms" in oResponse) {
           const listServiceUrl = oResponse.platforms.find(platform => {
             platform.id === credentials.tenant.toUpperCase()
