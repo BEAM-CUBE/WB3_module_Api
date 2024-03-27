@@ -59,8 +59,14 @@ export async function _Iterop_ListUsers(
         headers: {Authorization : `Bearer ${token}`}
     };
 
-    _httpCallAuthenticated(`${urlAPIV2Iterop}/identity/users`, requestOptions)
-        .then((response) => response.json())
-        .then((result) => console.log(result))
-        .catch((error) => console.error(error));
+    _httpCallAuthenticated(`${urlAPIV2Iterop}/identity/users`,{
+        method: "GET",
+        headers: {Authorization : `Bearer ${token}`},
+        onComplete(response) {
+            console.log(response);
+        },
+        onFailure(response) {
+            console.log(response);
+        }
+    });
 }
