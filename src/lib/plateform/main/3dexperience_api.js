@@ -158,13 +158,14 @@ export function _getServiceUrl(
     const urlService = `https://${credentials.tenant}-eu1-apps.3dexperience.3ds.com/enovia/resources/AppsMngt/api/v1/services?tenant=${credentials.tenant}&cors=true&xrequestedwith=xmlhttprequest`
     _httpCallAuthenticated(urlService, {
       onComplete(response) {
+        console.log("_getServiceUrl", response);
         const oResponse = JSON.parse(response);
-        console.log("_getServiceUrl", oResponse);
         if (oResponse && "platforms" in oResponse) {
           const listServiceUrl = oResponse.platforms.find(platform => {
             platform.id === credentials.tenant.toUpperCase()
           })
-          if (onDone) onDone(listServiceUrl)
+          if (onDone && listServiceUrl) onDone(listServiceUrl)
+          else if (onError) onError("_getServiceUrl return listServiceUrl = undefined");
         }
       },
       onFailure(response) {
