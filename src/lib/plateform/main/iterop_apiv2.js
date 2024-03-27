@@ -54,25 +54,8 @@ export function _Iterop_Auth_CAS(
                         })
                         .then(response => response.json())
                         .then(data => {
-                            console.log("data", data);
-                            if (onDone) onDone(data);
+                            if (onDone) onDone(data?.token);
                         });
-                    // if (`${urlService3DPassport}/login/?service=${x3ds_service_redirect_url}`) {
-                    //     _httpCallAuthenticated(x3ds_service_redirect_url, {
-                    //         method: "POST",
-                    //         headers: {
-                    //             "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8"
-                    //         },
-                    //         onComplete(response) {
-                    //             if (onDone) onDone(response);
-                    //         },
-                    //         onFailure(response) {
-                    //             if (onError) onError(response);
-                    //         }
-                    //     })
-                    // } else {
-                    //     if (onError) onError("x3ds_service_redirect_url is undefined");
-                    // }
                 },
                 onFailure(response) {
                     if (onError) onError(response);
