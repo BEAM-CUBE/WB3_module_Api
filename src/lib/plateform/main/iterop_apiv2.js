@@ -40,18 +40,6 @@ export function _Iterop_Auth_CAS(
                         .then(response => response.json())
                         .then(async data => {
 
-                            await fetch(urlAPIV2Iterop, {
-                                headers: {
-                                    Authorization: `Bearer ${data?.token}`
-                                },
-                            })
-                            .then(response => response.json())
-                            .then(data => {
-                                console.log(data);
-                                
-                            })
-                            .catch(err => console.log(err));
-
                             if (onDone) onDone(data?.token);
                         });
                 },
@@ -79,7 +67,7 @@ export async function _Iterop_ListUsers(
 
             _httpCallAuthenticated(urlService, {
                 headers:{
-                    Authorization: `Bearer ${token}`
+                    'Authorization': `Bearer ${token}`
                 },
                 onComplete(response) {
                     console.log("response", response);
