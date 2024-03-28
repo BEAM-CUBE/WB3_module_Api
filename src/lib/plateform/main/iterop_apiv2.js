@@ -65,7 +65,9 @@ export function _Iterop_Auth_CAS(
 
 export async function _Iterop_ListUsers(
     credentials,
-    token
+    token,
+    onDone = undefined,
+    onError = undefined
 ) {
 
     if (credentials.tenant) {
@@ -79,8 +81,9 @@ export async function _Iterop_ListUsers(
                 headers:{
                     Authorization: `Bearer ${token}`
                 },
-                async onComplete(response) {
+                onComplete(response) {
                     console.log("response", response);
+                    if (onDone) onDone(response)
                 },
                 onFailure(response) {
                     if (onError) onError(response);
