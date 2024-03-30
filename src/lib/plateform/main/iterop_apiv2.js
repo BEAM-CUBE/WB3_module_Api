@@ -113,7 +113,7 @@ export async function _Iterop_processStart(
             const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
             const urlService = `${urlAPIV2Iterop}/repository/data/tables`;
             
-            fetch(`https://api.uixhome.fr/iterop/runtime/processes/${processKey}?t=${token}&s=${urlService}&b=${body}`, {
+            fetch(`https://api.uixhome.fr/iterop/runtime/processes?k=${processKey}&t=${token}&s=${urlService}&b=${body}`, {
                     method: "POST",
                 })
                 .then((response) => response.json())
