@@ -112,9 +112,7 @@ export async function _Iterop_processStart(
         _getServiceUrl(credentials, serviceUrls => {
             const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
             const urlService = `${urlAPIV2Iterop}/repository/data/tables`;
-            var CryptoJS = require("crypto-js");
-
-            var cryptoBody = CryptoJS.
+            
             fetch(`https://api.uixhome.fr/iterop/runtime/processes/${processKey}?t=${token}&s=${urlService}&b=${body}`, {
                     method: "POST",
                 })
