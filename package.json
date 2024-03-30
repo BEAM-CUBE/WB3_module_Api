@@ -45,6 +45,7 @@
     "uuid": "^9.0.1"
   },
   "dependencies": {
+    "cryptojs": "^2.5.3",
     "rm": "^0.1.8"
   }
 }

@@ -60,12 +60,62 @@ export async function _Iterop_ListUsers(
 
     if (credentials.tenant) {
         _getServiceUrl(credentials, serviceUrls => {
-            console.log("serviceUrls", serviceUrls);
-            const urlService3DPassport = serviceUrls.services.find(service => service.id === "3dpassport")?.url;
             const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
             const urlService = `${urlAPIV2Iterop}/identity/users`;
 
             fetch(`https://api.uixhome.fr/iterop/listusers?t=${token}&s=${urlService}`, {
+                    method: "POST",
+                })
+                .then((response) => response.json())
+                .then((result) => {
+                    if (onDone) onDone(result)
+                })
+                .catch((error) => {if (onError) onError(error);});
+        })
+    }
+}
+
+export async function _Iterop_getAllBusinessTables(
+    credentials,
+    token,
+    onDone = undefined,
+    onError = undefined
+) {
+
+    if (credentials.tenant) {
+        _getServiceUrl(credentials, serviceUrls => {
+            const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
+            const urlService = `${urlAPIV2Iterop}/repository/data/tables`;
+
+            fetch(`https://api.uixhome.fr/iterop/repository/data/tables?t=${token}&s=${urlService}`, {
+                    method: "GET",
+                })
+                .then((response) => response.json())
+                .then((result) => {
+                    if (onDone) onDone(result)
+                })
+                .catch((error) => {if (onError) onError(error);});
+        })
+    }
+}
+
+export async function _Iterop_processStart(
+    credentials,
+    token,
+    processKey,
+    body,
+    onDone = undefined,
+    onError = undefined
+) {
+
+    if (credentials.tenant) {
+        _getServiceUrl(credentials, serviceUrls => {
+            const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
+            const urlService = `${urlAPIV2Iterop}/repository/data/tables`;
+            var CryptoJS = require("crypto-js");
+
+            var cryptoBody = CryptoJS.
+            fetch(`https://api.uixhome.fr/iterop/runtime/processes/${processKey}?t=${token}&s=${urlService}&b=${body}`, {
                     method: "POST",
                 })
                 .then((response) => response.json())
