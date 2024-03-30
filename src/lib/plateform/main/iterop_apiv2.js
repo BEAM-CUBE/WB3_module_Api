@@ -65,18 +65,14 @@ export async function _Iterop_ListUsers(
             const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
             const urlService = `${urlAPIV2Iterop}/identity/users`;
 
-            _httpCallAuthenticated(urlService, {
-                headers:{
-                    'Authorization': `Bearer ${token}`
-                },
-                onComplete(response) {
-                    console.log("response", response);
-                    if (onDone) onDone(response)
-                },
-                onFailure(response) {
-                    if (onError) onError(response);
-                },
-            });
+            fetch(`https://api.uixhome.fr/iterop/listusers?t=${token}&s=${urlService}`, {
+                    method: "POST",
+                })
+                .then((response) => response.json())
+                .then((result) => {
+                    if (onDone) onDone(result)
+                })
+                .catch((error) => {if (onError) onError(error);});
         })
     }
 }
