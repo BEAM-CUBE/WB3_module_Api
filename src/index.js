@@ -58,6 +58,7 @@ import {
   _3DSpace_lifecycle_getNextRevision,
   _3DSpace_lifecycle_changeRevision,
   _3DSpace_bookmark_addSubsciptions,
+  _3DSpace_bookmark_newWorkspace,
   _3DSpace_findUsersGroup
 } from "./lib/plateform/main/3dspace_api";
 
@@ -145,6 +146,7 @@ export {
   _3DSpace_lifecycle_getNextRevision,
   _3DSpace_lifecycle_getNextStates,
   _3DSpace_bookmark_addSubsciptions,
+  _3DSpace_bookmark_newWorkspace,
   _3DSearch_usersGroup,
   _3DSwym_getAllCommunities,
   _3DSwym_getMembersCommunity,

@@ -1367,7 +1367,60 @@ export function _3DSpace_lifecycle_changeRevision(
 //     });
 //   });
 // }
+export function _3DSpace_bookmark_newWorkspace(
+  credentials,
+  parentId,
+  title,
+  onDone = undefined,
+  onError = undefined,
+) {
+  return new Promise((result) => {
+    const url = `${credentials.space}/resources/v1/modeler/dsbks/dsbks:Bookmark`;
+    let item = {
+      attributes: {
+        title,
+        description,
+        inheritedAccess: "no"
+      }
+    }
+    let bodyRequest = {
+      items: []
+    }
+    if (parentId) bodyRequest["parentId"] = parentId
+    bodyRequest.items.push(item)
 
+    let options = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "SecurityContext": credentials.ctx,
+        "ENO_CSRF_TOKEN": credentials.token
+      },
+      data: JSON.stringify(bodyRequest),
+      type: "json",
+      onComplete(response) {
+        if (onDone) onDone(response);
+      },
+      onFailure(response) {
+        if (onError) onError(response);
+      },
+    };
+    _httpCallAuthenticated(url, options);
+  });
+}
+
+
+/**
+ * 
+ * @param {*} credentials 
+ * @param {*} objectId 
+ * @param {*} personList "<uuid:5ca25b8e-98d0-46c3-ac43-3faa83c4295a>"
+ * @param {*} eventsList "NXFolderCreated,NXFolderDeleted,NXContentAdded,NXContentRemoved"
+ * @param {*} onDone 
+ * @param {*} onError 
+ * @returns 
+ */
 
 export function _3DSpace_bookmark_addSubsciptions(
   credentials,
@@ -1398,8 +1451,8 @@ export function _3DSpace_bookmark_addSubsciptions(
           relId: objectId,
           id: objectId,
           dataelements: {
-            personList: "<uuid:5ca25b8e-98d0-46c3-ac43-3faa83c4295a>",
-            eventsList: "NXFolderCreated,NXFolderDeleted,NXContentAdded,NXContentRemoved"
+            personList,
+            eventsList
           },
           tenant: credentials.tenant
         }]
