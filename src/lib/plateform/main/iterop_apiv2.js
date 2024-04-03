@@ -70,7 +70,9 @@ export async function _Iterop_ListUsers(
                 .then((result) => {
                     if (onDone) onDone(result)
                 })
-                .catch((error) => {if (onError) onError(error);});
+                .catch((error) => {
+                    if (onError) onError(error);
+                });
         })
     }
 }
@@ -94,12 +96,14 @@ export async function _Iterop_getAllBusinessTables(
                 .then((result) => {
                     if (onDone) onDone(result)
                 })
-                .catch((error) => {if (onError) onError(error);});
+                .catch((error) => {
+                    if (onError) onError(error);
+                });
         })
     }
 }
 
-export async function _Iterop_processStart(
+export async function _Iterop_runProcess(
     credentials,
     token,
     processKey,
@@ -111,16 +115,20 @@ export async function _Iterop_processStart(
     if (credentials.tenant) {
         _getServiceUrl(credentials, serviceUrls => {
             const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
-            const urlService = `${urlAPIV2Iterop}/repository/data/tables`;
-            
-            fetch(`https://api.uixhome.fr/iterop/runtime/processes?k=${processKey}&t=${token}&s=${urlService}&b=${encodeURIComponent(body)}`, {
-                    method: "POST",
-                })
+            const urlService = encodeURIComponent(`${urlAPIV2Iterop}`);
+
+            fetch(
+                    `https://api.uixhome.fr/iterop/runtime/processes/${processKey}?t=${token}&s=${urlService}&b=${body}`, 
+                    {
+                        method: "POST",
+                    })
                 .then((response) => response.json())
                 .then((result) => {
                     if (onDone) onDone(result)
                 })
-                .catch((error) => {if (onError) onError(error);});
+                .catch((error) => {
+                    if (onError) onError(error);
+                });
         })
     }
 }

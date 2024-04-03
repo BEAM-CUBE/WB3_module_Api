@@ -115,7 +115,7 @@ import {
   _getServiceUrl_Iterop,
   _Iterop_ListUsers,
   _Iterop_getAllBusinessTables,
-  _Iterop_processStart
+  _Iterop_runProcess
 } from "./lib/plateform/main/iterop_apiv2";
 
 import {
@@ -165,7 +165,7 @@ export {
   _Iterop_Auth_CAS,
   _Iterop_ListUsers,
   _Iterop_getAllBusinessTables,
-  _Iterop_processStart,
+  _Iterop_runProcess,
   _AppMngt_get_info_user,
   _AppMngt_get_users,
   _getPlateformInfos,
