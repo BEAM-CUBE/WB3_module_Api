@@ -713,9 +713,9 @@ export async function _3DSpace_download_doc(
         console.log("☠️ error => ", err);
       },
     );
-    console.warn(
-      "_3DSpace_download_doc() / Le paramètre token est obligatoire",
-    );
+    // console.warn(
+    //   "_3DSpace_download_doc() / Le paramètre token est obligatoire",
+    // );
   }
 
   return new Promise((resolve, reject) => {
