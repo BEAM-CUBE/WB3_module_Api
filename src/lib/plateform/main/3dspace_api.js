@@ -1,9 +1,17 @@
 import {
   _httpCallAuthenticated,
   _getPlatformServices,
+  _getPlateformInfos
 } from "./3dexperience_api";
-import { UUID } from "../../api/index";
-import { getCSRFToken } from "./getCSRFToken";
+import {
+  UUID
+} from "../../api/index";
+import {
+  getCSRFToken
+} from "./getCSRFToken";
+import {
+  DateTime
+} from "luxon";
 
 /**
  * @description La fonction `_3dSpace_get_docInfo` récupère des informations sur un document dans un espace 3D.
@@ -350,24 +358,20 @@ export function _3DSpace_file_update_csr(
             ENO_CSRF_TOKEN: csr,
           },
           data: JSON.stringify({
-            data: [
-              {
-                id: docId,
-                relateddata: {
-                  files: [
-                    {
-                      id: fileId,
-                      dataelements: {
-                        title: filename,
-                        receipt: response,
-                      },
-                      updateAction: "REVISE",
-                    },
-                  ],
-                },
-                tempId,
+            data: [{
+              id: docId,
+              relateddata: {
+                files: [{
+                  id: fileId,
+                  dataelements: {
+                    title: filename,
+                    receipt: response,
+                  },
+                  updateAction: "REVISE",
+                }, ],
               },
-            ],
+              tempId,
+            }, ],
           }),
 
           type: "json",
@@ -469,30 +473,26 @@ export async function _3DSpace_Create_Doc(
                 "Content-Type": "application/json",
               },
               data: JSON.stringify({
-                data: [
-                  {
-                    type: "Document",
-                    dataelements: {
-                      title: `Title_${filename
+                data: [{
+                  type: "Document",
+                  dataelements: {
+                    title: `Title_${filename
                         .toLowerCase()
                         .split(" ")
                         .join("_")}`,
-                      policy: "Document Release",
-                      description: desc,
-                    },
-                    relateddata: {
-                      files: [
-                        {
-                          dataelements: {
-                            title: `${filename}.json`,
-                            receipt: ticket,
-                          },
-                        },
-                      ],
-                    },
-                    tempId: UUID(),
+                    policy: "Document Release",
+                    description: desc,
                   },
-                ],
+                  relateddata: {
+                    files: [{
+                      dataelements: {
+                        title: `${filename}.json`,
+                        receipt: ticket,
+                      },
+                    }, ],
+                  },
+                  tempId: UUID(),
+                }, ],
               }),
               type: "json",
               timeout: 0,
@@ -583,12 +583,12 @@ export function _3DSpace_get_securityContexts(
           let couples = oCS.couples;
           couples = couples.filter(
             (value, index, self) =>
-              index ===
-              self.findIndex(
-                (t) =>
-                  t.organization.pid === value.organization.pid &&
-                  t.role.pid === value.role.pid,
-              ),
+            index ===
+            self.findIndex(
+              (t) =>
+              t.organization.pid === value.organization.pid &&
+              t.role.pid === value.role.pid,
+            ),
           );
           if (role) {
             if (Array.isArray(role)) {
@@ -736,7 +736,7 @@ export async function _3DSpace_download_doc(
               tryParse = response;
             }
 
-            if (onDone) onDone(tryParse);
+            if (onDone && typeof onDone === "function") onDone(tryParse);
             resolve(tryParse);
           },
           onFailure(error, headers, xhr) {
@@ -793,27 +793,32 @@ export async function _3DSpace_download_multidoc(
 ) {
   let listDiv = [];
   const chunkSize = 80;
-  for (let i = 0; i < objectIds.length; i += chunkSize) {
-    const chunk = objectIds.slice(i, i + chunkSize);
-    listDiv.push(chunk);
-  }
-  const loop = (i) => {
-    _3DSpace_get_downloadTicket_multidoc(
-      credentials,
-      listDiv[i],
-      () => {
-        i++;
-        if (i < listDiv.length) {
-          loop(i);
-        }
-      },
-      (done) => {
-        if (onDone) onDone(done);
-      },
-    );
-  };
+  if (typeof objectIds !== "undefined" && Array.isArray(objectIds) && objectIds?.length > 0) {
+    for (let i = 0; i < objectIds.length; i += chunkSize) {
+      const chunk = objectIds.slice(i, i + chunkSize);
+      listDiv.push(chunk);
+    }
+    const loop = (i) => {
+      _3DSpace_get_downloadTicket_multidoc(
+        credentials,
+        listDiv[i],
+        () => {
+          i++;
+          if (i < listDiv.length) {
+            loop(i);
+          }
+        },
+        (done) => {
+          if (onDone) onDone(done);
+        },
+      );
+    };
 
-  loop(0);
+    loop(0);
+  } else {
+    console.warn("La liste d'objects dans la fonction _3DSpace_download_multidoc est vide ou non défini.");
+    if (onError) onError("La liste d'objects dans la fonction _3DSpace_download_multidoc est vide ou non défini.")
+  }
 }
 
 /**
@@ -949,11 +954,9 @@ export function _3DSpace_lifecycle_getNextStates(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          data: [
-            {
-              id: objectId,
-            },
-          ],
+          data: [{
+            id: objectId,
+          }, ],
         }),
         type: "json",
         onComplete(response) {
@@ -1019,12 +1022,10 @@ export function _3DSpace_lifecycle_changeState(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          data: [
-            {
-              id: objectId,
-              nextState,
-            },
-          ],
+          data: [{
+            id: objectId,
+            nextState,
+          }, ],
         }),
         type: "json",
         onComplete(response) {
@@ -1131,11 +1132,9 @@ export function _3DSpace_lifecycle_getGraph(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          graphRequests: [
-            {
-              id: objectId,
-            },
-          ],
+          graphRequests: [{
+            id: objectId,
+          }, ],
         }),
         type: "json",
         onComplete(response) {
@@ -1202,17 +1201,15 @@ export function _3DSpace_lifecycle_getNextRevision(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          data: [
-            {
-              "attribute[PLMReference.V_versionComment]": null,
-              physicalid: objectId,
-              type: "Document",
-              tenant: credentials.tenant,
-              objectId,
-              policy: "Document Release",
-              availableSemantic: ["E", "LAST", "NEW", "DUP"],
-            },
-          ],
+          data: [{
+            "attribute[PLMReference.V_versionComment]": null,
+            physicalid: objectId,
+            type: "Document",
+            tenant: credentials.tenant,
+            objectId,
+            policy: "Document Release",
+            availableSemantic: ["E", "LAST", "NEW", "DUP"],
+          }, ],
         }),
         type: "json",
         onComplete(response) {
@@ -1282,15 +1279,13 @@ export function _3DSpace_lifecycle_changeRevision(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          data: [
-            {
-              physicalid: objectId,
-              proposedRevision: nextRevision,
-              modifiedAttributes: {
-                revision: nextRevision,
-              },
+          data: [{
+            physicalid: objectId,
+            proposedRevision: nextRevision,
+            modifiedAttributes: {
+              revision: nextRevision,
             },
-          ],
+          }, ],
           folderid: null,
           notificationTimeout: 600,
         }),
@@ -1372,6 +1367,107 @@ export function _3DSpace_lifecycle_changeRevision(
 //     });
 //   });
 // }
+export function _3DSpace_bookmark_newWorkspace(
+  credentials,
+  parentId,
+  title,
+  onDone = undefined,
+  onError = undefined,
+) {
+  return new Promise((result) => {
+    const url = `${credentials.space}/resources/v1/modeler/dsbks/dsbks:Bookmark`;
+    let item = {
+      attributes: {
+        title,
+        description,
+        inheritedAccess: "no"
+      }
+    }
+    let bodyRequest = {
+      items: []
+    }
+    if (parentId) bodyRequest["parentId"] = parentId
+    bodyRequest.items.push(item)
+
+    let options = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "SecurityContext": credentials.ctx,
+        "ENO_CSRF_TOKEN": credentials.token
+      },
+      data: JSON.stringify(bodyRequest),
+      type: "json",
+      onComplete(response) {
+        if (onDone) onDone(response);
+      },
+      onFailure(response) {
+        if (onError) onError(response);
+      },
+    };
+    _httpCallAuthenticated(url, options);
+  });
+}
+
+
+/**
+ * 
+ * @param {*} credentials 
+ * @param {*} objectId 
+ * @param {*} personList "<uuid:5ca25b8e-98d0-46c3-ac43-3faa83c4295a>"
+ * @param {*} eventsList "NXFolderCreated,NXFolderDeleted,NXContentAdded,NXContentRemoved"
+ * @param {*} onDone 
+ * @param {*} onError 
+ * @returns 
+ */
+
+export function _3DSpace_bookmark_addSubsciptions(
+  credentials,
+  objectId,
+  personList,
+  eventsList,
+  onDone = undefined,
+  onError = undefined,
+) {
+  console.log("credentials", credentials);
+  return new Promise((result) => {
+    const url = `${credentials.space}/resources/v1/modeler/subscriptions/createPushSubscription?xrequestedwith=xmlhttprequest`;
+
+    let options = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      data: JSON.stringify({
+        csrf: {
+          name: "ENO_CSRF_TOKEN",
+          value: credentials.token
+        },
+        data: [{
+          type: "Workspace",
+          cestamp: "businessobject",
+          relId: objectId,
+          id: objectId,
+          dataelements: {
+            personList,
+            eventsList
+          },
+          tenant: credentials.tenant
+        }]
+      }),
+      type: "json",
+      onComplete(response) {
+        if (onDone) onDone(response);
+      },
+      onFailure(response) {
+        if (onError) onError(response);
+      },
+    };
+  });
+}
+
 //!SECTION
 
 // module.exports = {

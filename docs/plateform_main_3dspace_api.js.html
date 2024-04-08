@@ -29,9 +29,17 @@
             <pre class="prettyprint source linenums"><code>import {
   _httpCallAuthenticated,
   _getPlatformServices,
+  _getPlateformInfos
 } from "./3dexperience_api";
-import { UUID } from "../../api/index";
-import { getCSRFToken } from "./getCSRFToken";
+import {
+  UUID
+} from "../../api/index";
+import {
+  getCSRFToken
+} from "./getCSRFToken";
+import {
+  DateTime
+} from "luxon";
 
 /**
  * @description La fonction `_3dSpace_get_docInfo` récupère des informations sur un document dans un espace 3D.
@@ -378,24 +386,20 @@ export function _3DSpace_file_update_csr(
             ENO_CSRF_TOKEN: csr,
           },
           data: JSON.stringify({
-            data: [
-              {
-                id: docId,
-                relateddata: {
-                  files: [
-                    {
-                      id: fileId,
-                      dataelements: {
-                        title: filename,
-                        receipt: response,
-                      },
-                      updateAction: "REVISE",
-                    },
-                  ],
-                },
-                tempId,
+            data: [{
+              id: docId,
+              relateddata: {
+                files: [{
+                  id: fileId,
+                  dataelements: {
+                    title: filename,
+                    receipt: response,
+                  },
+                  updateAction: "REVISE",
+                }, ],
               },
-            ],
+              tempId,
+            }, ],
           }),
 
           type: "json",
@@ -497,30 +501,26 @@ export async function _3DSpace_Create_Doc(
                 "Content-Type": "application/json",
               },
               data: JSON.stringify({
-                data: [
-                  {
-                    type: "Document",
-                    dataelements: {
-                      title: `Title_${filename
+                data: [{
+                  type: "Document",
+                  dataelements: {
+                    title: `Title_${filename
                         .toLowerCase()
                         .split(" ")
                         .join("_")}`,
-                      policy: "Document Release",
-                      description: desc,
-                    },
-                    relateddata: {
-                      files: [
-                        {
-                          dataelements: {
-                            title: `${filename}.json`,
-                            receipt: ticket,
-                          },
-                        },
-                      ],
-                    },
-                    tempId: UUID(),
+                    policy: "Document Release",
+                    description: desc,
                   },
-                ],
+                  relateddata: {
+                    files: [{
+                      dataelements: {
+                        title: `${filename}.json`,
+                        receipt: ticket,
+                      },
+                    }, ],
+                  },
+                  tempId: UUID(),
+                }, ],
               }),
               type: "json",
               timeout: 0,
@@ -611,12 +611,12 @@ export function _3DSpace_get_securityContexts(
           let couples = oCS.couples;
           couples = couples.filter(
             (value, index, self) =>
-              index ===
-              self.findIndex(
-                (t) =>
-                  t.organization.pid === value.organization.pid &amp;&amp;
-                  t.role.pid === value.role.pid,
-              ),
+            index ===
+            self.findIndex(
+              (t) =>
+              t.organization.pid === value.organization.pid &amp;&amp;
+              t.role.pid === value.role.pid,
+            ),
           );
           if (role) {
             if (Array.isArray(role)) {
@@ -764,7 +764,7 @@ export async function _3DSpace_download_doc(
               tryParse = response;
             }
 
-            if (onDone) onDone(tryParse);
+            if (onDone &amp;&amp; typeof onDone === "function") onDone(tryParse);
             resolve(tryParse);
           },
           onFailure(error, headers, xhr) {
@@ -821,27 +821,32 @@ export async function _3DSpace_download_multidoc(
 ) {
   let listDiv = [];
   const chunkSize = 80;
-  for (let i = 0; i &lt; objectIds.length; i += chunkSize) {
-    const chunk = objectIds.slice(i, i + chunkSize);
-    listDiv.push(chunk);
-  }
-  const loop = (i) => {
-    _3DSpace_get_downloadTicket_multidoc(
-      credentials,
-      listDiv[i],
-      () => {
-        i++;
-        if (i &lt; listDiv.length) {
-          loop(i);
-        }
-      },
-      (done) => {
-        if (onDone) onDone(done);
-      },
-    );
-  };
+  if (typeof objectIds !== "undefined" &amp;&amp; Array.isArray(objectIds) &amp;&amp; objectIds?.length > 0) {
+    for (let i = 0; i &lt; objectIds.length; i += chunkSize) {
+      const chunk = objectIds.slice(i, i + chunkSize);
+      listDiv.push(chunk);
+    }
+    const loop = (i) => {
+      _3DSpace_get_downloadTicket_multidoc(
+        credentials,
+        listDiv[i],
+        () => {
+          i++;
+          if (i &lt; listDiv.length) {
+            loop(i);
+          }
+        },
+        (done) => {
+          if (onDone) onDone(done);
+        },
+      );
+    };
 
-  loop(0);
+    loop(0);
+  } else {
+    console.warn("La liste d'objects dans la fonction _3DSpace_download_multidoc est vide ou non défini.");
+    if (onError) onError("La liste d'objects dans la fonction _3DSpace_download_multidoc est vide ou non défini.")
+  }
 }
 
 /**
@@ -977,11 +982,9 @@ export function _3DSpace_lifecycle_getNextStates(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          data: [
-            {
-              id: objectId,
-            },
-          ],
+          data: [{
+            id: objectId,
+          }, ],
         }),
         type: "json",
         onComplete(response) {
@@ -1047,12 +1050,10 @@ export function _3DSpace_lifecycle_changeState(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          data: [
-            {
-              id: objectId,
-              nextState,
-            },
-          ],
+          data: [{
+            id: objectId,
+            nextState,
+          }, ],
         }),
         type: "json",
         onComplete(response) {
@@ -1159,11 +1160,9 @@ export function _3DSpace_lifecycle_getGraph(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          graphRequests: [
-            {
-              id: objectId,
-            },
-          ],
+          graphRequests: [{
+            id: objectId,
+          }, ],
         }),
         type: "json",
         onComplete(response) {
@@ -1230,17 +1229,15 @@ export function _3DSpace_lifecycle_getNextRevision(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          data: [
-            {
-              "attribute[PLMReference.V_versionComment]": null,
-              physicalid: objectId,
-              type: "Document",
-              tenant: credentials.tenant,
-              objectId,
-              policy: "Document Release",
-              availableSemantic: ["E", "LAST", "NEW", "DUP"],
-            },
-          ],
+          data: [{
+            "attribute[PLMReference.V_versionComment]": null,
+            physicalid: objectId,
+            type: "Document",
+            tenant: credentials.tenant,
+            objectId,
+            policy: "Document Release",
+            availableSemantic: ["E", "LAST", "NEW", "DUP"],
+          }, ],
         }),
         type: "json",
         onComplete(response) {
@@ -1310,15 +1307,13 @@ export function _3DSpace_lifecycle_changeRevision(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          data: [
-            {
-              physicalid: objectId,
-              proposedRevision: nextRevision,
-              modifiedAttributes: {
-                revision: nextRevision,
-              },
+          data: [{
+            physicalid: objectId,
+            proposedRevision: nextRevision,
+            modifiedAttributes: {
+              revision: nextRevision,
             },
-          ],
+          }, ],
           folderid: null,
           notificationTimeout: 600,
         }),
@@ -1400,13 +1395,113 @@ export function _3DSpace_lifecycle_changeRevision(
 //     });
 //   });
 // }
+export function _3DSpace_bookmark_newWorkspace(
+  credentials,
+  parentId,
+  title,
+  onDone = undefined,
+  onError = undefined,
+) {
+  return new Promise((result) => {
+    const url = `${credentials.space}/resources/v1/modeler/dsbks/dsbks:Bookmark`;
+    let item = {
+      attributes: {
+        title,
+        description,
+        inheritedAccess: "no"
+      }
+    }
+    let bodyRequest = {
+      items: []
+    }
+    if (parentId) bodyRequest["parentId"] = parentId
+    bodyRequest.items.push(item)
+
+    let options = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+        "SecurityContext": credentials.ctx,
+        "ENO_CSRF_TOKEN": credentials.token
+      },
+      data: JSON.stringify(bodyRequest),
+      type: "json",
+      onComplete(response) {
+        if (onDone) onDone(response);
+      },
+      onFailure(response) {
+        if (onError) onError(response);
+      },
+    };
+    _httpCallAuthenticated(url, options);
+  });
+}
+
+
+/**
+ * 
+ * @param {*} credentials 
+ * @param {*} objectId 
+ * @param {*} personList "&lt;uuid:5ca25b8e-98d0-46c3-ac43-3faa83c4295a>"
+ * @param {*} eventsList "NXFolderCreated,NXFolderDeleted,NXContentAdded,NXContentRemoved"
+ * @param {*} onDone 
+ * @param {*} onError 
+ * @returns 
+ */
+
+export function _3DSpace_bookmark_addSubsciptions(
+  credentials,
+  objectId,
+  personList,
+  eventsList,
+  onDone = undefined,
+  onError = undefined,
+) {
+  console.log("credentials", credentials);
+  return new Promise((result) => {
+    const url = `${credentials.space}/resources/v1/modeler/subscriptions/createPushSubscription?xrequestedwith=xmlhttprequest`;
+
+    let options = {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      data: JSON.stringify({
+        csrf: {
+          name: "ENO_CSRF_TOKEN",
+          value: credentials.token
+        },
+        data: [{
+          type: "Workspace",
+          cestamp: "businessobject",
+          relId: objectId,
+          id: objectId,
+          dataelements: {
+            personList,
+            eventsList
+          },
+          tenant: credentials.tenant
+        }]
+      }),
+      type: "json",
+      onComplete(response) {
+        if (onDone) onDone(response);
+      },
+      onFailure(response) {
+        if (onError) onError(response);
+      },
+    };
+  });
+}
+
 //!SECTION
 
 // module.exports = {
 
 //   _3DSpace_bookmark_getChildren,
-// };
-</code></pre>
+// };</code></pre>
         </article>
     </section>
 
@@ -1416,13 +1511,17 @@ export function _3DSpace_lifecycle_changeRevision(
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#_3DSpace_Create_Doc">_3DSpace_Create_Doc</a></li><li><a href="global.html#_3DSpace_csrf">_3DSpace_csrf</a></li><li><a href="global.html#_3DSpace_download_doc">_3DSpace_download_doc</a></li><li><a href="global.html#_3DSpace_download_multidoc">_3DSpace_download_multidoc</a></li><li><a href="global.html#_3DSpace_file_update">_3DSpace_file_update</a></li><li><a href="global.html#_3DSpace_file_update_csr">_3DSpace_file_update_csr</a></li><li><a href="global.html#_3DSpace_file_url_csr">_3DSpace_file_url_csr</a></li><li><a href="global.html#_3DSpace_get_csrf">_3DSpace_get_csrf</a></li><li><a href="global.html#_3DSpace_get_docInfo">_3DSpace_get_docInfo</a></li><li><a href="global.html#_3DSpace_get_downloadTicket_multidoc">_3DSpace_get_downloadTicket_multidoc</a></li><li><a href="global.html#_3DSpace_get_securityContexts">_3DSpace_get_securityContexts</a></li><li><a href="global.html#_3DSpace_get_ticket">_3DSpace_get_ticket</a></li><li><a href="global.html#_3DSpace_lifecycle_changeRevision">_3DSpace_lifecycle_changeRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_changeState">_3DSpace_lifecycle_changeState</a></li><li><a href="global.html#_3DSpace_lifecycle_getGraph">_3DSpace_lifecycle_getGraph</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextRevision">_3DSpace_lifecycle_getNextRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextStates">_3DSpace_lifecycle_getNextStates</a></li><li><a href="global.html#_3DSwym_buildDirectMessage">_3DSwym_buildDirectMessage</a></li><li><a href="global.html#_3DSwym_deleteIdea">_3DSwym_deleteIdea</a></li><li><a href="global.html#_3DSwym_findCommunityToInstantMSG">_3DSwym_findCommunityToInstantMSG</a></li><li><a href="global.html#_3DSwym_get_AllSWYMIdeas">_3DSwym_get_AllSWYMIdeas</a></li><li><a href="global.html#_3DSwym_get_currentUser">_3DSwym_get_currentUser</a></li><li><a href="global.html#_3DSwym_get_findUser">_3DSwym_get_findUser</a></li><li><a href="global.html#_3DSwym_get_version">_3DSwym_get_version</a></li><li><a href="global.html#_3DSwym_getAllCommunities">_3DSwym_getAllCommunities</a></li><li><a href="global.html#_3DSwym_getAllNews">_3DSwym_getAllNews</a></li><li><a href="global.html#_3DSwym_getFamiliarPeople">_3DSwym_getFamiliarPeople</a></li><li><a href="global.html#_3DSwym_getIdeaStatusMaturity">_3DSwym_getIdeaStatusMaturity</a></li><li><a href="global.html#_3DSwym_getMembersCommunity">_3DSwym_getMembersCommunity</a></li><li><a href="global.html#_3DSwym_getSWYMIdea">_3DSwym_getSWYMIdea</a></li><li><a href="global.html#_3DSwym_postIdea">_3DSwym_postIdea</a></li><li><a href="global.html#_3DSwym_sendMessageData">_3DSwym_sendMessageData</a></li><li><a href="global.html#_AppMngt_get_info_user">_AppMngt_get_info_user</a></li><li><a href="global.html#_AppMngt_get_users">_AppMngt_get_users</a></li><li><a href="global.html#_getPlateformInfos">_getPlateformInfos</a></li><li><a href="global.html#_getPlatformServices">_getPlatformServices</a></li><li><a href="global.html#_httpCallAuthenticated">_httpCallAuthenticated</a></li><li><a href="global.html#_setDraggable">_setDraggable</a></li><li><a href="global.html#_setDroppable">_setDroppable</a></li><li><a href="global.html#_setupTagger">_setupTagger</a></li><li><a href="global.html#addTagToDoc">addTagToDoc</a></li><li><a href="global.html#compass_getListAdditionalApps">compass_getListAdditionalApps</a></li><li><a href="global.html#createUserGroups">createUserGroups</a></li><li><a href="global.html#dataMixing">dataMixing</a></li><li><a href="global.html#deleteUserGroups">deleteUserGroups</a></li><li><a href="global.html#findAdresse">findAdresse</a></li><li><a href="global.html#formatedMessage">formatedMessage</a></li><li><a href="global.html#get_3DSpace_csrf">get_3DSpace_csrf</a></li><li><a href="global.html#getActualTagsOnDoc">getActualTagsOnDoc</a></li><li><a href="global.html#getAllContextSecurity">getAllContextSecurity</a></li><li><a href="global.html#getCommunes">getCommunes</a></li><li><a href="global.html#getComplementUG">getComplementUG</a></li><li><a href="global.html#getCSRFToken">getCSRFToken</a></li><li><a href="global.html#getDataFrom3DSpace">getDataFrom3DSpace</a></li><li><a href="global.html#getDataFromGouvFr">getDataFromGouvFr</a></li><li><a href="global.html#getDatasByTenant">getDatasByTenant</a></li><li><a href="global.html#getDatasFrom3DSpace">getDatasFrom3DSpace</a></li><li><a href="global.html#getDownloadDocument">getDownloadDocument</a></li><li><a href="global.html#getInfoDocTags">getInfoDocTags</a></li><li><a href="global.html#getUserGroupsList">getUserGroupsList</a></li><li><a href="global.html#getUsersGroupRules">getUsersGroupRules</a></li><li><a href="global.html#patchUserGroups">patchUserGroups</a></li><li><a href="global.html#patchUserGroupsControl">patchUserGroupsControl</a></li><li><a href="global.html#pushDataIn3DSpace">pushDataIn3DSpace</a></li><li><a href="global.html#readUserGroupControl">readUserGroupControl</a></li><li><a href="global.html#removeTagToDoc">removeTagToDoc</a></li><li><a href="global.html#sayHello">sayHello</a></li><li><a href="global.html#updateEvent">updateEvent</a></li><li><a href="global.html#UUID">UUID</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#_3DSpace_bookmark_addSubsciptions">_3DSpace_bookmark_addSubsciptions</a></li><li><a href="global.html#_3DSpace_Create_Doc">_3DSpace_Create_Doc</a></li><li><a href="global.html#_3DSpace_csrf">_3DSpace_csrf</a></li><li><a href="global.html#_3DSpace_download_doc">_3DSpace_download_doc</a></li><li><a href="global.html#_3DSpace_download_multidoc">_3DSpace_download_multidoc</a></li><li><a href="global.html#_3DSpace_file_update">_3DSpace_file_update</a></li><li><a href="global.html#_3DSpace_file_update_csr">_3DSpace_file_update_csr</a></li><li><a href="global.html#_3DSpace_file_url_csr">_3DSpace_file_url_csr</a></li><li><a href="global.html#_3DSpace_get_csrf">_3DSpace_get_csrf</a></li><li><a href="global.html#_3DSpace_get_docInfo">_3DSpace_get_docInfo</a></li><li><a href="global.html#_3DSpace_get_downloadTicket_multidoc">_3DSpace_get_downloadTicket_multidoc</a></li><li><a href="global.html#_3DSpace_get_securityContexts">_3DSpace_get_securityContexts</a></li><li><a href="global.html#_3DSpace_get_ticket">_3DSpace_get_ticket</a></li><li><a href="global.html#_3DSpace_lifecycle_changeRevision">_3DSpace_lifecycle_changeRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_changeState">_3DSpace_lifecycle_changeState</a></li><li><a href="global.html#_3DSpace_lifecycle_getGraph">_3DSpace_lifecycle_getGraph</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextRevision">_3DSpace_lifecycle_getNextRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextStates">_3DSpace_lifecycle_getNextStates</a></li><li><a href="global.html#_3DSwym_buildDirectMessage">_3DSwym_buildDirectMessage</a></li><li><a href="global.html#_3DSwym_deleteIdea">_3DSwym_deleteIdea</a></li><li><a href="global.html#_3DSwym_findCommunityToInstantMSG">_3DSwym_findCommunityToInstantMSG</a></li><li><a href="global.html#_3DSwym_get_AllSWYMIdeas">_3DSwym_get_AllSWYMIdeas</a></li><li><a href="global.html#_3DSwym_get_currentUser">_3DSwym_get_currentUser</a></li><li><a href="global.html#_3DSwym_get_findUser">_3DSwym_get_findUser</a></li><li><a href="global.html#_3DSwym_get_version">_3DSwym_get_version</a></li><li><a href="global.html#_3DSwym_getAllCommunities">_3DSwym_getAllCommunities</a></li><li><a href="global.html#_3DSwym_getAllNews">_3DSwym_getAllNews</a></li><li><a href="global.html#_3DSwym_getFamiliarPeople">_3DSwym_getFamiliarPeople</a></li><li><a href="global.html#_3DSwym_getIdeaStatusMaturity">_3DSwym_getIdeaStatusMaturity</a></li><li><a href="global.html#_3DSwym_getMembersCommunity">_3DSwym_getMembersCommunity</a></li><li><a href="global.html#_3DSwym_getSWYMIdea">_3DSwym_getSWYMIdea</a></li><li><a href="global.html#_3DSwym_postIdea">_3DSwym_postIdea</a></li><li><a href="global.html#_3DSwym_sendMessageData">_3DSwym_sendMessageData</a></li><li><a href="global.html#_AppMngt_get_info_user">_AppMngt_get_info_user</a></li><li><a href="global.html#_AppMngt_get_users">_AppMngt_get_users</a></li><li><a href="global.html#_getPlateformInfos">_getPlateformInfos</a></li><li><a href="global.html#_getPlatformServices">_getPlatformServices</a></li><li><a href="global.html#_httpCallAuthenticated">_httpCallAuthenticated</a></li><li><a href="global.html#_setDraggable">_setDraggable</a></li><li><a href="global.html#_setDroppable">_setDroppable</a></li><li><a href="global.html#_setupTagger">_setupTagger</a></li><li><a href="global.html#addTagToDoc">addTagToDoc</a></li><li><a href="global.html#compass_getListAdditionalApps">compass_getListAdditionalApps</a></li><li><a href="global.html#createUserGroups">createUserGroups</a></li><li><a href="global.html#dataMixing">dataMixing</a></li><li><a href="global.html#deleteUserGroups">deleteUserGroups</a></li><li><a href="global.html#findAdresse">findAdresse</a></li><li><a href="global.html#formatedMessage">formatedMessage</a></li><li><a href="global.html#get_3DSpace_csrf">get_3DSpace_csrf</a></li><li><a href="global.html#getActualTagsOnDoc">getActualTagsOnDoc</a></li><li><a href="global.html#getAllContextSecurity">getAllContextSecurity</a></li><li><a href="global.html#getCommunes">getCommunes</a></li><li><a href="global.html#getComplementUG">getComplementUG</a></li><li><a href="global.html#getCSRFToken">getCSRFToken</a></li><li><a href="global.html#getDataFrom3DSpace">getDataFrom3DSpace</a></li><li><a href="global.html#getDataFromGouvFr">getDataFromGouvFr</a></li><li><a href="global.html#getDatasByTenant">getDatasByTenant</a></li><li><a href="global.html#getDatasFrom3DSpace">getDatasFrom3DSpace</a></li><li><a href="global.html#getDownloadDocument">getDownloadDocument</a></li><li><a href="global.html#getInfoDocTags">getInfoDocTags</a></li><li><a href="global.html#getUserGroupsList">getUserGroupsList</a></li><li><a href="global.html#getUsersGroupRules">getUsersGroupRules</a></li><li><a href="global.html#patchUserGroups">patchUserGroups</a></li><li><a href="global.html#patchUserGroupsControl">patchUserGroupsControl</a></li><li><a href="global.html#pushDataIn3DSpace">pushDataIn3DSpace</a></li><li><a href="global.html#readUserGroupControl">readUserGroupControl</a></li><li><a href="global.html#removeTagToDoc">removeTagToDoc</a></li><li><a href="global.html#sayHello">sayHello</a></li><li><a href="global.html#updateEvent">updateEvent</a></li><li><a href="global.html#UUID">UUID</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
+<<<<<<< HEAD
     Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Mon Apr 08 2024 12:16:10 GMT+0200 (heure d’été d’Europe centrale)
+=======
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.11</a> on Wed Apr 03 2024 13:21:22 GMT+0200 (heure d’été d’Europe centrale)
+>>>>>>> f23550c66c37e238d8bea7bdee1a90975af22195
 </footer>
 
 <script> prettyPrint(); </script>

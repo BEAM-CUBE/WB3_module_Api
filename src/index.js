@@ -1,16 +1,26 @@
-import { UUID } from "./lib/api/index";
-import { couleurs } from "./lib/gouv/colors";
+import {
+  UUID
+} from "./lib/api/index";
+import {
+  couleurs
+} from "./lib/gouv/colors";
 import {
   findAdresse,
   getCommunes,
   getDataFromGouvFr,
 } from "./lib/gouv/gouv_api";
-import { updateEvent } from "./lib/utils/updateEvent";
-import { compass_getListAdditionalApps } from "./lib/plateform/Compass";
+import {
+  updateEvent
+} from "./lib/utils/updateEvent";
+import {
+  compass_getListAdditionalApps
+} from "./lib/plateform/Compass";
 import {
   _setDraggable,
   _setDroppable,
+  _getServiceUrl,
   _getPlatformServices,
+  _getServiceUrl_3DPassport,
   _getPlateformInfos,
   _httpCallAuthenticated,
   _setupTagger,
@@ -47,13 +57,26 @@ import {
   _3DSpace_lifecycle_getGraph,
   _3DSpace_lifecycle_getNextRevision,
   _3DSpace_lifecycle_changeRevision,
+  _3DSpace_bookmark_addSubsciptions,
+  _3DSpace_bookmark_newWorkspace,
+  _3DSpace_findUsersGroup
 } from "./lib/plateform/main/3dspace_api";
 
-import { getCSRFToken } from "./lib/plateform/main/getCSRFToken";
-import { getAllContextSecurity } from "./lib/plateform/main/getCTX";
-import { getDataFrom3DSpace } from "./lib/plateform/main/getDataFrom3DSpace";
-import { getDownloadDocument } from "./lib/plateform/main/getDownloadDocument";
-import { pushDataIn3DSpace } from "./lib/plateform/main/pushDataIn3DSpace";
+import {
+  getCSRFToken
+} from "./lib/plateform/main/getCSRFToken";
+import {
+  getAllContextSecurity
+} from "./lib/plateform/main/getCTX";
+import {
+  getDataFrom3DSpace
+} from "./lib/plateform/main/getDataFrom3DSpace";
+import {
+  getDownloadDocument
+} from "./lib/plateform/main/getDownloadDocument";
+import {
+  pushDataIn3DSpace
+} from "./lib/plateform/main/pushDataIn3DSpace";
 import {
   getDatasFrom3DSpace,
   dataMixing,
@@ -88,8 +111,21 @@ import {
   _3DSwym_getAllNews,
   _3DSwym_getFamiliarPeople,
 } from "./lib/plateform/Swym/3dswym_api";
+import {
+  _Iterop_Auth_CAS,
+  _getServiceUrl_Iterop,
+  _Iterop_ListUsers,
+  _Iterop_getAllBusinessTables,
+  _Iterop_runProcess
+} from "./lib/plateform/main/iterop_apiv2";
 
-import { sayHello } from "./lib/add/index"; //Pour tester de la librairie
+import {
+  sayHello
+} from "./lib/add/index"; //Pour tester de la librairie
+
+import {
+  _3DSearch_usersGroup
+} from "./lib/plateform/Search/index"
 
 export {
   _3DSpace_Create_Doc,
@@ -109,6 +145,9 @@ export {
   _3DSpace_lifecycle_getGraph,
   _3DSpace_lifecycle_getNextRevision,
   _3DSpace_lifecycle_getNextStates,
+  _3DSpace_bookmark_addSubsciptions,
+  _3DSpace_bookmark_newWorkspace,
+  _3DSearch_usersGroup,
   _3DSwym_getAllCommunities,
   _3DSwym_getMembersCommunity,
   _3DSwym_buildDirectMessage,
@@ -124,10 +163,17 @@ export {
   _3DSwym_getSWYMIdea,
   _3DSwym_postIdea,
   _3DSwym_sendMessageData,
+  _getServiceUrl_Iterop,
+  _Iterop_Auth_CAS,
+  _Iterop_ListUsers,
+  _Iterop_getAllBusinessTables,
+  _Iterop_runProcess,
   _AppMngt_get_info_user,
   _AppMngt_get_users,
   _getPlateformInfos,
+  _getServiceUrl,
   _getPlatformServices,
+  _getServiceUrl_3DPassport,
   _httpCallAuthenticated,
   _setDraggable,
   _setDroppable,
