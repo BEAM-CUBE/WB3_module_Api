@@ -46,6 +46,7 @@
   },
   "dependencies": {
     "cryptojs": "^2.5.3",
+    "querystring": "^0.2.1",
     "rm": "^0.1.8"
   },
   "volta": {

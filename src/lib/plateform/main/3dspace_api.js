@@ -13,6 +13,8 @@ import {
   DateTime
 } from "luxon";
 
+import qs from "querystring";
+
 /**
  * @description La fonction `_3dSpace_get_docInfo` récupère des informations sur un document dans un espace 3D.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
@@ -65,13 +67,18 @@ export async function _3DSpace_get_multiDocInfo(
     console.log("Le paramètre docids est obligatoire");
     return;
   }
-  const url = _3DSpace + `/resources/v1/modeler/documents/ids?$fields=revision&$include=!files,!ownerInfo,!originatorInfo,versions`;
+  // const url = _3DSpace + `/resources/v1/modeler/documents/ids?$fields=revision&$include=!files,!ownerInfo,!originatorInfo,versions`;
+
+  let url = `${_3DSpace}/resources/v1/modeler/documents/ids` + "?$include=!files,!ownerInfo,!originatorInfo,!relOwnerInfo'";
+    let data = qs.stringify({
+        "$ids": docids.toString().replace("\"", "").replace("[", "").replace("]", "")
+    });
   _httpCallAuthenticated(url, {
     method: "POST",
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
-    data: `"$ids": "${docids.join(",")}"`,
+    data,
     onComplete(response, headers, xhr) {
       const info = JSON.parse(response);
       if (onDone) onDone(info);
