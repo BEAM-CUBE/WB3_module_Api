@@ -1371,6 +1371,7 @@ export function _3DSpace_bookmark_newWorkspace(
   credentials,
   parentId,
   title,
+  description,
   onDone = undefined,
   onError = undefined,
 ) {
@@ -1413,12 +1414,12 @@ export function _3DSpace_bookmark_newWorkspace(
 
 /**
  * 
- * @param {*} credentials 
- * @param {*} objectId 
- * @param {*} personList "<uuid:5ca25b8e-98d0-46c3-ac43-3faa83c4295a>"
- * @param {*} eventsList "NXFolderCreated,NXFolderDeleted,NXContentAdded,NXContentRemoved"
- * @param {*} onDone 
- * @param {*} onError 
+  * @param {Object} credentials 
+ * @param {String} objectId 
+ * @param {String} personList "<uuid:5ca25b8e-98d0-46c3-ac43-3faa83c4295a>"
+ * @param {String} eventsList "NXFolderCreated,NXFolderDeleted,NXContentAdded,NXContentRemoved"
+ * @param {Function} onDone 
+ * @param {Function} onError 
  * @returns 
  */
 
