@@ -62,7 +62,7 @@ export async function _3DSpace_get_multiDocInfo(
 ) {
   const _3DSpace = credentials.space;
   if (docids === undefined) {
-    console.log("Le paramètre docid est obligatoire");
+    console.log("Le paramètre docids est obligatoire");
     return;
   }
   const url = _3DSpace + `/resources/v1/modeler/documents/ids?$fields=revision&$include=!files,!ownerInfo,!originatorInfo,versions`;
@@ -71,7 +71,7 @@ export async function _3DSpace_get_multiDocInfo(
     headers: {
       "Content-Type": "application/x-www-form-urlencoded"
     },
-    data: JSON.stringify({"$ids": docids.join(",")}),
+    data: `"$ids": "${docids.join(",")}"`,
     onComplete(response, headers, xhr) {
       const info = JSON.parse(response);
       if (onDone) onDone(info);
