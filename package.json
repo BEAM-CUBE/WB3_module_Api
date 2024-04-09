@@ -16,7 +16,7 @@
   "scripts": {
     "build": "npm run clean && npm run jsdoc && vite build",
     "b3:publish": "npm run update:git && npm run time && npm run module:version && npm publish --access public",
-    "clean": "rm -rf dist docs",
+    "clean": "rm -rf dist docs ",
     "jsdoc": "jsdoc -c jsdoc.json",
     "module:version": "npm version patch",
     "time": "echo Heure de l'update : %time%",
@@ -36,7 +36,7 @@
     "WB3"
   ],
   "devDependencies": {
-    "jsdoc": "^3.6.10",
+    "jsdoc": "^4.0.2",
     "vite": "^5.0.8"
   },
   "peerDependencies": {
@@ -47,5 +47,9 @@
   "dependencies": {
     "cryptojs": "^2.5.3",
     "rm": "^0.1.8"
+  },
+  "volta": {
+    "node": "20.12.0",
+    "npm": "10.5.0"
   }
 }

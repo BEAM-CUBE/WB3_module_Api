@@ -1,17 +1,11 @@
 import {
   _httpCallAuthenticated,
   _getPlatformServices,
-  _getPlateformInfos
+  _getPlateformInfos,
 } from "./3dexperience_api";
-import {
-  UUID
-} from "../../api/index";
-import {
-  getCSRFToken
-} from "./getCSRFToken";
-import {
-  DateTime
-} from "luxon";
+import { UUID } from "../../api/index";
+import { getCSRFToken } from "./getCSRFToken";
+import { DateTime } from "luxon";
 
 /**
  * @description La fonction `_3dSpace_get_docInfo` récupère des informations sur un document dans un espace 3D.
@@ -33,7 +27,7 @@ export async function _3DSpace_get_docInfo(
   credentials,
   docid = undefined,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   const _3DSpace = credentials.space;
   if (docid === undefined) {
@@ -70,7 +64,7 @@ export async function _3DSpace_get_docInfo(
 export function _3DSpace_get_csrf(
   credentials,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   if (credentials.objID && credentials.objID !== "") {
     let url = `${credentials.space}/resources/v1/modeler/documents/${credentials.objID}`;
@@ -98,7 +92,7 @@ export function _3DSpace_get_csrf(
       },
       (err) => {
         if (onError) onError(err);
-      },
+      }
     );
   }
 }
@@ -119,7 +113,7 @@ export function _3DSpace_get_csrf(
 export function _3DSpace_csrf(
   credentials,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   if (credentials.space) {
     const url = credentials.space + "/resources/v1/application/CSRF";
@@ -162,7 +156,7 @@ export function _3DSpace_csrf(
 export function _3DSpace_get_ticket(
   credentials,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   let url =
     credentials.space +
@@ -193,7 +187,7 @@ export function _3DSpace_get_ticket(
     (err) => {
       console.warn("_3DSpace_get_ticket / error => ", err);
       if (onError) onError(err);
-    },
+    }
   );
 }
 
@@ -219,7 +213,7 @@ export function _3DSpace_file_url_csr(
   docid,
   csr,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   const url = `${credentials.space}/resources/v1/modeler/documents/${docid}/files/DownloadTicket`;
   if (!csr) {
@@ -276,7 +270,7 @@ export function _3DSpace_file_update(
   data,
   filename,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   _3DSpace_get_csrf(
     credentials,
@@ -290,10 +284,10 @@ export function _3DSpace_file_update(
         filename,
         info.csrf.value,
         onDone,
-        onError,
+        onError
       );
     },
-    onError,
+    onError
   );
 }
 
@@ -326,7 +320,7 @@ export function _3DSpace_file_update_csr(
   filename,
   csr,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   const url =
     credentials.space +
@@ -358,20 +352,24 @@ export function _3DSpace_file_update_csr(
             ENO_CSRF_TOKEN: csr,
           },
           data: JSON.stringify({
-            data: [{
-              id: docId,
-              relateddata: {
-                files: [{
-                  id: fileId,
-                  dataelements: {
-                    title: filename,
-                    receipt: response,
-                  },
-                  updateAction: "REVISE",
-                }, ],
+            data: [
+              {
+                id: docId,
+                relateddata: {
+                  files: [
+                    {
+                      id: fileId,
+                      dataelements: {
+                        title: filename,
+                        receipt: response,
+                      },
+                      updateAction: "REVISE",
+                    },
+                  ],
+                },
+                tempId,
               },
-              tempId,
-            }, ],
+            ],
           }),
 
           type: "json",
@@ -387,7 +385,7 @@ export function _3DSpace_file_update_csr(
 
         _httpCallAuthenticated(
           credentials.space + "/resources/v1/modeler/documents",
-          options,
+          options
         );
       };
 
@@ -426,7 +424,7 @@ export async function _3DSpace_Create_Doc(
   filename, //ref coclico
   desc, // ref name
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   const _space = credentials.space;
   const csr = credentials.token;
@@ -473,26 +471,30 @@ export async function _3DSpace_Create_Doc(
                 "Content-Type": "application/json",
               },
               data: JSON.stringify({
-                data: [{
-                  type: "Document",
-                  dataelements: {
-                    title: `Title_${filename
+                data: [
+                  {
+                    type: "Document",
+                    dataelements: {
+                      title: `Title_${filename
                         .toLowerCase()
                         .split(" ")
                         .join("_")}`,
-                    policy: "Document Release",
-                    description: desc,
+                      policy: "Document Release",
+                      description: desc,
+                    },
+                    relateddata: {
+                      files: [
+                        {
+                          dataelements: {
+                            title: `${filename}.json`,
+                            receipt: ticket,
+                          },
+                        },
+                      ],
+                    },
+                    tempId: UUID(),
                   },
-                  relateddata: {
-                    files: [{
-                      dataelements: {
-                        title: `${filename}.json`,
-                        receipt: ticket,
-                      },
-                    }, ],
-                  },
-                  tempId: UUID(),
-                }, ],
+                ],
               }),
               type: "json",
               timeout: 0,
@@ -559,7 +561,7 @@ export function _3DSpace_get_securityContexts(
   organization = undefined,
   onDone = undefined,
   onError = undefined,
-  withPreferredCredentials = false,
+  withPreferredCredentials = false
 ) {
   const url =
     `${credentials.space}/resources/modeler/pno/person?` +
@@ -583,12 +585,12 @@ export function _3DSpace_get_securityContexts(
           let couples = oCS.couples;
           couples = couples.filter(
             (value, index, self) =>
-            index ===
-            self.findIndex(
-              (t) =>
-              t.organization.pid === value.organization.pid &&
-              t.role.pid === value.role.pid,
-            ),
+              index ===
+              self.findIndex(
+                (t) =>
+                  t.organization.pid === value.organization.pid &&
+                  t.role.pid === value.role.pid
+              )
           );
           if (role) {
             if (Array.isArray(role)) {
@@ -603,7 +605,7 @@ export function _3DSpace_get_securityContexts(
                       finalOrg = organization;
                     } else if (r === e.role.name) {
                       let defineSingleItem = couples.filter(
-                        (couple) => couple.role.name === r,
+                        (couple) => couple.role.name === r
                       );
                       if (defineSingleItem.length === 1) {
                         finalRole = defineSingleItem[0].role.name;
@@ -624,7 +626,7 @@ export function _3DSpace_get_securityContexts(
                   finalOrg = organization;
                 } else if (role === e.role.name) {
                   let defineSingleItem = couples.filter(
-                    (couple) => couple.role.name === role,
+                    (couple) => couple.role.name === role
                   );
                   if (defineSingleItem.length === 1) {
                     finalRole = defineSingleItem[0].role.name;
@@ -690,17 +692,17 @@ export function _3DSpace_get_securityContexts(
 export async function _3DSpace_download_doc(
   credentials,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   if (!credentials.objID || credentials.objID === "") {
     console.warn(
-      "_3DSpace_download_doc() / Le paramètre objectId est obligatoire",
+      "_3DSpace_download_doc() / Le paramètre objectId est obligatoire"
     );
   }
 
   if (credentials.space === "" || !credentials.space) {
     console.warn(
-      "_3DSpace_download_doc() / Le paramètre space est obligatoire",
+      "_3DSpace_download_doc() / Le paramètre space est obligatoire"
     );
   }
   if (credentials.token === "" || !credentials.token) {
@@ -711,11 +713,11 @@ export async function _3DSpace_download_doc(
       },
       (err) => {
         console.log("☠️ error => ", err);
-      },
+      }
     );
-    console.warn(
-      "_3DSpace_download_doc() / Le paramètre token est obligatoire",
-    );
+    // console.warn(
+    //   "_3DSpace_download_doc() / Le paramètre token est obligatoire",
+    // );
   }
 
   return new Promise((resolve, reject) => {
@@ -760,7 +762,7 @@ export async function _3DSpace_download_doc(
         if (onError) onError(error);
         console.log("*_3dspace_download_doc / error file URL *", error);
         reject(error);
-      },
+      }
     );
   });
 }
@@ -789,11 +791,15 @@ export async function _3DSpace_download_multidoc(
   credentials,
   objectIds,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   let listDiv = [];
   const chunkSize = 80;
-  if (typeof objectIds !== "undefined" && Array.isArray(objectIds) && objectIds?.length > 0) {
+  if (
+    typeof objectIds !== "undefined" &&
+    Array.isArray(objectIds) &&
+    objectIds?.length > 0
+  ) {
     for (let i = 0; i < objectIds.length; i += chunkSize) {
       const chunk = objectIds.slice(i, i + chunkSize);
       listDiv.push(chunk);
@@ -810,14 +816,19 @@ export async function _3DSpace_download_multidoc(
         },
         (done) => {
           if (onDone) onDone(done);
-        },
+        }
       );
     };
 
     loop(0);
   } else {
-    console.warn("La liste d'objects dans la fonction _3DSpace_download_multidoc est vide ou non défini.");
-    if (onError) onError("La liste d'objects dans la fonction _3DSpace_download_multidoc est vide ou non défini.")
+    console.warn(
+      "La liste d'objects dans la fonction _3DSpace_download_multidoc est vide ou non défini."
+    );
+    if (onError)
+      onError(
+        "La liste d'objects dans la fonction _3DSpace_download_multidoc est vide ou non défini."
+      );
   }
 }
 
@@ -846,7 +857,7 @@ export function _3DSpace_get_downloadTicket_multidoc(
   objectIds,
   onNext = undefined,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   const compilData = [];
   objectIds.forEach((objectId) => {
@@ -926,7 +937,7 @@ export function _3DSpace_lifecycle_getNextStates(
   credentials,
   objectId,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   return new Promise((result) => {
     if (credentials.token === "") {
@@ -943,7 +954,7 @@ export function _3DSpace_lifecycle_getNextStates(
         (ctx) => (credentials["ctx"] = ctx),
         (err) => {
           console.log("onError =>", err);
-        },
+        }
       );
       let options = {
         method: "POST",
@@ -954,9 +965,11 @@ export function _3DSpace_lifecycle_getNextStates(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          data: [{
-            id: objectId,
-          }, ],
+          data: [
+            {
+              id: objectId,
+            },
+          ],
         }),
         type: "json",
         onComplete(response) {
@@ -994,7 +1007,7 @@ export function _3DSpace_lifecycle_changeState(
   objectId,
   nextState,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   return new Promise((result) => {
     if (credentials.token === "") {
@@ -1011,7 +1024,7 @@ export function _3DSpace_lifecycle_changeState(
         (ctx) => (credentials["ctx"] = ctx),
         (err) => {
           console.log("onError =>", err);
-        },
+        }
       );
       let options = {
         method: "POST",
@@ -1022,10 +1035,12 @@ export function _3DSpace_lifecycle_changeState(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          data: [{
-            id: objectId,
-            nextState,
-          }, ],
+          data: [
+            {
+              id: objectId,
+              nextState,
+            },
+          ],
         }),
         type: "json",
         onComplete(response) {
@@ -1045,7 +1060,7 @@ function _3DSpace_lifecyle_reserve(
   host,
   objectId,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   // ...
 }
@@ -1054,7 +1069,7 @@ function _3DSpace_lifecyle_unreserve(
   host,
   objectId,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   // ...
 }
@@ -1064,7 +1079,7 @@ function _3DSpace_lifecyle_getSharing(
   host,
   objectId,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   // ...
 }
@@ -1073,7 +1088,7 @@ function _3DSpace_lifecyle_setSharing(
   host,
   objectId,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   // ...
 }
@@ -1103,7 +1118,7 @@ export function _3DSpace_lifecycle_getGraph(
   credentials,
   objectId,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   // A VALIDER
   return new Promise((result) => {
@@ -1121,7 +1136,7 @@ export function _3DSpace_lifecycle_getGraph(
         (ctx) => (credentials["ctx"] = ctx),
         (err) => {
           console.log("onError =>", err);
-        },
+        }
       );
       let options = {
         method: "POST",
@@ -1132,9 +1147,11 @@ export function _3DSpace_lifecycle_getGraph(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          graphRequests: [{
-            id: objectId,
-          }, ],
+          graphRequests: [
+            {
+              id: objectId,
+            },
+          ],
         }),
         type: "json",
         onComplete(response) {
@@ -1173,7 +1190,7 @@ export function _3DSpace_lifecycle_getNextRevision(
   credentials,
   objectId,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   return new Promise((result) => {
     if (credentials.token === "") {
@@ -1190,7 +1207,7 @@ export function _3DSpace_lifecycle_getNextRevision(
         (ctx) => (credentials["ctx"] = ctx),
         (err) => {
           console.log("onError =>", err);
-        },
+        }
       );
       let options = {
         method: "POST",
@@ -1201,15 +1218,17 @@ export function _3DSpace_lifecycle_getNextRevision(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          data: [{
-            "attribute[PLMReference.V_versionComment]": null,
-            physicalid: objectId,
-            type: "Document",
-            tenant: credentials.tenant,
-            objectId,
-            policy: "Document Release",
-            availableSemantic: ["E", "LAST", "NEW", "DUP"],
-          }, ],
+          data: [
+            {
+              "attribute[PLMReference.V_versionComment]": null,
+              physicalid: objectId,
+              type: "Document",
+              tenant: credentials.tenant,
+              objectId,
+              policy: "Document Release",
+              availableSemantic: ["E", "LAST", "NEW", "DUP"],
+            },
+          ],
         }),
         type: "json",
         onComplete(response) {
@@ -1251,7 +1270,7 @@ export function _3DSpace_lifecycle_changeRevision(
   objectId,
   nextRevision,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   return new Promise((result) => {
     if (credentials.token === "") {
@@ -1268,7 +1287,7 @@ export function _3DSpace_lifecycle_changeRevision(
         (ctx) => (credentials["ctx"] = ctx),
         (err) => {
           console.log("onError =>", err);
-        },
+        }
       );
       let options = {
         method: "POST",
@@ -1279,13 +1298,15 @@ export function _3DSpace_lifecycle_changeRevision(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          data: [{
-            physicalid: objectId,
-            proposedRevision: nextRevision,
-            modifiedAttributes: {
-              revision: nextRevision,
+          data: [
+            {
+              physicalid: objectId,
+              proposedRevision: nextRevision,
+              modifiedAttributes: {
+                revision: nextRevision,
+              },
             },
-          }, ],
+          ],
           folderid: null,
           notificationTimeout: 600,
         }),
@@ -1373,7 +1394,7 @@ export function _3DSpace_bookmark_newWorkspace(
   title,
   description,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   return new Promise((result) => {
     const url = `${credentials.space}/resources/v1/modeler/dsbks/dsbks:Bookmark`;
@@ -1381,22 +1402,22 @@ export function _3DSpace_bookmark_newWorkspace(
       attributes: {
         title,
         description,
-        inheritedAccess: "no"
-      }
-    }
+        inheritedAccess: "no",
+      },
+    };
     let bodyRequest = {
-      items: []
-    }
-    if (parentId) bodyRequest["parentId"] = parentId
-    bodyRequest.items.push(item)
+      items: [],
+    };
+    if (parentId) bodyRequest["parentId"] = parentId;
+    bodyRequest.items.push(item);
 
     let options = {
       method: "POST",
       headers: {
         Accept: "application/json",
         "Content-Type": "application/json",
-        "SecurityContext": credentials.ctx,
-        "ENO_CSRF_TOKEN": credentials.token
+        SecurityContext: credentials.ctx,
+        ENO_CSRF_TOKEN: credentials.token,
       },
       data: JSON.stringify(bodyRequest),
       type: "json",
@@ -1410,26 +1431,23 @@ export function _3DSpace_bookmark_newWorkspace(
     _httpCallAuthenticated(url, options);
   });
 }
-
-
 /**
- * 
-  * @param {Object} credentials 
- * @param {String} objectId 
+ * @description `_3DSpace_bookmark_addSubsciptions`
+ * @param {Object} credentials
+ * @param {String} objectId
  * @param {String} personList "<uuid:5ca25b8e-98d0-46c3-ac43-3faa83c4295a>"
- * @param {String} eventsList "NXFolderCreated,NXFolderDeleted,NXContentAdded,NXContentRemoved"
- * @param {Function} onDone 
- * @param {Function} onError 
- * @returns 
+ * @param {Array} eventsList "NXFolderCreated,NXFolderDeleted,NXContentAdded,NXContentRemoved"
+ * @param {Function} onDone
+ * @param {Function} onError
+ * @returns {Promise}
  */
-
 export function _3DSpace_bookmark_addSubsciptions(
   credentials,
   objectId,
   personList,
   eventsList,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   console.log("credentials", credentials);
   return new Promise((result) => {
@@ -1444,19 +1462,21 @@ export function _3DSpace_bookmark_addSubsciptions(
       data: JSON.stringify({
         csrf: {
           name: "ENO_CSRF_TOKEN",
-          value: credentials.token
+          value: credentials.token,
         },
-        data: [{
-          type: "Workspace",
-          cestamp: "businessobject",
-          relId: objectId,
-          id: objectId,
-          dataelements: {
-            personList,
-            eventsList
+        data: [
+          {
+            type: "Workspace",
+            cestamp: "businessobject",
+            relId: objectId,
+            id: objectId,
+            dataelements: {
+              personList,
+              eventsList,
+            },
+            tenant: credentials.tenant,
           },
-          tenant: credentials.tenant
-        }]
+        ],
       }),
       type: "json",
       onComplete(response) {
