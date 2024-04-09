@@ -41,6 +41,7 @@ import {
 } from "./lib/plateform/Usersgroup";
 import {
   _3DSpace_get_docInfo,
+  _3DSpace_get_multiDocInfo,
   _3DSpace_get_csrf,
   _3DSpace_csrf,
   _3DSpace_get_ticket,
@@ -138,6 +139,7 @@ export {
   _3DSpace_get_ticket,
   _3DSpace_get_csrf,
   _3DSpace_get_docInfo,
+  _3DSpace_get_multiDocInfo,
   _3DSpace_get_downloadTicket_multidoc,
   _3DSpace_get_securityContexts,
   _3DSpace_lifecycle_changeRevision,

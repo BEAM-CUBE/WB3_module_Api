@@ -1,5 +1,8 @@
 {
   "docwriter.style": "JSDoc",
   "docwriter.language": "French",
-  "cSpell.words": ["dataelements"]
+  "cSpell.words": [
+    "dataelements"
+  ],
+  "compile-hero.disable-compile-files-on-did-save-code": false
 }
