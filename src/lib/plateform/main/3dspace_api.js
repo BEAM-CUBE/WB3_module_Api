@@ -70,9 +70,9 @@ export async function _3DSpace_get_multiDocInfo(
   // const url = _3DSpace + `/resources/v1/modeler/documents/ids?$fields=revision&$include=!files,!ownerInfo,!originatorInfo,versions`;
 
   let url = `${_3DSpace}/resources/v1/modeler/documents/ids` + "?$include=!files,!ownerInfo,!originatorInfo,!relOwnerInfo'";
-    let data = qs.stringify({
-        "$ids": docids.toString().replace("\"", "").replace("[", "").replace("]", "")
-    });
+  let data = qs.stringify({
+    "$ids": docids.toString().replace("\"", "").replace("[", "").replace("]", "")
+  });
   _httpCallAuthenticated(url, {
     method: "POST",
     headers: {
@@ -318,23 +318,32 @@ export function _3DSpace_file_update(
   onDone = undefined,
   onError = undefined
 ) {
-  _3DSpace_get_csrf(
+
+  const runFunction = () => _3DSpace_file_update_csr(
     credentials,
     docId,
-    (info) => {
-      _3DSpace_file_update_csr(
-        credentials,
-        docId,
-        fileId,
-        data,
-        filename,
-        info.csrf.value,
-        onDone,
-        onError
-      );
-    },
+    fileId,
+    data,
+    filename,
+    credentials.token,
+    onDone,
     onError
   );
+
+  if (credentials.token) {
+    runFunction();
+  } else {
+
+    _3DSpace_get_csrf(
+      credentials,
+      docId,
+      (info) => {
+        credentials["token"] = info.csrf.value;
+        runFunction();
+      },
+      onError
+    );
+  }
 }
 
 /**
