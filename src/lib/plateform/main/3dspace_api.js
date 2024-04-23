@@ -935,11 +935,17 @@ export function _3DSpace_get_downloadTicket_multidoc(
             const fileUrl = data.dataelements.ticketURL;
             _httpCallAuthenticated(fileUrl, {
               onComplete: (response) => {
+                let tryParse;
+                try {
+                  tryParse = JSON.parse(response);
+                } catch (error) {
+                  tryParse = response;
+                }
                 if (onDone)
                   onDone({
                     objectId: data.id,
                     fileName,
-                    data: JSON.parse(response),
+                    data: tryParse,
                   });
               },
               onFailure: (error) => {
