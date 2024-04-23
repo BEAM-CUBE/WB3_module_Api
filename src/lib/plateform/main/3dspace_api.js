@@ -216,12 +216,12 @@ export function _3DSpace_get_ticket(
           ENO_CSRF_TOKEN: credentials.token,
         },
 
-        onComplete(response) {
+        onComplete(response, headers) {
           let info = JSON.parse(response);
 
           const file_url = info.data[0].dataelements.ticketURL;
 
-          if (onDone) onDone(file_url);
+          if (onDone) onDone(file_url, headers);
         },
 
         onFailure(response, head) {
@@ -771,12 +771,7 @@ export async function _3DSpace_download_doc(
     _3DSpace_get_ticket(
       credentials,
       (ticketURL) => {
-        const headers = {
-          "Content-Type": "application/json",
-          Accept: "application/json",
-        };
         _httpCallAuthenticated(ticketURL, {
-          headers,
           onComplete(response) {
             let tryParse;
             try {
@@ -939,7 +934,7 @@ export function _3DSpace_get_downloadTicket_multidoc(
                 try {
                   tryParse = JSON.parse(response);
                 } catch (error) {
-                  tryParse = response;
+                  tryParse = response.blob();
                 }
                 if (onDone)
                   onDone({
