@@ -934,7 +934,7 @@ export function _3DSpace_get_downloadTicket_multidoc(
             const fileName = data.dataelements.fileName;
             const fileUrl = data.dataelements.ticketURL;
             _httpCallAuthenticated(fileUrl, {
-              onComplete: (response) => {
+              onComplete: (response, headers) => {
                 let tryParse;
                 try {
                   tryParse = JSON.parse(response);
@@ -944,6 +944,7 @@ export function _3DSpace_get_downloadTicket_multidoc(
                 if (onDone)
                   onDone({
                     objectId: data.id,
+                    headers,
                     fileName,
                     data: tryParse,
                   });
