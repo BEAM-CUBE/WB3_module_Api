@@ -746,12 +746,14 @@ export async function _3DSpace_download_doc(
     console.warn(
       "_3DSpace_download_doc() / Le paramètre objectId est obligatoire"
     );
+    if (onError) onError("_3DSpace_download_doc() / Le paramètre objectId est obligatoire")
   }
 
   if (credentials.space === "" || !credentials.space) {
     console.warn(
       "_3DSpace_download_doc() / Le paramètre space est obligatoire"
     );
+    if (onError) onError("_3DSpace_download_doc() / Le paramètre space est obligatoire")
   }
   if (credentials.token === "" || !credentials.token) {
     getCSRFToken(
@@ -773,10 +775,14 @@ export async function _3DSpace_download_doc(
       credentials,
       (ticketURL) => {
         if (credentials?.returnType === "blob") {
+          console.log("ticketURL blob", ticketURL);
           fetch(ticketURL)
             .then((response) => response.blob())
             .then((blob) => {
               if (onDone) onDone(blob)
+            })
+            .catch(err => {
+              if (onError) onError(err)
             });
         } else {
 
