@@ -727,6 +727,7 @@ export function _3DSpace_get_securityContexts(
  * @param  {String} credentials.token - Le paramètre token est le jeton CSRF. (headers ex: ENO_CSRF_TOKEN:token)
  * @param {String} credentials.objID - Le paramètre objectId est l'identifiant unique du document que vous souhaitez
  * télécharger depuis le 3DSpace.
+ * @param {String} credentials.returnType -  "blob" - type d'object à retourner.
  * @param {Function} onDone - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque le
  * téléchargement sera terminé avec succès. Il prend un argument, qui est les données de réponse du
  * téléchargement.
@@ -771,34 +772,43 @@ export async function _3DSpace_download_doc(
     _3DSpace_get_ticket(
       credentials,
       (ticketURL) => {
-        _httpCallAuthenticated(ticketURL, {
-          onComplete(response) {
-            let tryParse;
-            try {
-              tryParse = JSON.parse(response);
-            } catch (error) {
-              tryParse = response;
-            }
+        if (credentials?.returnType === "blob") {
+          fetch(ticketURL)
+            .then((response) => response.blob())
+            .then((blob) => {
+              if (onDone) onDone(blob)
+            });
+        } else {
 
-            if (onDone && typeof onDone === "function") onDone(tryParse);
-            resolve(tryParse);
-          },
-          onFailure(error, headers, xhr) {
-            if (onError) {
-              console.log("error http", error);
-              onError({
-                msg: JSON.parse(error),
-                headers,
-                xhr,
-              });
-              reject({
-                msg: JSON.parse(error),
-                headers,
-                xhr,
-              });
-            }
-          },
-        });
+          _httpCallAuthenticated(ticketURL, {
+            onComplete(response) {
+              let tryParse;
+              try {
+                tryParse = JSON.parse(response);
+              } catch (error) {
+                tryParse = response;
+              }
+
+              if (onDone && typeof onDone === "function") onDone(tryParse);
+              resolve(tryParse);
+            },
+            onFailure(error, headers, xhr) {
+              if (onError) {
+                console.log("error http", error);
+                onError({
+                  msg: JSON.parse(error),
+                  headers,
+                  xhr,
+                });
+                reject({
+                  msg: JSON.parse(error),
+                  headers,
+                  xhr,
+                });
+              }
+            },
+          });
+        }
       },
       (error) => {
         if (onError) onError(error);
@@ -928,6 +938,8 @@ export function _3DSpace_get_downloadTicket_multidoc(
           try {
             const fileName = data.dataelements.fileName;
             const fileUrl = data.dataelements.ticketURL;
+
+
             _httpCallAuthenticated(fileUrl, {
               onComplete: (response, headers) => {
                 let tryParse;
