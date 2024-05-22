@@ -14,6 +14,7 @@ export function _getServiceUrl_Iterop(
             console.log("serviceUrls", serviceUrls);
             const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
             if (onDone) onDone(urlAPIV2Iterop)
+            return urlAPIV2Iterop
         });
     }
 }
@@ -63,7 +64,7 @@ export async function _Iterop_ListUsers(
             const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
             const urlService = `${urlAPIV2Iterop}/identity/users`;
 
-            fetch(`https://api.uixhome.fr/iterop/listusers?t=${token}&s=${urlService}`, {
+            fetch(`https://api.uixhome.fr/${credentials.tenant}/iterop/listusers?t=${token}&s=${urlService}`, {
                     method: "POST",
                 })
                 .then((response) => response.json())
@@ -89,7 +90,33 @@ export async function _Iterop_getAllBusinessTables(
             const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
             const urlService = `${urlAPIV2Iterop}/repository/data/tables`;
 
-            fetch(`https://api.uixhome.fr/iterop/repository/data/tables?t=${token}&s=${urlService}`, {
+            fetch(`https://api.uixhome.fr/${credentials.tenant}/iterop/repository/data/tables?t=${token}&s=${urlService}`, {
+                    method: "GET",
+                })
+                .then((response) => response.json())
+                .then((result) => {
+                    if (onDone) onDone(result)
+                })
+                .catch((error) => {
+                    if (onError) onError(error);
+                });
+        })
+    }
+}
+
+export async function _Iterop_getAllBusinessTables(
+    credentials,
+    token,
+    onDone = undefined,
+    onError = undefined
+) {
+
+    if (credentials.tenant) {
+        _getServiceUrl(credentials, serviceUrls => {
+            const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
+            const urlService = `${urlAPIV2Iterop}/repository/data/tables`;
+
+            fetch(`https://api.uixhome.fr/${credentials.tenant}/iterop/repository/data/tables?t=${token}&s=${urlService}`, {
                     method: "GET",
                 })
                 .then((response) => response.json())
