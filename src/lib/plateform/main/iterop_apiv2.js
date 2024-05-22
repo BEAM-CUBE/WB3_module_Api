@@ -104,31 +104,6 @@ export async function _Iterop_getAllBusinessTables(
     }
 }
 
-export async function _Iterop_getAllBusinessTables(
-    credentials,
-    token,
-    onDone = undefined,
-    onError = undefined
-) {
-
-    if (credentials.tenant) {
-        _getServiceUrl(credentials, serviceUrls => {
-            const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
-            const urlService = `${urlAPIV2Iterop}/repository/data/tables`;
-
-            fetch(`https://api.uixhome.fr/${credentials.tenant}/iterop/repository/data/tables?t=${token}&s=${urlService}`, {
-                    method: "GET",
-                })
-                .then((response) => response.json())
-                .then((result) => {
-                    if (onDone) onDone(result)
-                })
-                .catch((error) => {
-                    if (onError) onError(error);
-                });
-        })
-    }
-}
 
 export async function _Iterop_runProcess(
     credentials,
