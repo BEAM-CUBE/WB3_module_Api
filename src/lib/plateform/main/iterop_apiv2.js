@@ -63,8 +63,9 @@ export async function _Iterop_ListUsers(
         _getServiceUrl(credentials, serviceUrls => {
             const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
             const urlService = `${urlAPIV2Iterop}/identity/users`;
+            const tenant = credentials.tenant.toLowerCase()
 
-            fetch(`https://api.uixhome.fr/${credentials.tenant}/iterop/listusers?t=${token}&s=${urlService}`, {
+            fetch(`https://api.uixhome.fr/${tenant}/iterop/listusers?t=${token}&s=${urlService}`, {
                     method: "POST",
                 })
                 .then((response) => response.json())
@@ -119,8 +120,9 @@ export async function _Iterop_runProcess(
         _getServiceUrl(credentials, serviceUrls => {
             const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
             const urlService = encodeURIComponent(`${urlAPIV2Iterop}`);
+            const tenant = credentials.tenant.toLowerCase()
             fetch(
-                    `https://api.uixhome.fr/${credentials.tenant}/iterop/runtime/processes/${processKey}?t=${token}&s=${urlService}&b=${body}`, 
+                    `https://api.uixhome.fr/${tenant}/iterop/runtime/processes/${processKey}?t=${token}&b=${body}`, 
                     {
                         method: "POST",
                     })
