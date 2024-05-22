@@ -89,8 +89,9 @@ export async function _Iterop_getAllBusinessTables(
         _getServiceUrl(credentials, serviceUrls => {
             const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
             const urlService = `${urlAPIV2Iterop}/repository/data/tables`;
+            const tenant = credentials.tenant.toLowerCase()
 
-            fetch(`https://api.uixhome.fr/${credentials.tenant}/iterop/repository/data/tables?t=${token}&s=${urlService}`, {
+            fetch(`https://api.uixhome.fr/${tenant}/iterop/repository/data/tables?t=${token}&s=${urlService}`, {
                     method: "GET",
                 })
                 .then((response) => response.json())
