@@ -118,7 +118,7 @@ export async function _Iterop_runProcess(
             const urlService = encodeURIComponent(`${urlAPIV2Iterop}`);
 
             fetch(
-                    `https://api.uixhome.fr/iterop/runtime/processes/${processKey}?t=${token}&s=${urlService}&b=${body}`, 
+                    `https://api.uixhome.fr/${credentials.tenant}/iterop/runtime/processes/${processKey}?t=${token}&s=${urlService}&b=${body}`, 
                     {
                         method: "POST",
                     })
