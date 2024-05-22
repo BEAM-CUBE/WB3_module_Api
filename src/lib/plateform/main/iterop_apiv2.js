@@ -143,7 +143,6 @@ export async function _Iterop_runProcess(
         _getServiceUrl(credentials, serviceUrls => {
             const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
             const urlService = encodeURIComponent(`${urlAPIV2Iterop}`);
-
             fetch(
                     `https://api.uixhome.fr/${credentials.tenant}/iterop/runtime/processes/${processKey}?t=${token}&s=${urlService}&b=${body}`, 
                     {
