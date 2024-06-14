@@ -437,7 +437,7 @@ export function _3DSpace_file_update_csr(
         };
 
         _httpCallAuthenticated(
-          credentials.space + `/resources/v1/modeler/documents/${docId}`,
+          credentials.space + `/resources/v1/modeler/documents/`,
           options
         );
       };
