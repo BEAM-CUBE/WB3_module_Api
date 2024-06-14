@@ -384,10 +384,11 @@ export function _3DSpace_file_update_csr(
   _httpCallAuthenticated(url, {
     method: "PUT",
     headers: {
-      ENO_CSRF_TOKEN: csr,
+      ENO_CSRF_TOKEN: credentials.token,
     },
 
     onComplete(response, headers, xhr) {
+      const csrf = JSON.parse(response).csrf;
       const info = JSON.parse(response).data[0].dataelements;
 
       const formData = new FormData();
@@ -405,22 +406,22 @@ export function _3DSpace_file_update_csr(
         let options = {
           method: "PUT",
           headers: {
-            ENO_CSRF_TOKEN: csr,
+            SecurityContext: credentials.ctx
           },
           data: JSON.stringify({
+            csrf,
             data: [{
               id: docId,
+              updateAction:"NONE",
               relateddata: {
                 files: [{
-                  id: fileId,
                   dataelements: {
                     title: filename,
                     receipt: response,
                   },
                   updateAction: "REVISE",
                 }, ],
-              },
-              tempId,
+              }
             }, ],
           }),
 
