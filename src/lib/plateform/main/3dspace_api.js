@@ -380,6 +380,7 @@ export function _3DSpace_file_update_csr(
   const url =
     credentials.space +
     `/resources/v1/modeler/documents/${docId}/files/CheckinTicket`;
+    
   _httpCallAuthenticated(url, {
     method: "PUT",
     headers: {
@@ -435,7 +436,7 @@ export function _3DSpace_file_update_csr(
         };
 
         _httpCallAuthenticated(
-          credentials.space + "/resources/v1/modeler/documents",
+          credentials.space + `/resources/v1/modeler/documents/${docId}`,
           options
         );
       };
