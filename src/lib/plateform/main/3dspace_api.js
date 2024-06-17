@@ -477,117 +477,92 @@ export async function _3DSpace_Create_Doc(
   credentials,
   data, // data
   filename, //ref coclico
-  desc, // ref name
+  descriptionDoc, // ref name
   onDone = undefined,
   onError = undefined
 ) {
   const _space = credentials.space;
   const csr = credentials.token;
   const ctx = credentials.ctx;
+  //const store = mainStore();
+  //store.updateIsLoading(true);
+  if (_space !== "") {
+      let url = `${_space}/resources/v1/modeler/documents/files/CheckinTicket`;
+      _httpCallAuthenticated(url, {
+          method: "PUT",
+          headers: {
+              ENO_CSRF_TOKEN: csr
+          },
 
-  const formData = new FormData();
-  const jsonFile = new Blob([JSON.stringify(data)], {
-    type: "text/plain",
-  });
+          onComplete(response, headers, xhr) {
+              let info = JSON.parse(response).data[0].dataelements;
 
-  const urls = {
-    url_Ticket: `${_space}/resources/v1/modeler/documents/files/CheckinTicket`,
-    url_Post: `${_space}/resources/v1/modeler/documents/?SecurityContext=ctx::${ctx}`,
-  };
+              let formData = new FormData();
+              const jsonFile = new Blob([data], {
+                  type: "text/plain"
+              });
+              formData.append("__fcs__jobTicket", info.ticket);
+              formData.append("filename", jsonFile, filename);
 
-  if (!_space && _space !== "") {
-    console.log("le store._3DSpace est vide");
-    return;
-  }
-  // 1
-  _httpCallAuthenticated(urls.url_Ticket, {
-    method: "PUT",
-    headers: {
-      ENO_CSRF_TOKEN: csr.value,
-      SecurityContext:`ctx::${ctx}`
-    },
+              const trimExt = fileName => fileName.indexOf('.') === -1 ? fileName : fileName.split('.').slice(0, -1).join('.');
 
-    onComplete(response, headers, xhr) {
-      const info = JSON.parse(response).data[0].dataelements;
-
-      formData.append("__fcs__jobTicket", info.ticket);
-      formData.append("file_0", jsonFile, filename);
-
-      const opts = {
-        method: "POST",
-        data: formData,
-
-        onComplete(ticket) {
-          if (ctx && ctx !== "" && csr && csr !== "") {
-            const options = {
-              method: "POST",
-              headers: {
-                ENO_CSRF_TOKEN: csr,
-                Accept: "application/json",
-                "Content-Type": "application/json",
-              },
-              data: JSON.stringify({
-                csrf: response.csrf,
-                data: [{
-                  type: "Document",
-                  dataelements: {
-                    title: `Title_${filename
-                        .toLowerCase()
-                        .split(" ")
-                        .join("_")}`,
-                    policy: "Document Release",
-                    description: desc,
+              let opts = {
+                  method: "POST",
+                  data: formData,
+                  onComplete(receipt) {
+                      // Update the FCS file receipt
+                      let tempId = UUID();
+                      let options = {
+                          method: "POST",
+                          headers: {
+                              ENO_CSRF_TOKEN: csr,
+                              Accept: "application/json",
+                              "Content-Type": "application/json"
+                          },
+                          data: JSON.stringify({
+                              data: [
+                                  {
+                                      type: "Document",
+                                      dataelements: {
+                                          title: trimExt(filename),
+                                          description: descriptionDoc,
+                                          policy: "Document Release"
+                                      },
+                                      relateddata: {
+                                          files: [
+                                              {
+                                                  dataelements: {
+                                                      title: filename,
+                                                      receipt
+                                                  }
+                                              }
+                                          ]
+                                      },
+                                      tempId
+                                  }
+                              ]
+                          }),
+                          type: "json",
+                          onComplete(response) {
+                              if (onDone) onDone(response);
+                          },
+                          onFailure(response) {
+                              if (onError) onError(response);
+                          }
+                      };
+                      _httpCallAuthenticated(_space + "/resources/v1/modeler/documents/?SecurityContext=ctx::" + ctx, options);
                   },
-                  relateddata: {
-                    files: [{
-                      dataelements: {
-                        title: `${filename}.json`,
-                        receipt: ticket,
-                      },
-                    }, ],
+
+                  onFailure(err) {
+                      if (onError) onError(err);
                   },
-                  tempId: "temp_"+UUID(),
-                }, ],
-              }),
-              type: "json",
-              timeout: 0,
-
-              onComplete: handleSuccess,
-              onFailure: handleError,
-            };
-
-            if (ctx !== "") {
-              // 3
-              _httpCallAuthenticated(urls.url_Post, options);
-            }
-          } else {
-            console.warn("le store est vide");
+                  timeout: 0
+              };
+              _httpCallAuthenticated(info.ticketURL, opts);
           }
-        },
-
-        onFailure: handleError,
-      };
-
-      function handleSuccess(response) {
-        console.log("Success -- response ", response.data[0]);
-
-        if (onDone) {
-          onDone(response);
-        }
-      }
-
-      function handleError(response, headers) {
-        console.log("Erreur -- response ", response, "\n headers ", headers);
-        if (onError) {
-          onError(response);
-        }
-      }
-
-      _httpCallAuthenticated(info.ticketURL, opts);
-    },
-  });
+      });
+  }
 }
-
 /**
  * @description Cette fonction récupère les contextes de sécurité basés sur des paramètres spécifiés à partir d'un
  * hôte donné.
