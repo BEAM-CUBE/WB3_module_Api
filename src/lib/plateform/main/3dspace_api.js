@@ -380,7 +380,7 @@ export function _3DSpace_file_update_csr(
   const url =
     credentials.space +
     `/resources/v1/modeler/documents/${docId}/files/CheckinTicket`;
-    
+
   _httpCallAuthenticated(url, {
     method: "PUT",
     headers: {
@@ -406,13 +406,11 @@ export function _3DSpace_file_update_csr(
         let options = {
           method: "PUT",
           headers: {
-            SecurityContext: credentials.ctx
+            SecurityContext: "ctx::" + credentials.ctx
           },
           data: JSON.stringify({
             csrf,
             data: [{
-              id: docId,
-              updateAction:"NONE",
               relateddata: {
                 files: [{
                   dataelements: {
@@ -421,7 +419,9 @@ export function _3DSpace_file_update_csr(
                   },
                   updateAction: "REVISE",
                 }, ],
-              }
+              },
+              id: docId,
+              updateAction: "NONE"
             }, ],
           }),
 
@@ -437,7 +437,7 @@ export function _3DSpace_file_update_csr(
         };
 
         _httpCallAuthenticated(
-          credentials.space + `/resources/v1/modeler/documents/`,
+          credentials.space + `/resources/v1/modeler/documents/?$include=versions&tenant=${credentials.tenant.toUpperCase()}&e6w-lang=en&e6w-timezone=-120&xrequestedwith=xmlhttprequest`,
           options
         );
       };
