@@ -504,20 +504,21 @@ export async function _3DSpace_Create_Doc(
     method: "PUT",
     headers: {
       ENO_CSRF_TOKEN: csr.value,
+      SecurityContext:`ctx::${ctx}`
     },
 
     onComplete(response, headers, xhr) {
       const info = JSON.parse(response).data[0].dataelements;
 
       formData.append("__fcs__jobTicket", info.ticket);
-      formData.append("filename", jsonFile, filename);
+      formData.append("file_0", jsonFile, filename);
 
       const opts = {
         method: "POST",
         data: formData,
 
         onComplete(ticket) {
-          if (ctx !== "" && csr !== "") {
+          if (ctx && ctx !== "" && csr && csr !== "") {
             const options = {
               method: "POST",
               headers: {
@@ -526,6 +527,7 @@ export async function _3DSpace_Create_Doc(
                 "Content-Type": "application/json",
               },
               data: JSON.stringify({
+                csrf: response.csrf,
                 data: [{
                   type: "Document",
                   dataelements: {
@@ -544,7 +546,7 @@ export async function _3DSpace_Create_Doc(
                       },
                     }, ],
                   },
-                  tempId: UUID(),
+                  tempId: "temp_"+UUID(),
                 }, ],
               }),
               type: "json",
