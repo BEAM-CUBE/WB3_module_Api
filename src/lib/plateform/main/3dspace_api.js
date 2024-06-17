@@ -436,7 +436,7 @@ export function _3DSpace_file_update_csr(
           },
         };
 
-        const upperTenant = credentials.tenant.toUpperCase()
+        let upperTenant = credentials.tenant.toUpperCase()
 
         _httpCallAuthenticated(
           credentials.space + `/resources/v1/modeler/documents/?$include=versions&tenant=${upperTenant}&e6w-lang=en&e6w-timezone=-120&xrequestedwith=xmlhttprequest`,
