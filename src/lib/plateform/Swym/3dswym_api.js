@@ -16,7 +16,7 @@ export async function _3DSwym_get_version(
   onDone = undefined,
   onError = undefined,
 ) {
-  const url = credentials.space + "/api/index/tk";
+  const url = credentials._3DSwym + "/api/index/tk";
 
   return _httpCallAuthenticated(url, {
     onComplete(response, headers, xhr) {
