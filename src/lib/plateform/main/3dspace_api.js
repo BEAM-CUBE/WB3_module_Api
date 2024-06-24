@@ -498,9 +498,15 @@ export async function _3DSpace_Create_Doc(
               let info = JSON.parse(response).data[0].dataelements;
 
               let formData = new FormData();
-              const jsonFile = new Blob([data], {
-                  type: "text/plain"
-              });
+              let jsonFile;
+                if(data instanceof Blob) {
+                    jsonFile = data;
+                }else{
+                    jsonFile = new Blob([data], {
+                        type: "text/plain"
+                    });
+                  }
+
               formData.append("__fcs__jobTicket", info.ticket);
               formData.append("filename", jsonFile, filename);
 
