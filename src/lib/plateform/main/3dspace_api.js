@@ -3,15 +3,9 @@ import {
   _getPlatformServices,
   _getPlateformInfos,
 } from "./3dexperience_api";
-import {
-  UUID
-} from "../../api/index";
-import {
-  getCSRFToken
-} from "./getCSRFToken";
-import {
-  DateTime
-} from "luxon";
+import { UUID } from "../../api/index";
+import { getCSRFToken } from "./getCSRFToken";
+import { DateTime } from "luxon";
 
 import qs from "querystring";
 
@@ -55,7 +49,6 @@ export async function _3DSpace_get_docInfo(
   });
 }
 
-
 export async function _3DSpace_get_multiDocInfo(
   credentials,
   docids = undefined,
@@ -69,14 +62,16 @@ export async function _3DSpace_get_multiDocInfo(
   }
   // const url = _3DSpace + `/resources/v1/modeler/documents/ids?$fields=revision&$include=!files,!ownerInfo,!originatorInfo,versions`;
 
-  let url = `${_3DSpace}/resources/v1/modeler/documents/ids` + "?$include=!files,!ownerInfo,!originatorInfo,!relOwnerInfo'";
+  let url =
+    `${_3DSpace}/resources/v1/modeler/documents/ids` +
+    "?$include=!files,!ownerInfo,!originatorInfo,!relOwnerInfo'";
   let data = qs.stringify({
-    "$ids": docids.toString().replace("\"", "").replace("[", "").replace("]", "")
+    $ids: docids.toString().replace('"', "").replace("[", "").replace("]", ""),
   });
   _httpCallAuthenticated(url, {
     method: "POST",
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded"
+      "Content-Type": "application/x-www-form-urlencoded",
     },
     data,
     onComplete(response, headers, xhr) {
@@ -89,9 +84,6 @@ export async function _3DSpace_get_multiDocInfo(
     },
   });
 }
-
-
-
 
 /**
  * @description Cette fonction effectue un appel HTTP authentifié pour récupérer le jeton CSRF pour un document de
@@ -318,22 +310,21 @@ export function _3DSpace_file_update(
   onDone = undefined,
   onError = undefined
 ) {
-
-  const runFunction = () => _3DSpace_file_update_csr(
-    credentials,
-    docId,
-    fileId,
-    data,
-    filename,
-    credentials.token,
-    onDone,
-    onError
-  );
+  const runFunction = () =>
+    _3DSpace_file_update_csr(
+      credentials,
+      docId,
+      fileId,
+      data,
+      filename,
+      credentials.token,
+      onDone,
+      onError
+    );
 
   if (credentials.token) {
     runFunction();
   } else {
-
     _3DSpace_get_csrf(
       credentials,
       docId,
@@ -406,23 +397,27 @@ export function _3DSpace_file_update_csr(
         let options = {
           method: "PUT",
           headers: {
-            SecurityContext: "ctx::" + credentials.ctx
+            SecurityContext: "ctx::" + credentials.ctx,
           },
           data: JSON.stringify({
             csrf,
-            data: [{
-              relateddata: {
-                files: [{
-                  dataelements: {
-                    title: filename,
-                    receipt: response,
-                  },
-                  updateAction: "REVISE",
-                }, ],
+            data: [
+              {
+                relateddata: {
+                  files: [
+                    {
+                      dataelements: {
+                        title: filename,
+                        receipt: response,
+                      },
+                      updateAction: "REVISE",
+                    },
+                  ],
+                },
+                id: docId,
+                updateAction: "NONE",
               },
-              id: docId,
-              updateAction: "NONE"
-            }, ],
+            ],
           }),
 
           type: "json",
@@ -436,10 +431,11 @@ export function _3DSpace_file_update_csr(
           },
         };
 
-        let upperTenant = credentials.tenant.toUpperCase()
+        let upperTenant = credentials.tenant.toUpperCase();
 
         _httpCallAuthenticated(
-          credentials.space + `/resources/v1/modeler/documents/?$include=versions&tenant=${upperTenant}&e6w-lang=en&e6w-timezone=-120&xrequestedwith=xmlhttprequest`,
+          credentials.space +
+            `/resources/v1/modeler/documents/?$include=versions&tenant=${upperTenant}&e6w-lang=en&e6w-timezone=-120&xrequestedwith=xmlhttprequest`,
           options
         );
       };
@@ -487,86 +483,94 @@ export async function _3DSpace_Create_Doc(
   //const store = mainStore();
   //store.updateIsLoading(true);
   if (_space !== "") {
-      let url = `${_space}/resources/v1/modeler/documents/files/CheckinTicket`;
-      _httpCallAuthenticated(url, {
-          method: "PUT",
-          headers: {
-              ENO_CSRF_TOKEN: csr
+    let url = `${_space}/resources/v1/modeler/documents/files/CheckinTicket`;
+    _httpCallAuthenticated(url, {
+      method: "PUT",
+      headers: {
+        ENO_CSRF_TOKEN: csr,
+      },
+
+      onComplete(response, headers, xhr) {
+        let info = JSON.parse(response).data[0].dataelements;
+
+        let formData = new FormData();
+        let jsonFile;
+        if (data instanceof Blob) {
+          jsonFile = data;
+        } else {
+          jsonFile = new Blob([data], {
+            type: "text/plain",
+          });
+        }
+
+        formData.append("__fcs__jobTicket", info.ticket);
+        formData.append("filename", jsonFile, filename);
+
+        const trimExt = (fileName) =>
+          fileName.indexOf(".") === -1
+            ? fileName
+            : fileName.split(".").slice(0, -1).join(".");
+
+        let opts = {
+          method: "POST",
+          data: formData,
+          onComplete(receipt) {
+            // Update the FCS file receipt
+            let tempId = UUID();
+            let options = {
+              method: "POST",
+              headers: {
+                ENO_CSRF_TOKEN: csr,
+                Accept: "application/json",
+                "Content-Type": "application/json",
+              },
+              data: JSON.stringify({
+                data: [
+                  {
+                    type: "Document",
+                    dataelements: {
+                      title: trimExt(filename),
+                      description: descriptionDoc,
+                      policy: "Document Release",
+                    },
+                    relateddata: {
+                      files: [
+                        {
+                          dataelements: {
+                            title: filename,
+                            receipt,
+                          },
+                        },
+                      ],
+                    },
+                    tempId,
+                  },
+                ],
+              }),
+              type: "json",
+              onComplete(response) {
+                if (onDone) onDone(response);
+              },
+              onFailure(response) {
+                if (onError) onError(response);
+              },
+            };
+            _httpCallAuthenticated(
+              _space +
+                "/resources/v1/modeler/documents/?SecurityContext=ctx::" +
+                ctx,
+              options
+            );
           },
 
-          onComplete(response, headers, xhr) {
-              let info = JSON.parse(response).data[0].dataelements;
-
-              let formData = new FormData();
-              let jsonFile;
-                if(data instanceof Blob) {
-                    jsonFile = data;
-                }else{
-                    jsonFile = new Blob([data], {
-                        type: "text/plain"
-                    });
-                  }
-
-              formData.append("__fcs__jobTicket", info.ticket);
-              formData.append("filename", jsonFile, filename);
-
-              const trimExt = fileName => fileName.indexOf('.') === -1 ? fileName : fileName.split('.').slice(0, -1).join('.');
-
-              let opts = {
-                  method: "POST",
-                  data: formData,
-                  onComplete(receipt) {
-                      // Update the FCS file receipt
-                      let tempId = UUID();
-                      let options = {
-                          method: "POST",
-                          headers: {
-                              ENO_CSRF_TOKEN: csr,
-                              Accept: "application/json",
-                              "Content-Type": "application/json"
-                          },
-                          data: JSON.stringify({
-                              data: [
-                                  {
-                                      type: "Document",
-                                      dataelements: {
-                                          title: trimExt(filename),
-                                          description: descriptionDoc,
-                                          policy: "Document Release"
-                                      },
-                                      relateddata: {
-                                          files: [
-                                              {
-                                                  dataelements: {
-                                                      title: filename,
-                                                      receipt
-                                                  }
-                                              }
-                                          ]
-                                      },
-                                      tempId
-                                  }
-                              ]
-                          }),
-                          type: "json",
-                          onComplete(response) {
-                              if (onDone) onDone(response);
-                          },
-                          onFailure(response) {
-                              if (onError) onError(response);
-                          }
-                      };
-                      _httpCallAuthenticated(_space + "/resources/v1/modeler/documents/?SecurityContext=ctx::" + ctx, options);
-                  },
-
-                  onFailure(err) {
-                      if (onError) onError(err);
-                  },
-                  timeout: 0
-              };
-              _httpCallAuthenticated(info.ticketURL, opts);
-          }
-      });
+          onFailure(err) {
+            if (onError) onError(err);
+          },
+          timeout: 0,
+        };
+        _httpCallAuthenticated(info.ticketURL, opts);
+      },
+    });
   }
 }
 /**
@@ -619,12 +623,12 @@ export function _3DSpace_get_securityContexts(
           let couples = oCS.couples;
           couples = couples.filter(
             (value, index, self) =>
-            index ===
-            self.findIndex(
-              (t) =>
-              t.organization.pid === value.organization.pid &&
-              t.role.pid === value.role.pid
-            )
+              index ===
+              self.findIndex(
+                (t) =>
+                  t.organization.pid === value.organization.pid &&
+                  t.role.pid === value.role.pid
+              )
           );
           if (role) {
             if (Array.isArray(role)) {
@@ -733,14 +737,18 @@ export async function _3DSpace_download_doc(
     console.warn(
       "_3DSpace_download_doc() / Le paramètre objectId est obligatoire"
     );
-    if (onError) onError("_3DSpace_download_doc() / Le paramètre objectId est obligatoire")
+    if (onError)
+      onError(
+        "_3DSpace_download_doc() / Le paramètre objectId est obligatoire"
+      );
   }
 
   if (credentials.space === "" || !credentials.space) {
     console.warn(
       "_3DSpace_download_doc() / Le paramètre space est obligatoire"
     );
-    if (onError) onError("_3DSpace_download_doc() / Le paramètre space est obligatoire")
+    if (onError)
+      onError("_3DSpace_download_doc() / Le paramètre space est obligatoire");
   }
   if (credentials.token === "" || !credentials.token) {
     getCSRFToken(
@@ -766,13 +774,12 @@ export async function _3DSpace_download_doc(
           fetch(ticketURL)
             .then((response) => response.blob())
             .then((blob) => {
-              if (onDone) onDone(blob)
+              if (onDone) onDone(blob);
             })
-            .catch(err => {
-              if (onError) onError(err)
+            .catch((err) => {
+              if (onError) onError(err);
             });
         } else {
-
           _httpCallAuthenticated(ticketURL, {
             onComplete(response) {
               let tryParse;
@@ -932,7 +939,6 @@ export function _3DSpace_get_downloadTicket_multidoc(
             const fileName = data.dataelements.fileName;
             const fileUrl = data.dataelements.ticketURL;
 
-
             _httpCallAuthenticated(fileUrl, {
               onComplete: (response, headers) => {
                 let tryParse;
@@ -1019,9 +1025,11 @@ export function _3DSpace_lifecycle_getNextStates(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          data: [{
-            id: objectId,
-          }, ],
+          data: [
+            {
+              id: objectId,
+            },
+          ],
         }),
         type: "json",
         onComplete(response) {
@@ -1087,10 +1095,12 @@ export function _3DSpace_lifecycle_changeState(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          data: [{
-            id: objectId,
-            nextState,
-          }, ],
+          data: [
+            {
+              id: objectId,
+              nextState,
+            },
+          ],
         }),
         type: "json",
         onComplete(response) {
@@ -1197,9 +1207,11 @@ export function _3DSpace_lifecycle_getGraph(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          graphRequests: [{
-            id: objectId,
-          }, ],
+          graphRequests: [
+            {
+              id: objectId,
+            },
+          ],
         }),
         type: "json",
         onComplete(response) {
@@ -1266,15 +1278,17 @@ export function _3DSpace_lifecycle_getNextRevision(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          data: [{
-            "attribute[PLMReference.V_versionComment]": null,
-            physicalid: objectId,
-            type: "Document",
-            tenant: credentials.tenant,
-            objectId,
-            policy: "Document Release",
-            availableSemantic: ["E", "LAST", "NEW", "DUP"],
-          }, ],
+          data: [
+            {
+              "attribute[PLMReference.V_versionComment]": null,
+              physicalid: objectId,
+              type: "Document",
+              tenant: credentials.tenant,
+              objectId,
+              policy: "Document Release",
+              availableSemantic: ["E", "LAST", "NEW", "DUP"],
+            },
+          ],
         }),
         type: "json",
         onComplete(response) {
@@ -1344,13 +1358,15 @@ export function _3DSpace_lifecycle_changeRevision(
           "Content-Type": "application/json",
         },
         data: JSON.stringify({
-          data: [{
-            physicalid: objectId,
-            proposedRevision: nextRevision,
-            modifiedAttributes: {
-              revision: nextRevision,
+          data: [
+            {
+              physicalid: objectId,
+              proposedRevision: nextRevision,
+              modifiedAttributes: {
+                revision: nextRevision,
+              },
             },
-          }, ],
+          ],
           folderid: null,
           notificationTimeout: 600,
         }),
@@ -1508,17 +1524,19 @@ export function _3DSpace_bookmark_addSubsciptions(
           name: "ENO_CSRF_TOKEN",
           value: credentials.token,
         },
-        data: [{
-          type: "Workspace",
-          cestamp: "businessobject",
-          relId: objectId,
-          id: objectId,
-          dataelements: {
-            personList,
-            eventsList,
+        data: [
+          {
+            type: "Workspace",
+            cestamp: "businessobject",
+            relId: objectId,
+            id: objectId,
+            dataelements: {
+              personList,
+              eventsList,
+            },
+            tenant: credentials.tenant,
           },
-          tenant: credentials.tenant,
-        }, ],
+        ],
       }),
       type: "json",
       onComplete(response) {
