@@ -52,6 +52,23 @@ export function _Iterop_Auth_CAS(
     }
 }
 
+export function _Iterop_jwtUser(credentials, onDone = undefined, onError = undefined) {
+    if (credentials.tenant) {
+        const lowerTenant = credentials.tenant.toLowerCase();
+
+        fetch(`https://api.uixhome.fr/${lowerTenant}/iterop/jwtuser`, {
+            method: "POST"
+        })
+            .then(response => response.json())
+            .then(result => {
+                if (onDone) onDone(result);
+            })
+            .catch(error => {
+                if (onError) onError(error);
+            });
+    }
+}
+
 export async function _Iterop_ListUsers(
     credentials,
     token,

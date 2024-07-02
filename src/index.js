@@ -114,6 +114,7 @@ import {
 } from "./lib/plateform/Swym/3dswym_api";
 import {
   _Iterop_Auth_CAS,
+  _Iterop_jwtUser,
   _getServiceUrl_Iterop,
   _Iterop_ListUsers,
   _Iterop_getAllBusinessTables,
@@ -170,6 +171,7 @@ export {
   _3DSwym_sendMessageData,
   _getServiceUrl_Iterop,
   _Iterop_Auth_CAS,
+  _Iterop_jwtUser,
   _Iterop_ListUsers,
   _Iterop_getAllBusinessTables,
   _Iterop_getOneBusinessTable,
