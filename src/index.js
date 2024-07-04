@@ -121,7 +121,10 @@ import {
   _Iterop_runProcess,
   _Iterop_AddOrRemoveRows,
   _Iterop_getOneBusinessTable,
-  _Iterop_getOneBusinessTableRows
+  _Iterop_getOneBusinessTableRows,
+  _Iterop_GetOneDependencyTable,
+  _Iterop_PatchDependencyTable,
+  _Iterop_PutDependencyTable
 } from "./lib/plateform/main/iterop_apiv2";
 
 import {
@@ -176,6 +179,9 @@ export {
   _Iterop_getAllBusinessTables,
   _Iterop_getOneBusinessTable,
   _Iterop_getOneBusinessTableRows,
+  _Iterop_GetOneDependencyTable,
+  _Iterop_PatchDependencyTable,
+  _Iterop_PutDependencyTable,
   _Iterop_runProcess,
   _Iterop_AddOrRemoveRows,
   _AppMngt_get_info_user,
