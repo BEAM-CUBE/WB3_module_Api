@@ -8,6 +8,7 @@ import { getCSRFToken } from "./getCSRFToken";
 import { DateTime } from "luxon";
 
 import qs from "querystring";
+import { error } from "console";
 
 /**
  * @description La fonction `_3dSpace_get_docInfo` récupère des informations sur un document dans un espace 3D.
@@ -384,8 +385,17 @@ export function _3DSpace_file_update_csr(
 
       const formData = new FormData();
 
+      let blobData;
+        if (data instanceof Blob) {
+          blobData = data;
+        } else {
+          blobData = new Blob([data], {
+            type: "text/plain",
+          });
+        }
+
       formData.append("__fcs__jobTicket", info.ticket);
-      formData.append("file_0", data, filename);
+      formData.append("file_0", blobData, filename);
 
       const opts = {};
       opts.method = "POST";
@@ -449,6 +459,50 @@ export function _3DSpace_file_update_csr(
       _httpCallAuthenticated(info.ticketURL, opts);
     },
   });
+}
+
+export async function _3DSpace_Update_Doc(
+  credentials,
+  objectId,
+  data,
+  onDone = undefined,
+  onError = undefined
+) {
+  const _space = credentials.space;
+  const csr = credentials.token;
+  const ctx = credentials.ctx;
+
+  //TEST de la Typo de Data (si Object, Blod, String)
+
+  _3DSpace_get_docInfo(
+    credentials,
+    objectId,
+    (info) => {
+      const fileId = info.data[0].relateddata.files[0].id;
+      const filename =
+        info.data[0].dataelements.secondaryTitle &&
+        info.data[0].dataelements.secondaryTitle !== ""
+          ? info.data[0].dataelements.secondaryTitle
+          : info.data[0].dataelements.title;
+
+      _3DSpace_file_update(
+        credentials,
+        objectId,
+        fileId,
+        data,
+        filename,
+        (result) => {
+          if (onDone) onDone(result);
+        },
+        (error) => {
+          if (onError) onError(error);
+        }
+      );
+    },
+    (error) => {
+      if (onError) onError(error);
+    }
+  );
 }
 
 /**
@@ -700,7 +754,7 @@ export function _3DSpace_get_securityContexts(
       }
     },
     onFailure(err, headers) {
-      console.log("Erreur de récupération du contexte de sécurité. => ", {
+      console.warn("Erreur de récupération du contexte de sécurité. => ", {
         err,
         headers,
       });
