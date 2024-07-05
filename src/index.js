@@ -49,6 +49,7 @@ import {
   _3DSpace_file_update,
   _3DSpace_file_update_csr,
   _3DSpace_Create_Doc,
+  _3DSpace_Update_Doc,
   _3DSpace_get_securityContexts,
   _3DSpace_download_doc,
   _3DSpace_download_multidoc,
@@ -137,6 +138,7 @@ import {
 
 export {
   _3DSpace_Create_Doc,
+  _3DSpace_Update_Doc,
   _3DSpace_csrf,
   _3DSpace_download_doc,
   _3DSpace_download_multidoc,
