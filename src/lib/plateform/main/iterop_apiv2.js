@@ -231,6 +231,35 @@ export async function _Iterop_AddOrRemoveRows(
 
   //SECTION - Table de dépendances
 
+  export async function _Iterop_GetAllDependencyTable(
+    credentials,
+    token,
+    tableId,
+    onDone = undefined,
+    onError = undefined
+  ) {
+  
+    if (credentials.tenant) {
+        _getServiceUrl(credentials, serviceUrls => {
+            const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
+            const urlService = encodeURIComponent(`${urlAPIV2Iterop}`);
+            const tenant = credentials.tenant.toLowerCase()
+            fetch(
+                    `https://api.uixhome.fr/${tenant}/iterop/dependencytable/all/?t=${token}`, 
+                    {
+                        method: "POST",
+                    })
+                .then((response) => response.json())
+                .then((result) => {
+                    if (onDone) onDone(result)
+                })
+                .catch((error) => {
+                    if (onError) onError(error);
+                });
+        })
+    }
+  }
+  
   export async function _Iterop_GetOneDependencyTable(
     credentials,
     token,
@@ -269,6 +298,7 @@ export async function _Iterop_AddOrRemoveRows(
     token,
     tableId,
     cli,
+    body,
     onDone = undefined,
     onError = undefined
   ) {
@@ -279,7 +309,7 @@ export async function _Iterop_AddOrRemoveRows(
             const urlService = encodeURIComponent(`${urlAPIV2Iterop}`);
             const tenant = credentials.tenant.toLowerCase()
             fetch(
-                    `https://api.uixhome.fr/${tenant}/iterop/dependencytable/patch/${tableId}/?t=${token}&cli=${cli}`, 
+                    `https://api.uixhome.fr/${tenant}/iterop/dependencytable/patch/${tableId}/?t=${token}&cli=${cli}&b=${body}`, 
                     {
                         method: "POST",
                     })
