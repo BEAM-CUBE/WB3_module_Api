@@ -1,6 +1,6 @@
 {
   "name": "@beam3_dev/api_module",
-  "version": "0.0.149",
+  "version": "0.0.173",
   "type": "module",
   "files": [
     "dist"
@@ -36,16 +36,17 @@
     "WB3"
   ],
   "devDependencies": {
-    "jsdoc": "^4.0.2",
+    "jsdoc": "^4.0.3",
     "vite": "^5.0.8"
   },
   "peerDependencies": {
-    "@widget-lab/3ddashboard-utils": "https://btcc.3ds.com/widget-lab/npm/widget-lab-3ddashboard-utils-1.7.2.tgz",
+    "@widget-lab/3ddashboard-utils": "*",
     "luxon": "^3.4.4",
-    "uuid": "^9.0.1"
+    "uuid": "^10.0.0"
   },
   "dependencies": {
     "cryptojs": "^2.5.3",
+    "querystring": "^0.2.1",
     "rm": "^0.1.8"
   },
   "volta": {

@@ -1,5 +1,7 @@
 {
   "docwriter.style": "JSDoc",
   "docwriter.language": "French",
-  "cSpell.words": ["dataelements"]
+  "cSpell.words": [
+    "dataelements"
+  ],
 }

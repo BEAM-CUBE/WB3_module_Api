@@ -41,9 +41,10 @@ import {
 } from "./lib/plateform/Usersgroup";
 import {
   _3DSpace_get_docInfo,
+  _3DSpace_get_multiDocInfo,
   _3DSpace_get_csrf,
   _3DSpace_csrf,
-  _3DSpace_get_ticket,
+  _3DSpace_get_ticket, 
   _3DSpace_file_url_csr,
   _3DSpace_file_update,
   _3DSpace_file_update_csr,
@@ -116,7 +117,10 @@ import {
   _getServiceUrl_Iterop,
   _Iterop_ListUsers,
   _Iterop_getAllBusinessTables,
-  _Iterop_runProcess
+  _Iterop_runProcess,
+  _Iterop_AddOrRemoveRows,
+  _Iterop_getOneBusinessTable,
+  _Iterop_getOneBusinessTableRows
 } from "./lib/plateform/main/iterop_apiv2";
 
 import {
@@ -138,6 +142,7 @@ export {
   _3DSpace_get_ticket,
   _3DSpace_get_csrf,
   _3DSpace_get_docInfo,
+  _3DSpace_get_multiDocInfo,
   _3DSpace_get_downloadTicket_multidoc,
   _3DSpace_get_securityContexts,
   _3DSpace_lifecycle_changeRevision,
@@ -167,7 +172,10 @@ export {
   _Iterop_Auth_CAS,
   _Iterop_ListUsers,
   _Iterop_getAllBusinessTables,
+  _Iterop_getOneBusinessTable,
+  _Iterop_getOneBusinessTableRows,
   _Iterop_runProcess,
+  _Iterop_AddOrRemoveRows,
   _AppMngt_get_info_user,
   _AppMngt_get_users,
   _getPlateformInfos,
