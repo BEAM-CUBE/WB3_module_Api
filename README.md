@@ -18,7 +18,7 @@ yarn add -D wb3_module_api
 ## Mise a jour
 
 ```sh
-npm run build
+npm run build && npm run b3:publish
 # faire les commits (add, commit, push)
 npm run b3:publish 
 ```
@@ -29,4 +29,3 @@ npm run b3:publish
 - Ne pas oublier de mettre à jour le fichier README.md en cas de modification de la librairie.
 - Mettre à jour le widget dans lequel on utilise déjà la librairie.
 - En cas de de problèmes de publication, verifier le versioning du `package.json` et du module sur le site NPM, la version du package.json doit être mise à jour et égale à la version du module (NPM).
-
