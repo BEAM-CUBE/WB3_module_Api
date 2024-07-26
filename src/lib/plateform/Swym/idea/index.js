@@ -276,7 +276,7 @@ export function _3DSwym_getOneIdea(
   });
 }
 /**
- * @description _3DSwym_editIdea edit une idée dans 3DSwym.
+ * @description `_3DSwym_editIdea` edit une idée dans 3DSwym.
  *
  * @param   {Object}  [credentials]  Objet contenant les informations du besoin de la requête.
  * @param   {String}  [credentials.space]  - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
