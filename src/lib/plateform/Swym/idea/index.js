@@ -262,7 +262,6 @@ export function _3DSwym_getOneIdea(
 
       onComplete(response) {
         const info = { response };
-        info["msg"] = info.result.message;
 
         if (onDone) onDone(info);
       },
