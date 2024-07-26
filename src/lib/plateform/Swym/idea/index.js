@@ -87,8 +87,8 @@ export function _3DSwym_postIdeaTemplate(
  * @param {String} [credentials.community_id] - Le paramètre `credentials.community_id` est un String qui contient l'id de la communauté dans laquelle on souhaite publier l'idée.
  * @param {String} [credentials.message] - Le paramètre `credentials.message` est un String en format HTML.
  * @param {String} [credentials.title] - Le paramètre `credentials.title` est un String qui l'entête de l'idée.
- * @param {String} [credentials.baseURL] - Le paramètre `credentials.baseURL` est la racine du 3DSwym (tenant compris).
- * @param {String} [credentials.swymCommunities] - Le paramètre `credentials.swymCommunities` est la racine du 3DSwym (tenant compris).
+ * @param {String} [credentials.space] - Le paramètre `credentials.space` est la racine du 3DSwym (tenant compris).
+ * @param {Array} [credentials.swymCommunities] - Le paramètre `credentials.swymCommunities` est la racine du 3DSwym (tenant compris).
  * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque l'idée
  * sera publiée avec succès. Il prend un argument, «info», qui contient les données de réponse du
  * serveur.
@@ -101,17 +101,39 @@ export function _3DSwym_postIdea(
   onDone = undefined,
   onError = undefined
 ) {
-  const URL = { base: credentials.baseURL, uri: "/api/idea/add" };
+  const URL = { base: credentials.space, uri: "/api/idea/add" };
+
+  if (!Array.isArray(credentials.swymCommunities)) {
+    const message =
+      "☠️ swymCommunities doit être un tableau d'objets de communautés";
+    throw new Error(`Erreur sur cette requête : ${URL.base + URL.uri}`, {
+      cause: message,
+    });
+  }
 
   const findByID = credentials.swymCommunities.findIndex(
     (commu) => commu.id === credentials.community_id
   );
 
   if (findByID === -1) {
-    console.log(
-      "la communauté n'existe pas dans la liste des communautés du Swym"
-    );
-    return;
+    const message =
+      "la communauté n'existe pas dans la liste des communautés du Swym";
+    throw new Error(`Erreur sur cette requête : ${URL.base + URL.uri}`, {
+      cause: message,
+    });
+  }
+  if (credentials.community_id && credentials.community_id === "") {
+    const message =
+      "☠️ community_id doit être un String qui contient l'id de la communauté dans laquelle on souhaite publier l'idée.";
+    throw new Error(`Erreur sur cette requête : ${URL.base + URL.uri}`, {
+      cause: message,
+    });
+  }
+  if (credentials.title && credentials.title === "") {
+    const message = "☠️ title doit être un String.";
+    throw new Error(`Erreur sur cette requête : ${URL.base + URL.uri}`, {
+      cause: message,
+    });
   }
 
   const body = {
@@ -227,17 +249,6 @@ export function _3DSwym_getOneIdea(
   onDone = undefined,
   onError = undefined
 ) {
-  // // Tenant PIVETEAU TEST template id || tenant PIVETEAU PROD
-  // const templateIdeaId =
-  //   credentials.tenant.toLowerCase() === "r1132101716373"
-  //     ? "tFtz0G4MR6qNtKgJjNfTog"
-  //     : credentials.tenant.toLowerCase() === "r1132101286859"
-  //     ? "Qpv3HN-tTDOsU-7_c5DnDg"
-  //     : "Template_d'idée_à_créer"; // template créer à la creation d'une Affaire
-  // if (idPost === "") {
-  //   idPost = templateIdeaId;
-  // }
-
   const URL = `${credentials.space}/api/idea/get`;
   if (credentials.idPost === "") {
     const message =
