@@ -145,7 +145,7 @@ export function _3DSwym_postIdea(
     },
   };
 
-  _3DSwym_get_Token((token) => {
+  _3DSwym_get_Token(credentials, (token) => {
     const headerOptions = {
       headers: {
         "Content-type": "application/json;charset=UTF-8",
