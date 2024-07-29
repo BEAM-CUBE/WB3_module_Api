@@ -146,17 +146,20 @@ export function _3DSwym_postIdea(
   };
 
   _3DSwym_get_Token(credentials, (token) => {
-    if (token) {
-      throw new Error(token, {
-        cause: token,
-      });
+    if (!token) {
+      throw new Error(
+        `☠️ token n'est pas renseigner dans le paramètre credentials `,
+        {
+          cause: token?.result?.ServerToken,
+        }
+      );
     }
 
     const headerOptions = {
       headers: {
         "Content-type": "application/json;charset=UTF-8",
         Accept: "application/json",
-        "X-DS-SWYM-CSRFTOKEN": token.result.ServerToken,
+        "X-DS-SWYM-CSRFTOKEN": token?.result?.ServerToken,
       },
       method: "POST",
       data: JSON.stringify(body),
