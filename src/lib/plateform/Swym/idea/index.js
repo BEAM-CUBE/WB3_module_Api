@@ -150,7 +150,7 @@ export function _3DSwym_postIdea(
       headers: {
         "Content-type": "application/json;charset=UTF-8",
         Accept: "application/json",
-        "X-DS-SWYM-CSRFTOKEN": token.result.ServerToken,
+        "X-DS-SWYM-CSRFTOKEN": token,
       },
       method: "POST",
       data: JSON.stringify(body),
