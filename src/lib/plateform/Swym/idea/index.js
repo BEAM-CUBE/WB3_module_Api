@@ -148,9 +148,11 @@ export function _3DSwym_postIdea(
   _3DSwym_get_Token(credentials, (token) => {
     if (!token) {
       throw new Error(
-        `☠️ token n'est pas renseigner dans le paramètre credentials `,
+        `☠️ token n'est pas disponible pour cette requête : ${
+          URL.base + URL.uri
+        }`,
         {
-          cause: token?.result?.ServerToken,
+          cause: token,
         }
       );
     }
@@ -227,7 +229,7 @@ export function _3DSwym_deleteIdea(
       headers: {
         "Content-type": "application/json;charset=UTF-8",
         Accept: "application/json",
-        "X-DS-SWYM-CSRFTOKEN": token.result.ServerToken,
+        "X-DS-SWYM-CSRFTOKEN": token?.result?.ServerToken,
       },
       data: JSON.stringify(formatedData),
       type: "json",
@@ -341,13 +343,16 @@ export function _3DSwym_editIdea(credentials, onDone, onError) {
     const headerOptions = {
       method: "POST",
       headers: {
-        "X-DS-SWYM-CSRFTOKEN": token.result.ServerToken,
+        "X-DS-SWYM-CSRFTOKEN": token?.result?.ServerToken,
         "Content-type": "application/json;charset=UTF-8",
       },
       data: JSON.stringify(body),
-      onComplete(response) {
-        const info = JSON.parse(response);
-
+      onComplete(response, head, xhr) {
+        const info = {
+          response:
+            typeof response === "string" ? JSON.parse(response) : response,
+        };
+        info["status"] = xhr.status;
         if (onDone) onDone(info);
       },
       onFailure(response) {
