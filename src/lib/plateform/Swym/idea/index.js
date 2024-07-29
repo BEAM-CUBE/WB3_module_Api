@@ -146,6 +146,14 @@ export function _3DSwym_postIdea(
   };
 
   _3DSwym_get_Token(credentials, (token) => {
+    if (token) {
+      throw new Error(
+        "☠️ token n'est pas renseigner dans le paramètre credentials",
+        {
+          cause: token,
+        }
+      );
+    }
     const headerOptions = {
       headers: {
         "Content-type": "application/json;charset=UTF-8",
@@ -164,7 +172,15 @@ export function _3DSwym_postIdea(
         if (onDone) onDone(info);
       },
       onFailure(response, headers, xhr) {
-        if (onError) onError({ response, headers, xhr });
+        const head = JSON.parse(headers);
+        const rep = JSON.parse(response);
+        const ERR = new Error(
+          `Erreur sur cette requête : ${URL.base + URL.uri}`,
+          {
+            cause: { head, rep },
+          }
+        );
+        if (onError) onError(ERR);
       },
     };
 
