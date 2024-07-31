@@ -1,5 +1,5 @@
 import { _httpCallAuthenticated } from "../../main/3dexperience_api";
-import { _3DSwym_get_version } from "../3dswym_api.js";
+import { _3DSwym_get_Token } from "../3dswym_api.js";
 /**
  * @description La fonction `_3DSwym_get_currentUser` est utilisée pour récupérer des informations sur l'utilisateur actuel dans une plateforme 3DExperience.
  *
@@ -16,10 +16,10 @@ import { _3DSwym_get_version } from "../3dswym_api.js";
 export function _3DSwym_get_currentUser(
   credentials,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   const url = credentials.space + "/api/user/getcurrent/";
-  _3DSwym_get_version(credentials, (token) => {
+  _3DSwym_get_Token(credentials, (token) => {
     _httpCallAuthenticated(url, {
       method: "GET",
       headers: {
@@ -56,10 +56,10 @@ export function _3DSwym_get_findUser(
   credentials,
   userLogin,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   const url = credentials.space + "/api/user/find/login/" + userLogin;
-  _3DSwym_get_version(
+  _3DSwym_get_Token(
     credentials,
     (token) => {
       _httpCallAuthenticated(url, {
@@ -76,7 +76,7 @@ export function _3DSwym_get_findUser(
         },
       });
     },
-    onError,
+    onError
   );
 }
 

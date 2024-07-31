@@ -1,5 +1,5 @@
 import { _httpCallAuthenticated } from "../../main/3dexperience_api";
-import { _3DSwym_get_version } from "../3dswym_api";
+import { _3DSwym_get_Token } from "../3dswym_api";
 
 /**
  * @description La fonction `_3dSwym_getAllCommunities` récupère une liste de communautés à partir d'une plateforme
@@ -18,7 +18,7 @@ import { _3DSwym_get_version } from "../3dswym_api";
 export function _3DSwym_getAllCommunities(
   credentials,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   const URL = {
     base: credentials.space,
@@ -29,7 +29,7 @@ export function _3DSwym_getAllCommunities(
 
   const url = `${URL.base}${URL.uri}${URL.limit}${URL.page}`;
   const communautes = [];
-  _3DSwym_get_version(credentials, (token) => {
+  _3DSwym_get_Token(credentials, (token) => {
     _httpCallAuthenticated(url, {
       method: "GET",
       headers: {
@@ -60,7 +60,7 @@ export function _3DSwym_getAllCommunities(
                 onDone(communautes);
               }
             },
-            (err) => onError(err),
+            (err) => onError(err)
           );
         });
       },
@@ -94,7 +94,7 @@ export function _3DSwym_getMembersCommunity(
   credentials,
   idCommu,
   onDone,
-  onError,
+  onError
 ) {
   const URL = `${credentials.space}/api/community/listmembers`;
 
@@ -105,7 +105,7 @@ export function _3DSwym_getMembersCommunity(
       community_id: idCommu,
     },
   };
-  _3DSwym_get_version(credentials, (token) => {
+  _3DSwym_get_Token(credentials, (token) => {
     _httpCallAuthenticated(URL, {
       method: "POST",
       headers: {
@@ -146,12 +146,12 @@ export function _3DSwym_getMembersCommunity(
 export function _3DSwym_getIdeaStatusMaturity(
   credentials,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   const commuID = "YXdA5x4DSUKtlAi2wmnyTA";
   if (!credentials.commu_id) credentials.commu_id = commuID;
   const URL = `${credentials.space}/api/v2/communities/${credentials.commu_id}/ideas/statuses`;
-  _3DSwym_get_version(credentials, (token) => {
+  _3DSwym_get_Token(credentials, (token) => {
     _httpCallAuthenticated(URL, {
       method: "GET",
       headers: {
@@ -209,7 +209,7 @@ export function _3DSwym_buildDirectMessage(
   credentials,
   datas,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   const { listAllContacts, currentUser } = credentials;
   console.log("__listAllContacts", listAllContacts.hits);
@@ -240,13 +240,13 @@ export function _3DSwym_buildDirectMessage(
       console.log("_3dSwym_findCommunityToInstantMSG callback", err);
       if (onError) onError(err);
       MSGData["id_msg"] = "";
-    },
+    }
   );
 
   if (otherCommunity === false) {
     setTimeout(() => {
       if (otherCommunity === false) {
-        _3DSwym_get_version(credentials, (token) => {
+        _3DSwym_get_Token(credentials, (token) => {
           _httpCallAuthenticated(_URL, {
             method: "POST",
             headers: {
@@ -296,10 +296,10 @@ export function _3DSwym_findCommunityToInstantMSG(
   credentials,
   datas,
   onDone,
-  onError,
+  onError
 ) {
   const URL = `${credentials.space}/api/directmessages/lite?with_favorites=false`;
-  _3DSwym_get_version(credentials, (token) => {
+  _3DSwym_get_Token(credentials, (token) => {
     _httpCallAuthenticated(URL, {
       method: "GET",
       headers: {
@@ -366,7 +366,7 @@ export function _3DSwym_sendMessageData(
   credentials,
   content,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   const URL = {
     base: credentials.space,
@@ -388,7 +388,7 @@ export function _3DSwym_sendMessageData(
     richMessage: content.msg,
   };
   console.log("_3dSwym_sendDirectMessageData url ", url);
-  _3DSwym_get_version(credentials, (token) => {
+  _3DSwym_get_Token(credentials, (token) => {
     _httpCallAuthenticated(url, {
       method: "POST",
       headers: {

@@ -8,7 +8,6 @@ import { getCSRFToken } from "./getCSRFToken";
 import { DateTime } from "luxon";
 
 import qs from "querystring";
-import { error } from "console";
 
 /**
  * @description La fonction `_3dSpace_get_docInfo` récupère des informations sur un document dans un espace 3D.
@@ -386,13 +385,13 @@ export function _3DSpace_file_update_csr(
       const formData = new FormData();
 
       let blobData;
-        if (data instanceof Blob) {
-          blobData = data;
-        } else {
-          blobData = new Blob([data], {
-            type: "text/plain",
-          });
-        }
+      if (data instanceof Blob) {
+        blobData = data;
+      } else {
+        blobData = new Blob([data], {
+          type: "text/plain",
+        });
+      }
 
       formData.append("__fcs__jobTicket", info.ticket);
       formData.append("file_0", blobData, filename);
@@ -424,6 +423,9 @@ export function _3DSpace_file_update_csr(
                     },
                   ],
                 },
+                id: docId,
+                updateAction: "NONE",
+
                 id: docId,
                 updateAction: "NONE",
               },

@@ -3,7 +3,7 @@
 - _getPlatformServices,
 - _3DSpace_get_securityContexts,
 - _3DSwym_get_currentUser,
-- _3DSwym_get_version,
+- _3DSwym_get_Token,
 - getDataFromGouvFr,
 - get_3DSpace_csrf,
 - getAllContextSecurity,

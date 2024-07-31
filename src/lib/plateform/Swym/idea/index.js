@@ -1,5 +1,5 @@
 import { _httpCallAuthenticated } from "../../main/3dexperience_api";
-import { _3DSwym_get_version } from "../3dswym_api";
+import { _3DSwym_get_Token } from "../3dswym_api";
 /*
  * @exemple dataTest
  */
@@ -11,7 +11,7 @@ const dataTest = {
 };
 
 /**
- * @description La fonction `_3DSwym_postIdea` est utilisée pour publier une idée sur une communauté 3DSwym en utilisant les informations d'identification et les données fournies.
+ * @description La fonction `_3DSwym_postIdeaTemplate` est utilisée pour publier une idée sur une communauté 3DSwym en utilisant les informations d'identification et les données fournies.
  *
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
@@ -24,23 +24,23 @@ const dataTest = {
  * @param {String} data.community_id - L'ID de la communauté sur laquelle l'idée doit être publiee.(ex: "YXdA5x4DSUKtlAi2wmnyTA")
  * @param {String} data.community_title - Le titre de la communauté sur laquelle l'idée doit être publiee.(optionnel, ex: TEST DEV COMMUNITY)
  * @param {String} data.text_html - Le message HTML de l'idée (Optionnel sur les tenants Piveteau Prod et test)
- * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque la fonction `_3DSwym_postIdea` terminera avec succès son exécution. Il prend un argument, « info », qui contient les données de réponse de l'appel API.
- * @param {Function} [onError] - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une erreur lors de l'exécution de la fonction `_3DSwym_postIdea`. Il s'agit d'un paramètre facultatif, donc s'il n'est pas fourni, il sera par défaut « non défini ».
+ * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque la fonction `_3DSwym_postIdeaTemplate` terminera avec succès son exécution. Il prend un argument, « info », qui contient les données de réponse de l'appel API.
+ * @param {Function} [onError] - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une erreur lors de l'exécution de la fonction `_3DSwym_postIdeaTemplate`. Il s'agit d'un paramètre facultatif, donc s'il n'est pas fourni, il sera par défaut « non défini ».
  *
  */
-export function _3DSwym_postIdea(
+export function _3DSwym_postIdeaTemplate(
   credentials,
   data,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   const URL = `${credentials.space}/api/idea/add`;
 
   const findByID = credentials.swymCommunities.find(
-    (commu) => commu.id === data.community_id,
+    (commu) => commu.id === data.community_id
   );
   const findByTitle = credentials.swymCommunities.find(
-    (commu) => commu.title.toLowerCase() === data.community_title.toLowerCase(),
+    (commu) => commu.title.toLowerCase() === data.community_title.toLowerCase()
   );
 
   const formatedData = {
@@ -52,7 +52,7 @@ export function _3DSwym_postIdea(
     },
   };
 
-  _3DSwym_get_version(credentials, (token) => {
+  _3DSwym_get_Token(credentials, (token) => {
     const headers = {
       "Content-type": "application/json;charset=UTF-8",
       Accept: "application/json",
@@ -81,6 +81,117 @@ export function _3DSwym_postIdea(
 }
 
 /**
+ * @description La fonction `_3dswym_postIdea` est utilisée pour publier une idée dans une communauté 3DExperience.
+ *
+ * @param {Object} [credentials] - Le paramètre `credentials` est un objet
+ * @param {String} [credentials.community_id] - Le paramètre `credentials.community_id` est un String qui contient l'id de la communauté dans laquelle on souhaite publier l'idée.
+ * @param {String} [credentials.message] - Le paramètre `credentials.message` est un String en format HTML.
+ * @param {String} [credentials.title] - Le paramètre `credentials.title` est un String qui l'entête de l'idée.
+ * @param {String} [credentials.space] - Le paramètre `credentials.space` est la racine du 3DSwym (tenant compris).
+ * @param {Array} [credentials.swymCommunities] - Le paramètre `credentials.swymCommunities` est la racine du 3DSwym (tenant compris).
+ * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque l'idée
+ * sera publiée avec succès. Il prend un argument, «info», qui contient les données de réponse du
+ * serveur.
+ * @param {Function} [onError] - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
+ * erreur lors de l'exécution de la fonction `_3dswym_postIdea`. Il vous permet de gérer toutes les
+ * erreurs qui surviennent et d'effectuer toutes les actions nécessaires.
+ */
+export function _3DSwym_postIdea(
+  credentials,
+  onDone = undefined,
+  onError = undefined
+) {
+  const URL = { base: credentials.space, uri: "/api/idea/add" };
+
+  if (!Array.isArray(credentials.swymCommunities)) {
+    const message =
+      "☠️ swymCommunities doit être un tableau d'objets de communautés";
+    throw new Error(`Erreur sur cette requête : ${URL.base + URL.uri}`, {
+      cause: message,
+    });
+  }
+
+  const findByID = credentials.swymCommunities.findIndex(
+    (commu) => commu.id === credentials.community_id
+  );
+
+  if (findByID === -1) {
+    const message =
+      "la communauté n'existe pas dans la liste des communautés du Swym";
+    throw new Error(`Erreur sur cette requête : ${URL.base + URL.uri}`, {
+      cause: message,
+    });
+  }
+  if (credentials.community_id && credentials.community_id === "") {
+    const message =
+      "☠️ community_id doit être un String qui contient l'id de la communauté dans laquelle on souhaite publier l'idée.";
+    throw new Error(`Erreur sur cette requête : ${URL.base + URL.uri}`, {
+      cause: message,
+    });
+  }
+  if (credentials.title && credentials.title === "") {
+    const message = "☠️ title doit être un String.";
+    throw new Error(`Erreur sur cette requête : ${URL.base + URL.uri}`, {
+      cause: message,
+    });
+  }
+
+  const body = {
+    params: {
+      title: credentials.title, // String, le nom de l'affaire
+      community_id: credentials.community_id, // String, l'id de la communauté
+      message: credentials.message, // templateAffaireMessage(), // STRING =>  le contenu du message doit être au format HTML
+      published: 1, // 1 publier, 0 brouillon
+    },
+  };
+
+  _3DSwym_get_Token(credentials, (token) => {
+    if (!token) {
+      throw new Error(
+        `☠️ token n'est pas disponible pour cette requête : ${
+          URL.base + URL.uri
+        }`,
+        {
+          cause: token,
+        }
+      );
+    }
+
+    const headerOptions = {
+      headers: {
+        "Content-type": "application/json;charset=UTF-8",
+        Accept: "application/json",
+        "X-DS-SWYM-CSRFTOKEN": token?.result?.ServerToken,
+      },
+      method: "POST",
+      data: JSON.stringify(body),
+      onComplete(response, headers, xhr) {
+        const info = { response };
+        if (typeof info.response === "string") {
+          info["response"] = JSON.parse(info.response);
+        }
+        info["status"] = xhr.status;
+
+        if (onDone) onDone(info);
+      },
+      onFailure(response, headers, xhr) {
+        const head = JSON.parse(headers);
+        const rep = JSON.parse(response);
+        const ERR = new Error(
+          `Erreur sur cette requête : ${URL.base + URL.uri}`,
+          {
+            cause: { head, rep },
+          }
+        );
+        if (onError) onError(ERR);
+      },
+    };
+
+    _httpCallAuthenticated(URL.base + URL.uri, headerOptions);
+  });
+}
+
+/**
  * @description La fonction `_3DSwym_deleteIdea` est utilisée pour supprimer une idée dans une communauté 3DExperience en utilisant les informations d'identification et les données fournies.
  *
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
@@ -103,7 +214,7 @@ export function _3DSwym_deleteIdea(
   credentials,
   data,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   const URL = `${credentials.space}/api/idea/delete`;
   const formatedData = {
@@ -112,13 +223,13 @@ export function _3DSwym_deleteIdea(
       ideationIds: [data.idee_id],
     },
   };
-  _3DSwym_get_version(credentials, (token) => {
+  _3DSwym_get_Token(credentials, (token) => {
     _httpCallAuthenticated(URL, {
       method: "POST",
       headers: {
         "Content-type": "application/json;charset=UTF-8",
         Accept: "application/json",
-        "X-DS-SWYM-CSRFTOKEN": token.result.ServerToken,
+        "X-DS-SWYM-CSRFTOKEN": token?.result?.ServerToken,
       },
       data: JSON.stringify(formatedData),
       type: "json",
@@ -139,43 +250,37 @@ export function _3DSwym_deleteIdea(
 /**
  * @description Cette fonction JavaScript récupère une idée SWYM à l'aide des informations d'identification et de l'ID de publication fournis.
  *
- * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
+ * @param {Object} [credentials] - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
- * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @param {String} [credentials.space] - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
  * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
- * @param {String} credentials.tenant - le tenant courant
- * @example {tenant:"R1132100968447"}
- * @param {String} [idPost] - L'identifiant de la publication ou de l'idée que vous souhaitez récupérer. Si aucun identifiant n'est fourni, il s'agira par défaut de l'identifiant de l'idée de modèle. (actuellement => Piveteau prod :"tFtz0G4MR6qNtKgJjNfTog", Piveteau test :"Qpv3HN-tTDOsU-7_c5DnDg").
+ 
+ * @param {String} [credentials.idPost] - L'identifiant de la publication ou de l'idée que vous souhaitez récupérer. Si aucun identifiant n'est fourni, il s'agira par défaut de l'identifiant de l'idée de modèle. (actuellement => Piveteau prod :"tFtz0G4MR6qNtKgJjNfTog", Piveteau test :"Qpv3HN-tTDOsU-7_c5DnDg").
  *
- * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque la requête API sera terminée avec succès. Il prend un argument, « info », qui contient les données de réponse de l'appel API. (info.msg : template récupérer lors de la création d'une Affaire et utiliser dans la fonction `_3DSwym_postIdea()`).
+ * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque la requête API sera terminée avec succès. Il prend un argument, « info », qui contient les données de réponse de l'appel API. (info.msg : template récupérer lors de la création d'une Affaire et utiliser dans la fonction `_3DSwym_postIdeaTemplate()`).
  * @param {Function} [onError] - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
- * erreur lors de l'exécution de la fonction `_3DSwym_getSWYMIdea`. Il vous permet de gérer et de
+ * erreur lors de l'exécution de la fonction `_3DSwym_getOneIdea`. Il vous permet de gérer et de
  * traiter l'erreur de manière personnalisée.
  */
-export function _3DSwym_getSWYMIdea(
+export function _3DSwym_getOneIdea(
   credentials,
-  idPost = "",
+
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
-  // Tenant PIVETEAU TEST template id || tenant PIVETEAU PROD
-  const templateIdeaId =
-    credentials.tenant.toLowerCase() === "r1132101716373"
-      ? "tFtz0G4MR6qNtKgJjNfTog"
-      : credentials.tenant.toLowerCase() === "r1132101286859"
-      ? "Qpv3HN-tTDOsU-7_c5DnDg"
-      : "Template_d'idée_à_créer"; // template créer à la creation d'une Affaire
-  if (idPost === "") {
-    idPost = templateIdeaId;
+  const URL = `${credentials.space}/api/idea/get`;
+  if (credentials.idPost === "") {
+    const message =
+      "☠️ idPost est vide, vous devez renseigner un identifiant de post";
+    throw new Error(`Erreur sur cette requête : ${URL}`, { cause: message });
   }
 
-  const URL = `${credentials.space}/api/idea/get`;
   const datas = {
     params: {
-      id: idPost,
+      id: credentials.idPost,
     },
   };
-  _3DSwym_get_version(credentials, (token) => {
+  _3DSwym_get_Token(credentials, (token) => {
     _httpCallAuthenticated(URL, {
       method: "POST",
       headers: {
@@ -184,10 +289,9 @@ export function _3DSwym_getSWYMIdea(
         "X-DS-SWYM-CSRFTOKEN": token.result.ServerToken,
       },
       data: JSON.stringify(datas),
-      type: "json",
+
       onComplete(response) {
-        const info = response;
-        info["msg"] = info.result.message;
+        const info = { response };
 
         if (onDone) onDone(info);
       },
@@ -198,6 +302,64 @@ export function _3DSwym_getSWYMIdea(
         if (onError) onError(info);
       },
     });
+  });
+}
+/**
+ * @description `_3DSwym_editIdea` edit une idée dans 3DSwym.
+ *
+ * @param   {Object}  [credentials]  Objet contenant les informations du besoin de la requête.
+ * @param   {String}  [credentials.space]  - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
+ * @param   {String}  [credentials.post_id]  Id du post à rééditer
+ * @param   {String}  [credentials.title]  titre de l'idée
+ * @param   {String}  [credentials.message] Message de l'idée en format HTML (texte balisé)
+ * @param   {String}  [credentials.status_id] Id du status(visible dans les devtools au niveau de l'id du balisage, dans les paramètres de l'id du post)
+ * @param   {String}  [credentials.status_comment] nomination du statut.
+ * @param   {Function}  onDone       [onDone description]
+ * @param   {Function}  onError      [onError description]
+ *
+ * @return  {Void}
+ */
+export function _3DSwym_editIdea(credentials, onDone, onError) {
+  const URL = {
+    base: `${credentials.space}/api/idea/edit`,
+    uri: "/api/idea/edit",
+  };
+
+  const body = {
+    params: {
+      out: "false",
+      id: credentials.post_id,
+      title: credentials.title,
+      community_id: credentials.community_id,
+      status_comment: credentials.status_comment,
+      status_id: credentials.status_id,
+      message: credentials.message,
+      published: "1",
+    },
+  };
+  console.log("body", body);
+  _3DSwym_getToken((token) => {
+    const headerOptions = {
+      method: "POST",
+      headers: {
+        "X-DS-SWYM-CSRFTOKEN": token?.result?.ServerToken,
+        "Content-type": "application/json;charset=UTF-8",
+      },
+      data: JSON.stringify(body),
+      onComplete(response, head, xhr) {
+        const info = {
+          response:
+            typeof response === "string" ? JSON.parse(response) : response,
+        };
+        info["status"] = xhr.status;
+        if (onDone) onDone(info);
+      },
+      onFailure(response) {
+        if (onError) onError(response);
+      },
+    };
+    _httpCallAuthenticated(URL.base + URL.uri, headerOptions);
   });
 }
 
@@ -224,7 +386,7 @@ export function _3DSwym_get_AllSWYMIdeas(
   credentials,
   data = dataTest,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   const URL = {
     uri: "/api/idea/list",
@@ -236,7 +398,7 @@ export function _3DSwym_get_AllSWYMIdeas(
     limit: `/limit/${data.limit ? data.limit : 10}`,
   };
   const url = `${credentials.space}${URL.uri}${URL.comId}${URL.limit}`;
-  _3DSwym_get_version(credentials, (token) => {
+  _3DSwym_get_Token(credentials, (token) => {
     _httpCallAuthenticated(url, {
       method: "GET",
       headers: {

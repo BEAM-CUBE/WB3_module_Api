@@ -1,7 +1,7 @@
 import { _httpCallAuthenticated } from "../main/3dexperience_api";
 
 /**
- * @description La fonction `_3DSwym_get_version` récupère le token du 3DSwym et effectue des actions supplémentaires si nécessaire. Obligatoire pour chaque appel d'API du Swym.
+ * @description La fonction `_3DSwym_get_Token` récupère le token du 3DSwym et effectue des actions supplémentaires si nécessaire. Obligatoire pour chaque appel d'API du Swym.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
  * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
@@ -11,12 +11,12 @@ import { _httpCallAuthenticated } from "../main/3dexperience_api";
  * @param {Function} [onError] - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
  * erreur lors de la requête HTTP. Il est facultatif et peut être indéfini.
  */
-export async function _3DSwym_get_version(
+export async function _3DSwym_get_Token(
   credentials,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
-  const url = credentials._3DSwym + "/api/index/tk";
+  const url = credentials.space + "/api/index/tk";
 
   return _httpCallAuthenticated(url, {
     onComplete(response, headers, xhr) {
@@ -51,7 +51,7 @@ export async function _3DSwym_get_version(
 export function _3DSwym_getAllNews(
   credentials,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   // ! Attention beaucoup d'infos à trier et checker
   // voir aussi les possibilités des params
@@ -67,7 +67,7 @@ export function _3DSwym_getAllNews(
       start: 0,
     },
   };
-  _3DSwym_get_version(credentials, (token) => {
+  _3DSwym_get_Token(credentials, (token) => {
     _httpCallAuthenticated(url, {
       method: "POST",
       headers: {
@@ -104,7 +104,7 @@ export function _3DSwym_getAllNews(
 export function _3DSwym_getFamiliarPeople(
   credentials,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   const url = `${credentials.space}/api/Recommendation/getpeoplefamiliartocurrentuser`;
   const _data = {
@@ -116,7 +116,7 @@ export function _3DSwym_getFamiliarPeople(
       maxNbOfCommonElements: "5",
     },
   };
-  _3DSwym_get_version(credentials, (token) => {
+  _3DSwym_get_Token(credentials, (token) => {
     _httpCallAuthenticated(url, {
       method: "POST",
       headers: {
