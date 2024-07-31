@@ -385,13 +385,13 @@ export function _3DSpace_file_update_csr(
       const formData = new FormData();
 
       let blobData;
-      if (data instanceof Blob) {
-        blobData = data;
-      } else {
-        blobData = new Blob([data], {
-          type: "text/plain",
-        });
-      }
+        if (data instanceof Blob) {
+          blobData = data;
+        } else {
+          blobData = new Blob([data], {
+            type: "text/plain",
+          });
+        }
 
       formData.append("__fcs__jobTicket", info.ticket);
       formData.append("file_0", blobData, filename);
@@ -423,9 +423,6 @@ export function _3DSpace_file_update_csr(
                     },
                   ],
                 },
-                id: docId,
-                updateAction: "NONE",
-
                 id: docId,
                 updateAction: "NONE",
               },
@@ -1062,16 +1059,6 @@ export function _3DSpace_lifecycle_getNextStates(
     if (objectId !== undefined && objectId !== "" && objectId !== null) {
       const url = `${credentials.space}/resources/v1/modeler/dslc/maturity/getNextStates`;
 
-      _3DSpace_get_securityContexts(
-        credentials.space,
-        "ESPACE COMMUN",
-        ["VPLMProjectLeader", "VPLMCreator"],
-        undefined,
-        (ctx) => (credentials["ctx"] = ctx),
-        (err) => {
-          console.log("onError =>", err);
-        }
-      );
       let options = {
         method: "POST",
         headers: {
@@ -1132,16 +1119,6 @@ export function _3DSpace_lifecycle_changeState(
     if (objectId !== undefined && objectId !== "" && objectId !== null) {
       const url = `${credentials.space}/resources/v1/modeler/dslc/maturity/changeState`;
 
-      _3DSpace_get_securityContexts(
-        credentials.space,
-        "ESPACE COMMUN",
-        ["VPLMProjectLeader", "VPLMCreator"],
-        undefined,
-        (ctx) => (credentials["ctx"] = ctx),
-        (err) => {
-          console.log("onError =>", err);
-        }
-      );
       let options = {
         method: "POST",
         headers: {
