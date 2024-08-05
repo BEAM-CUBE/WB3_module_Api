@@ -394,7 +394,7 @@ export function _3DSwym_getAllListIdeas(
   const URL = {
     uri: "/api/idea/list",
     comId: `/community_id/${data.community_id}`,
-    limit: `/limit/${data.limit ? data.limit : 1000}`,
+    limit: `/limit/${data.limit ? data.limit : 100}`,
     page: `/page/${data.page ? data.page : 1}`,
   };
   const url = `${credentials.space}${URL.uri}${URL.comId}${URL.limit}`;
@@ -405,8 +405,8 @@ export function _3DSwym_getAllListIdeas(
         "X-DS-SWYM-CSRFTOKEN": token.result.ServerToken,
       },
 
-      onComplete(response) {
-        const info = JSON.parse(response);
+      onComplete(response, head, xhr) {
+        const info = { response: JSON.parse(response), head, xhr };
 
         if (onDone) onDone(info);
       },
