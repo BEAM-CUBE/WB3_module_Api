@@ -52,7 +52,7 @@ const dataTest = {
  * @param {String} data.title - Le titre de l'idée.
  * @param {String} data.community_id - L'ID de la communauté sur laquelle l'idée doit être publiee.(ex: "YXdA5x4DSUKtlAi2wmnyTA")
  * @param {String} data.community_title - Le titre de la communauté sur laquelle l'idée doit être publiee.(optionnel, ex: TEST DEV COMMUNITY)
- * @param {String} data.text_html - Le message HTML de l'idée (Optionnel sur les tenants Piveteau Prod et test)
+ * @param {String} [data.text_html] - Le message HTML de l'idée (Optionnel sur les tenants Piveteau Prod et test)
  * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque la fonction `_3DSwym_postIdeaTemplate` terminera avec succès son exécution. Il prend un argument, « info », qui contient les données de réponse de l'appel API.
  * @param {Function} [onError] - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une erreur lors de l'exécution de la fonction `_3DSwym_postIdeaTemplate`. Il s'agit d'un paramètre facultatif, donc s'il n'est pas fourni, il sera par défaut « non défini ».
  *
@@ -112,12 +112,12 @@ export function _3DSwym_postIdeaTemplate(
 /**
  * @description La fonction `_3dswym_postIdea` est utilisée pour publier une idée dans une communauté 3DExperience.
  *
- * @param {Object} [credentials] - Le paramètre `credentials` est un objet
- * @param {String} [credentials.community_id] - Le paramètre `credentials.community_id` est un String qui contient l'id de la communauté dans laquelle on souhaite publier l'idée.
- * @param {String} [credentials.message] - Le paramètre `credentials.message` est un String en format HTML.
- * @param {String} [credentials.title] - Le paramètre `credentials.title` est un String qui l'entête de l'idée.
- * @param {String} [credentials.space] - Le paramètre `credentials.space` est la racine du 3DSwym (tenant compris).
- * @param {Array} [credentials.swymCommunities] - Le paramètre `credentials.swymCommunities` est la racine du 3DSwym (tenant compris).
+ * @param {Object} credentials - Le paramètre `credentials` est un objet
+ * @param {String} credentials.community_id - Le paramètre `credentials.community_id` est un String qui contient l'id de la communauté dans laquelle on souhaite publier l'idée.
+ * @param {String} credentials.message - Le paramètre `credentials.message` est un String en format HTML.
+ * @param {String} credentials.title - Le paramètre `credentials.title` est un String qui l'entête de l'idée.
+ * @param {String} credentials.space - Le paramètre `credentials.space` est la racine du 3DSwym (tenant compris).
+ * @param {Array} credentials.swymCommunities - Le paramètre `credentials.swymCommunities` est la racine du 3DSwym (tenant compris).
  * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque l'idée
  * sera publiée avec succès. Il prend un argument, «info», qui contient les données de réponse du
  * serveur.
@@ -333,19 +333,20 @@ export function _3DSwym_getOneIdea(
     });
   });
 }
+
 /**
  * @description `_3DSwym_editIdea` edit une idée dans 3DSwym.
  *
- * @param   {Object}  [credentials]  Objet contenant les informations du besoin de la requête.
- * @param   {String}  [credentials.space]  - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @param   {Object}  credentials  Objet contenant les informations du besoin de la requête.
+ * @param   {String}  credentials.space  - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
  * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
- * @param   {String}  [credentials.post_id]  Id du post à rééditer
- * @param   {String}  [credentials.title]  titre de l'idée
- * @param   {String}  [credentials.message] Message de l'idée en format HTML (texte balisé)
- * @param   {String}  [credentials.status_id] Id du status(visible dans les devtools au niveau de l'id du balisage, dans les paramètres de l'id du post)
- * @param   {String}  [credentials.status_comment] nomination du statut.
- * @param   {Function}  onDone       [onDone description]
- * @param   {Function}  onError      [onError description]
+ * @param   {String}  credentials.post_id  Id du post à rééditer
+ * @param   {String}  credentials.title  titre de l'idée
+ * @param   {String}  credentials.message Message de l'idée en format HTML (texte balisé)
+ * @param   {String}  credentials.status_id Id du status(visible dans les devtools au niveau de l'id du balisage, dans les paramètres de l'id du post)
+ * @param   {String}  credentials.status_comment nomination du statut.
+ * @param   {Function}  [onDone]       [onDone description]
+ * @param   {Function}  [onError]      [onError description]
  *
  * @return  {Void}
  */
@@ -395,14 +396,14 @@ export function _3DSwym_editIdea(credentials, onDone, onError) {
 /**
  * @description La fonction `_3DSwym_getAllListIdeas` récupère toutes les idées SWYM en utilisant les informations d'identification fournies et les paramètres facultatifs.
  *
- * @param {Object} [credentials] - Un objet contenant les informations d'identification requises pour authentifier
+ * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
- * @param {String} [credentials.space] - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
  * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
- * @param {String} [credentials.tenant] - le tenant courant
+ * @param {String} credentials.tenant - le tenant courant
  * @example {tenant:"R1132100968447"}
- * @param {Object} [data] - Le paramètre `data` est un objet qui contient des données supplémentaires pour la requête API. Il possède les propriétés suivantes :
- * @param {String} [data.community_id] - L'ID de la communauté sur laquelle l'idée doit être recherchée.(ex: "YXdA5x4DSUKtlAi2wmnyTA")
+ * @param {Object} data - Le paramètre `data` est un objet qui contient des données supplémentaires pour la requête API. Il possède les propriétés suivantes :
+ * @param {String} data.community_id - L'ID de la communauté sur laquelle l'idée doit être recherchée.(ex: "YXdA5x4DSUKtlAi2wmnyTA")
  * @param {Number} [data.limit] - Le nombre d'idées à renvoyer (optionnel, par défaut 1000 (1000 premières idées))
  * @param {Number} [data.page] - Le numéro de page à renvoyer (optionnel, par défaut 1 (1 page))
  * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque la
@@ -420,11 +421,7 @@ export function _3DSwym_getAllListIdeas(
 ) {
   const URL = {
     uri: "/api/idea/list",
-    comId: `/community_id/${
-      credentials.tenant.toLowerCase() === "r1132101716373"
-        ? data.community_id
-        : "bgnIsG74SUWswyGzS6NC6g"
-    }`,
+    comId: `/community_id/${data.community_id}`,
     limit: `/limit/${data.limit ? data.limit : 1000}`,
     page: `/page/${data.page ? data.page : 1}`,
   };
@@ -548,7 +545,7 @@ function templateAffaireMessage(txt) {
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Mon Aug 05 2024 09:12:44 GMT+0200 (heure d’été d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Mon Aug 05 2024 09:33:13 GMT+0200 (heure d’été d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>
