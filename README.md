@@ -10,9 +10,9 @@ disponible [sur le marcketplace](https://marketplace.visualstudio.com/items?item
 ## installation
 
 ```sh
-npm i -D wb3_module_api
+npm i -D @beam3_dev/api_module
 # ou 
-yarn add -D wb3_module_api
+yarn add -D @beam3_dev/api_module
 ```
 
 ## Mise a jour
