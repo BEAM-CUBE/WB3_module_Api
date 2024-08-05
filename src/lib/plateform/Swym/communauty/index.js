@@ -23,7 +23,7 @@ export function _3DSwym_getAllCommunities(
   const URL = {
     base: credentials.space,
     uri: "/api/community/listmycommunities",
-    limit: `/limit/${credentials.limit ? credentials.limit : 128}`,
+    limit: `/limit/${credentials.limit ? credentials.limit : 500}`,
     page: `/page/${credentials.page ? credentials.page : "1"}`,
   };
 

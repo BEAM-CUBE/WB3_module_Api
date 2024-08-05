@@ -18,9 +18,8 @@ yarn add -D wb3_module_api
 ## Mise a jour
 
 ```sh
-npm run build && npm run b3:publish
-# faire les commits (add, commit, push)
-npm run b3:publish 
+npm run module
+
 ```
 
 ## Attention

@@ -83,7 +83,7 @@ import {
   _3DSwym_postIdeaTemplate,
   _3DSwym_deleteIdea,
   _3DSwym_getOneIdea,
-  _3DSwym_get_AllSWYMIdeas,
+  _3DSwym_getAllListIdeas,
   _3DSwym_editIdea,
   _3DSwym_postIdea,
 } from "./lib/plateform/Swym/idea";
@@ -143,7 +143,7 @@ export {
   _3DSwym_buildDirectMessage,
   _3DSwym_deleteIdea,
   _3DSwym_findCommunityToInstantMSG,
-  _3DSwym_get_AllSWYMIdeas,
+  _3DSwym_getAllListIdeas,
   _3DSwym_get_currentUser,
   _3DSwym_get_findUser,
   _3DSwym_get_Token,

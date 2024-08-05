@@ -1,5 +1,6 @@
 import { _httpCallAuthenticated } from "../../main/3dexperience_api";
 import { _3DSwym_get_Token } from "../3dswym_api";
+
 /*
  * @exemple dataTest
  */
@@ -364,25 +365,26 @@ export function _3DSwym_editIdea(credentials, onDone, onError) {
 }
 
 /**
- * @description La fonction `_3DSwym_get_AllSWYMIdeas` récupère toutes les idées SWYM en utilisant les informations d'identification fournies et les paramètres facultatifs.
+ * @description La fonction `_3DSwym_getAllListIdeas` récupère toutes les idées SWYM en utilisant les informations d'identification fournies et les paramètres facultatifs.
  *
- * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
+ * @param {Object} [credentials] - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
- * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
+ * @param {String} [credentials.space] - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
  * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
- * @param {String} credentials.tenant - le tenant courant
+ * @param {String} [credentials.tenant] - le tenant courant
  * @example {tenant:"R1132100968447"}
  * @param {Object} [data] - Le paramètre `data` est un objet qui contient des données supplémentaires pour la requête API. Il possède les propriétés suivantes :
- * @param {String} data.community_id - L'ID de la communauté sur laquelle l'idée doit être recherchée.(ex: "YXdA5x4DSUKtlAi2wmnyTA")
- * @param {Number} data.limit - Le nombre d'idées à renvoyer (optionnel, par défaut 10 (10 premières idées))
+ * @param {String} [data.community_id] - L'ID de la communauté sur laquelle l'idée doit être recherchée.(ex: "YXdA5x4DSUKtlAi2wmnyTA")
+ * @param {Number} [data.limit] - Le nombre d'idées à renvoyer (optionnel, par défaut 1000 (1000 premières idées))
+ * @param {Number} [data.page] - Le numéro de page à renvoyer (optionnel, par défaut 1 (1 page))
  * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque la
  * requête API sera terminée avec succès. Il prend un argument, «info», qui correspond aux données de
  * réponse de l'API.
  * @param {Function} [onError] - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
- * erreur lors de l'exécution de la fonction `_3DSwym_get_AllSWYMIdeas`. Il est facultatif et peut être
+ * erreur lors de l'exécution de la fonction `_3DSwym_getAllListIdeas`. Il est facultatif et peut être
  * indéfini. S'il est fourni, il sera appelé avec les informations d'erreur sous forme de
  */
-export function _3DSwym_get_AllSWYMIdeas(
+export function _3DSwym_getAllListIdeas(
   credentials,
   data = dataTest,
   onDone = undefined,
@@ -395,7 +397,8 @@ export function _3DSwym_get_AllSWYMIdeas(
         ? data.community_id
         : "bgnIsG74SUWswyGzS6NC6g"
     }`,
-    limit: `/limit/${data.limit ? data.limit : 10}`,
+    limit: `/limit/${data.limit ? data.limit : 1000}`,
+    page: `/page/${data.page ? data.page : 1}`,
   };
   const url = `${credentials.space}${URL.uri}${URL.comId}${URL.limit}`;
   _3DSwym_get_Token(credentials, (token) => {

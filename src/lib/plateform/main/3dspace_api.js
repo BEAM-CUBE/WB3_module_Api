@@ -385,13 +385,13 @@ export function _3DSpace_file_update_csr(
       const formData = new FormData();
 
       let blobData;
-        if (data instanceof Blob) {
-          blobData = data;
-        } else {
-          blobData = new Blob([data], {
-            type: "text/plain",
-          });
-        }
+      if (data instanceof Blob) {
+        blobData = data;
+      } else {
+        blobData = new Blob([data], {
+          type: "text/plain",
+        });
+      }
 
       formData.append("__fcs__jobTicket", info.ticket);
       formData.append("file_0", blobData, filename);
@@ -537,6 +537,7 @@ export async function _3DSpace_Create_Doc(
   //store.updateIsLoading(true);
   if (_space !== "") {
     let url = `${_space}/resources/v1/modeler/documents/files/CheckinTicket`;
+
     _httpCallAuthenticated(url, {
       method: "PUT",
       headers: {
