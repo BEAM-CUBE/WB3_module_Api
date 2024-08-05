@@ -397,7 +397,7 @@ export function _3DSwym_getAllListIdeas(
     limit: `/limit/${data.limit ? data.limit : 100}`,
     page: `/page/${data.page ? data.page : 1}`,
   };
-  const url = `${credentials.space}${URL.uri}${URL.comId}${URL.limit}`;
+  const url = `${credentials.space}${URL.uri}${URL.comId}${URL.limit}${URL.page}`;
   _3DSwym_get_Token(credentials, (token) => {
     _httpCallAuthenticated(url, {
       method: "GET",
