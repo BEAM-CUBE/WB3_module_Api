@@ -908,6 +908,7 @@ export async function _3DSpace_download_multidoc(
     objectIds?.length > 0
   ) {
     const datas = {
+      credentials,
       myArray: objectIds,
       chunk: 80,
       fn_to_call: _3DSpace_get_downloadTicket_multidoc,
