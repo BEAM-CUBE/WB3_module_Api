@@ -3,6 +3,7 @@ import {
   _getPlatformServices,
   _getPlateformInfos,
 } from "./3dexperience_api";
+import { chunkArray } from "../../utils/chunks";
 import { UUID } from "../../api/index";
 import { getCSRFToken } from "./getCSRFToken";
 import { DateTime } from "luxon";
