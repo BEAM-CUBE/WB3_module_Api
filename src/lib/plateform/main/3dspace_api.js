@@ -916,26 +916,6 @@ export async function _3DSpace_download_multidoc(
     chunkArray(datas, (rep) => {
       if (onDone) onDone(rep);
     });
-    // for (let i = 0; i < objectIds.length; i += chunkSize) {
-    //   const chunk = objectIds.slice(i, i + chunkSize);
-    //   listDiv.push(chunk);
-    // }
-    // const loop = (i) => {
-    //   _3DSpace_get_downloadTicket_multidoc(
-    //     credentials,
-    //     listDiv[i],
-    //     () => {
-    //       i++;
-    //       if (i < listDiv.length) {
-    //         loop(i);
-    //       }
-    //     },
-    //     (done) => {
-    //       if (onDone) onDone(done);
-    //     }
-    //   );
-    // };
-    // loop(0);
   } else {
     console.warn(
       "La liste d'objects dans la fonction _3DSpace_download_multidoc est vide ou non défini."
