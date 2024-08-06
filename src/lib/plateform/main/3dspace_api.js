@@ -899,34 +899,41 @@ export async function _3DSpace_download_multidoc(
   onDone = undefined,
   onError = undefined
 ) {
-  let listDiv = [];
-  const chunkSize = 80;
+  // let listDiv = [];
+  // const chunkSize = 80;
   if (
     typeof objectIds !== "undefined" &&
     Array.isArray(objectIds) &&
     objectIds?.length > 0
   ) {
-    for (let i = 0; i < objectIds.length; i += chunkSize) {
-      const chunk = objectIds.slice(i, i + chunkSize);
-      listDiv.push(chunk);
-    }
-    const loop = (i) => {
-      _3DSpace_get_downloadTicket_multidoc(
-        credentials,
-        listDiv[i],
-        () => {
-          i++;
-          if (i < listDiv.length) {
-            loop(i);
-          }
-        },
-        (done) => {
-          if (onDone) onDone(done);
-        }
-      );
+    const datas = {
+      myArray: objectIds,
+      chunk: 80,
+      fn_to_call: _3dspace_get_downloadTicket_multidoc,
     };
-
-    loop(0);
+    chunkArray(datas, (rep) => {
+      if (onDone) onDone(rep);
+    });
+    // for (let i = 0; i < objectIds.length; i += chunkSize) {
+    //   const chunk = objectIds.slice(i, i + chunkSize);
+    //   listDiv.push(chunk);
+    // }
+    // const loop = (i) => {
+    //   _3DSpace_get_downloadTicket_multidoc(
+    //     credentials,
+    //     listDiv[i],
+    //     () => {
+    //       i++;
+    //       if (i < listDiv.length) {
+    //         loop(i);
+    //       }
+    //     },
+    //     (done) => {
+    //       if (onDone) onDone(done);
+    //     }
+    //   );
+    // };
+    // loop(0);
   } else {
     console.warn(
       "La liste d'objects dans la fonction _3DSpace_download_multidoc est vide ou non défini."

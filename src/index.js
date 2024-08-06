@@ -5,7 +5,7 @@ import {
   getCommunes,
   getDataFromGouvFr,
 } from "./lib/gouv/gouv_api";
-import { updateEvent } from "./lib/utils/updateEvent";
+import { updateEvent, chunkArray } from "./lib/utils";
 import { compass_getListAdditionalApps } from "./lib/plateform/Compass";
 import {
   _setDraggable,
@@ -205,4 +205,5 @@ export {
   sayHello, // fonction de test
   updateEvent,
   UUID,
+  chunkArray,
 };

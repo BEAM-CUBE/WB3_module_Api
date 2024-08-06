@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: plateform/Compass/index.js</title>
+    <title>JSDoc: Source: utils/chunks.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: plateform/Compass/index.js</h1>
+    <h1 class="page-title">Source: utils/chunks.js</h1>
 
     
 
@@ -26,56 +26,69 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import { _httpCallAuthenticated } from "../main/3dexperience_api";
-/**
- * @description La fonction `compass_getListAdditionalApps` effectue une requête HTTP GET authentifiée pour
- * récupérer une liste d'applications supplémentaires en fonction des informations d'identification
- * fournies.
- * @param {Object} credentials Un objet contenant les informations d'identification nécessaires à
- * l'authentification. Il doit avoir les propriétés suivantes : space, token
- * @property {String} space - (_3DCompass)L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace, 3DSwym, 3DCompass...)
- * @property {String} tenant - le tenant courant (ex: R1132100968447)
- * @param onDone - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque l'appel
- * d'API réussit et que les données de réponse sont formatées. Il prend deux arguments :
- * `formatedInfos` et `info`. `formatedInfos` est un tableau d'objets contenant le nom et l'identifiant
- * de chaque application,
- * @param onError - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
- * erreur lors de la requête HTTP. Il prend un paramètre, « info », qui est un objet contenant des
- * informations sur l'erreur.
+            <pre class="prettyprint source linenums"><code>/**
+ * @description `chunkArray` Divise un tableau en plus petits blocs et appelle une fonction fournie sur chaque bloc.
+ *
+ * @param {Object} obj - Un objet contenant le tableau à diviser, la taille de chaque bloc,
+ *                       et la fonction à appeler sur chaque bloc.
+ * @param {Array} obj.myArray - Le tableau à diviser.
+ * @param {number} obj.chunk - La taille voulue de chaque bloc.
+ * @param {Function} obj.fn_to_call - La fonction à appeler sur chaque bloc.
+ * @return {void} Cette fonction ne renvoie rien.
  */
+export function chunkArray(obj, getResponse, getError) {
+  const { myArray, chunk, fn_to_call } = obj;
 
-export function compass_getListAdditionalApps(credentials, onDone, onError) {
-  const URL = {
-    base: `${credentials.space}`,
-    uri: "/resources/AppsMngt/api/custom/applications",
-    option: `?filter=${credentials.tenant}`, // facultatif
+  const chunks = [];
+  for (let i = 0; i &lt; myArray.length; i += chunk) {
+    const arrayChunks = myArray.slice(i, i + chunk);
+    chunks.push(arrayChunks);
+  }
+
+  loopingChunk(
+    { chunks, initLoop: 0, fn: fn_to_call },
+    (rep) => {
+      if (getResponse) getResponse(rep);
+    },
+    (err) => {
+      if (getError) getError(err);
+    }
+  );
+}
+
+/**
+ * @description `loopingChunk` Exécute une boucle sur un tableau de chunks, en appelant une fonction fournie sur chaque chunk.
+ *
+ * @param {Object} obj - Un objet contenant le tableau de chunks, l'index de démarrage de la boucle et la fonction à appeler sur chaque chunk.
+ * @param {Array} obj.chunks - Le tableau de chunks sur lequel effectuer la boucle.
+ * @param {number} obj.initLoop - L'index de démarrage de la boucle.
+ * @param {Function} obj.fn - La fonction à appeler sur chaque chunk. La fonction doit prendre trois arguments : le chunk actuel, une fonction de rappel, et deux fonctions de rappel facultatives pour gérer les réponses de succès et d'erreur.
+ * @return {void} Cette fonction ne renvoie rien.
+ */
+function loopingChunk(obj, onDone, onError) {
+  const { chunks, initLoop, fn } = obj;
+  const loop = (i) => {
+    fn(
+      chunks[i],
+      () => {
+        i++;
+        if (i &lt; chunks.length) {
+          loop(i);
+        }
+      },
+      (response) => {
+        if (onDone) {
+          onDone(response);
+        }
+      },
+      (error) => {
+        if (onError) {
+          onError(error);
+        }
+      }
+    );
   };
-  const url = `${URL.base}${URL.uri}${URL.option}`;
-
-  _httpCallAuthenticated(url, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-    },
-    onComplete(response, headers, xhr) {
-      const info = JSON.parse(response);
-      const formatedInfos = info.data.map((app) => {
-        const name = app.attributes.name;
-        const id = app.id;
-        return { name, id };
-      });
-
-      if (onDone) onDone(formatedInfos, info);
-    },
-    onFailure(response, headers) {
-      const info = response;
-      info["msg"] = headers.errormsg;
-      info["errCode"] = headers.errorcode;
-
-      if (onError) onError(info);
-    },
-  });
+  loop(initLoop);
 }
 </code></pre>
         </article>
