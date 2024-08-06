@@ -909,7 +909,7 @@ export async function _3DSpace_download_multidoc(
     const datas = {
       myArray: objectIds,
       chunk: 80,
-      fn_to_call: _3dspace_get_downloadTicket_multidoc,
+      fn_to_call: _3DSpace_get_downloadTicket_multidoc,
     };
     chunkArray(datas, (rep) => {
       if (onDone) onDone(rep);
