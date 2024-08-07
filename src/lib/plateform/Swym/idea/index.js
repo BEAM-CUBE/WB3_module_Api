@@ -439,7 +439,7 @@ export function _3DSwym_getAllListIdeas(
             getAllIdeas(url);
           }
           if (onDone && maxPages <= page) {
-            thisIsTheEnd = true;
+            isEndOfPages = true;
             onDone(allIdeas);
             return;
           }
