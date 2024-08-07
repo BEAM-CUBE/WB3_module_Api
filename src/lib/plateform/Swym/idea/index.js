@@ -430,17 +430,18 @@ export function _3DSwym_getAllListIdeas(
             page++;
             allIdeas.push(info.response.result);
 
-            if (maxPages === page) {
-              isEndOfPages = true;
+            if (maxPages < page) {
+              return;
             }
-            if (!isEndOfPages) {
-              URL.page = `/page/${page}`;
-              url = `${space}${URL.uri}${URL.comId}${URL.limit}${URL.page}`;
-              getAllIdeas(url);
-            }
+
+            URL.page = `/page/${page}`;
+            url = `${space}${URL.uri}${URL.comId}${URL.limit}${URL.page}`;
+            getAllIdeas(url);
           }
-          if (onDone && isEndOfPages) {
+          if (onDone && maxPages <= page) {
+            thisIsTheEnd = true;
             onDone(allIdeas);
+            return;
           }
         },
         onFailure(response, headers) {
