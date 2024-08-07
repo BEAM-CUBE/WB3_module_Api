@@ -433,7 +433,7 @@ export function _3DSwym_getAllListIdeas(
           }
 
           if (onDone) {
-            onDone(info);
+            onDone(allIdeas);
             isEndOfPages = true;
             return;
           }
