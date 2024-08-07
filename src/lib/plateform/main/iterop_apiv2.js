@@ -202,8 +202,8 @@ export async function _Iterop_AddOrRemoveRows(
     credentials,
     token,
     tableId,
-    rowsToAdd,
-    rowsToRemove,
+    rowsToAdd = [],
+    rowsToRemove = [],
     onDone = undefined,
     onError = undefined
   ) {
@@ -212,9 +212,10 @@ export async function _Iterop_AddOrRemoveRows(
         _getServiceUrl(credentials, serviceUrls => {
             const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
             const urlService = encodeURIComponent(`${urlAPIV2Iterop}`);
+            const body = encodeURIComponent(JSON.stringify({rowsToRemove,rowsToAdd}))
             const tenant = credentials.tenant.toLowerCase()
             fetch(
-                    `https://api.uixhome.fr/${tenant}/iterop/businesstable/patch/${tableId}/rows?t=${token}&rowsToAdd=${rowsToAdd}&rowsToRemove=${rowsToRemove}`, 
+                    `https://api.uixhome.fr/${tenant}/iterop/businesstable/patch/${tableId}/rows?t=${token}&b=${body}`, 
                     {
                         method: "POST",
                     })
