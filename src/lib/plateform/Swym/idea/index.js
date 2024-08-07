@@ -424,10 +424,10 @@ export function _3DSwym_getAllListIdeas(
         onComplete(response) {
           const info = { response: JSON.parse(response) };
           maxPages = Math.ceil(Number(info.response.nb_result) / 100);
-          if (response && page <= maxPages) {
+          if (response && maxPages >= page) {
             page++;
 
-            if (onDone && maxPages >= page) {
+            if (onDone && maxPages <= page) {
               onDone(allIdeas);
               isEndOfPages = true;
               return allIdeas;
