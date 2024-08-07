@@ -370,21 +370,21 @@ export function _3DSwym_editIdea(credentials, onDone, onError) {
  * @description La fonction `_3DSwym_getAllListIdeas` récupère toutes les idées SWYM en utilisant les informations d'identification fournies et les paramètres facultatifs.
  *
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
- * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
+ * la demande. Il possède les propriétés suivantes :
  * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(3DSpace, 3DSwym, 3DCompass,...etc)
  * @example pour le 3DSpace {space:"https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia"}
- * @param {String} credentials.tenant - le tenant courant
- * @example {tenant:"R1132100968447"}
+ * @param {String} credentials.tenant - le tenant courant.
+ * @example {tenant:"R1132100968447"}.
+ *
  * @param {Object} data - Le paramètre `data` est un objet qui contient des données supplémentaires pour la requête API. Il possède les propriétés suivantes :
  * @param {String} data.community_id - L'ID de la communauté sur laquelle l'idée doit être recherchée.(ex: "YXdA5x4DSUKtlAi2wmnyTA")
  * @param {Number} [data.limit] - (optionnelle) Le nombre d'idées à renvoyer (optionnel, par défaut 100 (100 premières idées))
- * @param {Number} [data.page] - (optionnelle)Le numéro de page à renvoyer (optionnel, par défaut 1 (1 page))
- * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque la
- * requête API sera terminée avec succès. Il prend un argument, «info», qui correspond aux données de
- * réponse de l'API.
+ * @param {Number} [data.page] - (optionnelle) Le numéro de page à renvoyer (optionnel, par défaut 1 (1 page))
+ * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque la requête API sera terminée avec succès.
+ *
  * @param {Function} [onError] - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
  * erreur lors de l'exécution de la fonction `_3DSwym_getAllListIdeas`. Il est facultatif et peut être
- * indéfini. S'il est fourni, il sera appelé avec les informations d'erreur sous forme de
+ * indéfini.
  */
 export function _3DSwym_getAllListIdeas(
   credentials,
@@ -426,11 +426,13 @@ export function _3DSwym_getAllListIdeas(
           maxPages = Math.ceil(Number(info.response.nb_result) / 100);
           if (response && page <= maxPages) {
             page++;
-            if (onDone && maxPages <= page) {
+
+            if (onDone && maxPages >= page) {
               onDone(allIdeas);
               isEndOfPages = true;
-              return;
+              return allIdeas;
             }
+
             allIdeas.push(info.response.result);
             URL.page = `/page/${page}`;
             url = `${space}${URL.uri}${URL.comId}${URL.limit}${URL.page}`;
