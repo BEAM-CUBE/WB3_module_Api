@@ -215,7 +215,7 @@ export async function _Iterop_AddOrRemoveRows(
             const body = encodeURIComponent(JSON.stringify({rowsToRemove,rowsToAdd}))
             const tenant = credentials.tenant.toLowerCase()
             fetch(
-                    `https://api.uixhome.fr/${tenant}/iterop/businesstable/patch/${tableId}/rows?t=${token}&b=${body}`, 
+                    `https://api.uixhome.fr/${tenant}/iterop/businesstable/patch/rows/${tableId}/?t=${token}&b=${body}`, 
                     {
                         method: "POST",
                     })
