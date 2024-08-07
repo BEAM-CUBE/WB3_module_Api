@@ -875,7 +875,7 @@ export async function _3DSpace_download_doc(
 }
 
 /**
- * @description La fonction `_3dspace_download_multidoc` télécharge plusieurs documents à partir d'un espace 3D en
+ * @description La fonction `_3DSpace_download_multidoc` télécharge plusieurs documents à partir d'un espace 3D en
  * utilisant un token et des objectID donnés.
  * @param {Object} credentials - Un objet contenant les informations d'identification nécessaires à
  * l'authentification dans une fonction interne(_3DSpace_get_downloadTicket_multidoc). Il doit avoir les propriétés suivantes: space, token, tenant
@@ -900,8 +900,6 @@ export async function _3DSpace_download_multidoc(
   onDone = undefined,
   onError = undefined
 ) {
-  // let listDiv = [];
-  // const chunkSize = 80;
   if (
     typeof objectIds !== "undefined" &&
     Array.isArray(objectIds) &&
@@ -913,6 +911,7 @@ export async function _3DSpace_download_multidoc(
       chunk: 80,
       fn_to_call: _3DSpace_get_downloadTicket_multidoc,
     };
+
     chunkArray(datas, (rep) => {
       if (onDone) onDone(rep);
     });

@@ -1,3 +1,4 @@
+import { chunkArray } from "../../../utils/chunks";
 import { _httpCallAuthenticated } from "../../main/3dexperience_api";
 import { _3DSwym_get_Token } from "../3dswym_api";
 
@@ -376,8 +377,8 @@ export function _3DSwym_editIdea(credentials, onDone, onError) {
  * @example {tenant:"R1132100968447"}
  * @param {Object} data - Le paramètre `data` est un objet qui contient des données supplémentaires pour la requête API. Il possède les propriétés suivantes :
  * @param {String} data.community_id - L'ID de la communauté sur laquelle l'idée doit être recherchée.(ex: "YXdA5x4DSUKtlAi2wmnyTA")
- * @param {Number} [data.limit] - Le nombre d'idées à renvoyer (optionnel, par défaut 1000 (1000 premières idées))
- * @param {Number} [data.page] - Le numéro de page à renvoyer (optionnel, par défaut 1 (1 page))
+ * @param {Number} [data.limit] - (optionnelle) Le nombre d'idées à renvoyer (optionnel, par défaut 100 (100 premières idées))
+ * @param {Number} [data.page] - (optionnelle)Le numéro de page à renvoyer (optionnel, par défaut 1 (1 page))
  * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque la
  * requête API sera terminée avec succès. Il prend un argument, «info», qui correspond aux données de
  * réponse de l'API.
@@ -387,36 +388,66 @@ export function _3DSwym_editIdea(credentials, onDone, onError) {
  */
 export function _3DSwym_getAllListIdeas(
   credentials,
-  data = dataTest,
+  data,
   onDone = undefined,
   onError = undefined
 ) {
+  const { space } = credentials;
+  let { community_id, limit, page } = data;
+  // Pagination
+  const allIdeas = [];
+  const startPage = 1; //
+  let isEndOfPages = false,
+    maxPages = 2; // en attendant la premiere requête qui fournis la longueur total du tableau.
+
+  if (!page) page = startPage;
+  if (!limit) limit = 100;
+
   const URL = {
     uri: "/api/idea/list",
-    comId: `/community_id/${data.community_id}`,
-    limit: `/limit/${data.limit ? data.limit : 100}`,
-    page: `/page/${data.page ? data.page : 1}`,
+    comId: `/community_id/${community_id}`,
+    limit: `/limit/${limit}`,
+    page: `/page/${page}`,
   };
-  const url = `${credentials.space}${URL.uri}${URL.comId}${URL.limit}${URL.page}`;
+
+  let url = `${space}${URL.uri}${URL.comId}${URL.limit}${URL.page}`;
+
   _3DSwym_get_Token(credentials, (token) => {
-    _httpCallAuthenticated(url, {
-      method: "GET",
-      headers: {
-        "X-DS-SWYM-CSRFTOKEN": token.result.ServerToken,
-      },
+    const getAllIdeas = (url) => {
+      _httpCallAuthenticated(url, {
+        method: "GET",
+        headers: {
+          "X-DS-SWYM-CSRFTOKEN": token.result.ServerToken,
+        },
 
-      onComplete(response, head, xhr) {
-        const info = { response: JSON.parse(response), head, xhr };
+        onComplete(response, head, xhr) {
+          const info = { response: JSON.parse(response), head, xhr };
+          maxPages = Math.ceil(Number(info.response.nb_result) / 100);
+          if (response && page <= maxPages) {
+            page++;
+            if (page > maxPages) return;
+            allIdeas.push(info.response.result);
+            URL.page = `/page/${page}`;
+            url = `${space}${URL.uri}${URL.comId}${URL.limit}${URL.page}`;
+            getAllIdeas(url);
+          }
 
-        if (onDone) onDone(info);
-      },
-      onFailure(response, headers) {
-        const info = response;
-        info["status"] = headers.status;
-        info["response"] = headers.errormsg;
-        if (onError) onError(info);
-      },
-    });
+          if (onDone) {
+            onDone(info);
+            isEndOfPages = true;
+            return;
+          }
+        },
+        onFailure(response, headers) {
+          const info = response;
+          info["status"] = headers.status;
+          info["response"] = headers.errormsg;
+          if (onError) onError(info);
+        },
+      });
+    };
+    if (!isEndOfPages) return;
+    getAllIdeas(url);
   });
 }
 
