@@ -397,8 +397,8 @@ export function _3DSwym_getAllListIdeas(
   // Pagination
   const allIdeas = [];
   const startPage = 1; //
-  let strToken,
-    isEndOfPages = false,
+
+  let isEndOfPages = false,
     maxPages = 2; // en attendant la premiere requête qui fournis la longueur total du tableau.
 
   if (!page) page = startPage;
@@ -414,12 +414,11 @@ export function _3DSwym_getAllListIdeas(
   let url = `${space}${URL.uri}${URL.comId}${URL.limit}${URL.page}`;
 
   _3DSwym_get_Token(credentials, (token) => {
-    strToken = token;
     const getAllIdeas = (url) => {
       _httpCallAuthenticated(url, {
         method: "GET",
         headers: {
-          "X-DS-SWYM-CSRFTOKEN": strToken.result.ServerToken,
+          "X-DS-SWYM-CSRFTOKEN": token.result.ServerToken,
         },
 
         onComplete(response) {
@@ -427,17 +426,15 @@ export function _3DSwym_getAllListIdeas(
           maxPages = Math.ceil(Number(info.response.nb_result) / 100);
           if (response && page <= maxPages) {
             page++;
-            if (page > maxPages) return;
+            if (onDone && maxPages <= page) {
+              onDone(allIdeas);
+              isEndOfPages = true;
+              return;
+            }
             allIdeas.push(info.response.result);
             URL.page = `/page/${page}`;
             url = `${space}${URL.uri}${URL.comId}${URL.limit}${URL.page}`;
             getAllIdeas(url);
-          }
-
-          if (onDone && maxPages <= page) {
-            onDone(allIdeas);
-            isEndOfPages = true;
-            return;
           }
         },
         onFailure(response, headers) {
