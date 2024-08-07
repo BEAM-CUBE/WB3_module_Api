@@ -430,10 +430,6 @@ export function _3DSwym_getAllListIdeas(
           if (response && maxPages >= page) {
             page++;
 
-            if (maxPages < page) {
-              return;
-            }
-
             URL.page = `/page/${page}`;
             url = `${space}${URL.uri}${URL.comId}${URL.limit}${URL.page}`;
 
@@ -449,12 +445,12 @@ export function _3DSwym_getAllListIdeas(
                 return;
               }
             }
+            if (onDone && maxPages < page && !search) {
+              isEndOfPages = true;
+              onDone(allIdeas);
+              return;
+            }
             getAllIdeas(url);
-          }
-          if (onDone && maxPages <= page) {
-            isEndOfPages = true;
-            onDone(allIdeas);
-            return;
           }
         },
         onFailure(response, headers) {
