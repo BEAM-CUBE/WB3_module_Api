@@ -423,20 +423,24 @@ export function _3DSwym_getAllListIdeas(
 
         onComplete(response) {
           const info = { response: JSON.parse(response) };
+
           maxPages = Math.ceil(Number(info.response.nb_result) / 100);
+
           if (response && maxPages >= page) {
             page++;
-
-            if (onDone && maxPages <= page) {
-              onDone(allIdeas);
-              isEndOfPages = true;
-              return allIdeas;
-            }
-
             allIdeas.push(info.response.result);
-            URL.page = `/page/${page}`;
-            url = `${space}${URL.uri}${URL.comId}${URL.limit}${URL.page}`;
-            getAllIdeas(url);
+
+            if (maxPages === page) {
+              isEndOfPages = true;
+            }
+            if (!isEndOfPages) {
+              URL.page = `/page/${page}`;
+              url = `${space}${URL.uri}${URL.comId}${URL.limit}${URL.page}`;
+              getAllIdeas(url);
+            }
+          }
+          if (onDone && isEndOfPages) {
+            onDone(allIdeas);
           }
         },
         onFailure(response, headers) {
@@ -447,7 +451,7 @@ export function _3DSwym_getAllListIdeas(
         },
       });
     };
-    if (!isEndOfPages) return;
+    if (isEndOfPages) return;
     getAllIdeas(url);
   });
 }
