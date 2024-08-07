@@ -420,8 +420,8 @@ export function _3DSwym_getAllListIdeas(
           "X-DS-SWYM-CSRFTOKEN": token.result.ServerToken,
         },
 
-        onComplete(response, head, xhr) {
-          const info = { response: JSON.parse(response), head, xhr };
+        onComplete(response) {
+          const info = { response: JSON.parse(response) };
           maxPages = Math.ceil(Number(info.response.nb_result) / 100);
           if (response && page <= maxPages) {
             page++;
@@ -432,7 +432,7 @@ export function _3DSwym_getAllListIdeas(
             getAllIdeas(url);
           }
 
-          if (onDone) {
+          if (onDone && maxPages <= page) {
             onDone(allIdeas);
             isEndOfPages = true;
             return;
