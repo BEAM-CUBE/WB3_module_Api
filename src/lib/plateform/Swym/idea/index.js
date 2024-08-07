@@ -380,6 +380,7 @@ export function _3DSwym_editIdea(credentials, onDone, onError) {
  * @param {String} data.community_id - L'ID de la communauté sur laquelle l'idée doit être recherchée.(ex: "YXdA5x4DSUKtlAi2wmnyTA")
  * @param {Number} [data.limit] - (optionnelle) Le nombre d'idées à renvoyer (optionnel, par défaut 100 (100 premières idées))
  * @param {Number} [data.page] - (optionnelle) Le numéro de page à renvoyer (optionnel, par défaut 1 (1 page))
+ * @param {String} [data.search] - (optionnelle) l'élément recherché dans le titre de l'idée.
  * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque la requête API sera terminée avec succès.
  *
  * @param {Function} [onError] - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
@@ -393,7 +394,7 @@ export function _3DSwym_getAllListIdeas(
   onError = undefined
 ) {
   const { space } = credentials;
-  let { community_id, limit, page } = data;
+  let { community_id, limit, page, search } = data;
   // Pagination
   const allIdeas = [];
   const startPage = 1; //
@@ -428,7 +429,6 @@ export function _3DSwym_getAllListIdeas(
 
           if (response && maxPages >= page) {
             page++;
-            allIdeas.push(info.response.result);
 
             if (maxPages < page) {
               return;
@@ -436,6 +436,19 @@ export function _3DSwym_getAllListIdeas(
 
             URL.page = `/page/${page}`;
             url = `${space}${URL.uri}${URL.comId}${URL.limit}${URL.page}`;
+
+            // En cas de recherche spécifique.
+            if (!search) {
+              allIdeas.push(info.response.result);
+            } else {
+              const idea = info.response.result.find((idee) =>
+                idee.title.includes(search)
+              );
+              if (idea) {
+                onDone(idea);
+                return;
+              }
+            }
             getAllIdeas(url);
           }
           if (onDone && maxPages <= page) {
