@@ -397,7 +397,8 @@ export function _3DSwym_getAllListIdeas(
   // Pagination
   const allIdeas = [];
   const startPage = 1; //
-  let isEndOfPages = false,
+  let strToken,
+    isEndOfPages = false,
     maxPages = 2; // en attendant la premiere requête qui fournis la longueur total du tableau.
 
   if (!page) page = startPage;
@@ -413,11 +414,12 @@ export function _3DSwym_getAllListIdeas(
   let url = `${space}${URL.uri}${URL.comId}${URL.limit}${URL.page}`;
 
   _3DSwym_get_Token(credentials, (token) => {
+    strToken = token;
     const getAllIdeas = (url) => {
       _httpCallAuthenticated(url, {
         method: "GET",
         headers: {
-          "X-DS-SWYM-CSRFTOKEN": token.result.ServerToken,
+          "X-DS-SWYM-CSRFTOKEN": strToken.result.ServerToken,
         },
 
         onComplete(response) {
