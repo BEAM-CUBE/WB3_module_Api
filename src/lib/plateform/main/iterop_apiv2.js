@@ -155,7 +155,7 @@ export async function _Iterop_getOneBusinessTableRows(
     if (credentials.tenant) {
         const tenant = credentials.tenant.toLowerCase()
 
-        fetch(`https://api.uixhome.fr/${tenant}/iterop/businesstable/${tableId}/rows/?t=${token}`, {
+        fetch(`https://api.uixhome.fr/${tenant}/iterop/businesstable/rows/${tableId}/?t=${token}`, {
                 method: "POST",
             })
             .then((response) => response.json())
