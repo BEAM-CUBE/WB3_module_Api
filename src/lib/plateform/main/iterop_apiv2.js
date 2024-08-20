@@ -11,7 +11,7 @@ export function _getServiceUrl_Iterop(
 ) {
     if (credentials.tenant) {
         _getServiceUrl(credentials, serviceUrls => {
-            console.log("serviceUrls", serviceUrls);
+            // console.log("serviceUrls", serviceUrls);
             const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
             if (onDone) onDone(urlAPIV2Iterop)
             return urlAPIV2Iterop
@@ -26,14 +26,14 @@ export function _Iterop_Auth_CAS(
 ) {
     if (credentials.tenant) {
         _getServiceUrl(credentials, serviceUrls => {
-            console.log("serviceUrls", serviceUrls);
+            // console.log("serviceUrls", serviceUrls);
             const urlService3DPassport = serviceUrls.services.find(service => service.id === "3dpassport")?.url;
             const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
             const urlService = `${urlService3DPassport}/login/?service=${urlAPIV2Iterop}/auth/cas`;
 
             _httpCallAuthenticated(urlService, {
                 async onComplete(response) {
-                    console.log("response", response);
+                    // console.log("response", response);
                     const x3ds_service_redirect_url = typeof response === "string" ? JSON.parse(response)?.x3ds_service_redirect_url : response?.x3ds_service_redirect_url;
                     await fetch(x3ds_service_redirect_url, {
                             method: "POST"
@@ -229,7 +229,7 @@ export async function _Iterop_updateBusinessTable(credentials, token, tableId, b
             })
                 .then(response => response.json())
                 .then(result => {
-                    console.log("_Iterop_updateBusinessTable | _Iterop_businessTableSearchInRows | fetch | onDone", body);
+                    //console.log("_Iterop_updateBusinessTable | _Iterop_businessTableSearchInRows | fetch | onDone", body);
                     if (onDone) onDone(result);
                 })
                 .catch(error => {
