@@ -396,3 +396,32 @@ export async function _Iterop_runProcess(
         })
     }
   }
+  //!SECTION
+
+  //SECTION - LISTS
+
+  export async function _Iterop_GetOneList(
+    credentials,
+    token,
+    listId,
+    onDone = undefined,
+    onError = undefined
+  ) {
+  
+    if (credentials.tenant) {
+            const tenant = credentials.tenant.toLowerCase()
+            fetch(
+                    `https://api.uixhome.fr/${tenant}/iterop/list/one/${listId}/?t=${token}`, 
+                    {
+                        method: "POST",
+                    })
+                .then((response) => response.json())
+                .then((result) => {
+                    if (onDone) onDone(result)
+                })
+                .catch((error) => {
+                    if (onError) onError(error);
+                });
+    }
+  }
+  //!SECTION

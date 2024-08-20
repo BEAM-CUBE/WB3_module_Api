@@ -111,6 +111,7 @@ import {
   _Iterop_GetOneDependencyTable,
   _Iterop_PatchDependencyTable,
   _Iterop_PutDependencyTable,
+  _Iterop_GetOneList
 } from "./lib/plateform/main/iterop_apiv2";
 
 import { sayHello } from "./lib/add/index"; //Pour tester de la librairie
@@ -169,6 +170,7 @@ export {
   _Iterop_GetOneDependencyTable,
   _Iterop_PatchDependencyTable,
   _Iterop_PutDependencyTable,
+  _Iterop_GetOneList,
   _Iterop_runProcess,
   _Iterop_AddOrRemoveRows,
   _AppMngt_get_info_user,
