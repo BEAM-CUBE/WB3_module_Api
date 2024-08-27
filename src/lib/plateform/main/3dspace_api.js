@@ -531,104 +531,144 @@ export async function _3DSpace_Create_Doc(
   onDone = undefined,
   onError = undefined
 ) {
-  const _space = credentials.space;
-  const csr = credentials.token;
-  const ctx = credentials.ctx;
-  //const store = mainStore();
-  //store.updateIsLoading(true);
-  if (_space !== "") {
-    let url = `${_space}/resources/v1/modeler/documents/files/CheckinTicket`;
-
-    _httpCallAuthenticated(url, {
-      method: "PUT",
-      headers: {
-        ENO_CSRF_TOKEN: csr,
-        Accept: "application/json",
-        "Content-Type":"application/json",
-        SecurityContext:ctx
+  checkinTicket(
+      credentials,
+      resultCheckinTicket => {
+          console.log("resultCheckinTicket", filename, resultCheckinTicket);
+          if (resultCheckinTicket?.items >= 1) {
+              resultCheckinTicket.data.forEach(fcs__jobTicket => {
+                  pushFileInFcs(
+                      fcs__jobTicket,
+                      data,
+                      filename,
+                      receipt => {
+                          console.log("receipt", filename, receipt);
+                          relatedDocAndFile(
+                              credentials,
+                              receipt,
+                              filename,
+                              descriptionDoc,
+                              response => {
+                                  if (response?.data.length) {
+                                      if (onDone) onDone(response);
+                                  } else {
+                                      if (onError) onError({ success: false, msg: "Erreur lors de la mise en ralation entre la document et le fichier" });
+                                  }
+                              },
+                              err => console.warn(err)
+                          );
+                      },
+                      err => console.warn(err)
+                  );
+              });
+          }
       },
+      err => console.warn(err)
+  );
+}
 
-      onComplete(response, headers, xhr) {
-        const csrf = JSON.parse(response).csrf;
-        let info = JSON.parse(response).data[0].dataelements;
+function checkinTicket(credentials, onDone = undefined, onError = undefined) {
+  if (credentials?.space && credentials.token && credentials.ctx) {
+      let url = `${credentials.space}/resources/v1/modeler/documents/files/CheckinTicket`;
 
-        let formData = new FormData();
-        let jsonFile;
-        if (data instanceof Blob) {
-          jsonFile = data;
-        } else {
-          jsonFile = new Blob([data], {
-            type: "text/plain",
-          });
-        }
-
-        formData.append("__fcs__jobTicket", info.ticket);
-        formData.append("file_0", jsonFile, filename);
-
-        const trimExt = (fileName) =>
-          fileName.indexOf(".") === -1
-            ? fileName
-            : fileName.split(".").slice(0, -1).join(".");
-
-        let opts = {
-          method: "POST",
-          data: formData,
-          onComplete(receipt) {
-            // Update the FCS file receipt
-            let tempId = "temp_" + DateTime.now().ts;
-            let options = {
-              method: "POST",
-              headers: {
-                ENO_CSRF_TOKEN: csrf.value,
-                SecurityContext :encodeURIComponent("ctx::" + ctx)
-              },
-              data: JSON.stringify({
-                csrf,
-                data: [
-                  {
-                    type: "Document",
-                    dataelements: {
-                      title: trimExt(filename)
-                    },
-                    relateddata: {
-                      files: [
-                        {
-                          dataelements: {
-                            title: filename,
-                            receipt : receipt ,
-                          },
-                        },
-                      ],
-                    },
-                    tempId,
-                  },
-                ],
-              }),
-              type: "json",
-              onComplete(response) {
-                if (onDone) onDone(response);
-              },
-              onFailure(response) {
-                if (onError) onError(response);
-              },
-            };
-            _httpCallAuthenticated(
-              _space +
-                "/resources/v1/modeler/documents/?e6w-lang=fr&e6w-timezone=-120&xrequestedwith=xmlhttprequest",
-              options
-            );
+      _httpCallAuthenticated(url, {
+          method: "PUT",
+          headers: {
+              ENO_CSRF_TOKEN: credentials.token,
+              Accept: "application/json",
+              "Content-Type": "application/json",
+              SecurityContext: credentials.ctx
           },
 
+          onComplete(response, headers, xhr) {
+              try {
+                  response = JSON.parse(response);
+              } catch (error) {
+                  //
+              }
+              if (onDone) onDone(response);
+          },
           onFailure(err) {
-            if (onError) onError(err);
-          },
-          timeout: 0,
-        };
-        _httpCallAuthenticated(info.ticketURL, opts);
-      },
-    });
+              if (onError) onError(err);
+          }
+      });
+  } else {
+      console.log("Error de credentials", credentials);
   }
 }
+
+function pushFileInFcs(fcs__jobTicket, fileData, fileName, onDone = undefined, onError = undefined) {
+  let formData = new FormData();
+  if (!(fileData instanceof Blob)) {
+      fileData = new Blob([fileData], {
+          type: "text/plain"
+      });
+  }
+  formData.append("__fcs__jobTicket", fcs__jobTicket.dataelements.ticket);
+  formData.append("file_0", fileData, fileName);
+
+  let url = fcs__jobTicket.dataelements.ticketURL;
+  _httpCallAuthenticated(url, {
+      method: "POST",
+      data: formData,
+      onComplete(receipt) {
+          if (onDone) onDone(receipt.replace(/[\n\r]/g, ""));
+      },
+      onFailure(err) {
+          if (onError) onError(err);
+      }
+  });
+}
+
+function relatedDocAndFile(credentials, receipt, filename, descriptionDoc = undefined, onDone = undefined, onError = undefined) {
+  console.log("relatedDocAndFile", { credentials, receipt, filename });
+  const trimExt = name => (name.indexOf(".") === -1 ? name : name.split(".").slice(0, -1).join("."));
+  let tempId = "temp_" + DateTime.now().ts;
+  let url = credentials.space + "/resources/v1/modeler/documents/?e6w-lang=fr&e6w-timezone=-120&xrequestedwith=xmlhttprequest";
+  _httpCallAuthenticated(url, {
+      method: "POST",
+      headers: {
+          ENO_CSRF_TOKEN: credentials.token,
+          SecurityContext: encodeURIComponent("ctx::") + credentials.ctx,
+          "Content-Type": "application/json"
+      },
+      data: JSON.stringify({
+          csrf: { name: "ENO_CSRF_TOKEN", value: credentials.token },
+          data: [
+              {
+                  type: "Document",
+                  dataelements: {
+                      title: trimExt(filename),
+                      description: descriptionDoc
+                  },
+                  relateddata: {
+                      files: [
+                          {
+                              dataelements: {
+                                  title: filename,
+                                  receipt: `${receipt}\n`
+                              }
+                          }
+                      ]
+                  },
+                  tempId
+              }
+          ]
+      }),
+      onComplete(response) {
+          try {
+              response = JSON.parse(response);
+          } catch (error) {
+              //
+          }
+          if (onDone) onDone(response);
+      },
+      onFailure(err) {
+          if (onError) onError(err);
+      }
+  });
+}
+
 /**
  * @description Cette fonction récupère les contextes de sécurité basés sur des paramètres spécifiés à partir d'un
  * hôte donné.
