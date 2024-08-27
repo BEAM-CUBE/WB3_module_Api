@@ -546,6 +546,7 @@ export async function _3DSpace_Create_Doc(
       },
 
       onComplete(response, headers, xhr) {
+        const csrf = JSON.parse(response).csrf;
         let info = JSON.parse(response).data[0].dataelements;
 
         let formData = new FormData();
@@ -559,7 +560,7 @@ export async function _3DSpace_Create_Doc(
         }
 
         formData.append("__fcs__jobTicket", info.ticket);
-        formData.append("filename", jsonFile, filename);
+        formData.append("file_0", jsonFile, filename);
 
         const trimExt = (fileName) =>
           fileName.indexOf(".") === -1
@@ -578,15 +579,17 @@ export async function _3DSpace_Create_Doc(
                 ENO_CSRF_TOKEN: csr,
                 Accept: "application/json",
                 "Content-Type": "application/json",
+                SecurityContext :encodeURIComponent("ctx::" + ctx)
               },
               data: JSON.stringify({
+                csrf,
                 data: [
                   {
                     type: "Document",
                     dataelements: {
                       title: trimExt(filename),
                       description: descriptionDoc,
-                      policy: "Document Release",
+                      // policy: "Document Release",
                     },
                     relateddata: {
                       files: [
@@ -612,8 +615,7 @@ export async function _3DSpace_Create_Doc(
             };
             _httpCallAuthenticated(
               _space +
-                "/resources/v1/modeler/documents/?SecurityContext=ctx::" +
-                ctx,
+                "/resources/v1/modeler/documents/?e6w-lang=fr&e6w-timezone=-120&xrequestedwith=xmlhttprequest",
               options
             );
           },
