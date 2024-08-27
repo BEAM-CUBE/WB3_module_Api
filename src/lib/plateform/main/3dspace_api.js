@@ -543,6 +543,9 @@ export async function _3DSpace_Create_Doc(
       method: "PUT",
       headers: {
         ENO_CSRF_TOKEN: csr,
+        Accept: "application/json",
+        "Content-Type":"application/json",
+        SecurityContext:ctx
       },
 
       onComplete(response, headers, xhr) {
@@ -572,13 +575,11 @@ export async function _3DSpace_Create_Doc(
           data: formData,
           onComplete(receipt) {
             // Update the FCS file receipt
-            let tempId = UUID();
+            let tempId = "temp_" + DateTime.now().ts;
             let options = {
               method: "POST",
               headers: {
-                ENO_CSRF_TOKEN: csr,
-                Accept: "application/json",
-                "Content-Type": "application/json",
+                ENO_CSRF_TOKEN: csrf.value,
                 SecurityContext :encodeURIComponent("ctx::" + ctx)
               },
               data: JSON.stringify({
@@ -587,16 +588,14 @@ export async function _3DSpace_Create_Doc(
                   {
                     type: "Document",
                     dataelements: {
-                      title: trimExt(filename),
-                      description: descriptionDoc,
-                      // policy: "Document Release",
+                      title: trimExt(filename)
                     },
                     relateddata: {
                       files: [
                         {
                           dataelements: {
                             title: filename,
-                            receipt,
+                            receipt : receipt ,
                           },
                         },
                       ],
