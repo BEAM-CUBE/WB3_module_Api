@@ -547,3 +547,37 @@ function templateAffaireMessage(txt) {
     return txt;
   }
 }
+
+export function _3DSwym_ForwardIdea(
+  credentials,
+  onDone = undefined,
+  onError = undefined
+) {
+  const { tenant, _3DSwym , _3DSwym_token, community_id, idea_id} = credentials;
+  if(tenant && _3DSwym && _3DSwym_token && community_id && idea_id) {
+    const url = `${_3DSwym}/api/idea/forward`
+    _httpCallAuthenticated(url, {
+      method: "POST",
+      headers: {
+        "X-DS-SWYM-CSRFTOKEN": _3DSwym_token,
+      },
+      data: JSON.stringify({
+        "community_uri": `swym:prd:${tenant.toUpperCase()}:community:${community_id}`,
+        "content_uri": `swym:prd:${tenant.toUpperCase()}:idea:${idea_id}`,
+        "timeout": 30000
+      }),
+      onComplete(response) {
+        if (onDone) onDone(response)
+      },
+      onFailure(response, headers) {
+        const info = response;
+        info["status"] = headers.status;
+        info["response"] = headers.errormsg;
+        if (onError) onError(info);
+      },
+    });
+
+  }else{
+    if (onError) onError({status:"error", msg:"Credentials incomplet !", attend:"tenant, _3DSwym , _3DSwym_token, community_id, idea_id",credentials})
+  }
+}

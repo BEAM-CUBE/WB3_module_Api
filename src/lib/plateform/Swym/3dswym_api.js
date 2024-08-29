@@ -116,6 +116,7 @@ export function _3DSwym_getFamiliarPeople(
       maxNbOfCommonElements: "5",
     },
   };
+
   _3DSwym_get_Token(credentials, (token) => {
     _httpCallAuthenticated(url, {
       method: "POST",
@@ -139,3 +140,5 @@ export function _3DSwym_getFamiliarPeople(
     });
   });
 }
+
+
