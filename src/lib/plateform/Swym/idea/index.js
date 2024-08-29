@@ -270,7 +270,7 @@ export function _3DSwym_getOneIdea(
   onDone = undefined,
   onError = undefined
 ) {
-  const URL = `${credentials._}/api/idea/get`;
+  const URL = `${credentials._3DSwym}/api/idea/get`;
   if (credentials.idPost === "") {
     const message =
       "☠️ idPost est vide, vous devez renseigner un identifiant de post";
@@ -553,24 +553,24 @@ export function _3DSwym_ForwardIdea(
   onDone = undefined,
   onError = undefined
 ) {
-  const { tenant, _3DSwym, _3DSwym_token, community_id, idea_id } = credentials;
-  if (tenant && _3DSwym && _3DSwym_token && community_id && idea_id) {
-    const url = `${_3DSwym}/api/idea/forward`;
+  const { tenant, _3DSwym , _3DSwym_token, community_id, idea_id} = credentials;
+  if(tenant && _3DSwym && _3DSwym_token && community_id && idea_id) {
+    const url = `${_3DSwym}/api/idea/forward`
     _httpCallAuthenticated(url, {
       method: "POST",
       headers: {
         "Content-type": "application/json;charset=UTF-8",
-        Accept: "application/json",
+      Accept: "application/json",
         "X-DS-SWYM-CSRFTOKEN": _3DSwym_token,
       },
       data: JSON.stringify({
-        community_uri: `swym:prd:${tenant.toUpperCase()}:community:${community_id}`,
-        content_uri: `swym:prd:${tenant.toUpperCase()}:idea:${idea_id}`,
-        timeout: 30000,
+        "community_uri": `swym:prd:${tenant.toUpperCase()}:community:${community_id}`,
+        "content_uri": `swym:prd:${tenant.toUpperCase()}:idea:${idea_id}`,
+        "timeout": 30000
       }),
       type: "json",
       onComplete(response) {
-        if (onDone) onDone(response);
+        if (onDone) onDone(response)
       },
       onFailure(response, headers) {
         const info = response;
@@ -579,13 +579,8 @@ export function _3DSwym_ForwardIdea(
         if (onError) onError(info);
       },
     });
-  } else {
-    if (onError)
-      onError({
-        status: "error",
-        msg: "Credentials incomplet !",
-        attend: "tenant, _3DSwym , _3DSwym_token, community_id, idea_id",
-        credentials,
-      });
+
+  }else{
+    if (onError) onError({status:"error", msg:"Credentials incomplet !", attend:"tenant, _3DSwym , _3DSwym_token, community_id, idea_id",credentials})
   }
 }
