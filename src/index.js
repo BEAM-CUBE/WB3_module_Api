@@ -86,6 +86,7 @@ import {
   _3DSwym_getAllListIdeas,
   _3DSwym_editIdea,
   _3DSwym_postIdea,
+  _3DSwym_ForwardIdea
 } from "./lib/plateform/Swym/idea";
 import {
   _3DSwym_get_currentUser,
@@ -157,6 +158,7 @@ export {
   _3DSwym_editIdea,
   _3DSwym_postIdea,
   _3DSwym_postIdeaTemplate,
+  _3DSwym_ForwardIdea,
   _3DSwym_sendMessageData,
   _getServiceUrl_Iterop,
   _Iterop_Auth_CAS,

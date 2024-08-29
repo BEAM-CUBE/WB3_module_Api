@@ -270,7 +270,7 @@ export function _3DSwym_getOneIdea(
   onDone = undefined,
   onError = undefined
 ) {
-  const URL = `${credentials.space}/api/idea/get`;
+  const URL = `${credentials._3DSwym}/api/idea/get`;
   if (credentials.idPost === "") {
     const message =
       "☠️ idPost est vide, vous devez renseigner un identifiant de post";
