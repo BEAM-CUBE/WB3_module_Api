@@ -270,7 +270,8 @@ export function _3DSwym_getOneIdea(
   onDone = undefined,
   onError = undefined
 ) {
-  const URL = `${credentials._3DSwym}/api/idea/get`;
+  const { _3DSwym, _3DSwym_token } = credentials;
+  const URL = `${_3DSwym}/api/idea/get`;
   if (credentials.idPost === "") {
     const message =
       "☠️ idPost est vide, vous devez renseigner un identifiant de post";
@@ -282,27 +283,27 @@ export function _3DSwym_getOneIdea(
       id: credentials.idPost,
     },
   };
-    _httpCallAuthenticated(URL, {
-      method: "POST",
-      headers: {
-        "Content-type": "application/json;charset=UTF-8",
-        Accept: "application/json",
-        "X-DS-SWYM-CSRFTOKEN": credentials._3DSwym_token,
-      },
-      data: JSON.stringify(datas),
+  _httpCallAuthenticated(URL, {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json;charset=UTF-8",
+      Accept: "application/json",
+      "X-DS-SWYM-CSRFTOKEN": _3DSwym_token,
+    },
+    data: JSON.stringify(datas),
 
-      onComplete(response) {
-        const info = { response };
+    onComplete(response) {
+      const info = { response };
 
-        if (onDone) onDone(info);
-      },
-      onFailure(response) {
-        const info = response;
-        info["status"] = headers.status;
-        info["response"] = headers.errormsg;
-        if (onError) onError(info);
-      },
-    });
+      if (onDone) onDone(info);
+    },
+    onFailure(response) {
+      const info = response;
+      info["status"] = headers.status;
+      info["response"] = headers.errormsg;
+      if (onError) onError(info);
+    },
+  });
 }
 
 /**
@@ -322,46 +323,55 @@ export function _3DSwym_getOneIdea(
  * @return  {Void}
  */
 export function _3DSwym_editIdea(credentials, onDone, onError) {
+  const {
+    _3DSwym,
+    _3DSwym_token,
+    idPost,
+    title,
+    community_id,
+    status_comment,
+    status_id,
+    message,
+  } = credentials;
   const URL = {
-    base: `${credentials._3DSwym}/api/idea/edit`,
+    base: `${_3DSwym}/api/idea/edit`,
     uri: "/api/idea/edit",
   };
 
   const body = {
     params: {
       out: "false",
-      id: credentials.post_id,
-      title: credentials.title,
-      community_id: credentials.community_id,
-      status_comment: credentials.status_comment,
-      status_id: credentials.status_id,
-      message: credentials.message,
+      id: idPost,
+      title: title,
+      community_id: community_id,
+      status_comment: status_comment,
+      status_id: status_id,
+      message: message,
       published: "1",
     },
   };
-  console.log("body", body);
-  _3DSwym_get_Token((token) => {
-    const headerOptions = {
-      method: "POST",
-      headers: {
-        "X-DS-SWYM-CSRFTOKEN": token?.result?.ServerToken,
-        "Content-type": "application/json;charset=UTF-8",
-      },
-      data: JSON.stringify(body),
-      onComplete(response, head, xhr) {
-        const info = {
-          response:
-            typeof response === "string" ? JSON.parse(response) : response,
-        };
-        info["status"] = xhr.status;
-        if (onDone) onDone(info);
-      },
-      onFailure(response) {
-        if (onError) onError(response);
-      },
-    };
-    _httpCallAuthenticated(URL.base + URL.uri, headerOptions);
-  });
+  const headerOptions = {
+    method: "POST",
+    headers: {
+      "Content-type": "application/json;charset=UTF-8",
+      Accept: "application/json",
+      "X-DS-SWYM-CSRFTOKEN": _3DSwym_token,
+    },
+    data: JSON.stringify(body),
+    type: "json",
+    onComplete(response, head, xhr) {
+      const info = {
+        response:
+          typeof response === "string" ? JSON.parse(response) : response,
+      };
+      info["status"] = xhr.status;
+      if (onDone) onDone(info);
+    },
+    onFailure(response) {
+      if (onError) onError(response);
+    },
+  };
+  _httpCallAuthenticated(URL.base + URL.uri, headerOptions);
 }
 
 /**
@@ -551,24 +561,24 @@ export function _3DSwym_ForwardIdea(
   onDone = undefined,
   onError = undefined
 ) {
-  const { tenant, _3DSwym , _3DSwym_token, community_id, idea_id} = credentials;
-  if(tenant && _3DSwym && _3DSwym_token && community_id && idea_id) {
-    const url = `${_3DSwym}/api/idea/forward`
+  const { tenant, _3DSwym, _3DSwym_token, community_id, idea_id } = credentials;
+  if (tenant && _3DSwym && _3DSwym_token && community_id && idea_id) {
+    const url = `${_3DSwym}/api/idea/forward`;
     _httpCallAuthenticated(url, {
       method: "POST",
       headers: {
         "Content-type": "application/json;charset=UTF-8",
-      Accept: "application/json",
+        Accept: "application/json",
         "X-DS-SWYM-CSRFTOKEN": _3DSwym_token,
       },
       data: JSON.stringify({
-        "community_uri": `swym:prd:${tenant.toUpperCase()}:community:${community_id}`,
-        "content_uri": `swym:prd:${tenant.toUpperCase()}:idea:${idea_id}`,
-        "timeout": 30000
+        community_uri: `swym:prd:${tenant.toUpperCase()}:community:${community_id}`,
+        content_uri: `swym:prd:${tenant.toUpperCase()}:idea:${idea_id}`,
+        timeout: 30000,
       }),
       type: "json",
       onComplete(response) {
-        if (onDone) onDone(response)
+        if (onDone) onDone(response);
       },
       onFailure(response, headers) {
         const info = response;
@@ -577,8 +587,13 @@ export function _3DSwym_ForwardIdea(
         if (onError) onError(info);
       },
     });
-
-  }else{
-    if (onError) onError({status:"error", msg:"Credentials incomplet !", attend:"tenant, _3DSwym , _3DSwym_token, community_id, idea_id",credentials})
+  } else {
+    if (onError)
+      onError({
+        status: "error",
+        msg: "Credentials incomplet !",
+        attend: "tenant, _3DSwym , _3DSwym_token, community_id, idea_id",
+        credentials,
+      });
   }
 }
