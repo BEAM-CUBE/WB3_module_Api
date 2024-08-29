@@ -293,9 +293,8 @@ export function _3DSwym_getOneIdea(
     data: JSON.stringify(datas),
 
     onComplete(response) {
-      const info = { response };
-
-      if (onDone) onDone(info);
+      response = typeof response === "string" ? JSON.parse(response) : response;
+      if (onDone) onDone({response});
     },
     onFailure(response) {
       const info = response;
