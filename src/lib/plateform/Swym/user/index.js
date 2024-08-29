@@ -18,7 +18,7 @@ export function _3DSwym_get_currentUser(
   onDone = undefined,
   onError = undefined
 ) {
-  const url = credentials.space + "/api/user/getcurrent/";
+  const url = credentials._3DSwym + "/api/user/getcurrent/";
   _3DSwym_get_Token(credentials, (token) => {
     _httpCallAuthenticated(url, {
       method: "GET",

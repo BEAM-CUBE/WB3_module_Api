@@ -21,7 +21,7 @@ export function _3DSwym_getAllCommunities(
   onError = undefined
 ) {
   const URL = {
-    base: credentials.space,
+    base: credentials._3DSwym,
     uri: "/api/community/listmycommunities",
     limit: `/limit/${credentials.limit ? credentials.limit : 500}`,
     page: `/page/${credentials.page ? credentials.page : "1"}`,
@@ -96,7 +96,7 @@ export function _3DSwym_getMembersCommunity(
   onDone,
   onError
 ) {
-  const URL = `${credentials.space}/api/community/listmembers`;
+  const URL = `${credentials._3DSwym}/api/community/listmembers`;
 
   const datas = {
     params: {
@@ -134,7 +134,7 @@ export function _3DSwym_getMembersCommunity(
  * communauté 3DExperience à l'aide des informations d'identification fournies.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
- * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
+ * @param {String} credentials._3DSwym - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
  * @param {String} credentials.commu_id - L'ID de communauté 3DExperience (ex:"YXdA5x4DSUKtlAi2wmnyTA")
  * @param {Function} [onDone] - Le paramètre `onDone` est une fonction de rappel qui sera appelée lorsque la
  * requête API sera terminée avec succès. Il prend un argument, « info », qui correspond aux données de
@@ -150,7 +150,7 @@ export function _3DSwym_getIdeaStatusMaturity(
 ) {
   const commuID = "YXdA5x4DSUKtlAi2wmnyTA";
   if (!credentials.commu_id) credentials.commu_id = commuID;
-  const URL = `${credentials.space}/api/v2/communities/${credentials.commu_id}/ideas/statuses`;
+  const URL = `${credentials._3DSwym}/api/v2/communities/${credentials.commu_id}/ideas/statuses`;
   _3DSwym_get_Token(credentials, (token) => {
     _httpCallAuthenticated(URL, {
       method: "GET",
@@ -188,7 +188,7 @@ const contentMSG = {
  *
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
- * @param {String} credentials.space - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
+ * @param {String} credentials._3DSwym - (3DSwym) L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, 3DCompass...)
  * @param {Object} [credentials.currentUser] - Le paramètre `currentUser` est un qui contient les informations de l'utilisateur qui envoie le message(appeler depuis la fonction `_3DSwym_get_currentuser`).
  * @param {string} [credentials.currentUser.login] - Le paramètre `login` est l'identifiant d'envois du message
  * @param {string} [credentials.currentUser.first_name] - Le paramètre `first_name` est l'identifiant d'envois du message
@@ -211,9 +211,9 @@ export function _3DSwym_buildDirectMessage(
   onDone = undefined,
   onError = undefined
 ) {
-  const { listAllContacts, currentUser } = credentials;
+  const { listAllContacts, currentUser, _3DSwym } = credentials;
   console.log("__listAllContacts", listAllContacts.hits);
-  const _URL = `${credentials.space}/api/directmessages`;
+  const _URL = `${_3DSwym}/api/directmessages`;
 
   const _data = {
     users: [currentUser.login].concat(datas.receipt),
@@ -298,7 +298,7 @@ export function _3DSwym_findCommunityToInstantMSG(
   onDone,
   onError
 ) {
-  const URL = `${credentials.space}/api/directmessages/lite?with_favorites=false`;
+  const URL = `${credentials._3DSwym}/api/directmessages/lite?with_favorites=false`;
   _3DSwym_get_Token(credentials, (token) => {
     _httpCallAuthenticated(URL, {
       method: "GET",
@@ -369,7 +369,7 @@ export function _3DSwym_sendMessageData(
   onError = undefined
 ) {
   const URL = {
-    base: credentials.space,
+    base: credentials._3DSwym,
     uri: "/api/community",
     id_msg: `${content.id_msg}`,
     endUri: "/instantmessages",

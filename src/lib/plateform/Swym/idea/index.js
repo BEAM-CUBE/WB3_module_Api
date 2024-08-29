@@ -393,7 +393,7 @@ export function _3DSwym_getAllListIdeas(
   onDone = undefined,
   onError = undefined
 ) {
-  const { space } = credentials;
+  const { _3DSwym } = credentials;
   let { community_id, limit, page, search } = data;
   // Pagination
   const allIdeas = [];
@@ -412,7 +412,7 @@ export function _3DSwym_getAllListIdeas(
     page: `/page/${page}`,
   };
 
-  let url = `${space}${URL.uri}${URL.comId}${URL.limit}${URL.page}`;
+  let url = `${_3DSwym}${URL.uri}${URL.comId}${URL.limit}${URL.page}`;
 
   _3DSwym_get_Token(credentials, (token) => {
     const getAllIdeas = (url) => {
@@ -431,7 +431,7 @@ export function _3DSwym_getAllListIdeas(
             page++;
 
             URL.page = `/page/${page}`;
-            url = `${space}${URL.uri}${URL.comId}${URL.limit}${URL.page}`;
+            url = `${_3DSwym}${URL.uri}${URL.comId}${URL.limit}${URL.page}`;
 
             // En cas de recherche spécifique.
             if (!search) {
