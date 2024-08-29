@@ -282,13 +282,12 @@ export function _3DSwym_getOneIdea(
       id: credentials.idPost,
     },
   };
-  _3DSwym_get_Token(credentials, (token) => {
     _httpCallAuthenticated(URL, {
       method: "POST",
       headers: {
         "Content-type": "application/json;charset=UTF-8",
         Accept: "application/json",
-        "X-DS-SWYM-CSRFTOKEN": token.result.ServerToken,
+        "X-DS-SWYM-CSRFTOKEN": credentials._3DSwym_token,
       },
       data: JSON.stringify(datas),
 
@@ -304,7 +303,6 @@ export function _3DSwym_getOneIdea(
         if (onError) onError(info);
       },
     });
-  });
 }
 
 /**
