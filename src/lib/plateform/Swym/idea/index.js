@@ -342,7 +342,7 @@ export function _3DSwym_editIdea(credentials, onDone, onError) {
     },
   };
   console.log("body", body);
-  _3DSwym_getToken((token) => {
+  _3DSwym_get_Token((token) => {
     const headerOptions = {
       method: "POST",
       headers: {
