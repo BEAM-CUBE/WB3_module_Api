@@ -325,7 +325,7 @@ export function _3DSwym_getOneIdea(
  */
 export function _3DSwym_editIdea(credentials, onDone, onError) {
   const URL = {
-    base: `${credentials.space}/api/idea/edit`,
+    base: `${credentials._3DSwym}/api/idea/edit`,
     uri: "/api/idea/edit",
   };
 
