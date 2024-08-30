@@ -93,6 +93,9 @@ import {
   _3DSwym_get_findUser,
 } from "./lib/plateform/Swym/user";
 import {
+  _3DSwym_addComment
+} from "./lib/plateform/Swym/comment"
+import {
   _3DSwym_get_Token,
   _3DSwym_getAllNews,
   _3DSwym_getFamiliarPeople,
@@ -160,6 +163,7 @@ export {
   _3DSwym_postIdeaTemplate,
   _3DSwym_ForwardIdea,
   _3DSwym_sendMessageData,
+  _3DSwym_addComment,
   _getServiceUrl_Iterop,
   _Iterop_Auth_CAS,
   _Iterop_jwtUser,
