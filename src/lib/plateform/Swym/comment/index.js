@@ -1,3 +1,5 @@
+import { _httpCallAuthenticated } from "../../main/3dexperience_api";
+
 export function _3DSwym_addComment(
   credentials,
   onDone = undefined,
