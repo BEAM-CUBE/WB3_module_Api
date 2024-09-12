@@ -197,29 +197,23 @@ export async function _Iterop_AddOrRemoveRows(
   onError = undefined
 ) {
   if (credentials.tenant) {
-    _getServiceUrl(credentials, (serviceUrls) => {
-      const urlAPIV2Iterop =
-        serviceUrls.services.find((service) => service.id === "businessprocess")
-          ?.url + "/api/v2";
-      const urlService = encodeURIComponent(`${urlAPIV2Iterop}`);
-      const tenant = credentials.tenant.toLowerCase();
-      fetch(
-        `https://api.uixhome.fr/${tenant}/iterop/businesstable/patch/rows/${tableId}/?t=${token}&b=${body}`,
-        {
-          method: "POST",
-        }
-      )
-        .then((response) => {
-          //console.log("_Iterop_AddOrRemoveRows", response);
-          return response.json();
-        })
-        .then((result) => {
-          if (onDone) onDone(result);
-        })
-        .catch((error) => {
-          if (onError) onError(error, tableId, body);
-        });
-    });
+    const tenant = credentials.tenant.toLowerCase();
+    fetch(
+      `https://api.uixhome.fr/${tenant}/iterop/businesstable/patch/rows/${tableId}/?t=${token}&b=${body}`,
+      {
+        method: "POST",
+      }
+    )
+      .then((response) => {
+        //console.log("_Iterop_AddOrRemoveRows", response);
+        return response.json();
+      })
+      .then((result) => {
+        if (onDone) onDone(result);
+      })
+      .catch((error) => {
+        if (onError) onError(error, tableId, body);
+      });
   }
 }
 
@@ -330,26 +324,20 @@ export async function _Iterop_GetAllDependencyTable(
   onError = undefined
 ) {
   if (credentials.tenant) {
-    _getServiceUrl(credentials, (serviceUrls) => {
-      const urlAPIV2Iterop =
-        serviceUrls.services.find((service) => service.id === "businessprocess")
-          ?.url + "/api/v2";
-      const urlService = encodeURIComponent(`${urlAPIV2Iterop}`);
-      const tenant = credentials.tenant.toLowerCase();
-      fetch(
-        `https://api.uixhome.fr/${tenant}/iterop/dependencytable/all/?t=${token}`,
-        {
-          method: "POST",
-        }
-      )
-        .then((response) => response.json())
-        .then((result) => {
-          if (onDone) onDone(result);
-        })
-        .catch((error) => {
-          if (onError) onError(error);
-        });
-    });
+    const tenant = credentials.tenant.toLowerCase();
+    fetch(
+      `https://api.uixhome.fr/${tenant}/iterop/dependencytable/all/?t=${token}`,
+      {
+        method: "POST",
+      }
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        if (onDone) onDone(result);
+      })
+      .catch((error) => {
+        if (onError) onError(error);
+      });
   }
 }
 
