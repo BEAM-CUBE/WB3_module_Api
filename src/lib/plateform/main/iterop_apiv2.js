@@ -59,7 +59,11 @@ export function _Iterop_Auth_CAS(
     });
   }
 }
-
+/**
+ * @description _Iterop_jwtUser appel sur l'api et demande un Token lié à l'utilisateur et au tenant.
+ *
+ * @return  {Function}  callback retournant la réponse de l'api
+ */
 export function _Iterop_jwtUser(
   credentials,
   onDone = undefined,
@@ -281,7 +285,15 @@ export async function _Iterop_updateBusinessTable(
       });
   }
 }
-
+/**
+ * @description Fonction asynchrone, `_Iterop_runProcess` permet de lancer un processus ITEROP
+ * @param   {Object} credentials  Informations d'identification du tenant.
+ * @param   {String} credentials.tenant  Le tenant.
+ * @param   {String} token  Le jeton CSRF.
+ * @param   {String} processKey - le nom du processus ITEROP.
+ * @param   {String} body - le body de la requête, doit être au format String et encodé. @exemple encodeURIComponent(JSON.stringify(body)).
+ * @return  {Function}  Callback contenant le message de retour de l'api
+ */
 export async function _Iterop_runProcess(
   credentials,
   token,
