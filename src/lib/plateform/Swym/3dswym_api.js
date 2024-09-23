@@ -16,7 +16,7 @@ export async function _3DSwym_get_Token(
   onDone = undefined,
   onError = undefined
 ) {
-  const url = credentials.space + "/api/index/tk";
+  const url = credentials._3DSwym + "/api/index/tk";
 
   return _httpCallAuthenticated(url, {
     onComplete(response, headers, xhr) {
@@ -56,7 +56,7 @@ export function _3DSwym_getAllNews(
   // ! Attention beaucoup d'infos à trier et checker
   // voir aussi les possibilités des params
 
-  const url = `${credentials.space}/api/exalead/whatsnew`;
+  const url = `${credentials._3DSwym}/api/exalead/whatsnew`;
   const data = {
     params: {
       community_id: null,
@@ -106,7 +106,7 @@ export function _3DSwym_getFamiliarPeople(
   onDone = undefined,
   onError = undefined
 ) {
-  const url = `${credentials.space}/api/Recommendation/getpeoplefamiliartocurrentuser`;
+  const url = `${credentials._3DSwym}/api/Recommendation/getpeoplefamiliartocurrentuser`;
   const _data = {
     params: {
       idsToFilterArr: [],
@@ -116,6 +116,7 @@ export function _3DSwym_getFamiliarPeople(
       maxNbOfCommonElements: "5",
     },
   };
+
   _3DSwym_get_Token(credentials, (token) => {
     _httpCallAuthenticated(url, {
       method: "POST",
@@ -139,3 +140,5 @@ export function _3DSwym_getFamiliarPeople(
     });
   });
 }
+
+

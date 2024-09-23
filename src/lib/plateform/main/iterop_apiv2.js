@@ -11,7 +11,7 @@ export function _getServiceUrl_Iterop(
 ) {
     if (credentials.tenant) {
         _getServiceUrl(credentials, serviceUrls => {
-            console.log("serviceUrls", serviceUrls);
+            // console.log("serviceUrls", serviceUrls);
             const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
             if (onDone) onDone(urlAPIV2Iterop)
             return urlAPIV2Iterop
@@ -26,14 +26,14 @@ export function _Iterop_Auth_CAS(
 ) {
     if (credentials.tenant) {
         _getServiceUrl(credentials, serviceUrls => {
-            console.log("serviceUrls", serviceUrls);
+            // console.log("serviceUrls", serviceUrls);
             const urlService3DPassport = serviceUrls.services.find(service => service.id === "3dpassport")?.url;
             const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
             const urlService = `${urlService3DPassport}/login/?service=${urlAPIV2Iterop}/auth/cas`;
 
             _httpCallAuthenticated(urlService, {
                 async onComplete(response) {
-                    console.log("response", response);
+                    // console.log("response", response);
                     const x3ds_service_redirect_url = typeof response === "string" ? JSON.parse(response)?.x3ds_service_redirect_url : response?.x3ds_service_redirect_url;
                     await fetch(x3ds_service_redirect_url, {
                             method: "POST"
@@ -133,7 +133,7 @@ export async function _Iterop_getOneBusinessTable(
     if (credentials.tenant) {
         const tenant = credentials.tenant.toLowerCase()
 
-        fetch(`https://api.uixhome.fr/${tenant}/iterop//businesstable/${tableId}?t=${token}`, {
+        fetch(`https://api.uixhome.fr/${tenant}/iterop/businesstable/${tableId}?t=${token}`, {
                 method: "POST",
             })
             .then((response) => response.json())
@@ -155,7 +155,7 @@ export async function _Iterop_getOneBusinessTableRows(
     if (credentials.tenant) {
         const tenant = credentials.tenant.toLowerCase()
 
-        fetch(`https://api.uixhome.fr/${tenant}/iterop//businesstable/${tableId}/rows/?t=${token}`, {
+        fetch(`https://api.uixhome.fr/${tenant}/iterop/businesstable/rows/${tableId}/?t=${token}`, {
                 method: "POST",
             })
             .then((response) => response.json())
@@ -165,6 +165,80 @@ export async function _Iterop_getOneBusinessTableRows(
             .catch((error) => {
                 if (onError) onError(error);
             });
+    }
+}
+
+export async function _Iterop_AddOrRemoveRows(credentials, token, tableId, body, onDone = undefined, onError = undefined) {
+    if (credentials.tenant) {
+        _getServiceUrl(credentials, serviceUrls => {
+            const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
+            const urlService = encodeURIComponent(`${urlAPIV2Iterop}`);
+            const tenant = credentials.tenant.toLowerCase();
+            fetch(`https://api.uixhome.fr/${tenant}/iterop/businesstable/patch/rows/${tableId}/?t=${token}&b=${body}`, {
+                method: "POST"
+            })
+                .then(response => {
+                    //console.log("_Iterop_AddOrRemoveRows", response);
+                    return response.json();
+                })
+                .then(result => {
+                    if (onDone) onDone(result);
+                })
+                .catch(error => {
+                    if (onError) onError(error, tableId, body);
+                });
+        });
+    }
+}
+
+export async function _Iterop_businessTableSearchInRows(credentials, token, tableId, columns, body, onDone = undefined, onError = undefined) {
+    // Exemple : columns = uuid+name
+    // Exemple : body(String) = {"filters": [{"uuid": "e56fd041-a9c0-4f1c-91ff-643a826a84d9","isactive": true}]}
+    if (credentials.tenant) {
+        const url = `https://api.uixhome.fr/${credentials.tenant.toLowerCase()}/iterop/businesstable/search/rows/${tableId}?t=${token}&c=${encodeURIComponent(
+            columns
+        )}&b=${encodeURIComponent(body)}`;
+        fetch(url, {
+            method: "POST"
+        })
+            .then(response => response.json())
+            .then(result => {
+                result["url"] = url;
+                if (onDone) onDone(result);
+            })
+            .catch(error => {
+                if (onError)
+                    onError({
+                        error,
+                        tableId,
+                        columns,
+                        body
+                    });
+            });
+    }
+}
+
+
+export async function _Iterop_updateBusinessTable(credentials, token, tableId, body, onDone = undefined, onError = undefined) {
+    if (credentials.tenant) {
+            const url = `https://api.uixhome.fr/${credentials.tenant.toLowerCase()}/iterop/businesstable/post/update/${tableId}?t=${token}&b=${encodeURIComponent(
+                body
+            )}`;
+            fetch(url, {
+                method: "POST"
+            })
+                .then(response => response.json())
+                .then(result => {
+                    //console.log("_Iterop_updateBusinessTable | _Iterop_businessTableSearchInRows | fetch | onDone", body);
+                    if (onDone) onDone(result);
+                })
+                .catch(error => {
+                    if (onError)
+                        onError({
+                            error,
+                            url
+                        });
+                });
     }
 }
 
@@ -197,38 +271,6 @@ export async function _Iterop_runProcess(
         })
     }
 }
-
-export async function _Iterop_AddOrRemoveRows(
-    credentials,
-    token,
-    tableId,
-    rowsToAdd = [],
-    rowsToRemove = [],
-    onDone = undefined,
-    onError = undefined
-  ) {
-  
-    if (credentials.tenant) {
-        _getServiceUrl(credentials, serviceUrls => {
-            const urlAPIV2Iterop = serviceUrls.services.find(service => service.id === "businessprocess")?.url + "/api/v2";
-            const urlService = encodeURIComponent(`${urlAPIV2Iterop}`);
-            const body = encodeURIComponent(JSON.stringify({rowsToRemove,rowsToAdd}))
-            const tenant = credentials.tenant.toLowerCase()
-            fetch(
-                    `https://api.uixhome.fr/${tenant}/iterop/businesstable/patch/rows/${tableId}/?t=${token}&b=${body}`, 
-                    {
-                        method: "POST",
-                    })
-                .then((response) => response.json())
-                .then((result) => {
-                    if (onDone) onDone(result)
-                })
-                .catch((error) => {
-                    if (onError) onError(error);
-                });
-        })
-    }
-  }
 
   //SECTION - Table de dépendances
 
@@ -354,3 +396,32 @@ export async function _Iterop_AddOrRemoveRows(
         })
     }
   }
+  //!SECTION
+
+  //SECTION - LISTS
+
+  export async function _Iterop_GetOneList(
+    credentials,
+    token,
+    listId,
+    onDone = undefined,
+    onError = undefined
+  ) {
+  
+    if (credentials.tenant) {
+            const tenant = credentials.tenant.toLowerCase()
+            fetch(
+                    `https://api.uixhome.fr/${tenant}/iterop/list/one/${listId}/?t=${token}`, 
+                    {
+                        method: "POST",
+                    })
+                .then((response) => response.json())
+                .then((result) => {
+                    if (onDone) onDone(result)
+                })
+                .catch((error) => {
+                    if (onError) onError(error);
+                });
+    }
+  }
+  //!SECTION

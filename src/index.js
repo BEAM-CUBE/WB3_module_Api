@@ -86,11 +86,15 @@ import {
   _3DSwym_getAllListIdeas,
   _3DSwym_editIdea,
   _3DSwym_postIdea,
+  _3DSwym_ForwardIdea
 } from "./lib/plateform/Swym/idea";
 import {
   _3DSwym_get_currentUser,
   _3DSwym_get_findUser,
 } from "./lib/plateform/Swym/user";
+import {
+  _3DSwym_addComment
+} from "./lib/plateform/Swym/comment"
 import {
   _3DSwym_get_Token,
   _3DSwym_getAllNews,
@@ -106,9 +110,12 @@ import {
   _Iterop_AddOrRemoveRows,
   _Iterop_getOneBusinessTable,
   _Iterop_getOneBusinessTableRows,
+  _Iterop_businessTableSearchInRows,
+  _Iterop_updateBusinessTable,
   _Iterop_GetOneDependencyTable,
   _Iterop_PatchDependencyTable,
   _Iterop_PutDependencyTable,
+  _Iterop_GetOneList
 } from "./lib/plateform/main/iterop_apiv2";
 
 import { sayHello } from "./lib/add/index"; //Pour tester de la librairie
@@ -154,7 +161,9 @@ export {
   _3DSwym_editIdea,
   _3DSwym_postIdea,
   _3DSwym_postIdeaTemplate,
+  _3DSwym_ForwardIdea,
   _3DSwym_sendMessageData,
+  _3DSwym_addComment,
   _getServiceUrl_Iterop,
   _Iterop_Auth_CAS,
   _Iterop_jwtUser,
@@ -162,9 +171,12 @@ export {
   _Iterop_getAllBusinessTables,
   _Iterop_getOneBusinessTable,
   _Iterop_getOneBusinessTableRows,
+  _Iterop_businessTableSearchInRows,
+  _Iterop_updateBusinessTable,
   _Iterop_GetOneDependencyTable,
   _Iterop_PatchDependencyTable,
   _Iterop_PutDependencyTable,
+  _Iterop_GetOneList,
   _Iterop_runProcess,
   _Iterop_AddOrRemoveRows,
   _AppMngt_get_info_user,
