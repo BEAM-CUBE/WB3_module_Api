@@ -307,7 +307,7 @@ export async function _Iterop_runProcess(
       const urlAPIV2Iterop =
         serviceUrls.services.find((service) => service.id === "businessprocess")
           ?.url + "/api/v2";
-      const urlService = encodeURIComponent(`${urlAPIV2Iterop}`);
+      // const urlService = encodeURIComponent(`${urlAPIV2Iterop}`);
       const tenant = credentials.tenant.toLowerCase();
       fetch(
         `https://api.uixhome.fr/${tenant}/iterop/runtime/processes/${processKey}?t=${token}&b=${body}`,
@@ -327,11 +327,19 @@ export async function _Iterop_runProcess(
 }
 
 //SECTION - Table de dépendances
-
+/**
+ * Retrieves all dependency tables.
+ *
+ * @param {Object} credentials - credentials.
+ * @param {String} credentials.tenant - Tenant credentials.
+ * @param {String} token - token iterop.
+ * @param {Function} [onDone] - Callback function for successful response.
+ * @param {Function} [onError] - Callback function for error response.
+ * @return {Promise} Resolves with the result of the API call.
+ */
 export async function _Iterop_GetAllDependencyTable(
   credentials,
   token,
-  tableId,
   onDone = undefined,
   onError = undefined
 ) {
