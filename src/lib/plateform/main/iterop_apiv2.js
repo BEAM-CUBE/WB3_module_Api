@@ -59,7 +59,11 @@ export function _Iterop_Auth_CAS(
     });
   }
 }
-
+/**
+ * @description _Iterop_jwtUser appel sur l'api et demande un Token lié à l'utilisateur et au tenant.
+ *
+ * @return  {Function}  callback retournant la réponse de l'api
+ */
 export function _Iterop_jwtUser(
   credentials,
   onDone = undefined,
@@ -281,7 +285,15 @@ export async function _Iterop_updateBusinessTable(
       });
   }
 }
-
+/**
+ * @description Fonction asynchrone, `_Iterop_runProcess` permet de lancer un processus ITEROP
+ * @param   {Object} credentials  Informations d'identification du tenant.
+ * @param   {String} credentials.tenant  Le tenant.
+ * @param   {String} token  Le jeton CSRF.
+ * @param   {String} processKey - le nom du processus ITEROP.
+ * @param   {String} body - le body de la requête, doit être au format String et encodé. @exemple encodeURIComponent(JSON.stringify(body)).
+ * @return  {Function}  Callback contenant le message de retour de l'api
+ */
 export async function _Iterop_runProcess(
   credentials,
   token,
@@ -295,7 +307,7 @@ export async function _Iterop_runProcess(
       const urlAPIV2Iterop =
         serviceUrls.services.find((service) => service.id === "businessprocess")
           ?.url + "/api/v2";
-      const urlService = encodeURIComponent(`${urlAPIV2Iterop}`);
+      // const urlService = encodeURIComponent(`${urlAPIV2Iterop}`);
       const tenant = credentials.tenant.toLowerCase();
       fetch(
         `https://api.uixhome.fr/${tenant}/iterop/runtime/processes/${processKey}?t=${token}&b=${body}`,
@@ -315,11 +327,19 @@ export async function _Iterop_runProcess(
 }
 
 //SECTION - Table de dépendances
-
+/**
+ * Retrieves all dependency tables.
+ *
+ * @param {Object} credentials - credentials.
+ * @param {String} credentials.tenant - Tenant credentials.
+ * @param {String} token - token iterop.
+ * @param {Function} [onDone] - Callback function for successful response.
+ * @param {Function} [onError] - Callback function for error response.
+ * @return {Promise} Resolves with the result of the API call.
+ */
 export async function _Iterop_GetAllDependencyTable(
   credentials,
   token,
-  tableId,
   onDone = undefined,
   onError = undefined
 ) {
