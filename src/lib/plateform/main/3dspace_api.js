@@ -111,6 +111,7 @@ export function _3DSpace_get_csrf(
     _httpCallAuthenticated(url, {
       onComplete(response, headers, xhr) {
         const info = JSON.parse(response);
+        credentials["success"] = true;
         credentials["token"] = info?.csrf?.value;
         credentials["datas"] = info?.data[0];
         if (onDone) {
