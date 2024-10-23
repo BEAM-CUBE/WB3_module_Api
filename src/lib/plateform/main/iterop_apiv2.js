@@ -116,6 +116,16 @@ export async function _Iterop_ListUsers(
   }
 }
 
+/**
+ * Retrieves all business tables.
+ *
+ * @param {Object} credentials - credentials.
+ * @param {String} credentials.tenant - Tenant credentials.
+ * @param {String} token - token iterop.
+ * @param {Function} [onDone] - Callback function for successful response.
+ * @param {Function} [onError] - Callback function for error response.
+ * @return {Promise} Resolves with the result of the API call.
+ */
 export async function _Iterop_getAllBusinessTables(
   credentials,
   token,
@@ -141,6 +151,15 @@ export async function _Iterop_getAllBusinessTables(
   }
 }
 
+/**
+ * Retrieves data for a specific Business Table.
+ *
+ * @param {Object} credentials - Credentials for authentication.
+ * @param {String} token - CSRF token for authentication.
+ * @param {String} tableId - ID of the Business Table to retrieve data from.
+ * @param {Function} [onDone] - Callback function to execute upon successful data retrieval.
+ * @param {Function} [onError] - Callback function to execute if an error occurs during retrieval.
+ */
 export async function _Iterop_getOneBusinessTable(
   credentials,
   token,
@@ -166,6 +185,15 @@ export async function _Iterop_getOneBusinessTable(
       });
   }
 }
+/**
+ * Retrieves rows from a specific Business Table based on the table ID.
+ *
+ * @param {Object} credentials - Credentials for authentication.
+ * @param {String} token - CSRF token for authentication.
+ * @param {String} tableId - ID of the Business Table to retrieve rows from.
+ * @param {Function} [onDone] - Callback function to execute upon successful retrieval.
+ * @param {Function} [onError] - Callback function to execute if an error occurs during retrieval.
+ */
 export async function _Iterop_getOneBusinessTableRows(
   credentials,
   token,
@@ -192,6 +220,17 @@ export async function _Iterop_getOneBusinessTableRows(
   }
 }
 
+/**
+ * (cli) => Add or remove rows in a Business Table
+ *
+ * @param {Object} credentials - credentials.
+ * @param {String} token - token iterop.
+ * @param {String} tableId - ID of the Business Table.
+ * @param {String} body - JSON string of the rows to add or remove, e.g. {"add": [{"uuid": "..."}, ...], "remove": ["...", ...]}.
+ * @param {Function} [onDone] - Callback function for successful response.
+ * @param {Function} [onError] - Callback function for error response.
+ * @return {Promise} Resolves with the result of the API call.
+ */
 export async function _Iterop_AddOrRemoveRows(
   credentials,
   token,
@@ -221,6 +260,18 @@ export async function _Iterop_AddOrRemoveRows(
   }
 }
 
+/**
+ * @description _Iterop_businessTableSearchInRows rows in a Business Table.
+ *
+ * @param {Object} credentials - credentials.
+ * @param {String} token - token iterop.
+ * @param {String} tableId - ID of the Business Table.
+ * @param {String} columns - List of columns to search on, separated by '+'.
+ * @param {String} body - JSON string of the filters to apply.
+ * @param {Function} [onDone] - Callback function for successful response.
+ * @param {Function} [onError] - Callback function for error response.
+ * @return {Promise} Resolves with the result of the API call.
+ */
 export async function _Iterop_businessTableSearchInRows(
   credentials,
   token,
@@ -256,6 +307,16 @@ export async function _Iterop_businessTableSearchInRows(
   }
 }
 
+/**
+ * @description Updates a business table with the provided data.
+ *
+ * @param {Object} credentials - Credentials for authentication.
+ * @param {String} token - CSRF token for authentication.
+ * @param {String} tableId - ID of the table to update.
+ * @param {String} body - Data to update the table with.
+ * @param {Function} [onDone] - Callback function to execute upon successful update.
+ * @param {Function} [onError] - Callback function to execute if an error occurs during the update.
+ */
 export async function _Iterop_updateBusinessTable(
   credentials,
   token,
@@ -285,6 +346,7 @@ export async function _Iterop_updateBusinessTable(
       });
   }
 }
+
 /**
  * @description Fonction asynchrone, `_Iterop_runProcess` permet de lancer un processus ITEROP
  * @param   {Object} credentials  Informations d'identification du tenant.
@@ -328,7 +390,7 @@ export async function _Iterop_runProcess(
 
 //SECTION - Table de dépendances
 /**
- * Retrieves all dependency tables.
+ * Récupère toutes les tables de dépendances.
  *
  * @param {Object} credentials - credentials.
  * @param {String} credentials.tenant - Tenant credentials.
@@ -373,6 +435,7 @@ export async function _Iterop_GetOneDependencyTable(
       const urlAPIV2Iterop =
         serviceUrls.services.find((service) => service.id === "businessprocess")
           ?.url + "/api/v2";
+
       const urlService = encodeURIComponent(`${urlAPIV2Iterop}`);
       const tenant = credentials.tenant.toLowerCase();
       fetch(

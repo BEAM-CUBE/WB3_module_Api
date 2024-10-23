@@ -13127,6 +13127,334 @@ appelé avec l'objet de réponse comme argument.</p></td>
     
 
     
+    <h4 class="name" id="_Iterop_AddOrRemoveRows"><span class="type-signature"></span>_Iterop_AddOrRemoveRows<span class="signature">(credentials, token, tableId, body, onDone<span class="signature-attributes">opt</span>, onError<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>(cli) =&gt; Add or remove rows in a Business Table</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>credentials</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>credentials.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>token iterop.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tableId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>ID of the Business Table.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>body</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>JSON string of the rows to add or remove, e.g. {&quot;add&quot;: [{&quot;uuid&quot;: &quot;...&quot;}, ...], &quot;remove&quot;: [&quot;...&quot;, ...]}.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onDone</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Callback function for successful response.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onError</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Callback function for error response.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="plateform_main_iterop_apiv2.js.html">plateform/main/iterop_apiv2.js</a>, <a href="plateform_main_iterop_apiv2.js.html#line234">line 234</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Resolves with the result of the API call.</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
     <h4 class="name" id="_Iterop_GetAllDependencyTable"><span class="type-signature"></span>_Iterop_GetAllDependencyTable<span class="signature">(credentials, token, onDone<span class="signature-attributes">opt</span>, onError<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
     
 
@@ -13135,7 +13463,7 @@ appelé avec l'objet de réponse comme argument.</p></td>
 
 
 <div class="description">
-    <p>Retrieves all dependency tables.</p>
+    <p>Récupère toutes les tables de dépendances.</p>
 </div>
 
 
@@ -13384,7 +13712,7 @@ appelé avec l'objet de réponse comme argument.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_iterop_apiv2.js.html">plateform/main/iterop_apiv2.js</a>, <a href="plateform_main_iterop_apiv2.js.html#line340">line 340</a>
+        <a href="plateform_main_iterop_apiv2.js.html">plateform/main/iterop_apiv2.js</a>, <a href="plateform_main_iterop_apiv2.js.html#line402">line 402</a>
     </li></ul></dd>
     
 
@@ -13494,7 +13822,1231 @@ appelé avec l'objet de réponse comme argument.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_iterop_apiv2.js.html">plateform/main/iterop_apiv2.js</a>, <a href="plateform_main_iterop_apiv2.js.html#line398">line 398</a>
+        <a href="plateform_main_iterop_apiv2.js.html">plateform/main/iterop_apiv2.js</a>, <a href="plateform_main_iterop_apiv2.js.html#line461">line 461</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="_Iterop_businessTableSearchInRows"><span class="type-signature"></span>_Iterop_businessTableSearchInRows<span class="signature">(credentials, token, tableId, columns, body, onDone<span class="signature-attributes">opt</span>, onError<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>_Iterop_businessTableSearchInRows rows in a Business Table.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>credentials</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>credentials.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>token iterop.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tableId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>ID of the Business Table.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>columns</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>List of columns to search on, separated by '+'.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>body</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>JSON string of the filters to apply.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onDone</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Callback function for successful response.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onError</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Callback function for error response.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="plateform_main_iterop_apiv2.js.html">plateform/main/iterop_apiv2.js</a>, <a href="plateform_main_iterop_apiv2.js.html#line275">line 275</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Resolves with the result of the API call.</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="_Iterop_getAllBusinessTables"><span class="type-signature"></span>_Iterop_getAllBusinessTables<span class="signature">(credentials, token, onDone<span class="signature-attributes">opt</span>, onError<span class="signature-attributes">opt</span>)</span><span class="type-signature"> &rarr; {Promise}</span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Retrieves all business tables.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>credentials</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>credentials.</p>
+                <h6>Properties</h6>
+                
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>tenant</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>Tenant credentials.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+            </td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>token iterop.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onDone</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Callback function for successful response.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onError</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Callback function for error response.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="plateform_main_iterop_apiv2.js.html">plateform/main/iterop_apiv2.js</a>, <a href="plateform_main_iterop_apiv2.js.html#line129">line 129</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<h5>Returns:</h5>
+
+        
+<div class="param-desc">
+    <p>Resolves with the result of the API call.</p>
+</div>
+
+
+
+<dl>
+    <dt>
+        Type
+    </dt>
+    <dd>
+        
+<span class="param-type">Promise</span>
+
+
+    </dd>
+</dl>
+
+    
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="_Iterop_getOneBusinessTable"><span class="type-signature"></span>_Iterop_getOneBusinessTable<span class="signature">(credentials, token, tableId, onDone<span class="signature-attributes">opt</span>, onError<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Retrieves data for a specific Business Table.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>credentials</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Credentials for authentication.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>CSRF token for authentication.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tableId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>ID of the Business Table to retrieve data from.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onDone</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Callback function to execute upon successful data retrieval.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onError</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Callback function to execute if an error occurs during retrieval.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="plateform_main_iterop_apiv2.js.html">plateform/main/iterop_apiv2.js</a>, <a href="plateform_main_iterop_apiv2.js.html#line163">line 163</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="_Iterop_getOneBusinessTableRows"><span class="type-signature"></span>_Iterop_getOneBusinessTableRows<span class="signature">(credentials, token, tableId, onDone<span class="signature-attributes">opt</span>, onError<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Retrieves rows from a specific Business Table based on the table ID.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>credentials</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Credentials for authentication.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>CSRF token for authentication.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tableId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>ID of the Business Table to retrieve rows from.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onDone</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Callback function to execute upon successful retrieval.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onError</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Callback function to execute if an error occurs during retrieval.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="plateform_main_iterop_apiv2.js.html">plateform/main/iterop_apiv2.js</a>, <a href="plateform_main_iterop_apiv2.js.html#line197">line 197</a>
     </li></ul></dd>
     
 
@@ -13859,7 +15411,7 @@ appelé avec l'objet de réponse comme argument.</p></td>
     
     <dt class="tag-source">Source:</dt>
     <dd class="tag-source"><ul class="dummy"><li>
-        <a href="plateform_main_iterop_apiv2.js.html">plateform/main/iterop_apiv2.js</a>, <a href="plateform_main_iterop_apiv2.js.html#line297">line 297</a>
+        <a href="plateform_main_iterop_apiv2.js.html">plateform/main/iterop_apiv2.js</a>, <a href="plateform_main_iterop_apiv2.js.html#line359">line 359</a>
     </li></ul></dd>
     
 
@@ -13906,6 +15458,312 @@ appelé avec l'objet de réponse comme argument.</p></td>
 </dl>
 
     
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id="_Iterop_updateBusinessTable"><span class="type-signature"></span>_Iterop_updateBusinessTable<span class="signature">(credentials, token, tableId, body, onDone<span class="signature-attributes">opt</span>, onError<span class="signature-attributes">opt</span>)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Updates a business table with the provided data.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+        <th>Attributes</th>
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>credentials</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Credentials for authentication.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>token</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>CSRF token for authentication.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>tableId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>ID of the table to update.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>body</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">String</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Data to update the table with.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onDone</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Callback function to execute upon successful update.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onError</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">function</span>
+
+
+            
+            </td>
+
+            
+                <td class="attributes">
+                
+                    &lt;optional><br>
+                
+
+                
+
+                
+                </td>
+            
+
+            
+
+            <td class="description last"><p>Callback function to execute if an error occurs during the update.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="plateform_main_iterop_apiv2.js.html">plateform/main/iterop_apiv2.js</a>, <a href="plateform_main_iterop_apiv2.js.html#line320">line 320</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -24031,13 +25889,13 @@ l'événement existant dans le tableau</p></td>
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#UUID">UUID</a></li><li><a href="global.html#_3DSpace_Create_Doc">_3DSpace_Create_Doc</a></li><li><a href="global.html#_3DSpace_bookmark_addSubsciptions">_3DSpace_bookmark_addSubsciptions</a></li><li><a href="global.html#_3DSpace_csrf">_3DSpace_csrf</a></li><li><a href="global.html#_3DSpace_download_doc">_3DSpace_download_doc</a></li><li><a href="global.html#_3DSpace_download_multidoc">_3DSpace_download_multidoc</a></li><li><a href="global.html#_3DSpace_file_update">_3DSpace_file_update</a></li><li><a href="global.html#_3DSpace_file_update_csr">_3DSpace_file_update_csr</a></li><li><a href="global.html#_3DSpace_file_url_csr">_3DSpace_file_url_csr</a></li><li><a href="global.html#_3DSpace_get_csrf">_3DSpace_get_csrf</a></li><li><a href="global.html#_3DSpace_get_docInfo">_3DSpace_get_docInfo</a></li><li><a href="global.html#_3DSpace_get_downloadTicket_multidoc">_3DSpace_get_downloadTicket_multidoc</a></li><li><a href="global.html#_3DSpace_get_securityContexts">_3DSpace_get_securityContexts</a></li><li><a href="global.html#_3DSpace_get_ticket">_3DSpace_get_ticket</a></li><li><a href="global.html#_3DSpace_lifecycle_changeRevision">_3DSpace_lifecycle_changeRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_changeState">_3DSpace_lifecycle_changeState</a></li><li><a href="global.html#_3DSpace_lifecycle_getGraph">_3DSpace_lifecycle_getGraph</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextRevision">_3DSpace_lifecycle_getNextRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextStates">_3DSpace_lifecycle_getNextStates</a></li><li><a href="global.html#_3DSwym_buildDirectMessage">_3DSwym_buildDirectMessage</a></li><li><a href="global.html#_3DSwym_deleteIdea">_3DSwym_deleteIdea</a></li><li><a href="global.html#_3DSwym_editIdea">_3DSwym_editIdea</a></li><li><a href="global.html#_3DSwym_findCommunityToInstantMSG">_3DSwym_findCommunityToInstantMSG</a></li><li><a href="global.html#_3DSwym_getAllCommunities">_3DSwym_getAllCommunities</a></li><li><a href="global.html#_3DSwym_getAllListIdeas">_3DSwym_getAllListIdeas</a></li><li><a href="global.html#_3DSwym_getAllNews">_3DSwym_getAllNews</a></li><li><a href="global.html#_3DSwym_getFamiliarPeople">_3DSwym_getFamiliarPeople</a></li><li><a href="global.html#_3DSwym_getIdeaStatusMaturity">_3DSwym_getIdeaStatusMaturity</a></li><li><a href="global.html#_3DSwym_getMembersCommunity">_3DSwym_getMembersCommunity</a></li><li><a href="global.html#_3DSwym_getOneIdea">_3DSwym_getOneIdea</a></li><li><a href="global.html#_3DSwym_get_Token">_3DSwym_get_Token</a></li><li><a href="global.html#_3DSwym_get_currentUser">_3DSwym_get_currentUser</a></li><li><a href="global.html#_3DSwym_get_findUser">_3DSwym_get_findUser</a></li><li><a href="global.html#_3DSwym_postIdea">_3DSwym_postIdea</a></li><li><a href="global.html#_3DSwym_postIdeaTemplate">_3DSwym_postIdeaTemplate</a></li><li><a href="global.html#_3DSwym_sendMessageData">_3DSwym_sendMessageData</a></li><li><a href="global.html#_AppMngt_get_info_user">_AppMngt_get_info_user</a></li><li><a href="global.html#_AppMngt_get_users">_AppMngt_get_users</a></li><li><a href="global.html#_Iterop_GetAllDependencyTable">_Iterop_GetAllDependencyTable</a></li><li><a href="global.html#_Iterop_PatchDependencyTable">_Iterop_PatchDependencyTable</a></li><li><a href="global.html#_Iterop_jwtUser">_Iterop_jwtUser</a></li><li><a href="global.html#_Iterop_runProcess">_Iterop_runProcess</a></li><li><a href="global.html#_getPlateformInfos">_getPlateformInfos</a></li><li><a href="global.html#_getPlatformServices">_getPlatformServices</a></li><li><a href="global.html#_httpCallAuthenticated">_httpCallAuthenticated</a></li><li><a href="global.html#_setDraggable">_setDraggable</a></li><li><a href="global.html#_setDroppable">_setDroppable</a></li><li><a href="global.html#_setupTagger">_setupTagger</a></li><li><a href="global.html#addTagToDoc">addTagToDoc</a></li><li><a href="global.html#chunkArray">chunkArray</a></li><li><a href="global.html#compass_getListAdditionalApps">compass_getListAdditionalApps</a></li><li><a href="global.html#createUserGroups">createUserGroups</a></li><li><a href="global.html#dataMixing">dataMixing</a></li><li><a href="global.html#deleteUserGroups">deleteUserGroups</a></li><li><a href="global.html#findAdresse">findAdresse</a></li><li><a href="global.html#formatedMessage">formatedMessage</a></li><li><a href="global.html#getActualTagsOnDoc">getActualTagsOnDoc</a></li><li><a href="global.html#getAllContextSecurity">getAllContextSecurity</a></li><li><a href="global.html#getCSRFToken">getCSRFToken</a></li><li><a href="global.html#getCommunes">getCommunes</a></li><li><a href="global.html#getComplementUG">getComplementUG</a></li><li><a href="global.html#getDataFrom3DSpace">getDataFrom3DSpace</a></li><li><a href="global.html#getDataFromGouvFr">getDataFromGouvFr</a></li><li><a href="global.html#getDatasByTenant">getDatasByTenant</a></li><li><a href="global.html#getDatasFrom3DSpace">getDatasFrom3DSpace</a></li><li><a href="global.html#getDownloadDocument">getDownloadDocument</a></li><li><a href="global.html#getInfoDocTags">getInfoDocTags</a></li><li><a href="global.html#getUserGroupsList">getUserGroupsList</a></li><li><a href="global.html#getUsersGroupRules">getUsersGroupRules</a></li><li><a href="global.html#get_3DSpace_csrf">get_3DSpace_csrf</a></li><li><a href="global.html#loopingChunk">loopingChunk</a></li><li><a href="global.html#patchUserGroups">patchUserGroups</a></li><li><a href="global.html#patchUserGroupsControl">patchUserGroupsControl</a></li><li><a href="global.html#pushDataIn3DSpace">pushDataIn3DSpace</a></li><li><a href="global.html#readUserGroupControl">readUserGroupControl</a></li><li><a href="global.html#removeTagToDoc">removeTagToDoc</a></li><li><a href="global.html#sayHello">sayHello</a></li><li><a href="global.html#updateEvent">updateEvent</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#UUID">UUID</a></li><li><a href="global.html#_3DSpace_Create_Doc">_3DSpace_Create_Doc</a></li><li><a href="global.html#_3DSpace_bookmark_addSubsciptions">_3DSpace_bookmark_addSubsciptions</a></li><li><a href="global.html#_3DSpace_csrf">_3DSpace_csrf</a></li><li><a href="global.html#_3DSpace_download_doc">_3DSpace_download_doc</a></li><li><a href="global.html#_3DSpace_download_multidoc">_3DSpace_download_multidoc</a></li><li><a href="global.html#_3DSpace_file_update">_3DSpace_file_update</a></li><li><a href="global.html#_3DSpace_file_update_csr">_3DSpace_file_update_csr</a></li><li><a href="global.html#_3DSpace_file_url_csr">_3DSpace_file_url_csr</a></li><li><a href="global.html#_3DSpace_get_csrf">_3DSpace_get_csrf</a></li><li><a href="global.html#_3DSpace_get_docInfo">_3DSpace_get_docInfo</a></li><li><a href="global.html#_3DSpace_get_downloadTicket_multidoc">_3DSpace_get_downloadTicket_multidoc</a></li><li><a href="global.html#_3DSpace_get_securityContexts">_3DSpace_get_securityContexts</a></li><li><a href="global.html#_3DSpace_get_ticket">_3DSpace_get_ticket</a></li><li><a href="global.html#_3DSpace_lifecycle_changeRevision">_3DSpace_lifecycle_changeRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_changeState">_3DSpace_lifecycle_changeState</a></li><li><a href="global.html#_3DSpace_lifecycle_getGraph">_3DSpace_lifecycle_getGraph</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextRevision">_3DSpace_lifecycle_getNextRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextStates">_3DSpace_lifecycle_getNextStates</a></li><li><a href="global.html#_3DSwym_buildDirectMessage">_3DSwym_buildDirectMessage</a></li><li><a href="global.html#_3DSwym_deleteIdea">_3DSwym_deleteIdea</a></li><li><a href="global.html#_3DSwym_editIdea">_3DSwym_editIdea</a></li><li><a href="global.html#_3DSwym_findCommunityToInstantMSG">_3DSwym_findCommunityToInstantMSG</a></li><li><a href="global.html#_3DSwym_getAllCommunities">_3DSwym_getAllCommunities</a></li><li><a href="global.html#_3DSwym_getAllListIdeas">_3DSwym_getAllListIdeas</a></li><li><a href="global.html#_3DSwym_getAllNews">_3DSwym_getAllNews</a></li><li><a href="global.html#_3DSwym_getFamiliarPeople">_3DSwym_getFamiliarPeople</a></li><li><a href="global.html#_3DSwym_getIdeaStatusMaturity">_3DSwym_getIdeaStatusMaturity</a></li><li><a href="global.html#_3DSwym_getMembersCommunity">_3DSwym_getMembersCommunity</a></li><li><a href="global.html#_3DSwym_getOneIdea">_3DSwym_getOneIdea</a></li><li><a href="global.html#_3DSwym_get_Token">_3DSwym_get_Token</a></li><li><a href="global.html#_3DSwym_get_currentUser">_3DSwym_get_currentUser</a></li><li><a href="global.html#_3DSwym_get_findUser">_3DSwym_get_findUser</a></li><li><a href="global.html#_3DSwym_postIdea">_3DSwym_postIdea</a></li><li><a href="global.html#_3DSwym_postIdeaTemplate">_3DSwym_postIdeaTemplate</a></li><li><a href="global.html#_3DSwym_sendMessageData">_3DSwym_sendMessageData</a></li><li><a href="global.html#_AppMngt_get_info_user">_AppMngt_get_info_user</a></li><li><a href="global.html#_AppMngt_get_users">_AppMngt_get_users</a></li><li><a href="global.html#_Iterop_AddOrRemoveRows">_Iterop_AddOrRemoveRows</a></li><li><a href="global.html#_Iterop_GetAllDependencyTable">_Iterop_GetAllDependencyTable</a></li><li><a href="global.html#_Iterop_PatchDependencyTable">_Iterop_PatchDependencyTable</a></li><li><a href="global.html#_Iterop_businessTableSearchInRows">_Iterop_businessTableSearchInRows</a></li><li><a href="global.html#_Iterop_getAllBusinessTables">_Iterop_getAllBusinessTables</a></li><li><a href="global.html#_Iterop_getOneBusinessTable">_Iterop_getOneBusinessTable</a></li><li><a href="global.html#_Iterop_getOneBusinessTableRows">_Iterop_getOneBusinessTableRows</a></li><li><a href="global.html#_Iterop_jwtUser">_Iterop_jwtUser</a></li><li><a href="global.html#_Iterop_runProcess">_Iterop_runProcess</a></li><li><a href="global.html#_Iterop_updateBusinessTable">_Iterop_updateBusinessTable</a></li><li><a href="global.html#_getPlateformInfos">_getPlateformInfos</a></li><li><a href="global.html#_getPlatformServices">_getPlatformServices</a></li><li><a href="global.html#_httpCallAuthenticated">_httpCallAuthenticated</a></li><li><a href="global.html#_setDraggable">_setDraggable</a></li><li><a href="global.html#_setDroppable">_setDroppable</a></li><li><a href="global.html#_setupTagger">_setupTagger</a></li><li><a href="global.html#addTagToDoc">addTagToDoc</a></li><li><a href="global.html#chunkArray">chunkArray</a></li><li><a href="global.html#compass_getListAdditionalApps">compass_getListAdditionalApps</a></li><li><a href="global.html#createUserGroups">createUserGroups</a></li><li><a href="global.html#dataMixing">dataMixing</a></li><li><a href="global.html#deleteUserGroups">deleteUserGroups</a></li><li><a href="global.html#findAdresse">findAdresse</a></li><li><a href="global.html#formatedMessage">formatedMessage</a></li><li><a href="global.html#getActualTagsOnDoc">getActualTagsOnDoc</a></li><li><a href="global.html#getAllContextSecurity">getAllContextSecurity</a></li><li><a href="global.html#getCSRFToken">getCSRFToken</a></li><li><a href="global.html#getCommunes">getCommunes</a></li><li><a href="global.html#getComplementUG">getComplementUG</a></li><li><a href="global.html#getDataFrom3DSpace">getDataFrom3DSpace</a></li><li><a href="global.html#getDataFromGouvFr">getDataFromGouvFr</a></li><li><a href="global.html#getDatasByTenant">getDatasByTenant</a></li><li><a href="global.html#getDatasFrom3DSpace">getDatasFrom3DSpace</a></li><li><a href="global.html#getDownloadDocument">getDownloadDocument</a></li><li><a href="global.html#getInfoDocTags">getInfoDocTags</a></li><li><a href="global.html#getUserGroupsList">getUserGroupsList</a></li><li><a href="global.html#getUsersGroupRules">getUsersGroupRules</a></li><li><a href="global.html#get_3DSpace_csrf">get_3DSpace_csrf</a></li><li><a href="global.html#loopingChunk">loopingChunk</a></li><li><a href="global.html#patchUserGroups">patchUserGroups</a></li><li><a href="global.html#patchUserGroupsControl">patchUserGroupsControl</a></li><li><a href="global.html#pushDataIn3DSpace">pushDataIn3DSpace</a></li><li><a href="global.html#readUserGroupControl">readUserGroupControl</a></li><li><a href="global.html#removeTagToDoc">removeTagToDoc</a></li><li><a href="global.html#sayHello">sayHello</a></li><li><a href="global.html#updateEvent">updateEvent</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Fri Oct 04 2024 12:32:14 GMT+0200 (heure d’été d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Wed Oct 23 2024 14:33:25 GMT+0200 (heure d’été d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>
