@@ -224,6 +224,7 @@ export async function _Iterop_getOneBusinessTableRows(
  * (cli) => Add or remove rows in a Business Table
  *
  * @param {Object} credentials - credentials.
+ * @param {String} credentials.tenant - credentials.tenant @exemple "r1132480937497"
  * @param {String} token - token iterop.
  * @param {String} tableId - ID of the Business Table.
  * @param {String} body - JSON string of the rows to add or remove, e.g. {"add": [{"uuid": "..."}, ...], "remove": ["...", ...]}.
@@ -264,19 +265,21 @@ export async function _Iterop_AddOrRemoveRows(
  * @description _Iterop_businessTableSearchInRows rows in a Business Table.
  *
  * @param {Object} credentials - credentials.
+ * @param {String} credentials.tenant - credentials.tenant @exemple "r1132480937497"
  * @param {String} token - token iterop.
  * @param {String} tableId - ID of the Business Table.
- * @param {String} columns - List of columns to search on, separated by '+'.
+ * @param {String} columnsName - List of columns to search on, separated by '+'.
  * @param {String} body - JSON string of the filters to apply.
  * @param {Function} [onDone] - Callback function for successful response.
  * @param {Function} [onError] - Callback function for error response.
  * @return {Promise} Resolves with the result of the API call.
+
  */
 export async function _Iterop_businessTableSearchInRows(
   credentials,
   token,
   tableId,
-  columns,
+  columnsName,
   body,
   onDone = undefined,
   onError = undefined
@@ -285,7 +288,7 @@ export async function _Iterop_businessTableSearchInRows(
   // Exemple : body(String) = {"filters": [{"uuid": "e56fd041-a9c0-4f1c-91ff-643a826a84d9","isactive": true}]}
   if (credentials.tenant) {
     const url = `https://api.uixhome.fr/${credentials.tenant.toLowerCase()}/iterop/businesstable/search/rows/${tableId}?t=${token}&c=${encodeURIComponent(
-      columns
+      columnsName
     )}&b=${encodeURIComponent(body)}`;
     fetch(url, {
       method: "POST",
@@ -300,7 +303,7 @@ export async function _Iterop_businessTableSearchInRows(
           onError({
             error,
             tableId,
-            columns,
+            columns: columnsName,
             body,
           });
       });
