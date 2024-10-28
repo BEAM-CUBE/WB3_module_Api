@@ -221,13 +221,13 @@ export async function _Iterop_getOneBusinessTableRows(
 }
 
 /**
- * (cli) => Add or remove rows in a Business Table
+ * @description `_Iterop_AddOrRemoveRows` Met a jour les lignes d'une table Business.
  *
  * @param {Object} credentials - credentials.
  * @param {String} credentials.tenant - credentials.tenant @exemple "r1132480937497"
  * @param {String} token - token iterop.
  * @param {String} tableId - ID of the Business Table.
- * @param {String} body - JSON string of the rows to add or remove, e.g. {"add": [{"uuid": "..."}, ...], "remove": ["...", ...]}.
+ * @param {String} body - JSON string of the rows to add or remove, e.g. {"rowsToAdd": [{"uuid": "..."}, ...], "rowsToRemove": ["...", ...]}.
  * @param {Function} [onDone] - Callback function for successful response.
  * @param {Function} [onError] - Callback function for error response.
  * @return {Promise} Resolves with the result of the API call.
