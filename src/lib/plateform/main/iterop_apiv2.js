@@ -368,26 +368,20 @@ export async function _Iterop_runProcess(
   onError = undefined
 ) {
   if (credentials.tenant) {
-    _getServiceUrl(credentials, (serviceUrls) => {
-      const urlAPIV2Iterop =
-        serviceUrls.services.find((service) => service.id === "businessprocess")
-          ?.url + "/api/v2";
-      // const urlService = encodeURIComponent(`${urlAPIV2Iterop}`);
-      const tenant = credentials.tenant.toLowerCase();
-      fetch(
-        `https://api.uixhome.fr/${tenant}/iterop/runtime/processes/${processKey}?t=${token}&b=${body}`,
-        {
-          method: "POST",
-        }
-      )
-        .then((response) => response.json())
-        .then((result) => {
-          if (onDone) onDone(result);
-        })
-        .catch((error) => {
-          if (onError) onError(error);
-        });
-    });
+    const tenant = credentials.tenant.toLowerCase();
+    fetch(
+      `https://api.uixhome.fr/${tenant}/iterop/runtime/processes/${processKey}?t=${token}&b=${body}`,
+      {
+        method: "POST",
+      }
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        if (onDone) onDone(result);
+      })
+      .catch((error) => {
+        if (onError) onError(error);
+      });
   }
 }
 
@@ -464,26 +458,20 @@ export async function _Iterop_PatchDependencyTable(
   onError = undefined
 ) {
   if (credentials.tenant) {
-    _getServiceUrl(credentials, (serviceUrls) => {
-      const urlAPIV2Iterop =
-        serviceUrls.services.find((service) => service.id === "businessprocess")
-          ?.url + "/api/v2";
-      const urlService = encodeURIComponent(`${urlAPIV2Iterop}`);
-      const tenant = credentials.tenant.toLowerCase();
-      fetch(
-        `https://api.uixhome.fr/${tenant}/iterop/dependencytable/patch/${tableId}/?t=${token}&cli=${cli}&b=${body}`,
-        {
-          method: "POST",
-        }
-      )
-        .then((response) => response.json())
-        .then((result) => {
-          if (onDone) onDone(result);
-        })
-        .catch((error) => {
-          if (onError) onError(error);
-        });
-    });
+    const tenant = credentials.tenant.toLowerCase();
+    fetch(
+      `https://api.uixhome.fr/${tenant}/iterop/dependencytable/patch/${tableId}/?t=${token}&cli=${cli}&b=${body}`,
+      {
+        method: "POST",
+      }
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        if (onDone) onDone(result);
+      })
+      .catch((error) => {
+        if (onError) onError(error);
+      });
   }
 }
 
@@ -496,26 +484,20 @@ export async function _Iterop_PutDependencyTable(
   onError = undefined
 ) {
   if (credentials.tenant) {
-    _getServiceUrl(credentials, (serviceUrls) => {
-      const urlAPIV2Iterop =
-        serviceUrls.services.find((service) => service.id === "businessprocess")
-          ?.url + "/api/v2";
-      const urlService = encodeURIComponent(`${urlAPIV2Iterop}`);
-      const tenant = credentials.tenant.toLowerCase();
-      fetch(
-        `https://api.uixhome.fr/${tenant}/iterop/dependencytable/put/${tableId}/?t=${token}&b=${body}`,
-        {
-          method: "POST",
-        }
-      )
-        .then((response) => response.json())
-        .then((result) => {
-          if (onDone) onDone(result);
-        })
-        .catch((error) => {
-          if (onError) onError(error);
-        });
-    });
+    const tenant = credentials.tenant.toLowerCase();
+    fetch(
+      `https://api.uixhome.fr/${tenant}/iterop/dependencytable/put/${tableId}/?t=${token}&b=${body}`,
+      {
+        method: "POST",
+      }
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        if (onDone) onDone(result);
+      })
+      .catch((error) => {
+        if (onError) onError(error);
+      });
   }
 }
 //!SECTION
