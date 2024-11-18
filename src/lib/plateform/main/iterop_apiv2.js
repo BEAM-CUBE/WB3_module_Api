@@ -434,27 +434,20 @@ export async function _Iterop_GetOneDependencyTable(
   onError = undefined
 ) {
   if (credentials.tenant) {
-    _getServiceUrl(credentials, (serviceUrls) => {
-      const urlAPIV2Iterop =
-        serviceUrls.services.find((service) => service.id === "businessprocess")
-          ?.url + "/api/v2";
-
-      const urlService = encodeURIComponent(`${urlAPIV2Iterop}`);
-      const tenant = credentials.tenant.toLowerCase();
-      fetch(
-        `https://api.uixhome.fr/${tenant}/iterop/dependencytable/one/${tableId}/?t=${token}`,
-        {
-          method: "POST",
-        }
-      )
-        .then((response) => response.json())
-        .then((result) => {
-          if (onDone) onDone(result);
-        })
-        .catch((error) => {
-          if (onError) onError(error);
-        });
-    });
+    const tenant = credentials.tenant.toLowerCase();
+    fetch(
+      `https://api.uixhome.fr/${tenant}/iterop/dependencytable/one/${tableId}/?t=${token}`,
+      {
+        method: "POST",
+      }
+    )
+      .then((response) => response.json())
+      .then((result) => {
+        if (onDone) onDone(result);
+      })
+      .catch((error) => {
+        if (onError) onError(error);
+      });
   }
 }
 
