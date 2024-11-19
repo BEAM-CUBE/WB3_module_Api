@@ -85,37 +85,6 @@ export function _Iterop_jwtUser(
   }
 }
 
-export async function _Iterop_ListUsers(
-  credentials,
-  token,
-  onDone = undefined,
-  onError = undefined
-) {
-  if (credentials.tenant) {
-    _getServiceUrl(credentials, (serviceUrls) => {
-      const urlAPIV2Iterop =
-        serviceUrls.services.find((service) => service.id === "businessprocess")
-          ?.url + "/api/v2";
-      const urlService = `${urlAPIV2Iterop}/identity/users`;
-      const tenant = credentials.tenant.toLowerCase();
-
-      fetch(
-        `https://api.uixhome.fr/${tenant}/iterop/listusers?t=${token}&s=${urlService}`,
-        {
-          method: "POST",
-        }
-      )
-        .then((response) => response.json())
-        .then((result) => {
-          if (onDone) onDone(result);
-        })
-        .catch((error) => {
-          if (onError) onError(error);
-        });
-    });
-  }
-}
-
 /**
  * Retrieves all business tables.
  *
@@ -377,6 +346,7 @@ export async function _Iterop_runProcess(
     )
       .then((response) => response.json())
       .then((result) => {
+        console.log("_Iterop_runProcess : OK");
         if (onDone) onDone(result);
       })
       .catch((error) => {

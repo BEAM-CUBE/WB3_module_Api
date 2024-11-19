@@ -162,9 +162,9 @@ export function _getLoginTicket(
             platform.id === credentials.tenant.toUpperCase()
           )
           if (onDone && listServiceUrl) onDone(listServiceUrl)
-          else if (onError) onError("_getServiceUrl return listServiceUrl = undefined");
+          else if (onError) onError("_getLoginTicket return listServiceUrl = undefined");
         } else {
-          if (onError) onError("_getServiceUrl return oResponse = undefined");
+          if (onError) onError("_getLoginTicket return oResponse = undefined");
         }
       },
       onFailure(response) {
