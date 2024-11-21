@@ -397,6 +397,7 @@ export async function _Iterop_GetOneDependencyTable(
   onDone = undefined,
   onError = undefined
 ) {
+  console.log("_Iterop_GetOneDependencyTable | Run");
   if (credentials.tenant) {
     const tenant = credentials.tenant.toLowerCase();
     fetch(
