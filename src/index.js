@@ -53,6 +53,7 @@ import {
   _3DSpace_lifecycle_changeRevision,
   _3DSpace_bookmark_addSubsciptions,
   _3DSpace_bookmark_newWorkspace,
+  _3DSpace_put_docInfo,
 } from "./lib/plateform/main/3dspace_api";
 
 import { getCSRFToken } from "./lib/plateform/main/getCSRFToken";
@@ -133,6 +134,7 @@ export {
   _3DSpace_get_ticket,
   _3DSpace_get_csrf,
   _3DSpace_get_docInfo,
+  _3DSpace_put_docInfo,
   _3DSpace_get_multiDocInfo,
   _3DSpace_get_downloadTicket_multidoc,
   _3DSpace_get_securityContexts,

@@ -462,6 +462,44 @@ export function _3DSpace_file_update_csr(
   });
 }
 
+export async function _3DSpace_put_docInfo(
+  credentials,
+  docId,
+  onDone = undefined,
+  onError = undefined
+) {
+  const _space = credentials.space;
+  const csr = credentials.token;
+  const ctx = credentials.ctx;
+  const description = credentials?.description;
+
+  let url = `${credentials.space}/resources/v1/modeler/documents/${docId}`;
+  const data = JSON.stringify({
+    data: [
+      {
+        dataelements: {
+          description,
+        },
+      },
+    ],
+  });
+  if (description)
+    httpCallAuthenticated(url, {
+      method: "PUT",
+      headers: {
+        ENO_CSRF_TOKEN: credentials.token,
+      },
+      data,
+      type: "json",
+      onComplete(response) {
+        if (onDone) onError(response);
+      },
+      onFailure(err) {
+        if (onError) onError(err);
+      },
+    });
+}
+
 export async function _3DSpace_Update_Doc(
   credentials,
   objectId,
