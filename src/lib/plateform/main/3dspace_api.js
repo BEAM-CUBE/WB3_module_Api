@@ -492,7 +492,7 @@ export async function _3DSpace_put_docInfo(
       data,
       type: "json",
       onComplete(response) {
-        if (onDone) onError(response);
+        if (onDone) onDone(response);
       },
       onFailure(err) {
         if (onError) onError(err);
