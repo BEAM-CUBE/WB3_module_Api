@@ -484,7 +484,7 @@ export async function _3DSpace_put_docInfo(
     ],
   });
   if (description)
-    httpCallAuthenticated(url, {
+    _httpCallAuthenticated(url, {
       method: "PUT",
       headers: {
         ENO_CSRF_TOKEN: credentials.token,
