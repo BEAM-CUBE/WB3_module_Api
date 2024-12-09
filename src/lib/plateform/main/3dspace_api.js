@@ -472,6 +472,7 @@ export async function _3DSpace_put_docInfo(
   const csr = credentials.token;
   const ctx = credentials.ctx;
   const description = credentials?.description;
+  const title = credentials?.title;
 
   let url = `${credentials.space}/resources/v1/modeler/documents/${docId}`;
   const data = JSON.stringify({
@@ -479,6 +480,7 @@ export async function _3DSpace_put_docInfo(
       {
         dataelements: {
           description,
+          title,
         },
       },
     ],
