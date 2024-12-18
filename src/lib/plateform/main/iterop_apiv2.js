@@ -319,6 +319,35 @@ export async function _Iterop_updateBusinessTable(
   }
 }
 
+export async function _Iterop_createBusinessTable(
+  credentials,
+  token,
+  body,
+  onDone = undefined,
+  onError = undefined
+) {
+  if (credentials.tenant) {
+    const url = `https://api.uixhome.fr/${credentials.tenant.toLowerCase()}/iterop/businesstable/post/create/?t=${token}&b=${encodeURIComponent(
+      body
+    )}`;
+    fetch(url, {
+      method: "POST",
+    })
+      .then((response) => response.json())
+      .then((result) => {
+        //console.log("_Iterop_updateBusinessTable | _Iterop_businessTableSearchInRows | fetch | onDone", body);
+        if (onDone) onDone(result);
+      })
+      .catch((error) => {
+        if (onError)
+          onError({
+            error,
+            url,
+          });
+      });
+  }
+}
+
 /**
  * @description Fonction asynchrone, `_Iterop_runProcess` permet de lancer un processus ITEROP
  * @param   {Object} credentials  Informations d'identification du tenant.
