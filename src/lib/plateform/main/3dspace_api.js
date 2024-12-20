@@ -485,7 +485,6 @@ export async function _3DSpace_put_docInfo(
       },
     ],
   });
-  if (description)
     _httpCallAuthenticated(url, {
       method: "PUT",
       headers: {
