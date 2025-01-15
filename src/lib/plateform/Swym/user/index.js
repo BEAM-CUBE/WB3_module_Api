@@ -44,7 +44,7 @@ export function _3DSwym_get_currentUser(
             method: "GET",
             onComplete(response, headers, xhr) {
               let info = {};
-              const oResult = String(response);
+              const oResult = new String(response);
               console.log("oResult", oResult);
               Object.keys(oResult).forEach((key) => { 
                 if(oResult[key] === "firstName") {
