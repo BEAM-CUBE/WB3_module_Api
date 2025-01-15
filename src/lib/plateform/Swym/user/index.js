@@ -21,7 +21,6 @@ export function _3DSwym_get_currentUser(
   return new Promise((resolve, reject) => {
     // Simulate an asynchronous operation
     try {
-      const { _3DDashboard, _3DSwym } = credentials;
       let CURRENT_USER = undefined;
       // if (_3DSwym) {
       //   const url = credentials._3DSwym + "/api/user/getcurrent/";
@@ -38,16 +37,16 @@ export function _3DSwym_get_currentUser(
       //     });
       //   });
       // } 
-      console.log("_3DSwym_get_currentUser", credentials);
-      if(_3DDashboard) {
-        const url = _3DDashboard + "/api/users/current";
+      if(credentials._3DDashboard) {
+        const url = credentials._3DDashboard + "/api/users/current";
+        console.log("_3DSwym_get_currentUser | url", url);
           _httpCallAuthenticated(url, {
             method: "GET",
             onComplete(response, headers, xhr) {
-              console.log("_3DSwym_get_currentUser | response", response);
-              const info = JSON.parse(response);
+              const info = response.json();
               info["first_name"] = info["firstName"];
               info["last_name"] = info["lastName"];
+              console.log("_3DSwym_get_currentUser | info", info);
               CURRENT_USER = info;
               resolve(info);
             },
