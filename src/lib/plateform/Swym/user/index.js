@@ -48,8 +48,9 @@ export function _3DSwym_get_currentUser(
             },
           });
         });
-      } else {
-        const url = credentials._3DDashboard + "/api/users/current";
+      } 
+      if(!CURRENT_USER) {
+        const url = _3DDashboard + "/api/users/current";
           _httpCallAuthenticated(url, {
             method: "GET",
             onComplete(response, headers, xhr) {
