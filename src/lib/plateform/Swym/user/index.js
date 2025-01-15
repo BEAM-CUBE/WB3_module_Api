@@ -43,15 +43,8 @@ export function _3DSwym_get_currentUser(
           _httpCallAuthenticated(url, {
             method: "GET",
             onComplete(response, headers, xhr) {
-              let info = {};
-              const oResult = new String(response);
-              console.log("oResult", oResult);
-              Object.keys(oResult).forEach((key) => { 
-                if(oResult[key] === "firstName") {
-                  info["first_name"] = oResult["firstName"];
-                }
-              });
-              //const info = response.json();
+              response = response.replace("\"[", "[").replace("]\"", "]").replace("\"{", "{").replace("}\"", "}").replace(/\\/g, "");
+              const info = JSON.parse(response);
               info["first_name"] = info["firstName"];
               info["last_name"] = info["lastName"];
               console.log("_3DSwym_get_currentUser | info", info);
