@@ -22,7 +22,7 @@ export function _3DSwym_get_currentUser(
     // Simulate an asynchronous operation
     try {
       const { _3DDashboard, _3DSwym } = credentials;
-      let CURRENT_USER = null;
+      let CURRENT_USER = undefined;
       if (_3DSwym) {
         const url = credentials._3DSwym + "/api/user/getcurrent/";
         _3DSwym_get_Token(credentials, (token) => {
@@ -55,7 +55,9 @@ export function _3DSwym_get_currentUser(
       } else {
         reject("ERROR | _3DSwym_get_currentUser => CURRENT_USER is null");
       }
-    } catch (error) {}
+    } catch (error) {
+      reject("ERROR | _3DSwym_get_currentUser => ", error);
+    }
   });
 }
 
