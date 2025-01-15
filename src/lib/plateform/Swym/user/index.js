@@ -44,10 +44,12 @@ export function _3DSwym_get_currentUser(
           _httpCallAuthenticated(url, {
             method: "GET",
             onComplete(response, headers, xhr) {
+              console.log("_3DSwym_get_currentUser | response", response);
               const info = JSON.parse(response);
               info["first_name"] = info["firstName"];
               info["last_name"] = info["lastName"];
               CURRENT_USER = info;
+              resolve(info);
             },
             onFailure(error) {
               reject("ERROR | _3DSwym_get_currentUser => _3DDashboard + /api/users/current", error);
