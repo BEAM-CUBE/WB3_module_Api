@@ -52,8 +52,8 @@ export function _3DSwym_get_currentUser(
                 reject("ERROR | _3DSwym_get_currentUser => JSON.Parse()", error);
               }
               console.log(info);
-              info["first_name"] = info?.firstName;
-              info["last_name"] = info?.lastName;
+              info["first_name"] = info?.firstName ? info.firstName : "";
+              info["last_name"] = info?.lastName ? info.lastName : "";
               console.log("_3DSwym_get_currentUser | info", info);
               CURRENT_USER = info;
               resolve(info);
