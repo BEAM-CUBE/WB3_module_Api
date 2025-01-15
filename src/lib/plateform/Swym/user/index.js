@@ -47,7 +47,10 @@ export function _3DSwym_get_currentUser(
               info["first_name"] = info["firstName"];
               info["last_name"] = info["lastName"];
               CURRENT_USER = info;
-            }
+            },
+            onFailure(error) {
+              reject("ERROR | _3DSwym_get_currentUser => _3DDashboard + /api/users/current", error);
+            },
         });
       }
       if (CURRENT_USER) {
