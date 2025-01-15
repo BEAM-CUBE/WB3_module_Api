@@ -485,20 +485,20 @@ export async function _3DSpace_put_docInfo(
       },
     ],
   });
-    _httpCallAuthenticated(url, {
-      method: "PUT",
-      headers: {
-        ENO_CSRF_TOKEN: credentials.token,
-      },
-      data,
-      type: "json",
-      onComplete(response) {
-        if (onDone) onDone(response);
-      },
-      onFailure(err) {
-        if (onError) onError(err);
-      },
-    });
+  _httpCallAuthenticated(url, {
+    method: "PUT",
+    headers: {
+      ENO_CSRF_TOKEN: credentials.token,
+    },
+    data,
+    type: "json",
+    onComplete(response) {
+      if (onDone) onDone(response);
+    },
+    onFailure(err) {
+      if (onError) onError(err);
+    },
+  });
 }
 
 export async function _3DSpace_Update_Doc(
@@ -574,7 +574,6 @@ export async function _3DSpace_Create_Doc(
   checkinTicket(
     credentials,
     (resultCheckinTicket) => {
-      console.log("resultCheckinTicket", filename, resultCheckinTicket);
       if (resultCheckinTicket?.items >= 1) {
         resultCheckinTicket.data.forEach((fcs__jobTicket) => {
           pushFileInFcs(
@@ -582,7 +581,6 @@ export async function _3DSpace_Create_Doc(
             data,
             filename,
             (receipt) => {
-              console.log("receipt", filename, receipt);
               relatedDocAndFile(
                 credentials,
                 receipt,
