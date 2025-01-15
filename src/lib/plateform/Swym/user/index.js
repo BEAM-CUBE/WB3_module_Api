@@ -33,19 +33,8 @@ export function _3DSwym_get_currentUser(
             },
             onComplete(response, headers, xhr) {
               const info = JSON.parse(response);
-              if (onDone) onDone(info.result);
               CURRENT_USER = info.result;
-            },
-
-            onFailure(response, headers, xhr) {
-              const infos = { erreur: JSON.parse(response), headers, xhr };
-              if (onError) onError(infos);
-              if (onError)
-                console.error(
-                  "ERROR | _3DSwym_get_currentUser => _3dswym_get_version | onFailure",
-                  response
-                );
-            },
+            }
           });
         });
       } 
@@ -55,21 +44,10 @@ export function _3DSwym_get_currentUser(
             method: "GET",
             onComplete(response, headers, xhr) {
               const info = JSON.parse(response);
-              if (onDone) onDone(info);
               info["first_name"] = info["firstName"];
               info["last_name"] = info["lastName"];
               CURRENT_USER = info;
-            },
-
-            onFailure(response, headers, xhr) {
-              const infos = { erreur: JSON.parse(response), headers, xhr };
-              if (onError) onError(infos);
-              if (onError)
-                console.error(
-                  "ERROR | _3DSwym_get_currentUser => _3dswym_get_version | onFailure",
-                  response
-                );
-            },
+            }
         });
       }
       if (CURRENT_USER) {
