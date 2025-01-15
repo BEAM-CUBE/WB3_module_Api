@@ -23,22 +23,23 @@ export function _3DSwym_get_currentUser(
     try {
       const { _3DDashboard, _3DSwym } = credentials;
       let CURRENT_USER = undefined;
-      if (_3DSwym) {
-        const url = credentials._3DSwym + "/api/user/getcurrent/";
-        _3DSwym_get_Token(credentials, (token) => {
-          _httpCallAuthenticated(url, {
-            method: "GET",
-            headers: {
-              "X-DS-SWYM-CSRFTOKEN": token.result.ServerToken,
-            },
-            onComplete(response, headers, xhr) {
-              const info = JSON.parse(response);
-              CURRENT_USER = info.result;
-            }
-          });
-        });
-      } 
-      if(!CURRENT_USER) {
+      // if (_3DSwym) {
+      //   const url = credentials._3DSwym + "/api/user/getcurrent/";
+      //   _3DSwym_get_Token(credentials, (token) => {
+      //     _httpCallAuthenticated(url, {
+      //       method: "GET",
+      //       headers: {
+      //         "X-DS-SWYM-CSRFTOKEN": token.result.ServerToken,
+      //       },
+      //       onComplete(response, headers, xhr) {
+      //         const info = JSON.parse(response);
+      //         CURRENT_USER = info.result;
+      //       }
+      //     });
+      //   });
+      // } 
+      console.log("_3DSwym_get_currentUser", credentials);
+      if(_3DDashboard) {
         const url = _3DDashboard + "/api/users/current";
           _httpCallAuthenticated(url, {
             method: "GET",
