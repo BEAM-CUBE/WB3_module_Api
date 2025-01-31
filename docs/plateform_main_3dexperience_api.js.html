@@ -26,10 +26,7 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import {
-  widget,
-  requirejs
-} from "@widget-lab/3ddashboard-utils";
+            <pre class="prettyprint source linenums"><code>import { widget, requirejs } from "@widget-lab/3ddashboard-utils";
 
 /**
  * @description Cette fonction effectue un appel HTTP authentifié à l'aide de la bibliothèque WAFData en de la plateforme.
@@ -61,7 +58,7 @@ export function _setDraggable(elem, strData, onDrag) {
   requirejs(["DS/DataDragAndDrop/DataDragAndDrop"], (DataDragAndDrop) => {
     DataDragAndDrop.draggable(elem, {
       data: strData,
-      start: onDrag
+      start: onDrag,
     });
   });
 }
@@ -101,7 +98,7 @@ export function _setupTagger(tags, onTaggerFilter = undefined) {
 export function _setDroppable(elem, drop) {
   requirejs(["DS/DataDragAndDrop/DataDragAndDrop"], (DataDragAndDrop) => {
     DataDragAndDrop.droppable(elem, {
-      drop
+      drop,
     });
   });
 }
@@ -121,7 +118,7 @@ export function _setDroppable(elem, drop) {
 export async function _getPlatformServices(
   platformId,
   onComplete = undefined,
-  onFailure = undefined,
+  onFailure = undefined
 ) {
   await requirejs(
     ["DS/i3DXCompassServices/i3DXCompassServices"],
@@ -138,10 +135,10 @@ export async function _getPlatformServices(
             platformId,
             onComplete,
             onFailure,
-          }),
+          })
         );
       }
-    },
+    }
   );
 }
 
@@ -164,7 +161,7 @@ export function _getPlateformInfos() {
     const user = plAPI.getUser();
     const appsConfiguration = plAPI.getAllApplicationConfigurations();
     const appConf = plAPI.getApplicationConfiguration(
-      "com.3ds.wp.passport.cors",
+      "com.3ds.wp.passport.cors"
     );
     retourAPI = {
       tenant,
@@ -177,20 +174,20 @@ export function _getPlateformInfos() {
   return retourAPI;
 }
 
-export function _getLoginTicket(
-  credentials
-) {
+export function _getLoginTicket(credentials) {
   if (credentials.tenant) {
-    const urlService = `https://${credentials.tenant}-eu1-apps.3dexperience.3ds.com/enovia/resources/AppsMngt/api/v1/services?tenant=${credentials.tenant}&amp;cors=true&amp;xrequestedwith=xmlhttprequest`
+    const urlService = `https://${credentials.tenant}-eu1-apps.3dexperience.3ds.com/enovia/resources/AppsMngt/api/v1/services?tenant=${credentials.tenant}&amp;cors=true&amp;xrequestedwith=xmlhttprequest`;
     _httpCallAuthenticated(urlService, {
       onComplete(response) {
-        const oResponse = typeof response === "string" ? JSON.parse(response) : response;
+        const oResponse =
+          typeof response === "string" ? JSON.parse(response) : response;
         if (oResponse &amp;&amp; "platforms" in oResponse) {
-          const listServiceUrl = oResponse.platforms.find(platform =>
-            platform.id === credentials.tenant.toUpperCase()
-          )
-          if (onDone &amp;&amp; listServiceUrl) onDone(listServiceUrl)
-          else if (onError) onError("_getLoginTicket return listServiceUrl = undefined");
+          const listServiceUrl = oResponse.platforms.find(
+            (platform) => platform.id === credentials.tenant.toUpperCase()
+          );
+          if (onDone &amp;&amp; listServiceUrl) onDone(listServiceUrl);
+          else if (onError)
+            onError("_getLoginTicket return listServiceUrl = undefined");
         } else {
           if (onError) onError("_getLoginTicket return oResponse = undefined");
         }
@@ -198,7 +195,25 @@ export function _getLoginTicket(
       onFailure(response) {
         if (onError) onError(response);
       },
-
+    });
+  }
+}
+export function _getMe(credentials, onDone = undefined, onError = undefined) {
+  if (credentials.tenant) {
+    const urlService = `https://${credentials.tenant}-eu1.iam.3dexperience.3ds.com/api/authenticated/user/me?xrequestedwith=xmlhttprequest`;
+    _httpCallAuthenticated(urlService, {
+      onComplete(response) {
+        const oResponse =
+          typeof response === "string" ? JSON.parse(response) : response;
+        if (oResponse &amp;&amp; "fields" in oResponse) {
+          if (onDone) onDone(oResponse.fields);
+        } else {
+          if (onError) onError("_getMe return not find properties fields");
+        }
+      },
+      onFailure(response) {
+        if (onError) onError("_getMe return error",response);
+      },
     });
   }
 }
@@ -209,16 +224,18 @@ export function _getServiceUrl(
   onError = undefined
 ) {
   if (credentials.tenant) {
-    const urlService = `https://${credentials.tenant}-eu1-apps.3dexperience.3ds.com/enovia/resources/AppsMngt/api/v1/services?tenant=${credentials.tenant}&amp;cors=true&amp;xrequestedwith=xmlhttprequest`
+    const urlService = `https://${credentials.tenant}-eu1-apps.3dexperience.3ds.com/enovia/resources/AppsMngt/api/v1/services?tenant=${credentials.tenant}&amp;cors=true&amp;xrequestedwith=xmlhttprequest`;
     _httpCallAuthenticated(urlService, {
       onComplete(response) {
-        const oResponse = typeof response === "string" ? JSON.parse(response) : response;
+        const oResponse =
+          typeof response === "string" ? JSON.parse(response) : response;
         if (oResponse &amp;&amp; "platforms" in oResponse) {
-          const listServiceUrl = oResponse.platforms.find(platform =>
-            platform.id === credentials.tenant.toUpperCase()
-          )
-          if (onDone &amp;&amp; listServiceUrl) onDone(listServiceUrl)
-          else if (onError) onError("_getServiceUrl return listServiceUrl = undefined");
+          const listServiceUrl = oResponse.platforms.find(
+            (platform) => platform.id === credentials.tenant.toUpperCase()
+          );
+          if (onDone &amp;&amp; listServiceUrl) onDone(listServiceUrl);
+          else if (onError)
+            onError("_getServiceUrl return listServiceUrl = undefined");
         } else {
           if (onError) onError("_getServiceUrl return oResponse = undefined");
         }
@@ -226,7 +243,6 @@ export function _getServiceUrl(
       onFailure(response) {
         if (onError) onError(response);
       },
-
     });
   }
 }
@@ -237,23 +253,23 @@ export function _getServiceUrl_3DPassport(
   onError = undefined
 ) {
   if (credentials.tenant) {
-    const urlService = `https://${credentials.tenant}-eu1-registry.3dexperience.3ds.com/api/v1/platform/service/instance?serviceId=3dpassport&amp;platformId=${credentials.tenant}`
+    const urlService = `https://${credentials.tenant}-eu1-registry.3dexperience.3ds.com/api/v1/platform/service/instance?serviceId=3dpassport&amp;platformId=${credentials.tenant}`;
     _httpCallAuthenticated(urlService, {
       onComplete(response) {
         const oResponse = JSON.parse(response);
         console.log("serviceId=3dpassport", oResponse);
         if (Array.isArray(oResponse) &amp;&amp; oResponse.length > 0) {
-          const urlServicePassport = `${oResponse[0].services[0].url}`
-          if (onDone) onDone(urlServicePassport)
+          const urlServicePassport = `${oResponse[0].services[0].url}`;
+          if (onDone) onDone(urlServicePassport);
         }
       },
       onFailure(response) {
         if (onError) onError(response);
       },
-
     });
   }
-}</code></pre>
+}
+</code></pre>
         </article>
     </section>
 
@@ -269,7 +285,7 @@ export function _getServiceUrl_3DPassport(
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Wed Jan 15 2025 18:30:26 GMT+0100 (heure normale d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Fri Jan 31 2025 12:37:47 GMT+0100 (heure normale d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -44,7 +44,7 @@ export function _3DSwym_get_currentUser(
             method: "GET",
             onComplete(response, headers, xhr) {
               let result = response.replace(/\"\[/g, "[").replace(/\]\"/g, "]").replace(/\"{/g, "{").replace(/}\"/g, "}").replace(/\\/g, "");
-              result = result.replace("\"[", "[").replace("]\"", "]").replace("\"{", "{").replace("}\"", "}").replace(/\\/g, "");
+              result = result.replace(/\"\[/g, "[").replace(/\]\"/g, "]").replace(/\"{/g, "{").replace(/}\"/g, "}").replace(/\\/g, "");
               console.log("result", result);
               let info = {};
               try {

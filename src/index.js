@@ -8,6 +8,7 @@ import {
 import { updateEvent, chunkArray } from "./lib/utils";
 import { compass_getListAdditionalApps } from "./lib/plateform/Compass";
 import {
+  _getMe,
   _setDraggable,
   _setDroppable,
   _getServiceUrl,
@@ -183,6 +184,7 @@ export {
   _Iterop_AddOrRemoveRows,
   _AppMngt_get_info_user,
   _AppMngt_get_users,
+  _getMe,
   _getPlateformInfos,
   _getServiceUrl,
   _getPlatformServices,
