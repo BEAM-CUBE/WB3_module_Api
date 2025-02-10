@@ -584,7 +584,7 @@ export async function _3DSpace_Upload_File(
                         const bodyRequest = JSON.stringify({
                           actions: [],
                           businessobj: {
-                            description: "",
+                            description: credentials?.description,
                             file: fileName,
                             fullnameowner: "",
                             icon: "",
