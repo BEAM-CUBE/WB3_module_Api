@@ -529,6 +529,145 @@ export async function _3DSpace_put_docInfo(
   });
 }
 
+/**
+ * Uploads a file to the 3DSpace platform.
+ *
+ * @param {Object} credentials - The credentials object.
+ * @param {string} credentials.tenant - The tenant name.
+ * @param {string} credentials.cs_name - The collaboration space name.
+ * @param {string} [fileName=undefined] - The name of the file to upload.
+ * @param {Blob} [blobFile=undefined] - The file blob to upload.
+ * @param {function} [onDone=undefined] - Callback function to execute on successful upload.
+ * @param {function} [onError=undefined] - Callback function to execute on error.
+ * @param {function} [onProgress=undefined] - Callback function to execute on upload progress.
+ * @returns {Promise&lt;void>} - A promise that resolves when the upload is complete.
+ */
+export async function _3DSpace_Upload_File(
+  credentials, // { tenant, cs_name }
+  fileName = undefined,
+  blobFile = undefined,
+  onDone = undefined,
+  onError = undefined,
+  onProgress = undefined
+) {
+  let { tenant, cs_name } = credentials;
+  if (!tenant &amp;&amp; !cs_name) {
+      if (onError) onError("Credentials undefined");
+      return;
+  }
+  if (!fileName &amp;&amp; !blobFile) {
+      if (onError) onError("Définition du fichier undefined");
+      return;
+  }
+  //cs_name = encodeURIComponent(cs_name);
+  const timeStamp = DateTime.now().ts;
+
+  //NOTE - Get Ticket
+  let url = `https://${tenant.toLowerCase()}-eu1-space.3dexperience.3ds.com/enovia/resources/enocsmrest/collabspaces/${encodeURIComponent(
+      cs_name
+  )}/ticket?id=${timeStamp}&amp;tenant=${tenant.toUpperCase()}&amp;xrequestedwith=xmlhttprequest`;
+
+  _httpCallAuthenticated(
+      `https://${tenant.toLowerCase()}-eu1-space.3dexperience.3ds.com/enovia/resources/enocsmrest/session?tenant=${tenant.toUpperCase()}&amp;xrequestedwith=xmlhttprequest`,
+      {
+          method: "GET",
+          onComplete(response) {
+              try {
+                  response = JSON.parse(response);
+                  const { csrftoken, isadmin } = response;
+                  if (csrftoken)
+                      _httpCallAuthenticated(url, {
+                          method: "GET",
+                          headers: {
+                              ENO_CSRF_TOKEN: credentials.token,
+                              Accept: "application/json"
+                          },
+
+                          onComplete(response, headers, xhr) {
+                              try {
+                                  response = JSON.parse(response);
+                                  if (response?.ticket) {
+                                      const { ticket, actionurl, jobticket } = response;
+
+                                      pushFileInFcs(
+                                          { dataelements: { ticket, ticketURL: actionurl } },
+                                          blobFile,
+                                          fileName,
+                                          response => {
+                                              let doc = new DOMParser().parseFromString(response, "text/html");
+                                              const receipt = doc.body.firstChild.querySelector("input").getAttributeNode("value").value;
+
+                                              const urlRelatedFile = `https://${tenant.toLowerCase()}-eu1-space.3dexperience.3ds.com/enovia/resources/enocsmrest/collabspaces/${cs_name}/contents?receipt=${encodeURIComponent(
+                                                  receipt
+                                              )}`;
+
+                                              let re = /(?:\.([^.]+))?$/;
+                                              let ext = re.exec(fileName)[1];
+
+                                              const bodyRequest = JSON.stringify({
+                                                  actions: [],
+                                                  businessobj: {
+                                                      description: "",
+                                                      file: fileName,
+                                                      fullnameowner: "",
+                                                      icon: "",
+                                                      maturity: "",
+                                                      modified: "",
+                                                      owner: {},
+                                                      thumbnail: "",
+                                                      title: ext ? fileName.split(".").slice(0, -1).join(".") : fileName,
+                                                      type: {}
+                                                  },
+                                                  collabspace: cs_name
+                                              });
+                                              _httpCallAuthenticated(urlRelatedFile, {
+                                                  method: "POST",
+                                                  headers: {
+                                                      Accept: "application/json",
+                                                      "Content-Type": "application/json;charset=UTF-8",
+                                                      "X-DS-CSRFTOKEN": csrftoken
+                                                  },
+                                                  data: bodyRequest,
+                                                  type: "json",
+                                                  onComplete(response, headers, xhr) {
+                                                      console.log("_3DSpace_Upload_Doc | pushFileInFcs | onComplete", response);
+                                                      if (onDone) onDone(response);
+                                                  },
+                                                  onFailure(err) {
+                                                      console.log("_3DSpace_Upload_Doc | pushFileInFcs | onFailure");
+                                                      if (onError) onError(err);
+                                                  }
+                                              });
+                                          },
+                                          err => {
+                                              console.warn("pushFileInFcs", err);
+                                              if (onError) onError(err);
+                                          },
+                                          progress => {
+                                              if (onProgress) onProgress({ fileName, progress });
+                                          }
+                                      );
+                                  }
+                              } catch (error) {
+                                  if (onError) onError(error);
+                              }
+                          },
+                          onFailure(response) {
+                              console.warn("_3DSpace_Upload_Doc | onFailure");
+                              if (onError) onError(response);
+                          }
+                      });
+              } catch {
+                  if (onError) onError();
+              }
+          },
+          onFailure(err) {
+              if (onError) onError(err);
+          }
+      }
+  );
+}
+
 export async function _3DSpace_Update_Doc(
   credentials,
   objectId,
@@ -1714,13 +1853,13 @@ export function _3DSpace_bookmark_addSubsciptions(
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#UUID">UUID</a></li><li><a href="global.html#_3DSpace_Create_Doc">_3DSpace_Create_Doc</a></li><li><a href="global.html#_3DSpace_bookmark_addSubsciptions">_3DSpace_bookmark_addSubsciptions</a></li><li><a href="global.html#_3DSpace_csrf">_3DSpace_csrf</a></li><li><a href="global.html#_3DSpace_download_doc">_3DSpace_download_doc</a></li><li><a href="global.html#_3DSpace_download_multidoc">_3DSpace_download_multidoc</a></li><li><a href="global.html#_3DSpace_file_update">_3DSpace_file_update</a></li><li><a href="global.html#_3DSpace_file_update_csr">_3DSpace_file_update_csr</a></li><li><a href="global.html#_3DSpace_file_url_csr">_3DSpace_file_url_csr</a></li><li><a href="global.html#_3DSpace_get_csrf">_3DSpace_get_csrf</a></li><li><a href="global.html#_3DSpace_get_docInfo">_3DSpace_get_docInfo</a></li><li><a href="global.html#_3DSpace_get_downloadTicket_multidoc">_3DSpace_get_downloadTicket_multidoc</a></li><li><a href="global.html#_3DSpace_get_securityContexts">_3DSpace_get_securityContexts</a></li><li><a href="global.html#_3DSpace_get_ticket">_3DSpace_get_ticket</a></li><li><a href="global.html#_3DSpace_lifecycle_changeRevision">_3DSpace_lifecycle_changeRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_changeState">_3DSpace_lifecycle_changeState</a></li><li><a href="global.html#_3DSpace_lifecycle_getGraph">_3DSpace_lifecycle_getGraph</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextRevision">_3DSpace_lifecycle_getNextRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextStates">_3DSpace_lifecycle_getNextStates</a></li><li><a href="global.html#_3DSwym_buildDirectMessage">_3DSwym_buildDirectMessage</a></li><li><a href="global.html#_3DSwym_deleteIdea">_3DSwym_deleteIdea</a></li><li><a href="global.html#_3DSwym_editIdea">_3DSwym_editIdea</a></li><li><a href="global.html#_3DSwym_findCommunityToInstantMSG">_3DSwym_findCommunityToInstantMSG</a></li><li><a href="global.html#_3DSwym_getAllCommunities">_3DSwym_getAllCommunities</a></li><li><a href="global.html#_3DSwym_getAllListIdeas">_3DSwym_getAllListIdeas</a></li><li><a href="global.html#_3DSwym_getAllNews">_3DSwym_getAllNews</a></li><li><a href="global.html#_3DSwym_getFamiliarPeople">_3DSwym_getFamiliarPeople</a></li><li><a href="global.html#_3DSwym_getIdeaStatusMaturity">_3DSwym_getIdeaStatusMaturity</a></li><li><a href="global.html#_3DSwym_getMembersCommunity">_3DSwym_getMembersCommunity</a></li><li><a href="global.html#_3DSwym_getOneIdea">_3DSwym_getOneIdea</a></li><li><a href="global.html#_3DSwym_get_Token">_3DSwym_get_Token</a></li><li><a href="global.html#_3DSwym_get_currentUser">_3DSwym_get_currentUser</a></li><li><a href="global.html#_3DSwym_get_findUser">_3DSwym_get_findUser</a></li><li><a href="global.html#_3DSwym_postIdea">_3DSwym_postIdea</a></li><li><a href="global.html#_3DSwym_postIdeaTemplate">_3DSwym_postIdeaTemplate</a></li><li><a href="global.html#_3DSwym_sendMessageData">_3DSwym_sendMessageData</a></li><li><a href="global.html#_AppMngt_get_info_user">_AppMngt_get_info_user</a></li><li><a href="global.html#_AppMngt_get_users">_AppMngt_get_users</a></li><li><a href="global.html#_Iterop_AddOrRemoveRows">_Iterop_AddOrRemoveRows</a></li><li><a href="global.html#_Iterop_GetAllDependencyTable">_Iterop_GetAllDependencyTable</a></li><li><a href="global.html#_Iterop_PatchDependencyTable">_Iterop_PatchDependencyTable</a></li><li><a href="global.html#_Iterop_businessTableSearchInRows">_Iterop_businessTableSearchInRows</a></li><li><a href="global.html#_Iterop_getAllBusinessTables">_Iterop_getAllBusinessTables</a></li><li><a href="global.html#_Iterop_getOneBusinessTable">_Iterop_getOneBusinessTable</a></li><li><a href="global.html#_Iterop_getOneBusinessTableRows">_Iterop_getOneBusinessTableRows</a></li><li><a href="global.html#_Iterop_jwtUser">_Iterop_jwtUser</a></li><li><a href="global.html#_Iterop_runProcess">_Iterop_runProcess</a></li><li><a href="global.html#_Iterop_updateBusinessTable">_Iterop_updateBusinessTable</a></li><li><a href="global.html#_getPlateformInfos">_getPlateformInfos</a></li><li><a href="global.html#_getPlatformServices">_getPlatformServices</a></li><li><a href="global.html#_httpCallAuthenticated">_httpCallAuthenticated</a></li><li><a href="global.html#_setDraggable">_setDraggable</a></li><li><a href="global.html#_setDroppable">_setDroppable</a></li><li><a href="global.html#_setupTagger">_setupTagger</a></li><li><a href="global.html#addTagToDoc">addTagToDoc</a></li><li><a href="global.html#chunkArray">chunkArray</a></li><li><a href="global.html#compass_getListAdditionalApps">compass_getListAdditionalApps</a></li><li><a href="global.html#createUserGroups">createUserGroups</a></li><li><a href="global.html#dataMixing">dataMixing</a></li><li><a href="global.html#deleteUserGroups">deleteUserGroups</a></li><li><a href="global.html#findAdresse">findAdresse</a></li><li><a href="global.html#formatedMessage">formatedMessage</a></li><li><a href="global.html#getActualTagsOnDoc">getActualTagsOnDoc</a></li><li><a href="global.html#getAllContextSecurity">getAllContextSecurity</a></li><li><a href="global.html#getCSRFToken">getCSRFToken</a></li><li><a href="global.html#getCommunes">getCommunes</a></li><li><a href="global.html#getComplementUG">getComplementUG</a></li><li><a href="global.html#getDataFrom3DSpace">getDataFrom3DSpace</a></li><li><a href="global.html#getDataFromGouvFr">getDataFromGouvFr</a></li><li><a href="global.html#getDatasByTenant">getDatasByTenant</a></li><li><a href="global.html#getDatasFrom3DSpace">getDatasFrom3DSpace</a></li><li><a href="global.html#getDownloadDocument">getDownloadDocument</a></li><li><a href="global.html#getInfoDocTags">getInfoDocTags</a></li><li><a href="global.html#getUserGroupsList">getUserGroupsList</a></li><li><a href="global.html#getUsersGroupRules">getUsersGroupRules</a></li><li><a href="global.html#get_3DSpace_csrf">get_3DSpace_csrf</a></li><li><a href="global.html#loopingChunk">loopingChunk</a></li><li><a href="global.html#patchUserGroups">patchUserGroups</a></li><li><a href="global.html#patchUserGroupsControl">patchUserGroupsControl</a></li><li><a href="global.html#pushDataIn3DSpace">pushDataIn3DSpace</a></li><li><a href="global.html#readUserGroupControl">readUserGroupControl</a></li><li><a href="global.html#removeTagToDoc">removeTagToDoc</a></li><li><a href="global.html#sayHello">sayHello</a></li><li><a href="global.html#updateEvent">updateEvent</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#UUID">UUID</a></li><li><a href="global.html#_3DSpace_Create_Doc">_3DSpace_Create_Doc</a></li><li><a href="global.html#_3DSpace_Upload_File">_3DSpace_Upload_File</a></li><li><a href="global.html#_3DSpace_bookmark_addSubsciptions">_3DSpace_bookmark_addSubsciptions</a></li><li><a href="global.html#_3DSpace_csrf">_3DSpace_csrf</a></li><li><a href="global.html#_3DSpace_download_doc">_3DSpace_download_doc</a></li><li><a href="global.html#_3DSpace_download_multidoc">_3DSpace_download_multidoc</a></li><li><a href="global.html#_3DSpace_file_update">_3DSpace_file_update</a></li><li><a href="global.html#_3DSpace_file_update_csr">_3DSpace_file_update_csr</a></li><li><a href="global.html#_3DSpace_file_url_csr">_3DSpace_file_url_csr</a></li><li><a href="global.html#_3DSpace_get_csrf">_3DSpace_get_csrf</a></li><li><a href="global.html#_3DSpace_get_docInfo">_3DSpace_get_docInfo</a></li><li><a href="global.html#_3DSpace_get_downloadTicket_multidoc">_3DSpace_get_downloadTicket_multidoc</a></li><li><a href="global.html#_3DSpace_get_securityContexts">_3DSpace_get_securityContexts</a></li><li><a href="global.html#_3DSpace_get_ticket">_3DSpace_get_ticket</a></li><li><a href="global.html#_3DSpace_lifecycle_changeRevision">_3DSpace_lifecycle_changeRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_changeState">_3DSpace_lifecycle_changeState</a></li><li><a href="global.html#_3DSpace_lifecycle_getGraph">_3DSpace_lifecycle_getGraph</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextRevision">_3DSpace_lifecycle_getNextRevision</a></li><li><a href="global.html#_3DSpace_lifecycle_getNextStates">_3DSpace_lifecycle_getNextStates</a></li><li><a href="global.html#_3DSwym_buildDirectMessage">_3DSwym_buildDirectMessage</a></li><li><a href="global.html#_3DSwym_deleteIdea">_3DSwym_deleteIdea</a></li><li><a href="global.html#_3DSwym_editIdea">_3DSwym_editIdea</a></li><li><a href="global.html#_3DSwym_findCommunityToInstantMSG">_3DSwym_findCommunityToInstantMSG</a></li><li><a href="global.html#_3DSwym_getAllCommunities">_3DSwym_getAllCommunities</a></li><li><a href="global.html#_3DSwym_getAllListIdeas">_3DSwym_getAllListIdeas</a></li><li><a href="global.html#_3DSwym_getAllNews">_3DSwym_getAllNews</a></li><li><a href="global.html#_3DSwym_getFamiliarPeople">_3DSwym_getFamiliarPeople</a></li><li><a href="global.html#_3DSwym_getIdeaStatusMaturity">_3DSwym_getIdeaStatusMaturity</a></li><li><a href="global.html#_3DSwym_getMembersCommunity">_3DSwym_getMembersCommunity</a></li><li><a href="global.html#_3DSwym_getOneIdea">_3DSwym_getOneIdea</a></li><li><a href="global.html#_3DSwym_get_Token">_3DSwym_get_Token</a></li><li><a href="global.html#_3DSwym_get_currentUser">_3DSwym_get_currentUser</a></li><li><a href="global.html#_3DSwym_get_findUser">_3DSwym_get_findUser</a></li><li><a href="global.html#_3DSwym_postIdea">_3DSwym_postIdea</a></li><li><a href="global.html#_3DSwym_postIdeaTemplate">_3DSwym_postIdeaTemplate</a></li><li><a href="global.html#_3DSwym_sendMessageData">_3DSwym_sendMessageData</a></li><li><a href="global.html#_AppMngt_get_info_user">_AppMngt_get_info_user</a></li><li><a href="global.html#_AppMngt_get_users">_AppMngt_get_users</a></li><li><a href="global.html#_Iterop_AddOrRemoveRows">_Iterop_AddOrRemoveRows</a></li><li><a href="global.html#_Iterop_GetAllDependencyTable">_Iterop_GetAllDependencyTable</a></li><li><a href="global.html#_Iterop_PatchDependencyTable">_Iterop_PatchDependencyTable</a></li><li><a href="global.html#_Iterop_businessTableSearchInRows">_Iterop_businessTableSearchInRows</a></li><li><a href="global.html#_Iterop_getAllBusinessTables">_Iterop_getAllBusinessTables</a></li><li><a href="global.html#_Iterop_getOneBusinessTable">_Iterop_getOneBusinessTable</a></li><li><a href="global.html#_Iterop_getOneBusinessTableRows">_Iterop_getOneBusinessTableRows</a></li><li><a href="global.html#_Iterop_jwtUser">_Iterop_jwtUser</a></li><li><a href="global.html#_Iterop_runProcess">_Iterop_runProcess</a></li><li><a href="global.html#_Iterop_updateBusinessTable">_Iterop_updateBusinessTable</a></li><li><a href="global.html#_getPlateformInfos">_getPlateformInfos</a></li><li><a href="global.html#_getPlatformServices">_getPlatformServices</a></li><li><a href="global.html#_httpCallAuthenticated">_httpCallAuthenticated</a></li><li><a href="global.html#_setDraggable">_setDraggable</a></li><li><a href="global.html#_setDroppable">_setDroppable</a></li><li><a href="global.html#_setupTagger">_setupTagger</a></li><li><a href="global.html#addTagToDoc">addTagToDoc</a></li><li><a href="global.html#chunkArray">chunkArray</a></li><li><a href="global.html#compass_getListAdditionalApps">compass_getListAdditionalApps</a></li><li><a href="global.html#createUserGroups">createUserGroups</a></li><li><a href="global.html#dataMixing">dataMixing</a></li><li><a href="global.html#deleteUserGroups">deleteUserGroups</a></li><li><a href="global.html#findAdresse">findAdresse</a></li><li><a href="global.html#formatedMessage">formatedMessage</a></li><li><a href="global.html#getActualTagsOnDoc">getActualTagsOnDoc</a></li><li><a href="global.html#getAllContextSecurity">getAllContextSecurity</a></li><li><a href="global.html#getCSRFToken">getCSRFToken</a></li><li><a href="global.html#getCommunes">getCommunes</a></li><li><a href="global.html#getComplementUG">getComplementUG</a></li><li><a href="global.html#getDataFrom3DSpace">getDataFrom3DSpace</a></li><li><a href="global.html#getDataFromGouvFr">getDataFromGouvFr</a></li><li><a href="global.html#getDatasByTenant">getDatasByTenant</a></li><li><a href="global.html#getDatasFrom3DSpace">getDatasFrom3DSpace</a></li><li><a href="global.html#getDownloadDocument">getDownloadDocument</a></li><li><a href="global.html#getInfoDocTags">getInfoDocTags</a></li><li><a href="global.html#getUserGroupsList">getUserGroupsList</a></li><li><a href="global.html#getUsersGroupRules">getUsersGroupRules</a></li><li><a href="global.html#get_3DSpace_csrf">get_3DSpace_csrf</a></li><li><a href="global.html#loopingChunk">loopingChunk</a></li><li><a href="global.html#patchUserGroups">patchUserGroups</a></li><li><a href="global.html#patchUserGroupsControl">patchUserGroupsControl</a></li><li><a href="global.html#pushDataIn3DSpace">pushDataIn3DSpace</a></li><li><a href="global.html#readUserGroupControl">readUserGroupControl</a></li><li><a href="global.html#removeTagToDoc">removeTagToDoc</a></li><li><a href="global.html#sayHello">sayHello</a></li><li><a href="global.html#updateEvent">updateEvent</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Fri Jan 31 2025 12:37:47 GMT+0100 (heure normale d’Europe centrale)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.3</a> on Mon Feb 10 2025 08:11:27 GMT+0100 (heure normale d’Europe centrale)
 </footer>
 
 <script> prettyPrint(); </script>

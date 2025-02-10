@@ -501,6 +501,145 @@ export async function _3DSpace_put_docInfo(
   });
 }
 
+/**
+ * Uploads a file to the 3DSpace platform.
+ *
+ * @param {Object} credentials - The credentials object.
+ * @param {string} credentials.tenant - The tenant name.
+ * @param {string} credentials.cs_name - The collaboration space name.
+ * @param {string} [fileName=undefined] - The name of the file to upload.
+ * @param {Blob} [blobFile=undefined] - The file blob to upload.
+ * @param {function} [onDone=undefined] - Callback function to execute on successful upload.
+ * @param {function} [onError=undefined] - Callback function to execute on error.
+ * @param {function} [onProgress=undefined] - Callback function to execute on upload progress.
+ * @returns {Promise<void>} - A promise that resolves when the upload is complete.
+ */
+export async function _3DSpace_Upload_File(
+  credentials, // { tenant, cs_name }
+  fileName = undefined,
+  blobFile = undefined,
+  onDone = undefined,
+  onError = undefined,
+  onProgress = undefined
+) {
+  let { tenant, cs_name } = credentials;
+  if (!tenant && !cs_name) {
+      if (onError) onError("Credentials undefined");
+      return;
+  }
+  if (!fileName && !blobFile) {
+      if (onError) onError("Définition du fichier undefined");
+      return;
+  }
+  //cs_name = encodeURIComponent(cs_name);
+  const timeStamp = DateTime.now().ts;
+
+  //NOTE - Get Ticket
+  let url = `https://${tenant.toLowerCase()}-eu1-space.3dexperience.3ds.com/enovia/resources/enocsmrest/collabspaces/${encodeURIComponent(
+      cs_name
+  )}/ticket?id=${timeStamp}&tenant=${tenant.toUpperCase()}&xrequestedwith=xmlhttprequest`;
+
+  _httpCallAuthenticated(
+      `https://${tenant.toLowerCase()}-eu1-space.3dexperience.3ds.com/enovia/resources/enocsmrest/session?tenant=${tenant.toUpperCase()}&xrequestedwith=xmlhttprequest`,
+      {
+          method: "GET",
+          onComplete(response) {
+              try {
+                  response = JSON.parse(response);
+                  const { csrftoken, isadmin } = response;
+                  if (csrftoken)
+                      _httpCallAuthenticated(url, {
+                          method: "GET",
+                          headers: {
+                              ENO_CSRF_TOKEN: credentials.token,
+                              Accept: "application/json"
+                          },
+
+                          onComplete(response, headers, xhr) {
+                              try {
+                                  response = JSON.parse(response);
+                                  if (response?.ticket) {
+                                      const { ticket, actionurl, jobticket } = response;
+
+                                      pushFileInFcs(
+                                          { dataelements: { ticket, ticketURL: actionurl } },
+                                          blobFile,
+                                          fileName,
+                                          response => {
+                                              let doc = new DOMParser().parseFromString(response, "text/html");
+                                              const receipt = doc.body.firstChild.querySelector("input").getAttributeNode("value").value;
+
+                                              const urlRelatedFile = `https://${tenant.toLowerCase()}-eu1-space.3dexperience.3ds.com/enovia/resources/enocsmrest/collabspaces/${cs_name}/contents?receipt=${encodeURIComponent(
+                                                  receipt
+                                              )}`;
+
+                                              let re = /(?:\.([^.]+))?$/;
+                                              let ext = re.exec(fileName)[1];
+
+                                              const bodyRequest = JSON.stringify({
+                                                  actions: [],
+                                                  businessobj: {
+                                                      description: "",
+                                                      file: fileName,
+                                                      fullnameowner: "",
+                                                      icon: "",
+                                                      maturity: "",
+                                                      modified: "",
+                                                      owner: {},
+                                                      thumbnail: "",
+                                                      title: ext ? fileName.split(".").slice(0, -1).join(".") : fileName,
+                                                      type: {}
+                                                  },
+                                                  collabspace: cs_name
+                                              });
+                                              _httpCallAuthenticated(urlRelatedFile, {
+                                                  method: "POST",
+                                                  headers: {
+                                                      Accept: "application/json",
+                                                      "Content-Type": "application/json;charset=UTF-8",
+                                                      "X-DS-CSRFTOKEN": csrftoken
+                                                  },
+                                                  data: bodyRequest,
+                                                  type: "json",
+                                                  onComplete(response, headers, xhr) {
+                                                      console.log("_3DSpace_Upload_Doc | pushFileInFcs | onComplete", response);
+                                                      if (onDone) onDone(response);
+                                                  },
+                                                  onFailure(err) {
+                                                      console.log("_3DSpace_Upload_Doc | pushFileInFcs | onFailure");
+                                                      if (onError) onError(err);
+                                                  }
+                                              });
+                                          },
+                                          err => {
+                                              console.warn("pushFileInFcs", err);
+                                              if (onError) onError(err);
+                                          },
+                                          progress => {
+                                              if (onProgress) onProgress({ fileName, progress });
+                                          }
+                                      );
+                                  }
+                              } catch (error) {
+                                  if (onError) onError(error);
+                              }
+                          },
+                          onFailure(response) {
+                              console.warn("_3DSpace_Upload_Doc | onFailure");
+                              if (onError) onError(response);
+                          }
+                      });
+              } catch {
+                  if (onError) onError();
+              }
+          },
+          onFailure(err) {
+              if (onError) onError(err);
+          }
+      }
+  );
+}
+
 export async function _3DSpace_Update_Doc(
   credentials,
   objectId,
