@@ -602,11 +602,11 @@ export async function _3DSpace_Upload_File(
                                                   data: bodyRequest,
                                                   type: "json",
                                                   onComplete(response, headers, xhr) {
-                                                      console.log("_3DSpace_Upload_Doc | pushFileInFcs | onComplete", response);
+                                                      // console.log("_3DSpace_Upload_Doc | pushFileInFcs | onComplete", response);
                                                       if (onDone) onDone(response);
                                                   },
                                                   onFailure(err) {
-                                                      console.log("_3DSpace_Upload_Doc | pushFileInFcs | onFailure");
+                                                      console.warn("_3DSpace_Upload_Doc | pushFileInFcs | onFailure");
                                                       if (onError) onError(err);
                                                   }
                                               });
