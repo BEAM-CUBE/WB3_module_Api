@@ -805,19 +805,26 @@ function pushFileInFcs(
   formData.append("file_0", fileData, fileName);
 
   let url = fcs__jobTicket.dataelements.ticketURL;
-  _httpCallAuthenticated(url, {
-    method: "POST",
-    data: formData,
-    onProgress(progress) {
-      if (onProgress) onProgress(progress);
-    },
-    onComplete(receipt) {
-      if (onDone) onDone(receipt.replace(/[\n\r]/g, ""));
-    },
-    onFailure(err) {
-      if (onError) onError(err);
-    },
-  });
+
+  const xhr = new XMLHttpRequest();
+  xhr.open("POST", url, true);
+  xhr.upload.onprogress = function (event) {
+    if (event.lengthComputable) {
+      const percentComplete = (event.loaded / event.total) * 100;
+      if (onProgress) onProgress(percentComplete);
+    }
+  };
+  xhr.onload = function () {
+    if (xhr.status === 200) {
+      if (onDone) onDone(xhr.responseText.replace(/[\n\r]/g, ""));
+    } else {
+      if (onError) onError(xhr.statusText);
+    }
+  };
+  xhr.onerror = function () {
+    if (onError) onError(xhr.statusText);
+  };
+  xhr.send(formData);
 }
 
 function relatedDocAndFile(
