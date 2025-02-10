@@ -809,7 +809,7 @@ function pushFileInFcs(
     method: "POST",
     data: formData,
     onProgress(progress) {
-      if (onProgress) onProgress(progress);
+      if (onProgress) onProgress({ ...progress, total: fileData.size });
     },
     onComplete(receipt) {
       if (onDone) onDone(receipt.replace(/[\n\r]/g, ""));
