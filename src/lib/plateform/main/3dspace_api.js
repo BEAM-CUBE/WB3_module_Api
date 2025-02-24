@@ -551,7 +551,7 @@ export async function _3DSpace_Upload_File(
             _httpCallAuthenticated(url, {
               method: "GET",
               headers: {
-                ENO_CSRF_TOKEN: credentials.token,
+                "x-ds-csrftoken": csrftoken,
                 Accept: "application/json",
               },
 
