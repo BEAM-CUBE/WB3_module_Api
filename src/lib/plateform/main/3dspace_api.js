@@ -614,7 +614,8 @@ export async function _3DSpace_Upload_File(
                           },
                           onFailure(err) {
                             console.warn(
-                              "_3DSpace_Upload_Doc | pushFileInFcs | onFailure"
+                              "_3DSpace_Upload_Doc | pushFileInFcs | onFailure",
+                              {url: urlRelatedFile, bodyRequest, err}
                             );
                             if (onError) onError(err);
                           },
