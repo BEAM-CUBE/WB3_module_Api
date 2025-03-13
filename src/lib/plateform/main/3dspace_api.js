@@ -451,9 +451,14 @@ export function _3DSpace_file_update_csr(
 
         _httpCallAuthenticated(
           credentials.space +
-            `/resources/v1/modeler/documents/?$include=versions&tenant=${upperTenant}&e6w-lang=en&e6w-timezone=-120&xrequestedwith=xmlhttprequest`,
+            `/resources/v1/modeler/documents/${docid}/files/${fileid}`,
           options
         );
+        // _httpCallAuthenticated(
+        //   credentials.space +
+        //     `/resources/v1/modeler/documents/?$include=versions&tenant=${upperTenant}&e6w-lang=en&e6w-timezone=-120&xrequestedwith=xmlhttprequest`,
+        //   options
+        // );
       };
 
       opts.onFailure = function (err) {
