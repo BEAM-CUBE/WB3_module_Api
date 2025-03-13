@@ -334,7 +334,9 @@ export function _3DSpace_file_update(
         credentials["token"] = info.csrf.value;
         runFunction();
       },
-      onError
+      () => {
+        if (onError) onError();
+      }
     );
   }
 }
@@ -473,6 +475,12 @@ export async function _3DSpace_put_docInfo(
   const ctx = credentials.ctx;
   const description = credentials?.description;
   const title = credentials?.title;
+
+  if (!docId) {
+    console.warn("Error: docId undefined");
+    if (onError) onError("Error: docId undefined");
+    return;
+  }
 
   let url = `${credentials.space}/resources/v1/modeler/documents/${docId}`;
   const data = JSON.stringify({
@@ -615,7 +623,7 @@ export async function _3DSpace_Upload_File(
                           onFailure(err) {
                             console.warn(
                               "_3DSpace_Upload_Doc | pushFileInFcs | onFailure",
-                              {url: urlRelatedFile, bodyRequest, err}
+                              { url: urlRelatedFile, bodyRequest, err }
                             );
                             if (onError) onError(err);
                           },
@@ -1699,7 +1707,9 @@ export function _3DSpace_lifecycle_getRevisions(
       credentials.space
     }/resources/v1/dslc/versiongraph?withThumbnail=0&withIsLastVersion=1&withAttributes=1&withCopyFrom=1&tenant=${credentials.tenant.toUpperCase()}&xrequestedwith=xmlhttprequest`;
     let SecurityContext;
-    await _3DSpace_get_currentSecurityContext(credentials).then(result => SecurityContext = result?.SecurityContext)
+    await _3DSpace_get_currentSecurityContext(credentials).then(
+      (result) => (SecurityContext = result?.SecurityContext)
+    );
 
     let options = {
       method: "POST",

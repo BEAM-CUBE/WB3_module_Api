@@ -26,20 +26,21 @@ export function _Iterop_Auth_CAS(
   onDone = undefined,
   onError = undefined
 ) {
+  console.log("_Iterop_Auth_CAS");
   if (credentials.tenant) {
     _getServiceUrl(credentials, (serviceUrls) => {
-      // console.log("serviceUrls", serviceUrls);
+      console.log("serviceUrls", serviceUrls);
       const urlService3DPassport = serviceUrls.services.find(
         (service) => service.id === "3dpassport"
       )?.url;
       const urlAPIV2Iterop =
         serviceUrls.services.find((service) => service.id === "businessprocess")
           ?.url + "/api/v2";
-      const urlService = `${urlService3DPassport}/login/?service=${urlAPIV2Iterop}/auth/cas`;
+      const urlService = `${urlService3DPassport}/login/?cors=false&service=${urlAPIV2Iterop}/auth/cas`;
 
       _httpCallAuthenticated(urlService, {
         async onComplete(response) {
-          // console.log("response", response);
+          console.log("response", response);
           const x3ds_service_redirect_url =
             typeof response === "string"
               ? JSON.parse(response)?.x3ds_service_redirect_url

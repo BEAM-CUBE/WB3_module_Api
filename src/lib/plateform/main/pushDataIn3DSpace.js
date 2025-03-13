@@ -24,13 +24,13 @@ export function pushDataIn3DSpace(
   dataBase,
   objectId,
   onDone = undefined,
-  onError = undefined,
+  onError = undefined
 ) {
   const jsonFile = new Blob([JSON.stringify(dataBase)], { type: "text/plain" });
 
+  credentials = { ...credentials, objID: objectId };
   _3DSpace_get_csrf(
     credentials,
-    objectId,
     (data) => {
       const fileId = data.data[0].relateddata.files[0].id;
       const fileName =
@@ -49,13 +49,13 @@ export function pushDataIn3DSpace(
         },
         (err) => {
           if (onError) onError(err);
-        },
+        }
       );
     },
     (error) => {
       console.log("En cas d'erreur nous avons :", error);
       alert("Erreur lors de la sauvegarde, Veuillez réessayez");
       if (onError) onError(error);
-    },
+    }
   );
 }

@@ -190,32 +190,25 @@ export function _getMe(credentials, onDone = undefined, onError = undefined) {
   }
 }
 
-export function _getServiceUrl(
-  credentials,
-  onDone = undefined,
-  onError = undefined
-) {
+export function _getServiceUrl(credentials, onDone = undefined, onError = undefined) {
+  console.log("_getServiceUrl");
   if (credentials.tenant) {
-    const urlService = `https://${credentials.tenant}-eu1-apps.3dexperience.3ds.com/enovia/resources/AppsMngt/api/v1/services?tenant=${credentials.tenant}&cors=true&xrequestedwith=xmlhttprequest`;
-    _httpCallAuthenticated(urlService, {
-      onComplete(response) {
-        const oResponse =
-          typeof response === "string" ? JSON.parse(response) : response;
-        if (oResponse && "platforms" in oResponse) {
-          const listServiceUrl = oResponse.platforms.find(
-            (platform) => platform.id === credentials.tenant.toUpperCase()
-          );
-          if (onDone && listServiceUrl) onDone(listServiceUrl);
-          else if (onError)
-            onError("_getServiceUrl return listServiceUrl = undefined");
-        } else {
-          if (onError) onError("_getServiceUrl return oResponse = undefined");
-        }
-      },
-      onFailure(response) {
-        if (onError) onError(response);
-      },
-    });
+      const urlService = `https://${credentials.tenant.toLowerCase()}-eu1-compass.3dexperience.3ds.com/enovia/resources/AppsMngt/api/v1/services?platform=${credentials.tenant.toUpperCase()}&cors=true&xrequestedwith=xmlhttprequest`;
+      _httpCallAuthenticated(urlService, {
+          onComplete(response) {
+              const oResponse = typeof response === "string" ? JSON.parse(response) : response;
+              if (oResponse && "platforms" in oResponse) {
+                  const listServiceUrl = oResponse.platforms.find(platform => platform.id === credentials.tenant.toUpperCase());
+                  if (onDone && listServiceUrl) onDone(listServiceUrl);
+                  else if (onError) onError("_getServiceUrl return listServiceUrl = undefined");
+              } else {
+                  if (onError) onError("_getServiceUrl return oResponse = undefined");
+              }
+          },
+          onFailure(response) {
+              if (onError) onError(response);
+          }
+      });
   }
 }
 
