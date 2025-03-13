@@ -395,8 +395,8 @@ export function _3DSpace_file_update_csr(
     }),
     type: "json",
     onComplete(response, headers, xhr) {
-      const csrf = JSON.parse(response).csrf;
-      const info = JSON.parse(response).data[0].dataelements;
+      const csrf = response.csrf;
+      const info = response.data[0].dataelements;
 
       const formData = new FormData();
 
