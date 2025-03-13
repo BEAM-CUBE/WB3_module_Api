@@ -128,7 +128,9 @@ export function _3DSpace_get_csrf(
       credentials,
       (rep) => {
         console.log("_3DSpace_get_csrf / _3DSpace_csrf", rep);
-        if (onDone) onDone(rep);
+
+        credentials["token"] = rep;
+        if (onDone) onDone(credentials);
       },
       (err) => {
         if (onError) onError(err);
@@ -330,8 +332,9 @@ export function _3DSpace_file_update(
     _3DSpace_get_csrf(
       credentials,
       docId,
-      (info) => {
-        credentials["token"] = info.csrf.value;
+      (result) => {
+        console.log("_3DSpace_file_update | _3DSpace_get_csrf| onDone | result", result);
+        credentials["token"] = result;
         runFunction();
       },
       () => {
