@@ -32,6 +32,7 @@ export function pushDataIn3DSpace(
   _3DSpace_get_csrf(
     credentials,
     (data) => {
+      console.log("_3DSpace_get_csrf | onDone | data", data);
       const fileId = data.data[0].relateddata.files[0].id;
       const fileName =
         data.data[0].dataelements.secondaryTitle !== ""
