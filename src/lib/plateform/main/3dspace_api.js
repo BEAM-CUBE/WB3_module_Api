@@ -380,14 +380,20 @@ export function _3DSpace_file_update_csr(
 ) {
   const url =
     credentials.space +
-    `/resources/v1/modeler/documents/${docId}/files/CheckinTicket`;
+    `/resources/v1/modeler/documents/files/CheckinTicket?tenant=${credentials.tenant.toUpperCase()}&e6w-lang=fr&e6w-timezone=-60&xrequestedwith=xmlhttprequest`;
 
   _httpCallAuthenticated(url, {
     method: "PUT",
     headers: {
       ENO_CSRF_TOKEN: credentials.token,
     },
-
+    data: JSON.stringify({
+      csrf: {
+        name: "ENO_CSRF_TOKEN",
+        value: credentials.token,
+      },
+    }),
+    type: "json",
     onComplete(response, headers, xhr) {
       const csrf = JSON.parse(response).csrf;
       const info = JSON.parse(response).data[0].dataelements;
@@ -438,9 +444,7 @@ export function _3DSpace_file_update_csr(
               },
             ],
           }),
-
           type: "json",
-
           onComplete(response) {
             if (onDone) onDone(response);
           },
@@ -454,7 +458,7 @@ export function _3DSpace_file_update_csr(
 
         _httpCallAuthenticated(
           credentials.space +
-            `/resources/v1/modeler/documents/${docId}/files/${fileId}`,
+            `/resources/v1/modeler/documents/?$include=versions&tenant=${credentials.tenant.toUpperCase()}&e6w-lang=fr&e6w-timezone=-60&xrequestedwith=xmlhttprequest`,
           options
         );
         // _httpCallAuthenticated(
