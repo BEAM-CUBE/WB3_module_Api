@@ -333,7 +333,10 @@ export function _3DSpace_file_update(
       credentials,
       docId,
       (result) => {
-        console.log("_3DSpace_file_update | _3DSpace_get_csrf| onDone | result", result);
+        console.log(
+          "_3DSpace_file_update | _3DSpace_get_csrf| onDone | result",
+          result
+        );
         credentials["token"] = result;
         runFunction();
       },
@@ -451,7 +454,7 @@ export function _3DSpace_file_update_csr(
 
         _httpCallAuthenticated(
           credentials.space +
-            `/resources/v1/modeler/documents/${docid}/files/${fileid}`,
+            `/resources/v1/modeler/documents/${docId}/files/${fileId}`,
           options
         );
         // _httpCallAuthenticated(
