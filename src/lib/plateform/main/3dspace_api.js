@@ -385,7 +385,8 @@ export function _3DSpace_file_update_csr(
   _httpCallAuthenticated(url, {
     method: "PUT",
     headers: {
-      ENO_CSRF_TOKEN: credentials.token,
+      SecurityContext: encodeURIComponent("ctx::" + credentials.ctx),
+      //ENO_CSRF_TOKEN: credentials.token,
     },
     data: JSON.stringify({
       csrf: {
@@ -409,7 +410,7 @@ export function _3DSpace_file_update_csr(
         });
       }
 
-      formData.append("__fcs__jobTicket", info.ticket);
+      formData.append(info.ticketparamname, info.ticket);
       formData.append("file_0", blobData, filename);
 
       const opts = {};
@@ -691,11 +692,7 @@ export async function _3DSpace_Update_Doc(
     objectId,
     (info) => {
       const fileId = info.data[0].relateddata.files[0].id;
-      const filename =
-        info.data[0].dataelements.secondaryTitle &&
-        info.data[0].dataelements.secondaryTitle !== ""
-          ? info.data[0].dataelements.secondaryTitle
-          : info.data[0].dataelements.title;
+      const filename = info.data[0].relateddata.files[0].dataelements.title;
 
       _3DSpace_file_update(
         credentials,
