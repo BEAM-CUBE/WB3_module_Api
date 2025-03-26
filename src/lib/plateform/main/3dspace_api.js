@@ -598,7 +598,7 @@ export async function _3DSpace_Upload_File(
                           .querySelector("input")
                           .getAttributeNode("value").value;
 
-                        const urlRelatedFile = `https://${tenant.toLowerCase()}-eu1-space.3dexperience.3ds.com/enovia/resources/enocsmrest/collabspaces/${cs_name}/contents?receipt=${encodeURIComponent(
+                        const urlRelatedFile = `https://${tenant.toLowerCase()}-eu1-space.3dexperience.3ds.com/enovia/resources/enocsmrest/collabspaces/${encodeURIComponent(cs_name)}/contents?receipt=${encodeURIComponent(
                           receipt
                         )}`;
 
@@ -745,6 +745,7 @@ export async function _3DSpace_Create_Doc(
     (resultCheckinTicket) => {
       if (resultCheckinTicket?.items >= 1) {
         resultCheckinTicket.data.forEach((fcs__jobTicket) => {
+          
           pushFileInFcs(
             fcs__jobTicket,
             data,
