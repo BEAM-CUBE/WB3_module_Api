@@ -575,7 +575,7 @@ export async function _3DSpace_Upload_File(
             _httpCallAuthenticated(url, {
               method: "GET",
               headers: {
-                "x-ds-csrftoken": csrftoken,
+                ENO_CSRF_TOKEN: credentials.token,
                 Accept: "application/json",
               },
 
@@ -584,6 +584,9 @@ export async function _3DSpace_Upload_File(
                   response = JSON.parse(response);
                   if (response?.ticket) {
                     const { ticket, actionurl, jobticket } = response;
+                    if (!(blobFile instanceof Blob)) {
+                      blobFile = new Blob([blobFile], { type: "text/plain" });
+                    }
 
                     pushFileInFcs(
                       { dataelements: { ticket, ticketURL: actionurl } },
@@ -598,9 +601,9 @@ export async function _3DSpace_Upload_File(
                           .querySelector("input")
                           .getAttributeNode("value").value;
 
-                        const urlRelatedFile = `https://${tenant.toLowerCase()}-eu1-space.3dexperience.3ds.com/enovia/resources/enocsmrest/collabspaces/${encodeURIComponent(cs_name)}/contents?receipt=${encodeURIComponent(
-                          receipt
-                        )}`;
+                        const urlRelatedFile = `https://${tenant.toLowerCase()}-eu1-space.3dexperience.3ds.com/enovia/resources/enocsmrest/collabspaces/${encodeURIComponent(
+                          cs_name
+                        )}/contents?receipt=${encodeURIComponent(receipt)}`;
 
                         let re = /(?:\.([^.]+))?$/;
                         let ext = re.exec(fileName)[1];
@@ -608,7 +611,7 @@ export async function _3DSpace_Upload_File(
                         const bodyRequest = JSON.stringify({
                           actions: [],
                           businessobj: {
-                            description: credentials?.description,
+                            description: "",
                             file: fileName,
                             fullnameowner: "",
                             icon: "",
@@ -633,13 +636,16 @@ export async function _3DSpace_Upload_File(
                           data: bodyRequest,
                           type: "json",
                           onComplete(response, headers, xhr) {
-                            // console.log("_3DSpace_Upload_Doc | pushFileInFcs | onComplete", response);
+                            console.log(
+                              "_3DSpace_Upload_Doc | pushFileInFcs | onComplete",
+                              response
+                            );
                             if (onDone) onDone(response);
                           },
                           onFailure(err) {
-                            console.warn(
+                            console.error(
                               "_3DSpace_Upload_Doc | pushFileInFcs | onFailure",
-                              { url: urlRelatedFile, bodyRequest, err }
+                              err
                             );
                             if (onError) onError(err);
                           },
@@ -650,7 +656,7 @@ export async function _3DSpace_Upload_File(
                         if (onError) onError(err);
                       },
                       (progress) => {
-                        if (onProgress) onProgress({ fileName, progress });
+                        if (onProgress) onProgress(progress);
                       }
                     );
                   }
@@ -745,7 +751,6 @@ export async function _3DSpace_Create_Doc(
     (resultCheckinTicket) => {
       if (resultCheckinTicket?.items >= 1) {
         resultCheckinTicket.data.forEach((fcs__jobTicket) => {
-          
           pushFileInFcs(
             fcs__jobTicket,
             data,
