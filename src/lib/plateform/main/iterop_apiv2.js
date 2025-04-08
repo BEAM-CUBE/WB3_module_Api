@@ -130,7 +130,7 @@ export async function _Iterop_getAllBusinessTables(
  * @param {Function} [onDone] - Callback function to execute upon successful data retrieval.
  * @param {Function} [onError] - Callback function to execute if an error occurs during retrieval.
  */
-export async function _Iterop_getOneBusinessTable(
+export function _Iterop_getOneBusinessTable(
   credentials,
   token,
   tableId,
