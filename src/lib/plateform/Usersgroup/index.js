@@ -146,8 +146,8 @@ export function getUsersGroupRules(
   onDone = undefined,
   onError = undefined,
 ) {
-  const { space, tenant } = credentials;
-  const baseURL = space;
+  const { _usersgroup, tenant } = credentials;
+  const baseURL = _usersgroup;
   const URI =
     "/3drdfpersist/resources/v1/option-sets/dsusergroup:ListOfGroupResponsibilities/options";
   const OPTS = `?tenant=dstenant:${tenant}`;
