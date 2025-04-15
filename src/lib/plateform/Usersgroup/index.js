@@ -192,11 +192,11 @@ export function getUserGroupsList(
   onDone = undefined,
   onError = undefined,
 ) {
-  const { space, currentUser } = credentials;
+  const { _usersgroup, currentUser } = credentials;
   const URI = "/3drdfpersist/resources/v1/usersgroup";
   const opt =
     "?select=uri,title,description,owner,members,pending_members,creation_date,modification_date,visibility";
-  const url = `${space}${URI}${opt}`;
+  const url = `${_usersgroup}${URI}${opt}`;
   const header = {
     "Content-Type": "application/json",
     Accept: "application/json,text/javascript,*/*",
