@@ -245,13 +245,14 @@ export function getUserGroupsList(
       info["function"] = "getUserGroupsList()"
       info["msg"] = headers.errormsg;
       info["errCode"] = headers.errorcode;
+      
         if (onError) onError(info);
       },
     });
   } catch (error) {
     console.log(error);
-    const infoError = {infoError: error, fonction:"getUserGroupsList()", catch:()=>new Error("Erreur sur la fonction getUserGroupsList()",{cause:error})}
-    onFailure(infoError)
+    const infoError = {infoError: error, fonction:"getUserGroupsList()", catch:new Error("Erreur sur la fonction getUserGroupsList()",{cause:error})}
+    onError(infoError)
   }
 }
 
