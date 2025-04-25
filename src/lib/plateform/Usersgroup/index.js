@@ -225,7 +225,7 @@ export function getUserGroupsList(
           reponse["iam"] = iam;
           reponse["UG"] = UG;
           reponse["iamMember"] = iamMember;
-          reponse["all"] = response
+          reponse["all"] = repUG
 
           getUsersGroupRules(
             credentials,
