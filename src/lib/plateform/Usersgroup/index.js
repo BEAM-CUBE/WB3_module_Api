@@ -164,7 +164,7 @@ export function getUsersGroupRules(
     },
     onFailure(err, headers) {
       const info = err;
-      info["function"] = "getUsersGroupRules()"
+      info["function"] = "getUsersGroupRules()";
       info["msg"] = headers.errormsg;
       info["errCode"] = headers.errorcode;
 
@@ -198,7 +198,7 @@ export function getUserGroupsList(
   const URI = "/3drdfpersist/resources/v1/usersgroup";
   const opt =
     "?select=uri,title,description,owner,members,pending_members,creation_date,modification_date,visibility";
-    const opt2="&top=100" 
+  const opt2 = "&top=500";
   const url = `${_usersgroup}${URI}${opt}${opt2}`;
   const header = {
     "Content-Type": "application/json",
@@ -226,7 +226,7 @@ export function getUserGroupsList(
           reponse["iam"] = iam;
           reponse["UG"] = UG;
           reponse["iamMember"] = iamMember;
-          reponse["all"] = repUG
+          reponse["all"] = repUG;
 
           getUsersGroupRules(
             credentials,
@@ -235,26 +235,32 @@ export function getUserGroupsList(
               if (onDone) onDone(reponse);
             },
             (err) => {
-             err.function += ", getUserGroupsList()";
-             
+              err.function += ", getUserGroupsList()";
+
               if (onError) onError(err);
             },
           );
         }
       },
-      onFailure(err,headers) {
+      onFailure(err, headers) {
         const info = err;
-      info["function"] = "getUserGroupsList()"
-      info["msg"] = headers.errormsg;
-      info["errCode"] = headers.errorcode;
+        info["function"] = "getUserGroupsList()";
+        info["msg"] = headers.errormsg;
+        info["errCode"] = headers.errorcode;
 
         if (onError) onError(info);
       },
     });
   } catch (error) {
     console.log(error);
-    const infoError = {infoError: error, fonction:"getUserGroupsList()", catch:new Error("Erreur sur la fonction getUserGroupsList()",{cause:error})}
-    onError(infoError)
+    const infoError = {
+      infoError: error,
+      fonction: "getUserGroupsList()",
+      catch: new Error("Erreur sur la fonction getUserGroupsList()", {
+        cause: error,
+      }),
+    };
+    onError(infoError);
   }
 }
 
