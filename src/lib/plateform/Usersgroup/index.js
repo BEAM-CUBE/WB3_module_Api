@@ -232,8 +232,12 @@ export function getUserGroupsList(
               reponse["rules"] = rules;
               if (onDone) onDone(reponse);
             },
-            (err) => {
-              if (onError) onError(err);
+            (err,headers) => {
+              const info = err;
+              info["function"] = "getUserGroupsList(), getUsersGroupRules()"
+              info["msg"] = headers.errormsg;
+              info["errCode"] = headers.errorcode;
+              if (onError) onError(info);
             },
           );
         }
@@ -243,7 +247,7 @@ export function getUserGroupsList(
       info["function"] = "getUserGroupsList()"
       info["msg"] = headers.errormsg;
       info["errCode"] = headers.errorcode;
-        if (onError) onError(err);
+        if (onError) onError(info);
       },
     });
   } catch (error) {
