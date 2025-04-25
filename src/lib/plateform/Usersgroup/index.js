@@ -250,6 +250,7 @@ export function getUserGroupsList(
     });
   } catch (error) {
     console.log(error);
+    onFailure(error)
   }
 }
 
