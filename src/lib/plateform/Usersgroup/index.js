@@ -225,6 +225,7 @@ export function getUserGroupsList(
           reponse["iam"] = iam;
           reponse["UG"] = UG;
           reponse["iamMember"] = iamMember;
+          reponse["all"] = response
 
           getUsersGroupRules(
             credentials,
@@ -245,7 +246,7 @@ export function getUserGroupsList(
       info["function"] = "getUserGroupsList()"
       info["msg"] = headers.errormsg;
       info["errCode"] = headers.errorcode;
-      
+
         if (onError) onError(info);
       },
     });
