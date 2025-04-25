@@ -180,7 +180,8 @@ export function getUsersGroupRules(
  * la demande. Il inclut généralement des propriétés telles que « token », « space », « tenant » et « ctx ».
  * @param {String} credentials.space - L'URL du serveur sur lequel l'API est déployée.(ex: 3DSpace =>(https://r1132100968447-eu1-space.3dexperience.3ds.com/enovia), 3DSwym, usersgroup, 3DCompass...)
  * @param {String} credentials.tenant - L'identifiant du tenant sur lequel l'API est déployée.(ex: R1132100968447)
- * @param {Object} credentials.currentUser.email - Le paramètre `currentUser` est un qui contient les informations de l'utilisateur qui envoie le message(appeler depuis la fonction `_3DSwym_get_currentuser`)
+ * @param {String} credentials._usersgroup - l'url de la plateforme concernant les usergroups (comme le credentials.space).
+ * @param {Object} credentials.currentUser.email - Le paramètre `currentUser` est un objet qui contient les informations de l'utilisateur qui envoie le message(appeler depuis la fonction `_3DSwym_get_currentuser`)
  * @param {Function} [onDone] - Une fonction de rappel qui sera appelée lorsque l'opération sera terminée avec
  * succès. Il recevra la réponse en paramètre.
  * @param {Function} [onError] - Le paramètre `onError` est une fonction de rappel qui sera appelée s'il y a une
