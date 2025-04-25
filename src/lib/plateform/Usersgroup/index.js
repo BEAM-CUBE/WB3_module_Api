@@ -250,7 +250,8 @@ export function getUserGroupsList(
     });
   } catch (error) {
     console.log(error);
-    onFailure(error)
+    const infoError = {infoError: error, fonction:"getUserGroupsList()", catch:()=>new Error("Erreur sur la fonction getUserGroupsList()",{cause:error})}
+    onFailure(infoError)
   }
 }
 
