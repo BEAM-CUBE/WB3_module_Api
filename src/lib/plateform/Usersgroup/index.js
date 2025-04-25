@@ -164,6 +164,7 @@ export function getUsersGroupRules(
     },
     onFailure(err, headers) {
       const info = err;
+      info["function"] = "getUsersGroupRules()"
       info["msg"] = headers.errormsg;
       info["errCode"] = headers.errorcode;
 
@@ -237,7 +238,11 @@ export function getUserGroupsList(
           );
         }
       },
-      onFailure(err) {
+      onFailure(err,headers) {
+        const info = err;
+      info["function"] = "getUserGroupsList()"
+      info["msg"] = headers.errormsg;
+      info["errCode"] = headers.errorcode;
         if (onError) onError(err);
       },
     });
