@@ -200,7 +200,7 @@ export function getUserGroupsList(
   if (!numMax) numMax = 50;
   const URI = "/3drdfpersist/resources/v1/usersgroup";
   const opt =
-    "?select=uri,title,description,owner,members,pending_members,creation_date,modification_date,visibility";
+    "?select=uri,title,description,owner,members,pending_members,creation_date,modification_date";
   const opt2 = `&top=${numMax}`;
   const url = `${_usersgroup}${URI}${opt}${opt2}`;
   const header = {
@@ -229,7 +229,6 @@ export function getUserGroupsList(
           reponse["iam"] = iam;
           reponse["UG"] = UG;
           reponse["iamMember"] = iamMember;
-          reponse["all"] = repUG;
 
           getUsersGroupRules(
             credentials,
