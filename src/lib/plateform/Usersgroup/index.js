@@ -232,12 +232,10 @@ export function getUserGroupsList(
               reponse["rules"] = rules;
               if (onDone) onDone(reponse);
             },
-            (err,headers) => {
-              const info = err;
-              info["function"] = "getUserGroupsList(), getUsersGroupRules()"
-              info["msg"] = headers.errormsg;
-              info["errCode"] = headers.errorcode;
-              if (onError) onError(info);
+            (err) => {
+             err.function += ", getUserGroupsList()";
+             
+              if (onError) onError(err);
             },
           );
         }
