@@ -198,7 +198,7 @@ export function getUserGroupsList(
   const URI = "/3drdfpersist/resources/v1/usersgroup";
   const opt =
     "?select=uri,title,description,owner,members,pending_members,creation_date,modification_date,visibility";
-  const opt2 = "&top=500";
+  const opt2 = "&top=150";
   const url = `${_usersgroup}${URI}${opt}${opt2}`;
   const header = {
     "Content-Type": "application/json",
