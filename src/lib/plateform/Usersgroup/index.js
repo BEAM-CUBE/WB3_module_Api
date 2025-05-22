@@ -281,16 +281,16 @@ export function getUserGroupsList(
  * un objet en paramètre qui contient des informations sur l'erreur.
  */
 export function getUserGroupsByURIList(credentials, onDone, onError) {
-  const { base_url, lists_uri, currentUser } = credentials;
+  const { _usersgroup, lists_uri, currentUser } = credentials;
 
   const headers = {
     "Content-Type": "application/json",
-    "Accept-Language": "fr",
   };
 
   const URLElements = {
-    baseUrl: base_url,
+    baseUrl: _usersgroup,
     uri: "/3drdfpersist/resources/v1/usersgroup/groups",
+    opt: "?select=uri,members",
   };
 
   const url = URLElements.baseUrl + URLElements.uri;
