@@ -293,12 +293,14 @@ export function getUserGroupsByURIList(credentials, onDone, onError) {
     opt: "?select=uri,members",
   };
 
-  const url = URLElements.baseUrl + URLElements.uri;
+  const url = `${URLElements.baseUrl}${URLElements.uri}${URLElements.opt}`;
+
+  const body = { groups: lists_uri };
 
   const options = {
     method: "POST",
     headers,
-    data: JSON.stringify({ groups: lists_uri }),
+    data: JSON.stringify(body),
   };
   /*
 ex :
@@ -315,25 +317,24 @@ groups:[
           onDone(response);
         }
       },
-      onFailure(err, headers) {
+      onFailure(err, h) {
         const infoError = {
-          error: err,
-          msg: headers,
-          fonction: "getUserGroupsByURIList()",
-          catch: new Error("Erreur sur la fonction getUserGroupsByURIList()", {
+          sendOptions: options,
+          error: new Error(`Erreur sur la fonction ${infoError.fonction}`, {
             cause: err,
           }),
+          msg: h,
+          fonction: "getUserGroupsByURIList()",
         };
         if (onError) onError(infoError);
       },
     });
   } catch (error) {
-    console.log(error);
     const infoError = {
       sendOptions: options,
       infoError: error,
       fonction: "getUserGroupsByURIList()",
-      catch: new Error("Erreur sur la fonction getUserGroupsByURIList()", {
+      error: new Error("Erreur sur la fonction getUserGroupsByURIList()", {
         cause: error,
       }),
     };
