@@ -317,14 +317,14 @@ groups:[
       },
       onFailure(err, headers) {
         const infoError = {
-          infoError: err,
+          error: err,
           msg: headers,
           fonction: "getUserGroupsByURIList()",
           catch: new Error("Erreur sur la fonction getUserGroupsByURIList()", {
             cause: err,
           }),
         };
-        onError(infoError);
+        if (onError) onError(infoError);
       },
     });
   } catch (error) {
@@ -337,7 +337,7 @@ groups:[
         cause: error,
       }),
     };
-    onError(infoError);
+    if (onError) onError(infoError);
   }
 }
 
