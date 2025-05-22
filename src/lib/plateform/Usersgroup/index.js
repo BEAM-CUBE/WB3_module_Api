@@ -281,17 +281,18 @@ export function getUserGroupsList(
  * un objet en paramètre qui contient des informations sur l'erreur.
  */
 export function getUserGroupsByURIList(credentials, onDone, onError) {
-  const { base_url, lists_uri } = credentials;
+  const { base_url, lists_uri, currentUser } = credentials;
 
   const headers = {
     "Content-Type": "application/json",
-    Accept: "application/json,text/javascript,*/*",
+    "Accept-Language": "fr",
   };
 
   const URLElements = {
     baseUrl: base_url,
     uri: "/3drdfpersist/resources/v1/usersgroup/groups",
   };
+
   const url = URLElements.baseUrl + URLElements.uri;
 
   const options = {
@@ -305,7 +306,6 @@ groups:[
 {uri:'uuid:351d1s61s616ds1vdsvgsv'}, {uri:'uuid:351d1s61s616ds1vdsvgsv'}
 ]
 */
-  const body = JSON.stringify({ groups: lists_uri });
 
   try {
     _httpCallAuthenticated(url, {
@@ -330,6 +330,7 @@ groups:[
   } catch (error) {
     console.log(error);
     const infoError = {
+      sendOptions: options,
       infoError: error,
       fonction: "getUserGroupsByURIList()",
       catch: new Error("Erreur sur la fonction getUserGroupsByURIList()", {
