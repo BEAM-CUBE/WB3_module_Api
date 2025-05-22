@@ -298,7 +298,7 @@ export function getUserGroupsByURIList(credentials, onDone, onError) {
   const options = {
     method: "POST",
     headers,
-    body: JSON.stringify({ groups: lists_uri }),
+    data: JSON.stringify({ groups: lists_uri }),
   };
   /*
 ex :
