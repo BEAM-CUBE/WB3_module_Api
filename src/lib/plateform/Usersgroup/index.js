@@ -386,7 +386,7 @@ export function getUserGroupsByEmailList(credentials, onDone, onError) {
       onComplete(response) {
         if (onDone) {
           const parseResp = JSON.parse(response);
-          onDone({ groupes: parseResp[0].groups, reponse: parseResp });
+          onDone({ groupes: parseResp.users[0].groups, reponse: parseResp });
         }
       },
       onFailure(err, h) {
