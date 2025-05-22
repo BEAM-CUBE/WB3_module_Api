@@ -320,7 +320,7 @@ groups:[
       onFailure(err, h) {
         const infoError = {
           sendOptions: options,
-          error: new Error(`Erreur sur la fonction ${infoError.fonction}`, {
+          error: new Error(`Erreur sur la fonction getUserGroupsByURIList()`, {
             cause: err,
           }),
           msg: h,
