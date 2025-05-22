@@ -1,6 +1,6 @@
 {
   "name": "@beam3_dev/api_module",
-  "version": "0.0.325",
+  "version": "0.0.326",
   "type": "module",
   "files": [
     "dist"
