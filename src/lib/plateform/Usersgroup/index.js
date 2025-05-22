@@ -301,12 +301,12 @@ export function getUserGroupsByURIList(credentials, onDone, onError) {
 
   const url = `${URLElements.baseUrl}${URLElements.uri}${URLElements.opt}`;
 
-  const body = { groups: list_uris };
+  const body = JSON.stringify({ groups: list_uris });
 
   const options = {
     method: "POST",
     headers,
-    data: JSON.stringify(body),
+    data: body,
   };
   /*
 ex :
