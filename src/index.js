@@ -32,6 +32,7 @@ import {
   patchUserGroupsControl,
   readUserGroupControl,
   getUserGroupsByURIList,
+  getUserGroupsByEmailList,
 } from "./lib/plateform/Usersgroup";
 
 import {
@@ -217,6 +218,7 @@ export {
   getInfoDocTags,
   getUserGroupsList,
   getUserGroupsByURIList,
+  getUserGroupsByEmailList,
   getUsersGroupRules,
   patchUserGroups,
   patchUserGroupsControl,

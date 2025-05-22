@@ -271,9 +271,9 @@ export function getUserGroupsList(
  * @param {Object} credentials - Un objet contenant les informations d'identification
  * requises pour authentifier la demande. Il inclut généralement des propriétés
  * telles que `token`, `space`, `tenant` et `ctx`.
- * @param {String} credentials.base_url - L'URL du serveur sur lequel l'API est déployée.
- * @param {String} credentials.list_uris - Un tableau d'objet qui représente les uri des groupes d'utilisateurs que vous souhaitez récupérer.
- *  @example [{uri:'uuid:351d1s61s616ds1vdsvgsv'}, {uri:'uuid:351d1s61s616ds1vdsvgsv'}]
+ * @param {String} credentials._usersgroup - L'URL du serveur 3DExperience sur lequel l'API est déployée.
+ * @param {String} credentials.list_uris - Un tableau d'objet qui représente les uris des groupes d'utilisateurs que vous souhaitez récupérer.
+ *  @example [{uri:'uuid:8cedf28e-88e7-48e6-96fe-077z55bc07f3'}, {uri:'uuid:8cedf288-889z-4806-96fe-0z78z5bc07f3'}]
  *
  * @param {Function} [onDone] - Une fonction de rappel qui sera appelée lorsque la
  * requête HTTP sera terminée avec succès. Elle reçoit la réponse en paramètre.
@@ -282,7 +282,7 @@ export function getUserGroupsList(
  * un objet en paramètre qui contient des informations sur l'erreur.
  */
 export function getUserGroupsByURIList(credentials, onDone, onError) {
-  const { _usersgroup, list_uris, currentUser } = credentials;
+  const { _usersgroup, list_uris } = credentials;
 
   if (!list_uris || list_uris.length === 0) {
     onError({ msg: "getUserGroupsByURIList: lists_uri is empty or undefined" });
@@ -292,7 +292,7 @@ export function getUserGroupsByURIList(credentials, onDone, onError) {
   const URLElements = {
     baseUrl: _usersgroup,
     uri: "/3drdfpersist/resources/v1/usersgroup/groups",
-    opt: "?select=uri, title, description, owner, members, pending_members, creation_date, modification_date, visibility",
+    opt: "?select=uri,title,owner,members",
   };
 
   const url = `${URLElements.baseUrl}${URLElements.uri}${URLElements.opt}`;
@@ -335,6 +335,80 @@ groups:[
       infoError: error,
       fonction: "getUserGroupsByURIList()",
       error: new Error("Erreur sur la fonction getUserGroupsByURIList()", {
+        cause: error,
+      }),
+    };
+    if (onError) onError(infoError);
+  }
+}
+
+/**
+ * @description La fonction `getUserGroupsByEmailList` est utilisée pour récupérer
+ * les groupes d'utilisateurs qui ont un utilisateur avec une adresse email
+ * correspondante.
+ * @param {Object} credentials - Un objet contenant les informations d'identification
+ * requises pour authentifier la demande. Il inclut généralement des propriétés
+ * telles que `token`, `space`, `tenant` et `ctx`.
+ * @param {String} credentials._usersgroup - L'URL du serveur 3DExperience sur lequel l'API est déployée.
+ * @param {String[]} credentials.list_emails - Un tableau de String qui représente les
+ * adresses email des utilisateurs que vous souhaitez récupérer.
+ *  @example ["user1@domain.com", "user2@domain.com"]
+ *
+ * @param {Function} [onDone] - Une fonction de rappel qui sera appelée lorsque la
+ * requête HTTP sera terminée avec succès. Elle reçoit la réponse en paramètre.
+ * @param {Function} [onError] - Une fonction de rappel qui sera appelée s'il y a une
+ * erreur lors de l'exécution de la fonction `getUserGroupsByEmailList`. Elle reçoit
+ * un objet en paramètre qui contient des informations sur l'erreur.
+ */
+export function getUserGroupsByEmailList(credentials, onDone, onError) {
+  const { _usersgroup, list_emails } = credentials;
+  if (!list_emails || list_emails.length === 0) {
+    onError({
+      msg: "getUserGroupsByEmailList: lists_email is empty or undefined",
+    });
+    return;
+  }
+  const URLElements = {
+    baseUrl: _usersgroup,
+    uri: "/3drdfpersist/resources/v1/usersgroup/users/locate",
+    opt: "?person_ident=email",
+  };
+
+  const url = `${URLElements.baseUrl}${URLElements.uri}${URLElements.opt}`;
+  const options = {
+    method: "POST",
+    headers: topHeader,
+    data: JSON.stringify({ users: list_emails }),
+  };
+  try {
+    _httpCallAuthenticated(url, {
+      ...options,
+      onComplete(response) {
+        if (onDone) {
+          onDone(JSON.parse(response));
+        }
+      },
+      onFailure(err, h) {
+        const infoError = {
+          sendOptions: options,
+          error: new Error(
+            `Erreur sur la fonction getUserGroupsByEmailList()`,
+            {
+              cause: err,
+            },
+          ),
+          msg: h,
+          fonction: "getUserGroupsByEmailList()",
+        };
+        if (onError) onError(infoError);
+      },
+    });
+  } catch (error) {
+    const infoError = {
+      sendOptions: options,
+      infoError: error,
+      fonction: "getUserGroupsByEmailList()",
+      error: new Error("Erreur sur la fonction getUserGroupsByEmailList()", {
         cause: error,
       }),
     };
