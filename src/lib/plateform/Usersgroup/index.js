@@ -289,10 +289,6 @@ export function getUserGroupsByURIList(credentials, onDone, onError) {
     return;
   }
 
-  const headers = {
-    "Content-Type": "application/json",
-  };
-
   const URLElements = {
     baseUrl: _usersgroup,
     uri: "/3drdfpersist/resources/v1/usersgroup/groups",
@@ -301,12 +297,10 @@ export function getUserGroupsByURIList(credentials, onDone, onError) {
 
   const url = `${URLElements.baseUrl}${URLElements.uri}`;
 
-  const body = JSON.stringify({ groups: list_uris });
-
   const options = {
     method: "POST",
-    headers,
-    data: body,
+    headers: topHeader,
+    data: JSON.stringify({ groups: list_uris }),
   };
   /*
 ex :
@@ -317,7 +311,7 @@ groups:[
 
   try {
     _httpCallAuthenticated(url, {
-      options,
+      ...options,
       onComplete(response) {
         if (onDone) {
           onDone(response);
