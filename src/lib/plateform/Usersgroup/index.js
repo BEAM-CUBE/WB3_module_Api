@@ -299,7 +299,7 @@ export function getUserGroupsByURIList(credentials, onDone, onError) {
     opt: "?select=uri,members",
   };
 
-  const url = `${URLElements.baseUrl}${URLElements.uri}${URLElements.opt}`;
+  const url = `${URLElements.baseUrl}${URLElements.uri}`;
 
   const body = JSON.stringify({ groups: list_uris });
 
