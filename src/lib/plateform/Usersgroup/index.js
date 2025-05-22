@@ -199,9 +199,8 @@ export function getUserGroupsList(
 
   if (!numMax) numMax = 50;
   const URI = "/3drdfpersist/resources/v1/usersgroup";
-  const opt =
-    "?select=uri,title,description,owner,members,pending_members,creation_date,modification_date";
-  const opt2 = `&top=${numMax}`;
+  const opt = "?select=uri,title,owner,members";
+  const opt2 = `&top=${numMax}`; // max à 100
   const url = `${_usersgroup}${URI}${opt}${opt2}`;
   const header = {
     "Content-Type": "application/json",
@@ -259,6 +258,81 @@ export function getUserGroupsList(
       infoError: error,
       fonction: "getUserGroupsList()",
       catch: new Error("Erreur sur la fonction getUserGroupsList()", {
+        cause: error,
+      }),
+    };
+    onError(infoError);
+  }
+}
+
+/**
+ * @description La fonction `getUserGroupsByURIList` est utilisée pour récupérer
+ * la liste des groupes d'utilisateurs en fonction d'une liste d'uri fournie.
+ * @param {Object} credentials - Un objet contenant les informations d'identification
+ * requises pour authentifier la demande. Il inclut généralement des propriétés
+ * telles que `token`, `space`, `tenant` et `ctx`.
+ * @param {String} credentials.base_url - L'URL du serveur sur lequel l'API est déployée.
+ * @param {String} credentials.lists_uri - Un tableau de string qui représente les uri des groupes
+ * d'utilisateurs que vous souhaitez récupérer.
+ * @param {Function} [onDone] - Une fonction de rappel qui sera appelée lorsque la
+ * requête HTTP sera terminée avec succès. Elle reçoit la réponse en paramètre.
+ * @param {Function} [onError] - Une fonction de rappel qui sera appelée s'il y a une
+ * erreur lors de l'exécution de la fonction `getUserGroupsByURIList`. Elle reçoit
+ * un objet en paramètre qui contient des informations sur l'erreur.
+ */
+export function getUserGroupsByURIList(credentials, onDone, onError) {
+  const { base_url, lists_uri } = credentials;
+
+  const headers = {
+    "Content-Type": "application/json",
+    Accept: "application/json,text/javascript,*/*",
+  };
+
+  const URLElements = {
+    baseUrl: base_url,
+    uri: "/3drdfpersist/resources/v1/usersgroup/groups",
+  };
+  const url = URLElements.baseUrl + URLElements.uri;
+
+  const options = {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ groups: lists_uri }),
+  };
+  /*
+ex :
+groups:[
+{uri:'uuid:351d1s61s616ds1vdsvgsv'}, {uri:'uuid:351d1s61s616ds1vdsvgsv'}
+]
+*/
+  const body = JSON.stringify({ groups: lists_uri });
+
+  try {
+    _httpCallAuthenticated(url, {
+      options,
+      onComplete(response) {
+        if (onDone) {
+          onDone(response);
+        }
+      },
+      onFailure(err, headers) {
+        const infoError = {
+          infoError: err,
+          msg: headers,
+          fonction: "getUserGroupsByURIList()",
+          catch: new Error("Erreur sur la fonction getUserGroupsByURIList()", {
+            cause: err,
+          }),
+        };
+        onError(infoError);
+      },
+    });
+  } catch (error) {
+    console.log(error);
+    const infoError = {
+      infoError: error,
+      fonction: "getUserGroupsByURIList()",
+      catch: new Error("Erreur sur la fonction getUserGroupsByURIList()", {
         cause: error,
       }),
     };
