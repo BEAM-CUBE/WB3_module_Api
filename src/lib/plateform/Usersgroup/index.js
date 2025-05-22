@@ -292,10 +292,10 @@ export function getUserGroupsByURIList(credentials, onDone, onError) {
   const URLElements = {
     baseUrl: _usersgroup,
     uri: "/3drdfpersist/resources/v1/usersgroup/groups",
-    opt: "?select=uri,members",
+    opt: "?select=uri, title, description, owner, members, pending_members, creation_date, modification_date, visibility",
   };
 
-  const url = `${URLElements.baseUrl}${URLElements.uri}`;
+  const url = `${URLElements.baseUrl}${URLElements.uri}${URLElements.opt}`;
 
   const options = {
     method: "POST",
@@ -314,7 +314,7 @@ groups:[
       ...options,
       onComplete(response) {
         if (onDone) {
-          onDone(response);
+          onDone(JSON.parse(response));
         }
       },
       onFailure(err, h) {
