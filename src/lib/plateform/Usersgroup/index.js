@@ -272,8 +272,9 @@ export function getUserGroupsList(
  * requises pour authentifier la demande. Il inclut généralement des propriétés
  * telles que `token`, `space`, `tenant` et `ctx`.
  * @param {String} credentials.base_url - L'URL du serveur sur lequel l'API est déployée.
- * @param {String} credentials.lists_uri - Un tableau de string qui représente les uri des groupes
- * d'utilisateurs que vous souhaitez récupérer.
+ * @param {String} credentials.list_uris - Un tableau d'objet qui représente les uri des groupes d'utilisateurs que vous souhaitez récupérer.
+ *  @example [{uri:'uuid:351d1s61s616ds1vdsvgsv'}, {uri:'uuid:351d1s61s616ds1vdsvgsv'}]
+ *
  * @param {Function} [onDone] - Une fonction de rappel qui sera appelée lorsque la
  * requête HTTP sera terminée avec succès. Elle reçoit la réponse en paramètre.
  * @param {Function} [onError] - Une fonction de rappel qui sera appelée s'il y a une
@@ -281,7 +282,12 @@ export function getUserGroupsList(
  * un objet en paramètre qui contient des informations sur l'erreur.
  */
 export function getUserGroupsByURIList(credentials, onDone, onError) {
-  const { _usersgroup, lists_uri, currentUser } = credentials;
+  const { _usersgroup, list_uris, currentUser } = credentials;
+
+  if (!list_uris || list_uris.length === 0) {
+    onError({ msg: "getUserGroupsByURIList: lists_uri is empty or undefined" });
+    return;
+  }
 
   const headers = {
     "Content-Type": "application/json",
@@ -295,7 +301,7 @@ export function getUserGroupsByURIList(credentials, onDone, onError) {
 
   const url = `${URLElements.baseUrl}${URLElements.uri}${URLElements.opt}`;
 
-  const body = { groups: lists_uri };
+  const body = { groups: list_uris };
 
   const options = {
     method: "POST",
