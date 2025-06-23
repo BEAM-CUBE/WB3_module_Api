@@ -58,6 +58,8 @@ export function _Iterop_Auth_CAS(
         },
       });
     });
+  } else {
+    if (onError) onError("No tenant");
   }
 }
 /**

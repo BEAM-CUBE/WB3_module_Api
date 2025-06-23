@@ -234,3 +234,22 @@ export function _getServiceUrl_3DPassport(
     });
   }
 }
+
+export function _Registry_getServicesUrl(
+  credentials,
+  onDone = undefined,
+  onError = undefined
+) {
+  if (credentials.tenant) {
+    const urlService = `https://eu1-registry.3dexperience.3ds.com/api/v1/platform/instance?id=${credentials.tenant.toLowerCase()}`;
+    _httpCallAuthenticated(urlService, {
+      type:"json",
+      onComplete(response) {
+          if (onDone) onDone(response);
+      },
+      onFailure(response) {
+        if (onError) onError(response);
+      },
+    });
+  }
+}

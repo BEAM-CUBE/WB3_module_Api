@@ -12,6 +12,7 @@ import {
   _setDraggable,
   _setDroppable,
   _getServiceUrl,
+  _Registry_getServicesUrl,
   _getPlatformServices,
   _getServiceUrl_3DPassport,
   _getPlateformInfos,
@@ -127,6 +128,7 @@ import { sayHello } from "./lib/add/index"; //Pour tester de la librairie
 import { _3DSearch_usersGroup } from "./lib/plateform/Search/index";
 
 export {
+  _Registry_getServicesUrl,
   _3DSpace_Create_Doc,
   _3DSpace_Update_Doc,
   _3DSpace_csrf,
