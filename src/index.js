@@ -32,7 +32,10 @@ import {
   patchUserGroups,
   patchUserGroupsControl,
   readUserGroupControl,
+  getUserGroupsByURIList,
+  getUserGroupsByEmailList,
 } from "./lib/plateform/Usersgroup";
+
 import {
   _3DSpace_get_docInfo,
   _3DSpace_get_multiDocInfo,
@@ -91,15 +94,13 @@ import {
   _3DSwym_getAllListIdeas,
   _3DSwym_editIdea,
   _3DSwym_postIdea,
-  _3DSwym_ForwardIdea
+  _3DSwym_ForwardIdea,
 } from "./lib/plateform/Swym/idea";
 import {
   _3DSwym_get_currentUser,
   _3DSwym_get_findUser,
 } from "./lib/plateform/Swym/user";
-import {
-  _3DSwym_addComment
-} from "./lib/plateform/Swym/comment"
+import { _3DSwym_addComment } from "./lib/plateform/Swym/comment";
 import {
   _3DSwym_get_Token,
   _3DSwym_getAllNews,
@@ -120,7 +121,7 @@ import {
   _Iterop_GetOneDependencyTable,
   _Iterop_PatchDependencyTable,
   _Iterop_PutDependencyTable,
-  _Iterop_GetOneList
+  _Iterop_GetOneList,
 } from "./lib/plateform/main/iterop_apiv2";
 
 import { sayHello } from "./lib/add/index"; //Pour tester de la librairie
@@ -218,6 +219,8 @@ export {
   getDownloadDocument,
   getInfoDocTags,
   getUserGroupsList,
+  getUserGroupsByURIList,
+  getUserGroupsByEmailList,
   getUsersGroupRules,
   patchUserGroups,
   patchUserGroupsControl,
