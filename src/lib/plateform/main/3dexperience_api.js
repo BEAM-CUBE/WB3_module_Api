@@ -142,7 +142,6 @@ export function _getPlateformInfos() {
       appConf,
     };
   });
-  console.log("%cRETOUR API :", "color:blue", retourAPI);
   return retourAPI;
 }
 
@@ -191,7 +190,6 @@ export function _getMe(credentials, onDone = undefined, onError = undefined) {
 }
 
 export function _getServiceUrl(credentials, onDone = undefined, onError = undefined) {
-  console.log("_getServiceUrl");
   if (credentials.tenant) {
       const urlService = `https://${credentials.tenant.toLowerCase()}-eu1-compass.3dexperience.3ds.com/enovia/resources/AppsMngt/api/v1/services?platform=${credentials.tenant.toUpperCase()}&cors=true&xrequestedwith=xmlhttprequest`;
       _httpCallAuthenticated(urlService, {
@@ -222,7 +220,6 @@ export function _getServiceUrl_3DPassport(
     _httpCallAuthenticated(urlService, {
       onComplete(response) {
         const oResponse = JSON.parse(response);
-        console.log("serviceId=3dpassport", oResponse);
         if (Array.isArray(oResponse) && oResponse.length > 0) {
           const urlServicePassport = `${oResponse[0].services[0].url}`;
           if (onDone) onDone(urlServicePassport);
