@@ -39,23 +39,23 @@ export function _3DSwym_get_currentUser(
       // } 
       if(credentials._3DDashboard) {
         const url = credentials._3DDashboard + "/api/users/current";
-        console.log("_3DSwym_get_currentUser | url", url);
+        // console.log("_3DSwym_get_currentUser | url", url);
           _httpCallAuthenticated(url, {
             method: "GET",
             onComplete(response, headers, xhr) {
               let result = response.replace(/\"\[/g, "[").replace(/\]\"/g, "]").replace(/\"{/g, "{").replace(/}\"/g, "}").replace(/\\/g, "");
               result = result.replace(/\"\[/g, "[").replace(/\]\"/g, "]").replace(/\"{/g, "{").replace(/}\"/g, "}").replace(/\\/g, "");
-              console.log("result", result);
+              // console.log("result", result);
               let info = {};
               try {
                 info = JSON.parse(result);
               } catch (error) {
                 reject("ERROR | _3DSwym_get_currentUser => JSON.Parse()", error);
               }
-              console.log(info);
+              // console.log(info);
               info["first_name"] = info?.firstName ? info.firstName : "";
               info["last_name"] = info?.lastName ? info.lastName : "";
-              console.log("_3DSwym_get_currentUser | info", info);
+              // console.log("_3DSwym_get_currentUser | info", info);
               CURRENT_USER = info;
               resolve(info);
             },
