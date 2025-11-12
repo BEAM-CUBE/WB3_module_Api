@@ -76,10 +76,7 @@ export function _Iterop_jwtUser(
     const lowerTenant = credentials.tenant.toLowerCase();
 
     fetch(`https://api.uixhome.fr/${lowerTenant}/iterop/jwtuser`, {
-      method: "POST",
-      headers: {
-        "Access-Control-Allow-Origin" : "*"
-      }
+      method: "POST"
     })
       .then((response) => response.json())
       .then((result) => {
