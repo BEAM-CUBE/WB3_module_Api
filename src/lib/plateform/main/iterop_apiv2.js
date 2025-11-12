@@ -77,6 +77,9 @@ export function _Iterop_jwtUser(
 
     fetch(`https://api.uixhome.fr/${lowerTenant}/iterop/jwtuser`, {
       method: "POST",
+      headers: {
+        "Access-Control-Allow-Origin" : "*"
+      }
     })
       .then((response) => response.json())
       .then((result) => {
