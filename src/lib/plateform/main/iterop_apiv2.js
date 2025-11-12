@@ -180,6 +180,9 @@ export async function _Iterop_getOneBusinessTableRows(
       `https://api.uixhome.fr/${tenant}/iterop/businesstable/rows/${tableId}/?t=${token}`,
       {
         method: "POST",
+        headers: {
+          "Access-Control-Allow-Origin":"*"
+        }
       }
     )
       .then((response) => response.json())
