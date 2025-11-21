@@ -1751,69 +1751,69 @@ export function _3DSpace_lifecycle_getRevisions(
 // SECTION: BOOKMARKS
 // ANCHOR: _3dspace_bookmark_getChildren
 // TODO : A finir , manque la FN _3dspace_get_multiDocInfo()
-// function _3DSpace_bookmark_getChildren(
-//   credentials,
-//   objIdBookmark,
-//   onDone = undefined,
-//   onError = undefined,
-// ) {
-//   return new Promise((resolve, reject) => {
-//     // const store = mainStore();
+function _3DSpace_bookmark_getChildren(
+  credentials,
+  objIdBookmark,
+  onDone = undefined,
+  onError = undefined,
+) {
+  return new Promise((resolve, reject) => {
+    // const store = mainStore();
 
-//     const url = `${credentials.space}/resources/v1/modeler/dsbks/dsbks:Bookmark/${objIdBookmark}?$mask=dsbks:BksMask.Items`;
-//     _httpCallAuthenticated(url, {
-//       headers: {
-//         SecurityContext: `ctx::${credentials.ctx}`,
-//       },
-//       onComplete: (response) => {
-//         let tryParse;
-//         try {
-//           tryParse = JSON.parse(response);
-//         } catch (error) {
-//           tryParse = response;
-//         }
-//         if (typeof tryParse === "object") {
-//           let items = tryParse?.member[0]?.items?.member;
-//           if (items) {
-//             const listObjIds = items.map((e) => {
-//               if (e?.referencedObject?.identifier) {
-//                 return e.referencedObject.identifier;
-//               }
-//             });
-//             if (listObjIds.length) {
-//               _3DSpace_get_multiDocInfo(host, listObjIds, (res) => {
-//                 console.log("_3dspace_get_multiDocInfo Response : ", {
-//                   ...res,
-//                 });
-//                 if (res?.data.length) {
-//                   const listResponses = res.data;
-//                   listResponses.forEach((r) => {
-//                     let currentObject = items.find(
-//                       (o) => o.referencedObject.identifier === r.identifier,
-//                     );
-//                     if (currentObject) {
-//                       currentObject.referencedObject["dataelements"] =
-//                         r.dataelements;
-//                     }
-//                   });
-//                 }
-//               });
-//             }
-//           }
-//         }
+    const url = `${credentials.space}/resources/v1/modeler/dsbks/dsbks:Bookmark/${objIdBookmark}?$mask=dsbks:BksMask.Items`;
+    _httpCallAuthenticated(url, {
+      headers: {
+        SecurityContext: `ctx::${credentials.ctx}`,
+      },
+      onComplete: (response) => {
+        let tryParse;
+        try {
+          tryParse = JSON.parse(response);
+        } catch (error) {
+          tryParse = response;
+        }
+        if (typeof tryParse === "object") {
+          let items = tryParse?.member[0]?.items?.member;
+          if (items) {
+            const listObjIds = items.map((e) => {
+              if (e?.referencedObject?.identifier) {
+                return e.referencedObject.identifier;
+              }
+            });
+            if (listObjIds.length) {
+              _3DSpace_get_multiDocInfo(host, listObjIds, (res) => {
+                console.log("_3dspace_get_multiDocInfo Response : ", {
+                  ...res,
+                });
+                if (res?.data.length) {
+                  const listResponses = res.data;
+                  listResponses.forEach((r) => {
+                    let currentObject = items.find(
+                      (o) => o.referencedObject.identifier === r.identifier,
+                    );
+                    if (currentObject) {
+                      currentObject.referencedObject["dataelements"] =
+                        r.dataelements;
+                    }
+                  });
+                }
+              });
+            }
+          }
+        }
 
-//         if (onDone) onDone(tryParse);
-//         resolve = tryParse;
-//         return resolve;
-//       },
-//       onFailure(response) {
-//         if (onError) onError(response);
-//         reject = response;
-//         return reject;
-//       },
-//     });
-//   });
-// }
+        if (onDone) onDone(tryParse);
+        resolve = tryParse;
+        return resolve;
+      },
+      onFailure(response) {
+        if (onError) onError(response);
+        reject = response;
+        return reject;
+      },
+    });
+  });
+}
 export function _3DSpace_bookmark_newWorkspace(
   credentials,
   parentId,
