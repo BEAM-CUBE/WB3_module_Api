@@ -1759,9 +1759,59 @@ export function _3DSpace_lifecycle_getRevisions(
   });
 }
 // SECTION: BOOKMARKS
+
+export function _3DSpace_bookmark_getSubSignets(credentials, objIdBookmark) {
+  return new Promise((resolve, reject) => {
+    // const store = mainStore();
+
+    const url = `${
+      credentials.space
+    }/resources/v1/FolderManagement/Folder/${objIdBookmark}/folderTree?tenant=${credentials.tenant.toUpperCase()}`;
+    const body = {
+      expandList: "",
+      isRoot: "",
+      isPersonalFolder: false,
+      Read: true,
+      nresults: 200,
+      sortOrder: "asc",
+      sortMode: "ds6w:label",
+      nextStart: 0,
+      refine: "",
+    };
+    _httpCallAuthenticated(url, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "content-Type": "application/json",
+        SecurityContext: `ctx::${ctx}`,
+      },
+      data: JSON.stringify(body),
+      type: "json",
+      onComplete(response, headers, xhr) {
+        // console.log("response: =>", response.folders);
+        const info = response;
+        console.log("getListBkEnfant | réponse => ", info);
+
+        resolve(info);
+      },
+      onFailure(error, headers, xhr) {
+        const info = {};
+        info["error"] = error;
+        info["headers"] = headers;
+        info["xhr"] = xhr;
+        if (onError) {
+          onError(info);
+          console.log("Coucou dans enfant");
+          throw new Error("Coucou dans enfant", { cause: error });
+        }
+      },
+    });
+  });
+}
+
 // ANCHOR: _3dspace_bookmark_getChildren
 // TODO : A finir , manque la FN _3dspace_get_multiDocInfo()
-export function _3DSpace_bookmark_getChildren(credentials, objIdBookmark) {
+export function _3DSpace_bookmark_getItems(credentials, objIdBookmark) {
   return new Promise((resolve, reject) => {
     // const store = mainStore();
 
