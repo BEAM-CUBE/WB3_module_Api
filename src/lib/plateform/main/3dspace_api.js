@@ -598,7 +598,9 @@ export async function _3DSpace_Upload_File(
                           .querySelector("input")
                           .getAttributeNode("value").value;
 
-                        const urlRelatedFile = `https://${tenant.toLowerCase()}-eu1-space.3dexperience.3ds.com/enovia/resources/enocsmrest/collabspaces/${encodeURIComponent(cs_name)}/contents?receipt=${encodeURIComponent(receipt)}`;
+                        const urlRelatedFile = `https://${tenant.toLowerCase()}-eu1-space.3dexperience.3ds.com/enovia/resources/enocsmrest/collabspaces/${encodeURIComponent(
+                          cs_name
+                        )}/contents?receipt=${encodeURIComponent(receipt)}`;
 
                         let re = /(?:\.([^.]+))?$/;
                         let ext = re.exec(fileName)[1];
@@ -606,7 +608,9 @@ export async function _3DSpace_Upload_File(
                         const bodyRequest = JSON.stringify({
                           actions: [],
                           businessobj: {
-                            description: credentials?.description ? credentials?.description : "",
+                            description: credentials?.description
+                              ? credentials?.description
+                              : "",
                             file: fileName,
                             fullnameowner: "",
                             icon: "",
@@ -743,7 +747,6 @@ export async function _3DSpace_Create_Doc(
     (resultCheckinTicket) => {
       if (resultCheckinTicket?.items >= 1) {
         resultCheckinTicket.data.forEach((fcs__jobTicket) => {
-          
           pushFileInFcs(
             fcs__jobTicket,
             data,
@@ -807,13 +810,20 @@ function checkinTicket(credentials, onDone = undefined, onError = undefined) {
   }
 }
 
-function pushFileInFcs(fcs__jobTicket, fileData, fileName, onDone = undefined, onError = undefined, onProgress = undefined) {
+function pushFileInFcs(
+  fcs__jobTicket,
+  fileData,
+  fileName,
+  onDone = undefined,
+  onError = undefined,
+  onProgress = undefined
+) {
   console.log("pushFileInFcs", { fcs__jobTicket, fileData, fileName });
   let formData = new FormData();
   if (!(fileData instanceof Blob)) {
-      fileData = new Blob([fileData], {
-          type: "text/plain"
-      });
+    fileData = new Blob([fileData], {
+      type: "text/plain",
+    });
   }
   formData.append("__fcs__jobTicket", fcs__jobTicket.dataelements.ticket);
   formData.append("file-name", fileName);
@@ -826,20 +836,20 @@ function pushFileInFcs(fcs__jobTicket, fileData, fileName, onDone = undefined, o
   const xhr = new XMLHttpRequest();
   xhr.open("POST", url, true);
   xhr.upload.onprogress = function (event) {
-      if (event.lengthComputable) {
-          const percentComplete = (event.loaded / event.total) * 100;
-          if (onProgress) onProgress(percentComplete);
-      }
+    if (event.lengthComputable) {
+      const percentComplete = (event.loaded / event.total) * 100;
+      if (onProgress) onProgress(percentComplete);
+    }
   };
   xhr.onload = function () {
-      if (xhr.status === 200) {
-          if (onDone) onDone(xhr.responseText.replace(/[\n\r]/g, ""));
-      } else {
-          if (onError) onError(xhr.statusText);
-      }
+    if (xhr.status === 200) {
+      if (onDone) onDone(xhr.responseText.replace(/[\n\r]/g, ""));
+    } else {
+      if (onError) onError(xhr.statusText);
+    }
   };
   xhr.onerror = function () {
-      if (onError) onError(xhr.statusText);
+    if (onError) onError(xhr.statusText);
   };
   xhr.send(formData);
 }
@@ -1751,12 +1761,7 @@ export function _3DSpace_lifecycle_getRevisions(
 // SECTION: BOOKMARKS
 // ANCHOR: _3dspace_bookmark_getChildren
 // TODO : A finir , manque la FN _3dspace_get_multiDocInfo()
-export function _3DSpace_bookmark_getChildren(
-  credentials,
-  objIdBookmark,
-  onDone = undefined,
-  onError = undefined,
-) {
+export function _3DSpace_bookmark_getChildren(credentials, objIdBookmark) {
   return new Promise((resolve, reject) => {
     // const store = mainStore();
 
@@ -1772,44 +1777,10 @@ export function _3DSpace_bookmark_getChildren(
         } catch (error) {
           tryParse = response;
         }
-        if (typeof tryParse === "object") {
-          let items = tryParse?.member[0]?.items?.member;
-          if (items) {
-            const listObjIds = items.map((e) => {
-              if (e?.referencedObject?.identifier) {
-                return e.referencedObject.identifier;
-              }
-            });
-            if (listObjIds.length) {
-              _3DSpace_get_multiDocInfo(host, listObjIds, (res) => {
-                console.log("_3dspace_get_multiDocInfo Response : ", {
-                  ...res,
-                });
-                if (res?.data.length) {
-                  const listResponses = res.data;
-                  listResponses.forEach((r) => {
-                    let currentObject = items.find(
-                      (o) => o.referencedObject.identifier === r.identifier,
-                    );
-                    if (currentObject) {
-                      currentObject.referencedObject["dataelements"] =
-                        r.dataelements;
-                    }
-                  });
-                }
-              });
-            }
-          }
-        }
-
-        if (onDone) onDone(tryParse);
-        resolve = tryParse;
-        return resolve;
+        resolve(tryParse);
       },
       onFailure(response) {
-        if (onError) onError(response);
-        reject = response;
-        return reject;
+        reject(response);
       },
     });
   });
