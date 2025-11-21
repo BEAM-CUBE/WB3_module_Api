@@ -1751,7 +1751,7 @@ export function _3DSpace_lifecycle_getRevisions(
 // SECTION: BOOKMARKS
 // ANCHOR: _3dspace_bookmark_getChildren
 // TODO : A finir , manque la FN _3dspace_get_multiDocInfo()
-function _3DSpace_bookmark_getChildren(
+export function _3DSpace_bookmark_getChildren(
   credentials,
   objIdBookmark,
   onDone = undefined,

@@ -61,6 +61,7 @@ import {
   _3DSpace_bookmark_addSubsciptions,
   _3DSpace_bookmark_newWorkspace,
   _3DSpace_put_docInfo,
+  _3DSpace_bookmark_getChildren
 } from "./lib/plateform/main/3dspace_api";
 
 import { getCSRFToken } from "./lib/plateform/main/getCSRFToken";
@@ -154,6 +155,7 @@ export {
   _3DSpace_lifecycle_getNextStates,
   _3DSpace_bookmark_addSubsciptions,
   _3DSpace_bookmark_newWorkspace,
+  _3DSpace_bookmark_getChildren,
   _3DSearch_usersGroup,
   _3DSwym_getAllCommunities,
   _3DSwym_getMembersCommunity,
