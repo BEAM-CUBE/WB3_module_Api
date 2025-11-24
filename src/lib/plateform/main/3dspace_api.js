@@ -1783,7 +1783,7 @@ export function _3DSpace_bookmark_getSubSignets(credentials, objIdBookmark) {
       headers: {
         Accept: "application/json",
         "content-Type": "application/json",
-        SecurityContext: `ctx::${ctx}`,
+        SecurityContext: `ctx::${credentials.ctx}`,
       },
       data: JSON.stringify(body),
       type: "json",
