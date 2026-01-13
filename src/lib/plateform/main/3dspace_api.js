@@ -1764,10 +1764,6 @@ export function _3DSpace_getBookmarksRoot(
   credentials,
 ) {
   return new Promise((resolve, reject) => {
-
-
-    const store = mainStore();
-  
     const { _fedSearch, currentTenant, ctx } = credentials;
     if(!ctx) reject({success:false, msg:"getBookmarksRoot: ctx is missing in credentials"});
     if(!_fedSearch) reject({success:false, msg:"getBookmarksRoot: _fedSearch is missing in credentials"});
