@@ -1760,6 +1760,102 @@ export function _3DSpace_lifecycle_getRevisions(
 }
 // SECTION: BOOKMARKS
 
+export function getBookmarksRoot(
+  credentials,
+) {
+  return new Promise((resolve, reject) => {
+
+
+    const store = mainStore();
+  
+    const { _fedSearch, currentTenant, ctx } = credentials;
+    if(!ctx) reject({success:false, msg:"getBookmarksRoot: ctx is missing in credentials"});
+    if(!_fedSearch) reject({success:false, msg:"getBookmarksRoot: _fedSearch is missing in credentials"});
+    if(!currentTenant) reject({success:false, msg:"getBookmarksRoot: currentTenant is missing in credentials"});
+    const URL = {
+      base: _fedSearch,
+      uri: "/federated/search",
+      opt: `?tenant=${currentTenant}`,
+    };
+  
+    const formatedDatas = {
+      select_predicate: [
+        "ds6w:label",
+        "physicalid",
+        "mxid",
+        "ds6w:type",
+        "ds6w:identifier",
+        "ds6w:classification",
+        "icon_2ddefaultthb.subtype",
+        "ds6w:reservedBy",
+        "relcount",
+        "taxonomies",
+        "ParentBk",
+        "owner",
+        "ds6wg:revision",
+        "ds6w:reserved",
+        "ds6w:description",
+        "ds6w:modified",
+        "ds6w:created",
+        "ds6w:responsible",
+        "ds6w:status",
+        "ds6w:policy",
+        "ds6w:organizationResponsible",
+        "ds6w:project",
+      ],
+      label: `Folder_read_getRoots_${new Date().getTime()}`,
+      with_synthesis: "false",
+      order_by: "asc",
+      order_field: "ds6w:label",
+      start: 0,
+      nresults: 1000,
+      select_file: ["icon", "thumbnail_2d"],
+      query: 'flattenedtaxonomies:"types/Workspace"',
+      locale: "fr",
+      tenant: currentTenant,
+      source: ["3dspace"],
+      indexmode: "true",
+      login: {
+        "3dspace": {
+          SecurityContext: `ctx::${ctx}`,
+        },
+      },
+    };
+  
+    const url = `${URL.base}${URL.uri}${URL.opt}`;
+  
+    _httpCallAuthenticated(url, {
+      method: "POST",
+      headers: {
+        Accept: "application/json",
+        "content-Type": "application/json",
+        SecurityContext: `ctx::${ctx}`,
+      },
+      data: JSON.stringify(formatedDatas),
+      type: "json",
+      onComplete(response, headers, xhr) {
+        const info = response;
+  
+        const bksRoots = info.results.map((bks) => {
+          const obj = { id: bks.attributes[0].value };
+          bks.attributes.forEach((attr) => {
+            if (attr.name === "ds6w:label") obj["name"] = attr.value;
+          });
+          return obj;
+        });
+        resolve(bksRoots);
+      },
+      onFailure(error, headers, xhr) {
+        const info = {};
+        info["error"] = error;
+        info["headers"] = headers;
+        info["xhr"] = xhr;
+        reject(info);
+      },
+    });
+  });
+}
+
 export function _3DSpace_bookmark_getSubSignets(credentials, objIdBookmark) {
   return new Promise((resolve, reject) => {
     // const store = mainStore();
