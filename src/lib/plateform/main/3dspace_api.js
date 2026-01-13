@@ -1760,7 +1760,7 @@ export function _3DSpace_lifecycle_getRevisions(
 }
 // SECTION: BOOKMARKS
 
-export function getBookmarksRoot(
+export function _3DSpace_getBookmarksRoot(
   credentials,
 ) {
   return new Promise((resolve, reject) => {

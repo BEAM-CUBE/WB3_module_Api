@@ -63,6 +63,7 @@ import {
   _3DSpace_put_docInfo,
   _3DSpace_bookmark_getItems,
   _3DSpace_bookmark_getSubSignets,
+  _3DSpace_getBookmarksRoot,
 } from "./lib/plateform/main/3dspace_api";
 
 import { getCSRFToken } from "./lib/plateform/main/getCSRFToken";
@@ -158,6 +159,7 @@ export {
   _3DSpace_bookmark_newWorkspace,
   _3DSpace_bookmark_getItems,
   _3DSpace_bookmark_getSubSignets,
+  _3DSpace_getBookmarksRoot,
   _3DSearch_usersGroup,
   _3DSwym_getAllCommunities,
   _3DSwym_getMembersCommunity,
