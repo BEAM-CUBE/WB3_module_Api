@@ -1770,7 +1770,7 @@ export function _3DSpace_getBookmarksRoot(
     if(!currentTenant) reject({success:false, msg:"getBookmarksRoot: currentTenant is missing in credentials"});
     const URL = {
       base: _fedSearch,
-      uri: "/federated/search",
+      uri: "/search",
       opt: `?tenant=${currentTenant}`,
     };
   
