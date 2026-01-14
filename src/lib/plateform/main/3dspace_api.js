@@ -139,6 +139,49 @@ export function _3DSpace_get_csrf(
   }
 }
 
+export function _3DSpace_get_CSRF(
+  credentials,
+  onDone = undefined,
+  onError = undefined
+) {
+  return new Promise((resolve, reject) => {
+    if (credentials.objID && credentials.objID !== "") {
+      let url = `${credentials.space}/resources/v1/modeler/documents/${credentials.objID}`;
+
+      _httpCallAuthenticated(url, {
+        onComplete(response, headers, xhr) {
+          const info = JSON.parse(response);
+          credentials["success"] = true;
+          credentials["csrf"] = info?.csrf?.value;
+          credentials["datas"] = info?.data[0];
+          // if (onDone) {
+          //   onDone(credentials);
+          // }
+          resolve(credentials);
+        },
+
+        onFailure(response) {
+          // if (onError) onError(response);
+          reject({ success: false, credentials, error: response });
+        },
+      });
+    } else {
+      _3DSpace_csrf(
+        credentials,
+        (rep) => {
+          // console.log("_3DSpace_get_csrf / _3DSpace_csrf", rep);
+          credentials["success"] = true;
+          credentials["csrf"] = rep;
+          resolve(credentials);
+        },
+        (err) => {
+          reject({ success: false, credentials, error: err });
+        }
+      );
+    }
+  });
+}
+
 /**
  * @description Cette fonction JavaScript récupère le TOKEN CSRF d'une application 3DSpace.
  * @param {Object} credentials - Un objet contenant les informations d'identification requises pour authentifier
@@ -1760,20 +1803,30 @@ export function _3DSpace_lifecycle_getRevisions(
 }
 // SECTION: BOOKMARKS
 
-export function _3DSpace_getBookmarksRoot(
-  credentials,
-) {
+export function _3DSpace_getBookmarksRoot(credentials) {
   return new Promise((resolve, reject) => {
     const { _fedSearch, currentTenant, ctx } = credentials;
-    if(!ctx) reject({success:false, msg:"getBookmarksRoot: ctx is missing in credentials"});
-    if(!_fedSearch) reject({success:false, msg:"getBookmarksRoot: _fedSearch is missing in credentials"});
-    if(!currentTenant) reject({success:false, msg:"getBookmarksRoot: currentTenant is missing in credentials"});
+    if (!ctx)
+      reject({
+        success: false,
+        msg: "getBookmarksRoot: ctx is missing in credentials",
+      });
+    if (!_fedSearch)
+      reject({
+        success: false,
+        msg: "getBookmarksRoot: _fedSearch is missing in credentials",
+      });
+    if (!currentTenant)
+      reject({
+        success: false,
+        msg: "getBookmarksRoot: currentTenant is missing in credentials",
+      });
     const URL = {
       base: _fedSearch,
       uri: "/search",
       opt: `?tenant=${currentTenant}`,
     };
-  
+
     const formatedDatas = {
       select_predicate: [
         "ds6w:label",
@@ -1817,9 +1870,9 @@ export function _3DSpace_getBookmarksRoot(
         },
       },
     };
-  
+
     const url = `${URL.base}${URL.uri}${URL.opt}`;
-  
+
     _httpCallAuthenticated(url, {
       method: "POST",
       headers: {
@@ -1831,7 +1884,7 @@ export function _3DSpace_getBookmarksRoot(
       type: "json",
       onComplete(response, headers, xhr) {
         const info = response;
-  
+
         const bksRoots = info.results.map((bks) => {
           const obj = { id: bks.attributes[0].value };
           bks.attributes.forEach((attr) => {
