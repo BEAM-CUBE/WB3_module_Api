@@ -140,9 +140,7 @@ export function _3DSpace_get_csrf(
 }
 
 export function _3DSpace_get_CSRF(
-  credentials,
-  onDone = undefined,
-  onError = undefined
+  credentials
 ) {
   return new Promise((resolve, reject) => {
     if (credentials.objID && credentials.objID !== "") {
@@ -1944,11 +1942,7 @@ export function _3DSpace_bookmark_getSubSignets(credentials, objIdBookmark) {
         info["error"] = error;
         info["headers"] = headers;
         info["xhr"] = xhr;
-        if (onError) {
-          onError(info);
-          console.log("Coucou dans enfant");
-          throw new Error("Coucou dans enfant", { cause: error });
-        }
+          reject(info);
       },
     });
   });
