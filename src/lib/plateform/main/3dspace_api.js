@@ -1926,6 +1926,7 @@ export function _3DSpace_bookmark_getSubSignets(credentials, objIdBookmark) {
       headers: {
         Accept: "application/json",
         "content-Type": "application/json",
+        ENO_CSRF_TOKEN: credentials.csrf,
         SecurityContext: `ctx::${credentials.ctx}`,
       },
       data: JSON.stringify(body),
