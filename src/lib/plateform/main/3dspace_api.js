@@ -139,9 +139,7 @@ export function _3DSpace_get_csrf(
   }
 }
 
-export function _3DSpace_get_CSRF(
-  credentials
-) {
+export function _3DSpace_get_CSRF(credentials) {
   return new Promise((resolve, reject) => {
     if (credentials.objID && credentials.objID !== "") {
       let url = `${credentials.space}/resources/v1/modeler/documents/${credentials.objID}`;
@@ -1905,11 +1903,24 @@ export function _3DSpace_getBookmarksRoot(credentials) {
 
 export function _3DSpace_bookmark_getSubSignets(credentials, objIdBookmark) {
   return new Promise((resolve, reject) => {
-    // const store = mainStore();
 
-    const url = `${
-      credentials.space
-    }/resources/v1/FolderManagement/Folder/${objIdBookmark}/folderTree?tenant=${credentials.tenant.toUpperCase()}`;
+    const { space, ctx, tenant } = credentials;
+    if (!space) {
+      reject("%cstore._3DSpace manquant")
+    }
+    if (!ctx) {
+      reject("%cstore.ctx manquant");
+    }
+    if (!tenant) {
+      reject("tenant manquant")
+    }
+    const URL = {
+      base: space,
+      uri: `/resources/v1/FolderManagement/Folder/${objIdBookmark}/folderTree`,
+      optTenant: `tenant=${tenant}`,
+    };
+
+    const url = `${URL.base}${URL.uri}?${URL.optTenant}`;
     const body = {
       expandList: "",
       isRoot: "",
@@ -1921,13 +1932,24 @@ export function _3DSpace_bookmark_getSubSignets(credentials, objIdBookmark) {
       nextStart: 0,
       refine: "",
     };
+    console.log("url =>", url);
+    console.log("body =>", body);
+    console.log(
+      "_3DSpace : ",
+      space,
+      " ctx : ",
+      ctx,
+      " currentTenant : ",
+      tenant
+    );
+    console.groupEnd("GET LIST BK ENFANT");
+    // console.log("dataTest =>", dataTest);
     _httpCallAuthenticated(url, {
       method: "POST",
       headers: {
         Accept: "application/json",
         "content-Type": "application/json",
-        ENO_CSRF_TOKEN: credentials.csrf,
-        SecurityContext: `ctx::${credentials.ctx}`,
+        SecurityContext: `ctx::${ctx}`,
       },
       data: JSON.stringify(body),
       type: "json",
@@ -1935,15 +1957,14 @@ export function _3DSpace_bookmark_getSubSignets(credentials, objIdBookmark) {
         // console.log("response: =>", response.folders);
         const info = response;
         console.log("getListBkEnfant | réponse => ", info);
-
-        resolve(info);
+        resolve(info)
       },
       onFailure(error, headers, xhr) {
         const info = {};
         info["error"] = error;
         info["headers"] = headers;
         info["xhr"] = xhr;
-          reject(info);
+        reject(info)
       },
     });
   });
