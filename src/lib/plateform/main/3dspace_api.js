@@ -1903,16 +1903,15 @@ export function _3DSpace_getBookmarksRoot(credentials) {
 
 export function _3DSpace_bookmark_getSubSignets(credentials, objIdBookmark) {
   return new Promise((resolve, reject) => {
-
     const { space, ctx, tenant } = credentials;
     if (!space) {
-      reject("%cstore._3DSpace manquant")
+      reject("%cstore._3DSpace manquant");
     }
     if (!ctx) {
       reject("%cstore.ctx manquant");
     }
     if (!tenant) {
-      reject("tenant manquant")
+      reject("tenant manquant");
     }
     const URL = {
       base: space,
@@ -1954,17 +1953,14 @@ export function _3DSpace_bookmark_getSubSignets(credentials, objIdBookmark) {
       data: JSON.stringify(body),
       type: "json",
       onComplete(response, headers, xhr) {
-        // console.log("response: =>", response.folders);
-        const info = response;
-        console.log("getListBkEnfant | réponse => ", info);
-        resolve(info)
+        resolve({ success: true, objIdBookmark, folders: response?.folders });
       },
       onFailure(error, headers, xhr) {
         const info = {};
         info["error"] = error;
         info["headers"] = headers;
         info["xhr"] = xhr;
-        reject(info)
+        reject(info);
       },
     });
   });
